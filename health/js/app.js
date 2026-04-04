@@ -2,47 +2,101 @@
 (function () {
   'use strict';
 
-  // --- Storage ---
+  // --- Storage (encrypted) ---
   const STORAGE_KEY = 'health_entries';
   const SETTINGS_KEY = 'health_settings';
 
-  function getSettings() {
-    try { return JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}; } catch { return {}; }
+  async function getSettings() {
+    try { return await Vault.getEncrypted(SETTINGS_KEY, {}); } catch { return {}; }
   }
 
-  function saveSettings(s) {
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
+  async function saveSettings(s) {
+    await Vault.setEncrypted(SETTINGS_KEY, s);
   }
 
-  function getEntries() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+  async function getEntries() {
+    try { return await Vault.getEncrypted(STORAGE_KEY, []); } catch { return []; }
   }
 
-  function saveEntries(entries) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+  async function saveEntries(entries) {
+    await Vault.setEncrypted(STORAGE_KEY, entries);
   }
 
-  function upsertEntry(entry) {
-    const entries = getEntries();
+  async function upsertEntry(entry) {
+    const entries = await getEntries();
     const idx = entries.findIndex(e => e.date === entry.date);
     if (idx >= 0) entries[idx] = { ...entries[idx], ...entry };
     else entries.push(entry);
     entries.sort((a, b) => b.date.localeCompare(a.date));
-    saveEntries(entries);
+    await saveEntries(entries);
     return entries;
   }
 
-  function deleteEntry(date) {
-    const entries = getEntries().filter(e => e.date !== date);
-    saveEntries(entries);
+  async function deleteEntry(date) {
+    const entries = (await getEntries()).filter(e => e.date !== date);
+    await saveEntries(entries);
     return entries;
   }
 
   // --- Seed data ---
-  function seedIfEmpty() {
-    if (getEntries().length === 0 && typeof SEED_DATA !== 'undefined') {
+  async function seedIfEmpty() {
+    const entries = await getEntries();
+    if (entries.length === 0 && typeof SEED_DATA !== 'undefined') {
       const sorted = [...SEED_DATA].sort((a, b) => b.date.localeCompare(a.date));
-      saveEntries(sorted);
+      await saveEntries(sorted);
+    }
+  }
+
+  // --- Lock screen ---
+  function showLockScreen() {
+    const isNew = !Vault.isSetUp();
+    const lockEl = document.getElementById('lock-screen');
+    const appEl = document.getElementById('app-shell');
+
+    lockEl.style.display = 'flex';
+    appEl.style.display = 'none';
+
+    document.getElementById('lock-title').textContent = isNew ? 'Create Password' : 'Health Log';
+    document.getElementById('lock-subtitle').textContent = isNew
+      ? 'Set a password to encrypt your health data.'
+      : 'Enter your password to unlock.';
+    document.getElementById('lock-confirm-group').style.display = isNew ? 'block' : 'none';
+    document.getElementById('lock-btn').textContent = isNew ? 'Set Password & Enter' : 'Unlock';
+    document.getElementById('lock-error').textContent = '';
+    document.getElementById('lock-password').value = '';
+    document.getElementById('lock-confirm').value = '';
+    document.getElementById('lock-password').focus();
+  }
+
+  async function handleUnlock(ev) {
+    ev.preventDefault();
+    const pw = document.getElementById('lock-password').value;
+    const errorEl = document.getElementById('lock-error');
+    const btn = document.getElementById('lock-btn');
+
+    if (!pw) { errorEl.textContent = 'Enter a password.'; return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Unlocking...';
+
+    try {
+      if (!Vault.isSetUp()) {
+        const confirm = document.getElementById('lock-confirm').value;
+        if (pw !== confirm) { errorEl.textContent = 'Passwords do not match.'; return; }
+        if (pw.length < 4) { errorEl.textContent = 'Password too short.'; return; }
+        await Vault.setup(pw);
+        await seedIfEmpty();
+      } else {
+        await Vault.unlock(pw);
+      }
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('app-shell').style.display = 'block';
+      await initApp();
+    } catch (err) {
+      errorEl.textContent = err.message || 'Failed to unlock.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = Vault.isSetUp() ? 'Unlock' : 'Set Password & Enter';
     }
   }
 
@@ -62,8 +116,8 @@
   }
 
   // --- Dashboard ---
-  function renderDashboard() {
-    const entries = getEntries();
+  async function renderDashboard() {
+    const entries = await getEntries();
     renderStats(entries);
     renderEntryList(entries);
   }
@@ -72,13 +126,13 @@
     const el = document.getElementById('stats-grid');
     const total = entries.length;
     const sleepEntries = entries.filter(e => e.sleep_hours);
-    const avgSleep = sleepEntries.length ? (sleepEntries.reduce((s, e) => s + e.sleep_hours, 0) / sleepEntries.length).toFixed(1) : '—';
+    const avgSleep = sleepEntries.length ? (sleepEntries.reduce((s, e) => s + e.sleep_hours, 0) / sleepEntries.length).toFixed(1) : '\u2014';
     const hrvEntries = entries.filter(e => e.hrv);
-    const avgHrv = hrvEntries.length ? Math.round(hrvEntries.reduce((s, e) => s + e.hrv, 0) / hrvEntries.length) : '—';
+    const avgHrv = hrvEntries.length ? Math.round(hrvEntries.reduce((s, e) => s + e.hrv, 0) / hrvEntries.length) : '\u2014';
     const exerciseDays = entries.filter(e => e.exercise).length;
     const highHrv = hrvEntries.filter(e => e.hrv >= 150).length;
     const dates = entries.map(e => e.date).sort();
-    const range = dates.length >= 2 ? `${fmtShort(dates[0])} – ${fmtShort(dates[dates.length - 1])}` : (dates[0] ? fmtShort(dates[0]) : '—');
+    const range = dates.length >= 2 ? `${fmtShort(dates[0])} \u2013 ${fmtShort(dates[dates.length - 1])}` : (dates[0] ? fmtShort(dates[0]) : '\u2014');
 
     el.innerHTML = `
       <div class="stat-card"><div class="stat-value">${total}</div><div class="stat-label">Entries</div></div>
@@ -127,8 +181,8 @@
   }
 
   // --- Entry detail modal ---
-  function showDetail(date) {
-    const entry = getEntries().find(e => e.date === date);
+  async function showDetail(date) {
+    const entry = (await getEntries()).find(e => e.date === date);
     if (!entry) return;
 
     const overlay = document.getElementById('modal-overlay');
@@ -137,13 +191,13 @@
     const field = (label, value) => `
       <div class="detail-section">
         <div class="detail-label">${label}</div>
-        <div class="detail-value${value ? '' : ' empty'}">${value ? esc(value) : '—'}</div>
+        <div class="detail-value${value ? '' : ' empty'}">${value ? esc(value) : '\u2014'}</div>
       </div>`;
 
     const metricCard = (label, value) => `
       <div class="detail-metric">
         <div class="detail-label">${label}</div>
-        <div class="detail-value${value != null ? '' : ' empty'}">${value != null ? value : '—'}</div>
+        <div class="detail-value${value != null ? '' : ' empty'}">${value != null ? value : '\u2014'}</div>
       </div>`;
 
     modal.innerHTML = `
@@ -170,11 +224,11 @@
 
     overlay.classList.add('active');
 
-    document.getElementById('btn-delete-entry').onclick = () => {
+    document.getElementById('btn-delete-entry').onclick = async () => {
       if (confirm('Delete entry for ' + fmtDate(date) + '?')) {
-        deleteEntry(date);
+        await deleteEntry(date);
         overlay.classList.remove('active');
-        renderDashboard();
+        await renderDashboard();
         toast('Entry deleted');
       }
     };
@@ -210,7 +264,7 @@
     document.getElementById('log-date').value = today();
   }
 
-  function handleLogSubmit(ev) {
+  async function handleLogSubmit(ev) {
     ev.preventDefault();
     const entry = {
       date: document.getElementById('log-date').value,
@@ -225,7 +279,7 @@
       energy: document.getElementById('log-energy').value || null,
       notes: document.getElementById('log-notes').value || null,
     };
-    upsertEntry(entry);
+    await upsertEntry(entry);
     clearLogForm();
     switchView('dashboard');
     toast('Entry saved');
@@ -235,7 +289,7 @@
   async function handleTextImport() {
     const text = document.getElementById('import-text').value.trim();
     if (!text) return;
-    const settings = getSettings();
+    const settings = await getSettings();
     if (!settings.anthropicKey) { toast('Set Anthropic API key in Settings first'); return; }
 
     const btn = document.getElementById('btn-parse-text');
@@ -297,7 +351,7 @@ ${text}`
 
   async function handlePhotoImport() {
     if (!uploadedPhotos.length) return;
-    const settings = getSettings();
+    const settings = await getSettings();
     if (!settings.anthropicKey) { toast('Set Anthropic API key in Settings first'); return; }
 
     const btn = document.getElementById('btn-parse-photos');
@@ -309,7 +363,7 @@ ${text}`
       const content = [
         { type: 'text', text: `These are photos of a Tonal workout results screen. Extract all workout data and format it as a single string for the "exercise" field. Include: total duration, total volume (lbs), calories, time under tension (TUT), and energy (kJ) if visible. Then list each block and exercise with volume, sets/reps, weights, and any PRs noted.
 
-Format example: "Tonal: 35:52, 10,409 lbs, 115 kcal, 29.3 kJ, TUT 9:05. Block 1: Half Kneeling Single Arm Pull (1,230 lbs — 25×16, 42×16), Standing Face Pull (POWER PR, 789 lbs — 39×8, 60×8). Block 2: ..."
+Format example: "Tonal: 35:52, 10,409 lbs, 115 kcal, 29.3 kJ, TUT 9:05. Block 1: Half Kneeling Single Arm Pull (1,230 lbs \u2014 25\u00d716, 42\u00d716), Standing Face Pull (POWER PR, 789 lbs \u2014 39\u00d78, 60\u00d78). Block 2: ..."
 
 Return ONLY a JSON object with these fields:
 {
@@ -353,8 +407,8 @@ No other text.` }
       <button class="btn btn-ghost" id="btn-cancel-import" style="margin-top:8px">Cancel</button>
     `;
 
-    document.getElementById('btn-confirm-import').onclick = () => {
-      entries.forEach(e => upsertEntry(e));
+    document.getElementById('btn-confirm-import').onclick = async () => {
+      for (const e of entries) await upsertEntry(e);
       el.innerHTML = '';
       document.getElementById('import-text').value = '';
       uploadedPhotos = [];
@@ -396,8 +450,8 @@ No other text.` }
   }
 
   // --- CSV Export ---
-  function exportCSV() {
-    const entries = getEntries();
+  async function exportCSV() {
+    const entries = await getEntries();
     if (!entries.length) { toast('No data to export'); return; }
 
     const fields = ['date', 'food', 'exercise', 'weight', 'sleep_hours', 'sleep_quality', 'hrv', 'rhr', 'mood', 'energy', 'notes'];
@@ -423,15 +477,15 @@ No other text.` }
   }
 
   // --- Settings ---
-  function renderSettings() {
-    const settings = getSettings();
+  async function renderSettings() {
+    const settings = await getSettings();
     document.getElementById('settings-api-key').value = settings.anthropicKey || '';
   }
 
-  function saveSettingsForm() {
-    const settings = getSettings();
+  async function saveSettingsForm() {
+    const settings = await getSettings();
     settings.anthropicKey = document.getElementById('settings-api-key').value.trim();
-    saveSettings(settings);
+    await saveSettings(settings);
     toast('Settings saved');
   }
 
@@ -471,13 +525,17 @@ No other text.` }
     window._toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
   }
 
-  // --- Init ---
-  function init() {
-    seedIfEmpty();
-
+  // --- App init (called after unlock) ---
+  async function initApp() {
     // Nav
     document.querySelectorAll('.nav-item').forEach(btn => {
       btn.addEventListener('click', () => switchView(btn.dataset.view));
+    });
+
+    // Lock button
+    document.getElementById('btn-lock').addEventListener('click', () => {
+      Vault.lock();
+      showLockScreen();
     });
 
     // Log form
@@ -521,34 +579,40 @@ No other text.` }
     document.getElementById('btn-export-csv').addEventListener('click', exportCSV);
 
     // Settings
-    renderSettings();
+    await renderSettings();
     document.getElementById('btn-save-settings').addEventListener('click', saveSettingsForm);
 
     // Data management
-    document.getElementById('btn-reset-data').addEventListener('click', () => {
+    document.getElementById('btn-reset-data').addEventListener('click', async () => {
       if (confirm('Delete all entries and reload seed data?')) {
-        localStorage.removeItem(STORAGE_KEY);
-        seedIfEmpty();
-        renderDashboard();
+        await saveEntries([]);
+        await seedIfEmpty();
+        await renderDashboard();
         toast('Data reset to seed');
       }
     });
 
-    document.getElementById('btn-clear-all').addEventListener('click', () => {
+    document.getElementById('btn-clear-all').addEventListener('click', async () => {
       if (confirm('Delete ALL entries? This cannot be undone.')) {
-        saveEntries([]);
-        renderDashboard();
+        await saveEntries([]);
+        await renderDashboard();
         toast('All data cleared');
       }
     });
 
     // Initial render
-    renderDashboard();
+    await renderDashboard();
+  }
+
+  // --- Boot ---
+  function boot() {
+    document.getElementById('lock-form').addEventListener('submit', handleUnlock);
+    showLockScreen();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', boot);
   } else {
-    init();
+    boot();
   }
 })();

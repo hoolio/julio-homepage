@@ -696,6 +696,53 @@ body {
   .modal-overlay { align-items: center; }
 }
 
+/* Lock screen */
+.lock-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 20px;
+}
+
+.lock-card {
+  width: 100%;
+  max-width: 340px;
+  text-align: center;
+}
+
+.lock-icon {
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.lock-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.lock-subtitle {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.lock-error {
+  font-size: 13px;
+  color: var(--red);
+  min-height: 20px;
+  margin-bottom: 8px;
+}
+
+.lock-card .form-input {
+  text-align: center;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+}
+
 /* PWA standalone tweaks */
 @media (display-mode: standalone) {
   .app-header { padding-top: calc(12px + env(safe-area-inset-top, 0px)); }
