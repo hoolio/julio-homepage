@@ -1,197 +1,974 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Julio Avalos</title>
-  <meta name="description" content="Julio Avalos — builder, operator, lawyer. Co-CEO at Observable. GitHub through the $7.5B Microsoft acquisition. Shades News.">
-  <meta name="theme-color" content="#1a1208">
-  <link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Julio Avalos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Syne:wght@400;500;600;700;800&family=Azeret+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0d0b09;
+  --ink:      #ede8df;
+  --dim:      rgba(237,232,223,0.42);
+  --dimmer:   rgba(237,232,223,0.18);
+  --ghost:    rgba(237,232,223,0.05);
+  --sage:     #8ca99b;
+  --sage-lo:  rgba(140,169,155,0.08);
+  --sage-mid: rgba(140,169,155,0.18);
+  --amber:    #d4a853;
+  --amber-lo: rgba(212,168,83,0.1);
+  --rule:     rgba(237,232,223,0.08);
+  --rule-hi:  rgba(237,232,223,0.14);
+}
+
+html { background: var(--bg); color: var(--ink); font-family: 'Syne', sans-serif; scroll-behavior: smooth; }
+
+/* HEAVY GRAIN — two layers, different scales */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 200;
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 199;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n2)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+}
+
+/* warm dust bleed */
+.dust-tl {
+  position: fixed; top: -180px; left: 100px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,168,83,0.05) 0%, transparent 70%);
+  pointer-events: none; z-index: 1;
+}
+.dust-br {
+  position: fixed; bottom: -200px; right: -100px;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(140,169,155,0.04) 0%, transparent 70%);
+  pointer-events: none; z-index: 1;
+}
+
+/* SCROLLING TICKER */
+.ticker-wrap {
+  overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+  background: rgba(237,232,223,0.02);
+  padding: 0.55rem 0;
+  white-space: nowrap;
+  position: relative;
+  z-index: 10;
+}
+
+.ticker-track {
+  display: inline-block;
+  animation: ticker 38s linear infinite;
+}
+
+.ticker-track span {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  padding: 0 2.5rem;
+}
+
+.ticker-track span.hi { color: var(--sage); }
+.ticker-track span.amber { color: var(--amber); }
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* LAYOUT */
+.site {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  min-height: 100vh;
+}
+
+/* RAIL */
+.rail {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 200px;
+  border-right: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem 0;
+  z-index: 50;
+  background: rgba(13,11,9,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.rail-name {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-family: 'Cormorant', serif;
+  font-weight: 300;
+  font-size: 1.5rem;
+  letter-spacing: 0.22em;
+  color: var(--ink);
+  text-transform: uppercase;
+  padding: 0 1.75rem;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.rail-nav {
+  padding: 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.rail-nav a {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: none;
+  padding: 0.45rem 0;
+  transition: color 0.2s, padding-left 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.rail-nav a::before {
+  content: '';
+  width: 14px; height: 1px;
+  background: currentColor;
+  flex-shrink: 0;
+  transition: width 0.25s;
+}
+
+.rail-nav a:hover, .rail-nav a.active { color: var(--sage); }
+.rail-nav a:hover::before, .rail-nav a.active::before { width: 26px; }
+
+.rail-nav a.radio-link { color: var(--amber); }
+.rail-nav a.radio-link::before { background: var(--amber); }
+.rail-nav a.radio-link:hover { color: var(--amber); opacity: 0.8; }
+
+.rail-bottom {
+  padding: 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.rail-social {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.rail-social:hover { color: var(--ink); }
+
+/* CONTENT */
+.content { margin-left: 200px; }
+
+/* HERO */
+.hero {
+  padding: 5rem 5rem 4.5rem;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ghost initials — much more visible */
+.hero-ghost {
+  position: absolute;
+  bottom: -0.12em; right: -0.04em;
+  font-family: 'Cormorant', serif;
+  font-weight: 300;
+  font-size: 30vw;
+  line-height: 1;
+  color: rgba(237,232,223,0.038);
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.04em;
+}
+
+.hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.hero-kicker-pill {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--amber);
+  padding: 0.3rem 0.75rem;
+  border-radius: 2px;
+}
+
+.hero-kicker-text {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 300;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.hero-headline {
+  font-family: 'Cormorant', serif;
+  font-weight: 300;
+  font-size: clamp(3rem, 5.5vw, 5.2rem);
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  max-width: 700px;
+  margin-bottom: 3.5rem;
+}
+
+.hero-headline em { font-style: italic; color: var(--dim); }
+.hero-headline strong { font-weight: 500; color: var(--ink); }
+.hero-headline .break { display: block; }
+
+/* pull-quote inline */
+.hero-aside {
+  position: absolute;
+  right: 5rem; top: 5rem;
+  max-width: 180px;
+  border-left: 2px solid var(--sage);
+  padding-left: 1rem;
+}
+
+.hero-aside-text {
+  font-family: 'Cormorant', serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--dim);
+  line-height: 1.5;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 3.5rem;
+  flex-wrap: wrap;
+}
+
+.meta-item-label {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.57rem;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  margin-bottom: 0.35rem;
+}
+
+.meta-item-value {
+  font-family: 'Cormorant', serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+/* SECTIONS */
+.section {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  border-bottom: 1px solid var(--rule);
+}
+
+.section-num {
+  padding: 3rem 0 3rem 1.5rem;
+  font-family: 'Cormorant', serif;
+  font-weight: 300;
+  font-size: 4.5rem;
+  line-height: 1;
+  color: rgba(237,232,223,0.06);
+  user-select: none;
+}
+
+.section-body {
+  padding: 3rem 5rem 3rem 2.5rem;
+  border-left: 1px solid var(--rule);
+}
+
+.section-label {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin-bottom: 2rem;
+}
+
+/* ABOUT */
+.about-text {
+  font-family: 'Cormorant', serif;
+  font-size: 1.4rem;
+  font-weight: 300;
+  line-height: 1.72;
+  color: var(--dim);
+  max-width: 600px;
+}
+
+.about-text + .about-text { margin-top: 1.2rem; }
+.about-text strong { font-weight: 500; color: var(--ink); }
+.about-text a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-hi);
+  transition: color 0.2s, border-color 0.2s;
+}
+.about-text a:hover { color: var(--sage); border-color: var(--sage); }
+
+/* CAREER */
+.career-table { width: 100%; border-collapse: collapse; }
+
+.career-table tr {
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.15s;
+  cursor: default;
+}
+
+.career-table tr:first-child { border-top: 1px solid var(--rule); }
+.career-table tr:hover { background: var(--sage-lo); }
+.career-table tr:hover .career-dot span { opacity: 1; background: var(--sage); }
+
+.career-table td { padding: 0.95rem 0; vertical-align: top; }
+
+.career-years {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 300;
+  color: var(--dimmer);
+  letter-spacing: 0.06em;
+  width: 120px;
+  padding-right: 2rem;
+  padding-top: 0.15rem;
+  white-space: nowrap;
+}
+
+.career-role {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding-right: 2rem;
+  width: 150px;
+  padding-top: 0.1rem;
+}
+
+.career-org {
+  font-family: 'Cormorant', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--dim);
+}
+
+.career-dot { text-align: right; width: 16px; }
+.career-dot span {
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--rule-hi);
+  opacity: 0.6;
+  margin-top: 0.45rem;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+/* ═══════════════════════════════════════
+   CHOP RADIO — breaks the visual register
+   ═══════════════════════════════════════ */
+.chop-section {
+  border-bottom: 1px solid var(--rule);
+  background: #0a0807;
+  position: relative;
+  overflow: hidden;
+}
+
+/* extra grain layer just for chop section */
+.chop-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 2;
+  opacity: 0.11;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='nc'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23nc)'/%3E%3C/svg%3E");
+  background-size: 100px 100px;
+}
+
+.chop-inner {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  position: relative; z-index: 3;
+}
+
+.chop-num {
+  padding: 3rem 0 3rem 1.5rem;
+  font-family: 'Cormorant', serif;
+  font-weight: 300;
+  font-size: 4.5rem;
+  line-height: 1;
+  color: rgba(212,168,83,0.08);
+  user-select: none;
+}
+
+.chop-body {
+  padding: 3rem 5rem 3rem 2.5rem;
+  border-left: 1px solid rgba(212,168,83,0.12);
+}
+
+.chop-label-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.chop-label-text {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.chop-live {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.52rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(212,168,83,0.55);
+}
+
+.chop-live-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--amber);
+  animation: blink 1.8s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* big display text */
+.chop-display {
+  font-family: 'Cormorant', serif;
+  font-weight: 300;
+  font-size: clamp(2.5rem, 4vw, 3.8rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+.chop-display em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.chop-tagline {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 300;
+  color: rgba(237,232,223,0.3);
+  letter-spacing: 0.1em;
+  margin-bottom: 2.5rem;
+}
+
+/* EQ VISUALIZER */
+.chop-viz {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 48px;
+  margin-bottom: 2.5rem;
+}
+
+.chop-viz span {
+  display: block;
+  width: 4px;
+  border-radius: 2px;
+  background: var(--amber);
+  opacity: 0.6;
+  animation: eqbar var(--d, 1s) ease-in-out infinite alternate;
+}
+
+.chop-viz span:nth-child(even) { background: var(--sage); opacity: 0.5; }
+
+@keyframes eqbar {
+  from { height: var(--lo, 6px); opacity: 0.4; }
+  to   { height: var(--hi, 40px); opacity: 0.85; }
+}
+
+/* EPISODE LIST */
+.chop-episodes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1px;
+  background: rgba(212,168,83,0.08);
+  border: 1px solid rgba(212,168,83,0.1);
+  margin-bottom: 2rem;
+}
+
+.chop-ep {
+  background: #0a0807;
+  padding: 0.85rem 0.75rem;
+  text-decoration: none;
+  transition: background 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.chop-ep:hover { background: rgba(212,168,83,0.06); }
+
+.chop-ep-num {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 400;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+}
+
+.chop-ep-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--dimmer);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.chop-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.chop-cta-link {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(212,168,83,0.3);
+  padding-bottom: 0.1rem;
+  transition: border-color 0.2s, letter-spacing 0.2s;
+}
+.chop-cta-link:hover { border-color: var(--amber); letter-spacing: 0.26em; }
+
+.chop-ep-count {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 300;
+  color: var(--dimmer);
+  letter-spacing: 0.1em;
+}
+
+/* PRESS */
+.press-list { display: flex; flex-direction: column; }
+
+.press-row {
+  display: grid;
+  grid-template-columns: 88px 1fr 48px;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  transition: padding-left 0.2s;
+}
+
+.press-row:first-child { border-top: 1px solid var(--rule); }
+.press-row:hover { padding-left: 0.75rem; }
+.press-row:hover .press-headline { color: var(--ink); }
+
+.press-outlet {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+
+.press-headline {
+  font-family: 'Cormorant', serif;
+  font-size: 1.0rem;
+  font-weight: 400;
+  color: var(--dim);
+  line-height: 1.35;
+  transition: color 0.2s;
+}
+
+.press-year {
+  font-family: 'Cormorant', serif;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--dimmer);
+  text-align: right;
+}
+
+/* FOOTER */
+.footer {
+  margin-left: 200px;
+  padding: 2.5rem 5rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-copy {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+}
+
+.footer-links { display: flex; gap: 2rem; list-style: none; }
+.footer-links a {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--sage); }
+
+/* ENTRANCE ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.hero-kicker   { animation: fadeUp 0.55s ease both; }
+.hero-headline { animation: fadeUp 0.55s 0.08s ease both; }
+.hero-aside    { animation: fadeUp 0.55s 0.16s ease both; }
+.hero-meta     { animation: fadeUp 0.55s 0.22s ease both; }
+</style>
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="/" class="nav-name">Julio Avalos</a>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#work">Work</a></li>
-        <li><a href="#appearances">Press</a></li>
-        <li><a href="/radio/">Choplogic Radio</a></li>
-        <li><a href="/health/" class="subtle">Health</a></li>
-      </ul>
-    </div>
-  </nav>
+<div class="dust-tl"></div>
+<div class="dust-br"></div>
 
-  <!-- Hero -->
-  <section class="hero" id="top">
-    <div class="hero-content">
-      <h1 class="hero-name">Julio Avalos</h1>
-      <p class="hero-title">Co-CEO, Observable &middot; Co-founder, Shades News</p>
-      <p class="hero-tagline">I build companies with people. From <a href="https://github.com">GitHub</a>'s first lawyer to running its business through the <a href="https://news.microsoft.com/2018/10/26/microsoft-completes-github-acquisition/">$7.5 billion Microsoft acquisition</a> &mdash; then onto <a href="https://observablehq.com">Observable</a> and <a href="https://shadesnews.com">Shades News</a>.</p>
-    </div>
-    <div class="scroll-hint">
-      <div class="line"></div>
-    </div>
-  </section>
+<!-- SCROLLING TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span>Julio Avalos</span>
+    <span class="hi">Co-CEO, Observable</span>
+    <span>·</span>
+    <span>First Lawyer at GitHub</span>
+    <span>·</span>
+    <span class="amber">Chop Radio · 83 Episodes · 2006–2012</span>
+    <span>·</span>
+    <span>$7.5B Microsoft Acquisition</span>
+    <span>·</span>
+    <span class="hi">Building the Computational Notebook for the AI Era</span>
+    <span>·</span>
+    <span>Co-founder, Shades News</span>
+    <span>·</span>
+    <span class="amber">DJ · Producer · Operator</span>
+    <span>·</span>
+    <span>San Rafael, CA</span>
+    <span>·</span>
+    <!-- duplicate for seamless loop -->
+    <span>Julio Avalos</span>
+    <span class="hi">Co-CEO, Observable</span>
+    <span>·</span>
+    <span>First Lawyer at GitHub</span>
+    <span>·</span>
+    <span class="amber">Chop Radio · 83 Episodes · 2006–2012</span>
+    <span>·</span>
+    <span>$7.5B Microsoft Acquisition</span>
+    <span>·</span>
+    <span class="hi">Building the Computational Notebook for the AI Era</span>
+    <span>·</span>
+    <span>Co-founder, Shades News</span>
+    <span>·</span>
+    <span class="amber">DJ · Producer · Operator</span>
+    <span>·</span>
+    <span>San Rafael, CA</span>
+    <span>·</span>
+  </div>
+</div>
 
-  <!-- About -->
-  <section class="section" id="about">
-    <div class="section-label">About</div>
-    <div class="about-content">
-      <p>I joined <a href="https://github.com">GitHub</a> in 2012 as its first general counsel, when the company had about three million users and had just raised its Series A. Over the next six years I went from top lawyer to Chief Business, Strategy & Operations Officer, overseeing legal, policy, people, partnerships, marketing, and communications. We closed the <a href="https://news.microsoft.com/2018/10/26/microsoft-completes-github-acquisition/">$7.5 billion acquisition by Microsoft</a> in October 2018.</p>
-      <p>Before GitHub, I was corporate counsel at <a href="https://www.yelp.com">Yelp</a> through its IPO, and before that a managing associate at <a href="https://www.orrick.com">Orrick</a>, where I represented Facebook and Mark Zuckerberg in the litigation that helped establish property law frameworks for data on the internet.</p>
-      <p>More recently I've been co-leading <a href="https://observablehq.com">Observable</a> alongside its creator <a href="https://en.wikipedia.org/wiki/Mike_Bostock">Mike Bostock</a>, and co-founded <a href="https://shadesnews.com">Shades News</a>, a news app for a generation that wants to see things from more than one angle.</p>
-      <p>I studied English and philosophy at the University of Florida, then law at Columbia. In 2005 I published a paper in <em>American Imago</em>, a psychoanalysis journal founded by Freud. The through-line is something like: how do people organize themselves, and what do they owe each other?</p>
+<div class="site">
+
+  <!-- RAIL -->
+  <aside class="rail">
+    <div class="rail-name">Julio Avalos</div>
+    <nav class="rail-nav">
+      <a href="#about" class="active">About</a>
+      <a href="#work">Work</a>
+      <a href="#radio" class="radio-link">Radio</a>
+      <a href="#press">Press</a>
+      <a href="/health/">Health</a>
+    </nav>
+    <div class="rail-bottom">
+      <a href="https://www.linkedin.com/in/julio-avalos-who/" class="rail-social">LinkedIn</a>
+      <a href="https://observablehq.com" class="rail-social">Observable</a>
+      <a href="https://github.com/hoolio" class="rail-social">GitHub</a>
+      <a href="https://en.wikipedia.org/wiki/Julio_Avalos" class="rail-social">Wikipedia</a>
     </div>
-  </section>
+  </aside>
 
-  <!-- Links -->
-  <section class="section" id="links" style="padding-top:0">
-    <div class="section-label">Elsewhere</div>
-    <div class="links-grid">
-      <a class="link-card" href="https://en.wikipedia.org/wiki/Julio_Avalos">
-        <div class="link-card-title">Wikipedia</div>
-        <div class="link-card-desc">Background, career, public record</div>
-        <span class="link-card-arrow">&rarr;</span>
-      </a>
-      <a class="link-card" href="https://www.linkedin.com/in/julio-avalos-who/">
-        <div class="link-card-title">LinkedIn</div>
-        <div class="link-card-desc">Professional profile</div>
-        <span class="link-card-arrow">&rarr;</span>
-      </a>
-      <a class="link-card" href="https://observablehq.com">
-        <div class="link-card-title">Observable</div>
-        <div class="link-card-desc">The data visualization platform</div>
-        <span class="link-card-arrow">&rarr;</span>
-      </a>
-      <a class="link-card" href="https://shadesnews.com">
-        <div class="link-card-title">Shades News</div>
-        <div class="link-card-desc">News from every angle</div>
-        <span class="link-card-arrow">&rarr;</span>
-      </a>
-      <a class="link-card" href="https://github.com/hoolio">
-        <div class="link-card-title">GitHub</div>
-        <div class="link-card-desc">hoolio</div>
-        <span class="link-card-arrow">&rarr;</span>
-      </a>
-      <a class="link-card" href="https://medium.com/@j.avalos">
-        <div class="link-card-title">Medium</div>
-        <div class="link-card-desc">Occasional writing</div>
-        <span class="link-card-arrow">&rarr;</span>
-      </a>
+  <!-- MAIN -->
+  <div class="content">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-ghost">JA</div>
+
+      <div class="hero-kicker">
+        <span class="hero-kicker-pill">Now</span>
+        <span class="hero-kicker-text">Co-CEO, Observable · Co-founder, Shades News</span>
+      </div>
+
+      <h1 class="hero-headline">
+        I build companies<br>
+        <em>with</em> <strong>people.</strong>
+      </h1>
+
+      <div class="hero-aside">
+        <p class="hero-aside-text">"From GitHub's first lawyer to the room where the deal got done."</p>
+      </div>
+
+      <div class="hero-meta">
+        <div>
+          <div class="meta-item-label">Based</div>
+          <div class="meta-item-value">San Rafael, CA</div>
+        </div>
+        <div>
+          <div class="meta-item-label">At GitHub</div>
+          <div class="meta-item-value">2012 — 2018</div>
+        </div>
+        <div>
+          <div class="meta-item-label">At Observable</div>
+          <div class="meta-item-value">2018 — now</div>
+        </div>
+        <div>
+          <div class="meta-item-label">On the decks</div>
+          <div class="meta-item-value">2008 — 2012</div>
+        </div>
+      </div>
     </div>
-  </section>
 
-  <!-- Timeline -->
-  <section class="section" id="work">
-    <div class="section-label">Work</div>
-    <ul class="timeline">
-      <li class="timeline-item">
-        <span class="timeline-year">2024</span>
-        <div class="timeline-body">
-          <div class="timeline-heading">Shades News</div>
-          <div class="timeline-desc">Launches on iOS. Daily news from multiple perspectives.</div>
-        </div>
-      </li>
-      <li class="timeline-item">
-        <span class="timeline-year">2019</span>
-        <div class="timeline-body">
-          <div class="timeline-heading">Observable</div>
-          <div class="timeline-desc">Co-CEO alongside Mike Bostock, creator of D3.js.</div>
-        </div>
-      </li>
-      <li class="timeline-item featured">
-        <span class="timeline-year">2018</span>
-        <div class="timeline-body">
-          <div class="timeline-heading">Microsoft acquires GitHub</div>
-          <div class="timeline-desc">Closed October 2018. Oversaw business operations through the deal.</div>
-          <span class="timeline-tag">$7.5B</span>
-        </div>
-      </li>
-      <li class="timeline-item">
-        <span class="timeline-year">2014</span>
-        <div class="timeline-body">
-          <div class="timeline-heading">Legal Innovator of the Year</div>
-          <div class="timeline-desc">Inaugural recipient. The Recorder.</div>
-          <span class="timeline-tag">Award</span>
-        </div>
-      </li>
-      <li class="timeline-item">
-        <span class="timeline-year">2012</span>
-        <div class="timeline-body">
-          <div class="timeline-heading">GitHub</div>
-          <div class="timeline-desc">Joined as first General Counsel. Grew into Chief Business, Strategy & Operations Officer.</div>
-        </div>
-      </li>
-      <li class="timeline-item">
-        <span class="timeline-year">2011</span>
-        <div class="timeline-body">
-          <div class="timeline-heading">Yelp</div>
-          <div class="timeline-desc">Corporate Counsel through the company's IPO.</div>
-        </div>
-      </li>
-      <li class="timeline-item">
-        <span class="timeline-year">2007</span>
-        <div class="timeline-body">
-          <div class="timeline-heading">Orrick, Herrington & Sutcliffe</div>
-          <div class="timeline-desc">Represented Facebook and Mark Zuckerberg in Power Ventures litigation.</div>
-        </div>
-      </li>
-      <li class="timeline-item">
-        <span class="timeline-year">2006</span>
-        <div class="timeline-body">
-          <div class="timeline-heading">Columbia Law School</div>
-          <div class="timeline-desc">Juris Doctor.</div>
-        </div>
-      </li>
-      <li class="timeline-item">
-        <span class="timeline-year">2003</span>
-        <div class="timeline-body">
-          <div class="timeline-heading">University of Florida</div>
-          <div class="timeline-desc">BA in English & Philosophy.</div>
-        </div>
-      </li>
-    </ul>
-  </section>
-
-  <!-- Appearances -->
-  <section class="section" id="appearances">
-    <div class="section-label">Selected Appearances</div>
-    <div class="appearances-grid">
-      <a class="appearance-card" href="https://partnergrow.substack.com/p/julio-avalos-from-shades-news-on">
-        <span class="appearance-badge">Podcast</span>
-        <span class="appearance-title">The Future of Media &mdash; Partner Grow</span>
-      </a>
-      <a class="appearance-card" href="https://www.youtube.com/watch?v=btBipudshaU">
-        <span class="appearance-badge">Podcast</span>
-        <span class="appearance-title">Breaking Boundaries: GitHub Culture &mdash; True Builders</span>
-      </a>
-      <a class="appearance-card" href="https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/">
-        <span class="appearance-badge">Talk</span>
-        <span class="appearance-title">Lawyers Are Over! Long Live Lawyers! &mdash; CodeX, Stanford</span>
-      </a>
-      <a class="appearance-card" href="https://www.legal500.com/gc-powerlist/united-states-rising-stars-2014/julio-avalos/">
-        <span class="appearance-badge">Press</span>
-        <span class="appearance-title">GC Powerlist: Rising Stars &mdash; Legal 500</span>
-      </a>
-      <a class="appearance-card" href="https://connect.ufalumni.ufl.edu/events/40gatorsunder40/honorees/julio-avalos">
-        <span class="appearance-badge">Alumni</span>
-        <span class="appearance-title">40 Gators Under 40 &mdash; University of Florida</span>
-      </a>
+    <!-- 01 ABOUT -->
+    <div class="section" id="about">
+      <div class="section-num">01</div>
+      <div class="section-body">
+        <div class="section-label">About</div>
+        <p class="about-text">
+          I joined <a href="https://github.com">GitHub</a> in 2012 as its first general counsel —
+          fewer than 100 people, still figuring out what it wanted to be.
+          Over six years I built the legal, policy, and business foundations for
+          <strong>the platform that defines how software gets made.</strong>
+          Then ran its business through the
+          <a href="https://news.microsoft.com/2018/10/26/microsoft-completes-github-acquisition/">$7.5 billion Microsoft acquisition.</a>
+        </p>
+        <p class="about-text">
+          Now I'm Co-CEO at <a href="https://observablehq.com">Observable</a>, building computational tools
+          for the next era of data work alongside
+          <strong>Mike Bostock</strong>, the creator of D3.js.
+          Also co-founder of <a href="https://shadesnews.com">Shades News.</a>
+        </p>
+      </div>
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-text">&copy; 2026 Julio Avalos &middot; Madrid</div>
-    <ul class="footer-links">
-      <li><a href="https://www.linkedin.com/in/julio-avalos-who/">LinkedIn</a></li>
-      <li><a href="https://github.com/hoolio">GitHub</a></li>
-      <li><a href="https://medium.com/@j.avalos">Medium</a></li>
-    </ul>
-  </footer>
+    <!-- 02 WORK -->
+    <div class="section" id="work">
+      <div class="section-num">02</div>
+      <div class="section-body">
+        <div class="section-label">Work</div>
+        <table class="career-table">
+          <tbody>
+            <tr>
+              <td class="career-years">2018 — present</td>
+              <td class="career-role">Co-CEO</td>
+              <td class="career-org">Observable</td>
+              <td class="career-dot"><span></span></td>
+            </tr>
+            <tr>
+              <td class="career-years">2022 — present</td>
+              <td class="career-role">Co-founder</td>
+              <td class="career-org">Shades News</td>
+              <td class="career-dot"><span></span></td>
+            </tr>
+            <tr>
+              <td class="career-years">2012 — 2018</td>
+              <td class="career-role">First GC → COO</td>
+              <td class="career-org">GitHub</td>
+              <td class="career-dot"><span></span></td>
+            </tr>
+            <tr>
+              <td class="career-years">2018</td>
+              <td class="career-role">Acquisition Lead</td>
+              <td class="career-org">Microsoft · $7.5B</td>
+              <td class="career-dot"><span></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 03 CHOP RADIO — different register -->
+    <div class="chop-section" id="radio">
+      <div class="chop-inner">
+        <div class="chop-num">03</div>
+        <div class="chop-body">
+
+          <div class="chop-label-row">
+            <span class="chop-label-text">Chop Radio</span>
+            <span class="chop-live">
+              <span class="chop-live-dot"></span>
+              Archive
+            </span>
+          </div>
+
+          <div class="chop-display">
+            The <em>mixes.</em><br>All of them.
+          </div>
+          <div class="chop-tagline">Bushwick, Brooklyn → San Francisco · 2006–2012 · 83 Episodes</div>
+
+          <!-- EQ bars — amber + sage alternating -->
+          <div class="chop-viz">
+            <span style="--lo:5px;  --hi:18px; --d:0.82s"></span>
+            <span style="--lo:12px; --hi:38px; --d:1.1s"></span>
+            <span style="--lo:7px;  --hi:28px; --d:0.68s"></span>
+            <span style="--lo:20px; --hi:44px; --d:1.25s"></span>
+            <span style="--lo:4px;  --hi:15px; --d:0.9s"></span>
+            <span style="--lo:14px; --hi:36px; --d:1.05s"></span>
+            <span style="--lo:9px;  --hi:32px; --d:0.75s"></span>
+            <span style="--lo:18px; --hi:42px; --d:1.35s"></span>
+            <span style="--lo:6px;  --hi:22px; --d:0.88s"></span>
+            <span style="--lo:11px; --hi:34px; --d:1.15s"></span>
+            <span style="--lo:8px;  --hi:26px; --d:0.72s"></span>
+            <span style="--lo:16px; --hi:40px; --d:1.2s"></span>
+            <span style="--lo:5px;  --hi:20px; --d:0.95s"></span>
+            <span style="--lo:13px; --hi:35px; --d:1.0s"></span>
+          </div>
+
+          <!-- Episode grid -->
+          <div class="chop-episodes">
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 61</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 64</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 65</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 66</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 67</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 68</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 70</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 71</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 72</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 73</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 75</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 77</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 78</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 79</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 80</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 81</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 82</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 83</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 84</span><span class="chop-ep-label">Chop</span></a>
+            <a href="#" class="chop-ep"><span class="chop-ep-num">Ep. 85</span><span class="chop-ep-label">Chop</span></a>
+          </div>
+
+          <div class="chop-cta-row">
+            <a href="/radio/" class="chop-cta-link">Enter Chop Radio →</a>
+            <span class="chop-ep-count">74 episodes · MP3 archive on Internet Archive</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 PRESS -->
+    <div class="section" id="press">
+      <div class="section-num">04</div>
+      <div class="section-body">
+        <div class="section-label">Press</div>
+        <div class="press-list">
+          <a href="https://partnergrow.substack.com/p/julio-avalos-from-shades-news-on" class="press-row">
+            <span class="press-outlet">Podcast</span>
+            <span class="press-headline">The Future of Media — Partner Grow</span>
+            <span class="press-year">2024</span>
+          </a>
+          <a href="https://www.youtube.com/watch?v=btBipudshaU" class="press-row">
+            <span class="press-outlet">Podcast</span>
+            <span class="press-headline">Breaking Boundaries: GitHub's Approach to Organizational Culture — True Builders</span>
+            <span class="press-year">2023</span>
+          </a>
+          <a href="https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/" class="press-row">
+            <span class="press-outlet">Talk</span>
+            <span class="press-headline">Lawyers Are Over! Long Live Lawyers! — CodeX FutureLaw, Stanford</span>
+            <span class="press-year">2019</span>
+          </a>
+          <a href="https://www.legal500.com/gc-powerlist/united-states-rising-stars-2014/julio-avalos/" class="press-row">
+            <span class="press-outlet">Legal 500</span>
+            <span class="press-headline">GC Powerlist: United States Rising Stars</span>
+            <span class="press-year">2014</span>
+          </a>
+          <a href="https://connect.ufalumni.ufl.edu/events/40gatorsunder40/honorees/julio-avalos" class="press-row">
+            <span class="press-outlet">Alumni</span>
+            <span class="press-headline">40 Gators Under 40 — University of Florida</span>
+            <span class="press-year">2020</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <span class="footer-copy">© 2026 Julio Avalos</span>
+  <ul class="footer-links">
+    <li><a href="https://www.linkedin.com/in/julio-avalos-who/">LinkedIn</a></li>
+    <li><a href="https://observablehq.com">Observable</a></li>
+    <li><a href="https://github.com/hoolio">GitHub</a></li>
+    <li><a href="/radio/">Chop Radio</a></li>
+  </ul>
+</footer>
 
 </body>
 </html>

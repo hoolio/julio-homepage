@@ -45,7 +45,8 @@
       "Bash(grep -iE '\\\\.\\(mp3|m4a\\)$')",
       "Bash(pip3 install:*)",
       "Bash(python3 -c \"import internetarchive; print\\(''installed at'', internetarchive.__file__\\)\")",
-      "Bash(ia upload:*)"
+      "Bash(ia upload:*)",
+      "Bash(ia list:*)"
     ]
   }
 }
