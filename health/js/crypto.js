@@ -4,10 +4,11 @@ const Vault = (function () {
 
   const SALT_KEY = 'health_vault_salt';
   const VERIFY_KEY = 'health_vault_verify';
+  const SESSION_KEY = 'health_vault_session';
   const ENC_PREFIX = 'enc:';
   const ITER = 600000;
 
-  let _key = null; // derived CryptoKey, held in memory only
+  let _key = null;
 
   function isSetUp() {
     return localStorage.getItem(SALT_KEY) !== null;
@@ -19,6 +20,7 @@ const Vault = (function () {
 
   function lock() {
     _key = null;
+    sessionStorage.removeItem(SESSION_KEY);
   }
 
   async function _getSalt() {
@@ -46,15 +48,14 @@ const Vault = (function () {
   async function setup(password) {
     const salt = await _getSalt();
     _key = await _deriveKey(password, salt);
-    // Store encrypted verification token so we can check password on unlock
     const token = await encrypt('health_vault_ok');
     localStorage.setItem(VERIFY_KEY, token);
+    sessionStorage.setItem(SESSION_KEY, password);
   }
 
   async function unlock(password) {
     const salt = await _getSalt();
     _key = await _deriveKey(password, salt);
-    // Verify by decrypting the token
     const token = localStorage.getItem(VERIFY_KEY);
     if (!token) throw new Error('No vault found');
     try {
@@ -63,6 +64,20 @@ const Vault = (function () {
     } catch {
       _key = null;
       throw new Error('Wrong password');
+    }
+    sessionStorage.setItem(SESSION_KEY, password);
+  }
+
+  // Try to auto-unlock from session (survives refresh, clears on tab close)
+  async function trySessionUnlock() {
+    const pw = sessionStorage.getItem(SESSION_KEY);
+    if (!pw || !isSetUp()) return false;
+    try {
+      await unlock(pw);
+      return true;
+    } catch {
+      sessionStorage.removeItem(SESSION_KEY);
+      return false;
     }
   }
 
@@ -131,5 +146,5 @@ const Vault = (function () {
     return bytes;
   }
 
-  return { isSetUp, isUnlocked, lock, setup, unlock, setEncrypted, getEncrypted };
+  return { isSetUp, isUnlocked, lock, setup, unlock, trySessionUnlock, setEncrypted, getEncrypted };
 })();

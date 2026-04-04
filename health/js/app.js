@@ -484,9 +484,16 @@
     await renderDashboard();
   }
 
-  function boot() {
+  async function boot() {
     document.getElementById('lock-form').addEventListener('submit', handleUnlock);
-    showLockScreen();
+    // Try auto-unlock from session (persists across refresh, clears on tab close)
+    if (await Vault.trySessionUnlock()) {
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('app-shell').style.display = 'block';
+      await initApp();
+    } else {
+      showLockScreen();
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
