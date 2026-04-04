@@ -56,7 +56,8 @@
       "Bash(mdfind \"kMDItemFSName == ''deer.jpg''\")",
       "Bash(mdfind \"kMDItemFSName == ''deathgate.jpg''\")",
       "Bash(mdfind \"kMDItemFSName == ''hamster.jpg''\")",
-      "Bash(shasum -a 256)"
+      "Bash(shasum -a 256)",
+      "Bash(node:*)"
     ]
   }
 }
