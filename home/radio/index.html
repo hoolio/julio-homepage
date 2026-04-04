@@ -1,556 +1,674 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Choplogic Radio, hosted by Julio</title>
-  <meta name="description" content="Choplogic Radio is an independent and progressive online radio show. Indie, post-punk, electronic, krautrock, hip-hop, experimental. 83 episodes, 2006–2012.">
-  <meta name="theme-color" content="#ffffff">
-  <style>
-    /* Faithful to the original chopradio.com aesthetic */
-    body {
-      background: #f9f6f0;
-      color: #000000;
-      font-family: calibri, arial, geneva, helvetica, sans-serif;
-      margin: 0;
-      padding: 20px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choplogic Radio — Archive</title>
+<meta name="description" content="Choplogic Radio. 83 episodes of indie, post-punk, electronic, krautrock, hip-hop. Broadcasting from Bushwick, Brooklyn to San Francisco, 2006–2012.">
+<link rel="stylesheet" href="/css/project.css">
+<style>
+  .radio-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 28px 80px;
+    position: relative;
+    z-index: 2;
+  }
 
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 100;
-      opacity: 0.04;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 180px 180px;
-    }
+  .radio-hero {
+    padding: 60px 0 40px;
+    border-bottom: 1px solid var(--hairline);
+    margin-bottom: 40px;
+  }
 
-    a { color: #000080; }
-    a:visited { color: #666666; }
-    a:active { color: #800000; }
+  .radio-kicker {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .radio-kicker::before { content:''; width:24px; height:1px; background: var(--gold); }
 
-    .site-wrap {
-      max-width: 900px;
-      margin: 0 auto;
-    }
+  .radio-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(3rem, 7vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  .radio-title em { font-style: italic; color: var(--dim); }
 
-    .header-img {
-      display: block;
-      max-width: 100%;
-      height: auto;
-      margin-bottom: 20px;
-    }
+  .radio-deck {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--dim);
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
 
-    h1 {
-      font-family: arial, verdana, sans-serif;
-      font-size: 24px;
-      font-weight: bold;
-      margin: 0 0 16px 0;
-    }
+  .radio-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
 
-    .intro {
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
+  .radio-meta span { display: flex; align-items: center; gap: 8px; }
+  .radio-meta .dot { width: 4px; height: 4px; background: var(--gold); border-radius: 50%; }
 
-    .subscribe {
-      margin-bottom: 24px;
-      line-height: 1.6;
-    }
+  /* Player */
+  .player {
+    background: var(--well);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 2px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: none;
+    position: relative;
+  }
 
-    /* The table */
-    .episodes-table {
-      width: 100%;
-      border-collapse: collapse;
-      border: 0;
-      background: #000000;
-    }
+  .player.active { display: block; }
 
-    .episodes-table td {
-      padding: 6px 8px;
-      vertical-align: top;
-    }
+  .player::before {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='np'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23np)'/%3E%3C/svg%3E");
+    z-index: 1;
+  }
 
-    .header-row td {
-      background: #2f2f4f;
-      color: #ffff00;
-      font-weight: bold;
-      text-align: center;
-      padding: 5px 8px;
-      font-size: 13px;
-    }
+  .player-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    position: relative; z-index: 2;
+  }
 
-    .header-row td:nth-child(2) {
-      text-align: left;
-    }
+  .player-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--gold-bright);
+  }
 
-    .episode-row td {
-      background: #ffffff;
-      border-bottom: 1px solid #e0e0e0;
-    }
+  .player-close {
+    background: none;
+    border: none;
+    color: rgba(237, 232, 223, 0.5);
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+  }
 
-    .episode-row td:first-child {
-      text-align: center;
-      white-space: nowrap;
-      width: 80px;
-    }
+  .player-close:hover { color: var(--gold-bright); }
 
-    .episode-row td:nth-child(2) {
-      text-align: left;
-    }
+  .player audio {
+    width: 100%;
+    height: 32px;
+    position: relative;
+    z-index: 2;
+    filter: sepia(0.2) hue-rotate(-10deg) saturate(0.8);
+  }
 
-    .episode-row td:nth-child(3) {
-      white-space: nowrap;
-      text-align: center;
-      font-size: 13px;
-      color: #333;
-      width: 90px;
-    }
+  /* Episode table */
+  .episodes-wrap { background: var(--paper-warm); border: 1px solid var(--hairline); border-radius: 2px; overflow: hidden; }
 
-    .episode-row td:nth-child(4) {
-      text-align: center;
-      width: 60px;
-      font-size: 13px;
-    }
+  .episodes-head {
+    display: grid;
+    grid-template-columns: 60px 1fr 100px 80px;
+    gap: 16px;
+    padding: 14px 20px;
+    background: var(--well);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold-bright);
+    position: relative;
+  }
 
-    .episode-row.special td {
-      background: #fff8e0;
-    }
+  .ep {
+    display: grid;
+    grid-template-columns: 60px 1fr 100px 80px;
+    gap: 16px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--hairline);
+    transition: background 0.25s ease, padding-left 0.25s ease;
+  }
 
-    .episode-row.halloween td {
-      background: #ffe8d0;
-    }
+  .ep:last-child { border-bottom: none; }
+  .ep:hover { background: rgba(196, 125, 40, 0.04); padding-left: 26px; }
 
-    .episode-row.spanish td {
-      background: #e8e8e8;
-    }
+  .ep-num {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--gold);
+    line-height: 1;
+    padding-top: 2px;
+  }
 
-    .track {
-      font-size: 13px;
-      line-height: 1.5;
-    }
+  .ep-num a {
+    color: var(--gold);
+    border: none;
+    transition: color 0.25s;
+  }
 
-    .episode-title {
-      font-size: 15px;
-      font-weight: bold;
-      margin-bottom: 4px;
-    }
+  .ep-num a:hover { color: var(--oxblood); }
 
-    .episode-note {
-      font-size: 12px;
-      color: #666;
-      margin-top: 6px;
-    }
+  .ep-body { min-width: 0; }
 
-    .part-link {
-      font-size: 13px;
-    }
+  .ep-label {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
 
-    /* Player — simple, at top */
-    .player-bar {
-      background: #2f2f4f;
-      color: #ffff00;
-      padding: 10px 14px;
-      margin-bottom: 20px;
-      display: none;
-      border-radius: 0;
-      font-size: 13px;
-    }
+  .ep-tracks {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.55;
+    color: var(--dim);
+  }
 
-    .player-bar.active { display: block; }
+  .ep-tracks .track { display: block; }
+  .ep-tracks .track:not(:last-child)::after {
+    content: ' · ';
+    color: var(--dimmer);
+  }
 
-    .player-bar .player-label {
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
+  .ep-tracks.compact .track { display: inline; }
 
-    .player-bar audio {
-      width: 100%;
-      height: 32px;
-    }
+  .ep-date {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    padding-top: 6px;
+  }
 
-    .player-bar .close-player {
-      float: right;
-      cursor: pointer;
-      color: #ffff00;
-      font-size: 16px;
-      background: none;
-      border: none;
-      font-weight: bold;
-    }
+  .ep-dur {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--dimmer);
+    padding-top: 6px;
+    text-align: right;
+  }
 
-    /* Nav back to main site */
-    .top-nav {
-      margin-bottom: 16px;
-      font-size: 12px;
-    }
+  .ep .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 8.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: rgba(196, 125, 40, 0.1);
+    color: var(--gold);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
 
-    .top-nav a {
-      color: #666;
-      text-decoration: none;
-    }
+  .ep.special { background: rgba(196, 125, 40, 0.02); }
+  .ep.halloween { background: rgba(122, 46, 28, 0.03); }
+  .ep.spanish .tag { background: rgba(122, 46, 28, 0.1); color: var(--oxblood); }
 
-    .top-nav a:hover { text-decoration: underline; }
+  .section-divider {
+    padding: 24px 20px 10px;
+    background: var(--paper);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+  }
 
-    .footer {
-      margin-top: 30px;
-      padding-top: 10px;
-      border-top: 1px solid #ccc;
-      font-size: 11px;
-      color: #999;
-    }
+  .part-links {
+    margin-top: 8px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+  .part-links a {
+    color: var(--gold);
+    border-bottom: 1px dotted var(--gold-dim);
+    padding-bottom: 1px;
+  }
+  .part-links a:hover { color: var(--oxblood); border-bottom-color: var(--oxblood); }
 
-    @media (max-width: 600px) {
-      body { padding: 12px; font-size: 13px; }
-      .episodes-table td:nth-child(4) { display: none; }
-      .episode-row td:first-child { width: 50px; }
-    }
-  </style>
+  @media (max-width: 700px) {
+    .radio-wrap { padding: 0 20px 60px; }
+    .episodes-head { display: none; }
+    .ep { grid-template-columns: 52px 1fr; gap: 12px; padding: 16px 14px; }
+    .ep-date, .ep-dur { grid-column: 2; text-align: left; padding-top: 4px; }
+    .ep-num { font-size: 1.3rem; }
+    .ep-label { font-size: 1rem; }
+    .ep-tracks { font-size: 12px; }
+  }
+</style>
 </head>
 <body>
-  <div class="site-wrap">
 
-    <div class="top-nav">
-      <a href="/">choplogic radio</a> &nbsp;
-      <a href="/home/">home</a> &nbsp;
-      <a href="/home/radio/" style="color:#000;font-weight:bold">Radio</a> &nbsp;
-      <a href="/about/">About</a>
+<nav class="proj-nav">
+  <a href="/home/" class="proj-nav-home">Choplogic Radio</a>
+  <ul class="proj-nav-links">
+    <li><a href="/home/">Home</a></li>
+    <li><a href="/home/writings/">Writings</a></li>
+    <li><a href="/home/sounds/" style="color:var(--gold)">Sounds</a></li>
+    <li><a href="/about/">About</a></li>
+  </ul>
+</nav>
+
+<div class="radio-wrap">
+
+  <header class="radio-hero">
+    <div class="radio-kicker"><span>Archive · 2006 — 2012</span></div>
+    <h1 class="radio-title">Choplogic <em>Radio</em></h1>
+    <p class="radio-deck">An independent and progressive radio show. Indie, post-punk, electronic, krautrock, hip-hop. Broadcasting from the Office Ops Arts &amp; Community Center in Bushwick, Brooklyn and later San Francisco.</p>
+    <div class="radio-meta">
+      <span><span class="dot"></span>83 Episodes</span>
+      <span><span class="dot"></span>Est. October 2006</span>
+      <span><span class="dot"></span><a href="https://archive.org/details/choplogic-radio" style="color:var(--dim);border-bottom:1px solid var(--hairline-strong)">Internet Archive</a></span>
+      <span><span class="dot"></span>chopradio@gmail.com</span>
     </div>
+  </header>
 
-    <h1>Choplogic Radio</h1>
-
-    <div class="intro">
-      Choplogic Radio is an independent and progressive online radio show founded in the Office Ops Arts &amp; Community Center in Bushwick, Brooklyn and now permanently broadcasting out of
-      <font color="blue">S</font><font color="red">A</font><font color="green">N</font>
-      <font color="blue"> F</font><font color="orange">R</font><font color="blue">A</font><font color="navy">N</font><font color="blue">C</font><font color="red">I</font><font color="blue">S</font><font color="teal">C</font><font color="blue">O</font>.
-      Chop is hosted by Julio. He plays music.
+  <!-- Player -->
+  <div class="player" id="player">
+    <div class="player-header">
+      <span class="player-title" id="player-label">Now Playing</span>
+      <button class="player-close" id="close-player">&times;</button>
     </div>
-
-    <div class="subscribe">
-      New shows were uploaded regularly from 2006 to 2012. 83 episodes. This is the archive.
-    </div>
-
-    <!-- Player -->
-    <div class="player-bar" id="player">
-      <button class="close-player" id="close-player">&times;</button>
-      <div class="player-label" id="player-label">Now Playing</div>
-      <audio controls id="audio" preload="none"></audio>
-    </div>
-
-    <!-- Episodes table -->
-    <table class="episodes-table" cellpadding="4" cellspacing="1">
-
-      <tr class="header-row"><td><b>Download</b></td><td><b>Show Title / Description</b></td><td><b>Date Posted</b></td><td><b>Length</b></td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop83.m4a','83');return false">83</a></td><td>
-        <span class="track">Operating Theatre - Eighties Rampwalk (1982)</span><br>
-        <span class="track">Maximum Joy - Silent Street/Silent Dub (1982)</span><br>
-        <span class="track">Oppenheimer Analysis - Devil's Dancers (1982)</span><br>
-        <span class="track">Elodie Lauten - Cat Counterpoint (1982)</span><br>
-        <span class="track">Peaking Lights - Birds of Paradise (Dub) (2011)</span><br>
-        <span class="track">Savages - Give Me A Gun (Live at Bodega) (2012)</span><br>
-        <span class="track">Dogmatic Element - Just Friends (1983)</span><br>
-        <span class="track">X Ray Pop - Contakt (1983)</span><br>
-        <span class="track">Linea Aspera - Synapse (2012)</span><br>
-      </td><td>12/07/12</td><td></td></tr>
-
-      <tr class="header-row"><td><b>Download</b></td><td><b>Show Title / Description</b></td><td><b>Date Posted</b></td><td><b>Length</b></td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop82.m4a','82');return false">82</a></td><td>
-        <span class="track">Central Unit - Rock Onze (1980)</span><br>
-        <span class="track">SOS Band - Just Be Good to Me (Anton Glamb Mix) (1983)</span><br>
-        <span class="track">Eola - Market (2011)</span><br>
-        <span class="track">Ariel Pink's Haunted Graffiti - Baby (2012)</span><br>
-        <span class="track">TOPS - Turn Your Love Around (2012)</span><br>
-        <span class="track">The Bats - Block of Wood (1987)</span><br>
-        <span class="track">Jacques Greene - Ready (2012)</span><br>
-        <span class="track">Turquoise Days - Grey Skies (1984)</span><br>
-        <span class="track">Mi Ami - Echo (2010)</span><br>
-        <span class="track">Jerry Green - I Finally Found The Love I Need (1983)</span><br>
-      </td><td>08/15/12</td><td>53:38</td></tr>
-
-      <tr class="header-row"><td><b>Download</b></td><td><b>Show Title / Description</b></td><td><b>Date Posted</b></td><td><b>Length</b></td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop81.m4a','81');return false">81</a></td><td>
-        <span class="track">Gonzales - Dot (2004)</span><br>
-        <span class="track">13th Floor Elevators - Splash 1 (1966)</span><br>
-        <span class="track">Tops - Rings of Saturn (2012)</span><br>
-        <span class="track">Jana Hunter - Restless (2005)</span><br>
-        <span class="track">Hospitality - Betty Wang (2012)</span><br>
-        <span class="track">Pat Jordache - Get It (2011)</span><br>
-        <span class="track">Orange Juice - Wan Light (1981)</span><br>
-        <span class="track">In Aeternam Vale - Annie (1983)</span><br>
-        <span class="track">K.S. Chithra - Vaa Veliye (1982)</span><br>
-      </td><td>05/22/12</td><td>31:16</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop80.m4a','80');return false">80</a></td><td>
-        <span class="track">John Talabot - Oro y Sangre</span><br>
-        <span class="track">Dustin Wong - Evening Curves Straight + Back Towards Night</span><br>
-        <span class="track">Slapp Happy - Charlie 'n Charlie</span><br>
-        <span class="track">Natureboy - Pariah</span><br>
-        <span class="track">War - Brodermordet</span><br>
-        <span class="track">Peaking Lights - Silver Tongues, Soft Whispers</span><br>
-        <span class="track">Mister Lies - I Walk</span><br>
-        <span class="track">Danish for Cruller - Handbomb</span><br>
-        <span class="track">Killing Joke - Tension</span><br>
-      </td><td>03/18/12</td><td>43:24</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop79.m4a','79');return false">79</a></td><td>
-        <span class="track">Shogun Kunitoki - Tropiikin kuuma huuma</span><br>
-        <span class="track">Michael Hurley - Be Kind To Me</span><br>
-        <span class="track">Fire Engines - Everything's Roses</span><br>
-        <span class="track">Saint-Preux - Le Naufrage</span><br>
-        <span class="track">Kraus - Wolfram</span><br>
-        <span class="track">The Offset - The Loop Swing</span><br>
-        <span class="track">Ruth - Polaroid (Alternate "Cotton Wool Mix," 1984)</span><br>
-        <span class="track">Ducktails - Hamilton Road</span><br>
-        <span class="track">Orange Juice - Moscow Olympics</span><br>
-        <span class="track">Schoolboy Q - Sexting</span><br>
-      </td><td>02/05/12</td><td>34:36</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop78.m4a','78');return false">78</a></td><td>
-        <span class="track">Dirty Beaches - Highway 1</span><br>
-        <span class="track">Peaking Lights - Tiger Eyes (Cuticle Remix)</span><br>
-        <span class="track">Nicolas Jaar - One Glance</span><br>
-        <span class="track">Terror Bird - Shadows in the Hall</span><br>
-        <span class="track">The Offset - Colour</span><br>
-        <span class="track">Zomby - Mozaik</span><br>
-        <span class="track">Calvin Leavy - He Walks With Me (Pts. 1 and 2)</span><br>
-        <span class="track">Shina Williams - ?</span><br>
-      </td><td>01/17/12</td><td>46:22</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop76.mp3','76');return false">76</a></td><td>
-        <span class="track">Gonzalez - Overnight</span><br>
-        <span class="track">Kindness - Swingin' Party</span><br>
-        <span class="track">Sbtrkt - Right Thing To Do</span><br>
-        <span class="track">Kindness - Cyan</span><br>
-        <span class="track">Beak&gt; - I Know</span><br>
-        <span class="track">Beak&gt; - Battery Point</span><br>
-        <span class="track">The Replacements - Swingin' Party</span><br>
-      </td><td>10/25/11</td><td>30:55</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop73.mp3','73');return false">73</a></td><td>
-        <div class="episode-title">Warm summer nights mix</div>
-        <span class="track">Deux - Dance With Me (c. 1983)</span><br>
-        <span class="track">Blood Orange - Forget It</span><br>
-        <span class="track">Part Time - Night Drive</span><br>
-        <span class="track">Rifle Recoil - Jumping Jacks</span><br>
-        <span class="track">Holy Ghost! - Hold On (Instrumental)</span><br>
-        <span class="track">Rubies f/ Feist - I Feel Electric (Tiedye Remix)</span><br>
-        <span class="track">Sbtrkt - Hold On (f/ Sampha)</span><br>
-        <span class="track">Planningtorock - Living It Out</span><br>
-      </td><td>08/15/11</td><td>38:26</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop72.mp3','72');return false">72</a></td><td>
-        <span class="track">Pure X - Easy</span><br>
-        <span class="track">Crinkles - Bend</span><br>
-        <span class="track">Beirut - East Harlem</span><br>
-        <span class="track">La Big Vic - Musica</span><br>
-        <span class="track">Forest Swords - Riverbed</span><br>
-        <span class="track">Swamp Donkey - Troller</span><br>
-        <span class="track">Boy Friend - Dreaming Over Dinner</span><br>
-        <span class="track">Speculator - She's So Fresh</span><br>
-        <span class="track">Zomby - A Devil Lay Here</span><br>
-      </td><td>06/17/11</td><td>39:34</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop71.mp3','71');return false">71</a></td><td>
-        <span class="track">Burial - Stolen Dog</span><br>
-        <span class="track">Night Manager - Blackout Sex</span><br>
-        <span class="track">Slutever - So Prone</span><br>
-        <span class="track">Bratmobile - Gimme Brains</span><br>
-        <span class="track">The Weeknd - House of Balloons/Glass Table Girls</span><br>
-        <span class="track">Siouxsie and the Banshees - Happy House</span><br>
-        <span class="track">HTRK - Ha</span><br>
-        <span class="track">Warpaint - Beetles</span><br>
-        <span class="track">Baby Consuelo - Todo Dia Era Dia de Indio</span><br>
-      </td><td>05/08/11</td><td></td></tr>
-
-      <tr class="header-row"><td><b>Download</b></td><td><b>Show Title / Description</b></td><td><b>Date Posted</b></td><td><b>Length</b></td></tr>
-
-      <tr class="episode-row special"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop52a.mp3','52 — History of Kraftwerk, Pt. 1');return false">52</a></td><td>
-        <div class="episode-title">History of Kraftwerk</div>
-        <span class="track">Ruckzuck (1970)</span><br>
-        <span class="track">Organisation - Tone Float [excerpt] (1970)</span><br>
-        <span class="track">Kling Klang (1972)</span><br>
-        <span class="track">Elektrisches Roulette (1973)</span><br>
-        <span class="track">Autobahn (1974)</span><br>
-        <span class="track">Trans-Europe Express (1977)</span><br>
-        <span class="track">The Robots (1978)</span><br>
-        <span class="track">The Model (1978)</span><br>
-        <span class="track">Computer World (1981)</span><br>
-        <span class="track">Numbers (1981)</span><br>
-        <span class="track">Tour de France (1983)</span><br>
-        <span class="track">Boing Boom Tschak (1986)</span><br>
-        <span class="track">Musique Non-Stop (1986)</span><br>
-        <span class="track">Titanium (1983)</span><br>
-        <div class="episode-note">5 parts:
-          <a href="#" class="part-link" onclick="play('https://archive.org/download/choplogic-radio/chop52a.mp3','52.1');return false">52.1</a>
-          <a href="#" class="part-link" onclick="play('https://archive.org/download/choplogic-radio/chop52b.mp3','52.2');return false">52.2</a>
-          <a href="#" class="part-link" onclick="play('https://archive.org/download/choplogic-radio/chop52c.mp3','52.3');return false">52.3</a>
-          <a href="#" class="part-link" onclick="play('https://archive.org/download/choplogic-radio/chop52d.mp3','52.4');return false">52.4</a>
-          <a href="#" class="part-link" onclick="play('https://archive.org/download/choplogic-radio/chop52e.mp3','52.5');return false">52.5</a>
-        </div>
-      </td><td>03/09/08</td><td></td></tr>
-
-      <tr class="episode-row spanish"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop50a.mp3','50 — Edición en español');return false">50</a></td><td>
-        <div class="episode-title">50th Episode! Edici&oacute;n en espa&ntilde;ol</div>
-        <span class="track">Walter y Su Organo - Por que te vas</span><br>
-        <span class="track">Jessy Bulbo - Maldito</span><br>
-        <span class="track">Post Pastel - Fey no more</span><br>
-        <span class="track">El Pan Blanco - Queiro ser mi propia novia</span><br>
-        <span class="track">Los Llamarada - I'm Sorry</span><br>
-        <span class="track">Los Fancy Free - ja ja ja</span><br>
-        <span class="track">Las Ultrasonicas - Monstruo Verde</span><br>
-        <span class="track">Jessy Bulbo - El sexo sin amor</span><br>
-        <div class="episode-note">Back to English next week ...
-          <a href="#" class="part-link" onclick="play('https://archive.org/download/choplogic-radio/chop50a.mp3','50.1');return false">50.1</a>
-          <a href="#" class="part-link" onclick="play('https://archive.org/download/choplogic-radio/chop50b.mp3','50.2');return false">50.2</a>
-          <a href="#" class="part-link" onclick="play('https://archive.org/download/choplogic-radio/chop50c.mp3','50.3');return false">50.3</a>
-        </div>
-      </td><td>02/17/08</td><td></td></tr>
-
-      <tr class="episode-row special"><td>44</td><td>
-        <div class="episode-title">Best 25 Songs of 2007</div>
-        <span class="track">Dan Deacon - Pink Batman &bull; Black Lips - Not a Problem &bull; Papercuts - John Brown &bull; Loney, Dear - I Am John &bull; Animal Collective - Fireworks &bull; Panda Bear - Bros &bull; Electrelane - To The East &bull; Kirsten Ketsjer - The Bridge &bull; Beach House - Master of None &bull; Deerhunter - Spring Hall Convert &bull; Beirut - Nantes &bull; The Besnard Lakes - Disaster &bull; The Field - Over the Ice &bull; Bonde do Role - Gasolina &bull; The Shins - Australia &bull; Holly Golightly - Devil Do &bull; Dr. Dog - I've Just Got To Tell You &bull; O'Death - Only Daughter &bull; Black Dice - Manoman &bull; Eric Copeland - Oreo</span><br>
-        <div class="episode-note">Happy New Year &mdash; Chop will be back the third weekend in January</div>
-      </td><td>12/23/07</td><td></td></tr>
-
-      <tr class="episode-row halloween"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop40.mp3','40 — Halloween');return false">40</a></td><td>
-        <div class="episode-title">the HALLOWEEN edition</div>
-        <span class="track">Pooh - La Gabbia</span><br>
-        <span class="track">Robert Rodriguez - His Prescription &hellip; Pain</span><br>
-        <span class="track">Goblin - Tenebre Theme (Remix)</span><br>
-        <span class="track">Goblin - Profundo Rosso</span><br>
-        <span class="track">John Carpenter - Over the Wall</span><br>
-        <span class="track">The Cramps - Rockin' Bones</span><br>
-        <span class="track">Kip Tyler - She's My Witch</span><br>
-        <span class="track">The Cramps - Green Door</span><br>
-        <span class="track">Necro - Bury You With Satan</span><br>
-        <span class="track">Black Dice - Manoman</span><br>
-        <span class="track">Xela - Creeping Flesh</span><br>
-      </td><td>10/28/07</td><td></td></tr>
-
-      <tr class="episode-row special"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop38a.mp3','38 — The Hip Hop Show');return false">38</a></td><td>
-        <div class="episode-title">The Hip Hop Show!</div>
-        <span class="track">Incredible Bongo Band - Apache (Grand Master Flash Remix)</span><br>
-        <span class="track">NaS - Represent</span><br>
-        <span class="track">El Da Sensei - Crowd Pleasa</span><br>
-        <span class="track">Jedi Mind Tricks - Heavenly Divine</span><br>
-        <span class="track">Pharoah Monch - Simon Says</span><br>
-        <span class="track">Clipse - Mr. Me Too</span><br>
-        <span class="track">GZA - Liquid Swords</span><br>
-        <span class="track">East Flatbush Project - Tried By 12</span><br>
-        <span class="track">Ol' Dirty Bastard - Shimmy Shimmy Ya</span><br>
-        <span class="track">LL f/ Total - Loungin' (Remix)</span><br>
-        <span class="track">Ice Cube - Good Day</span><br>
-        <span class="track">Brand Nubian - Get Ya Back Up Off The Wall</span><br>
-        <span class="track">KRS-One - Step Into a World</span><br>
-        <div class="episode-note">4 parts:
-          <a href="#" class="part-link" onclick="play('https://archive.org/download/choplogic-radio/chop38a.mp3','38.1');return false">38.1</a>
-          <a href="#" class="part-link" onclick="play('https://archive.org/download/choplogic-radio/chop38b.mp3','38.2');return false">38.2</a>
-          <a href="#" class="part-link" onclick="play('https://archive.org/download/choplogic-radio/chop38c.mp3','38.3');return false">38.3</a>
-          <a href="#" class="part-link" onclick="play('https://archive.org/download/choplogic-radio/chop38d.mp3','38.4');return false">38.4</a>
-        </div>
-      </td><td>10/07/07</td><td></td></tr>
-
-      <tr class="header-row"><td><b>Download</b></td><td><b>Show Title / Description</b></td><td><b>Date Posted</b></td><td><b>Length</b></td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop10.mp3','10');return false">10</a></td><td>
-        <span class="track">Galt MacDermot - Coffee Cold</span><br>
-        <span class="track">Clap Your Hands Say Yeah - Underwater (You and Me)</span><br>
-        <span class="track">Menomena - Wet and Rusting</span><br>
-        <div class="episode-note">Bookended with Galt MacDermot!</div>
-      </td><td>01/21/07</td><td>1:06:22</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop7.mp3','7 — Year-End');return false">7</a></td><td>
-        <div class="episode-title">End-of-the-Year Edition</div>
-      </td><td>12/17/06</td><td>1:01:41</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chopsix.mp3','6 — Global Indie');return false">6</a></td><td>
-        <div class="episode-title">Special Global Indie Music Edition</div>
-      </td><td>12/10/06</td><td>1:10:40</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop5.mp3','5');return false">5</a></td><td>
-        <span class="track">Sonali's favorites. The Shins, Malajube, Oxy Cottontail, and more.</span>
-      </td><td>12/03/06</td><td>1:07:01</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chopfour.mp3','4 — Thanksgiving');return false">4</a></td><td>
-        <div class="episode-title">Thanksgiving edition</div>
-        <span class="track">Morrissey, The Rosebuds, Casual Dots, Animal Collective, and more.</span>
-      </td><td>11/19/06</td><td>1:09:34</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chopthree.mp3','3');return false">3</a></td><td>
-        <span class="track">Beirut, Dance Disaster Movement, Professor Murder, LCD Soundsystem, and more.</span>
-      </td><td>11/12/06</td><td>1:13:49</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/choptwo.mp3','2');return false">2</a></td><td>
-        <span class="track">Country Teasers, Peter Bjorn and John, Chromatics, TV on the Radio.</span>
-      </td><td>11/05/06</td><td>1:07:59</td></tr>
-
-      <tr class="episode-row"><td><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chopone.mp3','1');return false">1</a></td><td>
-        <span class="track">Country Teasers, Pterodactyl, Lightning Bolt, Japanther.</span>
-        <div class="episode-note">The first one.</div>
-      </td><td>10/29/06</td><td>1:12:13</td></tr>
-
-    </table>
-
-    <div class="footer">
-      &copy; Choplogic Radio. Est. 2006. chopradio@gmail.com
-    </div>
+    <audio controls id="audio" preload="none"></audio>
   </div>
 
-  <script>
-    var audio = document.getElementById('audio');
-    var player = document.getElementById('player');
-    var label = document.getElementById('player-label');
+  <!-- Episodes -->
+  <div class="episodes-wrap">
+    <div class="episodes-head">
+      <span>#</span>
+      <span>Tracks</span>
+      <span>Date</span>
+      <span>Length</span>
+    </div>
 
-    // SHA-256 hash of the password — change this to your chosen password's hash
-    // Default: "choplogic" (change this by running: echo -n "your-password" | shasum -a 256)
-    var PASS_HASH = '1d88173f18c4d2c2edae8780a4fcfe7d24123951837296763d1d17d3ac6fecea';
-    var UNLOCKED_KEY = 'chop_unlocked_2026';
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop83.m4a','83');return false">83</a></div>
+      <div class="ep-body">
+        <div class="ep-tracks">
+          <span class="track">Operating Theatre — Eighties Rampwalk</span>
+          <span class="track">Maximum Joy — Silent Street / Silent Dub</span>
+          <span class="track">Oppenheimer Analysis — Devil's Dancers</span>
+          <span class="track">Peaking Lights — Birds of Paradise (Dub)</span>
+          <span class="track">Savages — Give Me A Gun (Live)</span>
+          <span class="track">Linea Aspera — Synapse</span>
+        </div>
+      </div>
+      <div class="ep-date">12·07·12</div>
+      <div class="ep-dur">—</div>
+    </div>
 
-    async function sha256(str) {
-      const buf = new TextEncoder().encode(str);
-      const hash = await crypto.subtle.digest('SHA-256', buf);
-      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop82.m4a','82');return false">82</a></div>
+      <div class="ep-body">
+        <div class="ep-tracks">
+          <span class="track">Central Unit — Rock Onze (1980)</span>
+          <span class="track">SOS Band — Just Be Good to Me (Anton Glamb Mix)</span>
+          <span class="track">Eola — Market</span>
+          <span class="track">Ariel Pink — Baby</span>
+          <span class="track">TOPS — Turn Your Love Around</span>
+          <span class="track">The Bats — Block of Wood</span>
+          <span class="track">Jacques Greene — Ready</span>
+          <span class="track">Mi Ami — Echo</span>
+        </div>
+      </div>
+      <div class="ep-date">08·15·12</div>
+      <div class="ep-dur">53:38</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop81.m4a','81');return false">81</a></div>
+      <div class="ep-body">
+        <div class="ep-tracks">
+          <span class="track">Gonzales — Dot</span>
+          <span class="track">13th Floor Elevators — Splash 1 (1966)</span>
+          <span class="track">Tops — Rings of Saturn</span>
+          <span class="track">Jana Hunter — Restless</span>
+          <span class="track">Hospitality — Betty Wang</span>
+          <span class="track">Orange Juice — Wan Light</span>
+          <span class="track">In Aeternam Vale — Annie</span>
+        </div>
+      </div>
+      <div class="ep-date">05·22·12</div>
+      <div class="ep-dur">31:16</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop80.m4a','80');return false">80</a></div>
+      <div class="ep-body">
+        <div class="ep-tracks">
+          <span class="track">John Talabot — Oro y Sangre</span>
+          <span class="track">Dustin Wong — Evening Curves Straight</span>
+          <span class="track">Slapp Happy — Charlie 'n Charlie</span>
+          <span class="track">War — Brodermordet</span>
+          <span class="track">Peaking Lights — Silver Tongues, Soft Whispers</span>
+          <span class="track">Killing Joke — Tension</span>
+        </div>
+      </div>
+      <div class="ep-date">03·18·12</div>
+      <div class="ep-dur">43:24</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop79.m4a','79');return false">79</a></div>
+      <div class="ep-body">
+        <div class="ep-tracks">
+          <span class="track">Michael Hurley — Be Kind To Me</span>
+          <span class="track">Fire Engines — Everything's Roses</span>
+          <span class="track">Saint-Preux — Le Naufrage</span>
+          <span class="track">Kraus — Wolfram</span>
+          <span class="track">Orange Juice — Moscow Olympics</span>
+          <span class="track">Schoolboy Q — Sexting</span>
+        </div>
+      </div>
+      <div class="ep-date">02·05·12</div>
+      <div class="ep-dur">34:36</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop78.m4a','78');return false">78</a></div>
+      <div class="ep-body">
+        <div class="ep-label">hiver</div>
+        <div class="ep-tracks">
+          <span class="track">Dirty Beaches — Highway 1</span>
+          <span class="track">Peaking Lights — Tiger Eyes (Cuticle Remix)</span>
+          <span class="track">Nicolas Jaar — One Glance</span>
+          <span class="track">Zomby — Mozaik</span>
+          <span class="track">Calvin Leavy — He Walks With Me</span>
+        </div>
+      </div>
+      <div class="ep-date">01·17·12</div>
+      <div class="ep-dur">46:22</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop73.mp3','73');return false">73</a></div>
+      <div class="ep-body">
+        <div class="ep-label">Warm summer nights mix</div>
+        <div class="ep-tracks">
+          <span class="track">Deux — Dance With Me (c. 1983)</span>
+          <span class="track">Blood Orange — Forget It</span>
+          <span class="track">Part Time — Night Drive</span>
+          <span class="track">Holy Ghost! — Hold On (Instrumental)</span>
+          <span class="track">Sbtrkt — Hold On (f/ Sampha)</span>
+        </div>
+      </div>
+      <div class="ep-date">08·15·11</div>
+      <div class="ep-dur">38:26</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop72.mp3','72');return false">72</a></div>
+      <div class="ep-body">
+        <div class="ep-tracks">
+          <span class="track">Pure X — Easy</span>
+          <span class="track">Crinkles — Bend</span>
+          <span class="track">Beirut — East Harlem</span>
+          <span class="track">La Big Vic — Musica</span>
+          <span class="track">Forest Swords — Riverbed</span>
+          <span class="track">Zomby — A Devil Lay Here</span>
+        </div>
+      </div>
+      <div class="ep-date">06·17·11</div>
+      <div class="ep-dur">39:34</div>
+    </div>
+
+    <div class="section-divider">Specials</div>
+
+    <div class="ep special">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop52a.mp3','52.1 · History of Kraftwerk');return false">52</a></div>
+      <div class="ep-body">
+        <div class="ep-label"><span class="tag">Special</span>History of Kraftwerk</div>
+        <div class="ep-tracks compact">
+          <span class="track">Ruckzuck (1970)</span>
+          <span class="track">Kling Klang (1972)</span>
+          <span class="track">Autobahn (1974)</span>
+          <span class="track">Trans-Europe Express (1977)</span>
+          <span class="track">The Robots (1978)</span>
+          <span class="track">The Model (1978)</span>
+          <span class="track">Tour de France (1983)</span>
+          <span class="track">Musique Non-Stop (1986)</span>
+        </div>
+        <div class="part-links">
+          5 parts:
+          <a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop52a.mp3','52.1');return false">52.1</a>
+          <a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop52b.mp3','52.2');return false">52.2</a>
+          <a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop52c.mp3','52.3');return false">52.3</a>
+          <a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop52d.mp3','52.4');return false">52.4</a>
+          <a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop52e.mp3','52.5');return false">52.5</a>
+        </div>
+      </div>
+      <div class="ep-date">03·09·08</div>
+      <div class="ep-dur">~109m</div>
+    </div>
+
+    <div class="ep special spanish">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop50a.mp3','50 · Edición en español');return false">50</a></div>
+      <div class="ep-body">
+        <div class="ep-label"><span class="tag">En Español</span>50th Episode · Edición en español</div>
+        <div class="ep-tracks compact">
+          <span class="track">Walter y Su Organo — Por que te vas</span>
+          <span class="track">Jessy Bulbo — Maldito</span>
+          <span class="track">Post Pastel — Fey no more</span>
+          <span class="track">Los Llamarada — I'm Sorry</span>
+          <span class="track">Las Ultrasonicas — Monstruo Verde</span>
+        </div>
+        <div class="part-links">
+          3 parts:
+          <a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop50a.mp3','50.1');return false">50.1</a>
+          <a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop50b.mp3','50.2');return false">50.2</a>
+          <a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop50c.mp3','50.3');return false">50.3</a>
+        </div>
+      </div>
+      <div class="ep-date">02·17·08</div>
+      <div class="ep-dur">34m</div>
+    </div>
+
+    <div class="ep special halloween">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop40.mp3','40 · Halloween');return false">40</a></div>
+      <div class="ep-body">
+        <div class="ep-label"><span class="tag">Halloween</span>the HALLOWEEN edition</div>
+        <div class="ep-tracks compact">
+          <span class="track">Goblin — Tenebre Theme (Remix)</span>
+          <span class="track">John Carpenter — Over the Wall</span>
+          <span class="track">The Cramps — Rockin' Bones</span>
+          <span class="track">Kip Tyler — She's My Witch</span>
+          <span class="track">Necro — Bury You With Satan</span>
+          <span class="track">Black Dice — Manoman</span>
+        </div>
+      </div>
+      <div class="ep-date">10·28·07</div>
+      <div class="ep-dur">~50m</div>
+    </div>
+
+    <div class="ep special">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop38a.mp3','38 · The Hip Hop Show');return false">38</a></div>
+      <div class="ep-body">
+        <div class="ep-label"><span class="tag">Hip Hop</span>The Hip Hop Show</div>
+        <div class="ep-tracks compact">
+          <span class="track">Incredible Bongo Band — Apache (Grand Master Flash Remix)</span>
+          <span class="track">NaS — Represent</span>
+          <span class="track">Pharoah Monch — Simon Says</span>
+          <span class="track">GZA — Liquid Swords</span>
+          <span class="track">Ol' Dirty Bastard — Shimmy Shimmy Ya</span>
+          <span class="track">KRS-One — Step Into a World</span>
+        </div>
+        <div class="part-links">
+          4 parts:
+          <a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop38a.mp3','38.1');return false">38.1</a>
+          <a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop38b.mp3','38.2');return false">38.2</a>
+          <a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop38c.mp3','38.3');return false">38.3</a>
+          <a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop38d.mp3','38.4');return false">38.4</a>
+        </div>
+      </div>
+      <div class="ep-date">10·07·07</div>
+      <div class="ep-dur">~58m</div>
+    </div>
+
+    <div class="section-divider">Early Days · 2006 — 2007</div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop10.mp3','10');return false">10</a></div>
+      <div class="ep-body">
+        <div class="ep-tracks">
+          <span class="track">Galt MacDermot — Coffee Cold</span>
+          <span class="track">Clap Your Hands Say Yeah — Underwater (You and Me)</span>
+          <span class="track">Menomena — Wet and Rusting</span>
+        </div>
+      </div>
+      <div class="ep-date">01·21·07</div>
+      <div class="ep-dur">1:06:22</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop7.mp3','7 · Year-End');return false">7</a></div>
+      <div class="ep-body">
+        <div class="ep-label">End-of-the-Year Edition</div>
+      </div>
+      <div class="ep-date">12·17·06</div>
+      <div class="ep-dur">1:01:41</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chopsix.mp3','6 · Global Indie');return false">6</a></div>
+      <div class="ep-body">
+        <div class="ep-label">Special Global Indie Music Edition</div>
+      </div>
+      <div class="ep-date">12·10·06</div>
+      <div class="ep-dur">1:10:40</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chop5.mp3','5');return false">5</a></div>
+      <div class="ep-body">
+        <div class="ep-tracks">The Shins · Malajube · Oxy Cottontail</div>
+      </div>
+      <div class="ep-date">12·03·06</div>
+      <div class="ep-dur">1:07:01</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chopfour.mp3','4 · Thanksgiving');return false">4</a></div>
+      <div class="ep-body">
+        <div class="ep-label">Thanksgiving edition</div>
+        <div class="ep-tracks">Morrissey · The Rosebuds · Casual Dots · Animal Collective</div>
+      </div>
+      <div class="ep-date">11·19·06</div>
+      <div class="ep-dur">1:09:34</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chopthree.mp3','3');return false">3</a></div>
+      <div class="ep-body">
+        <div class="ep-tracks">Beirut · Dance Disaster Movement · Professor Murder · LCD Soundsystem</div>
+      </div>
+      <div class="ep-date">11·12·06</div>
+      <div class="ep-dur">1:13:49</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/choptwo.mp3','2');return false">2</a></div>
+      <div class="ep-body">
+        <div class="ep-tracks">Country Teasers · Peter Bjorn and John · Chromatics · TV on the Radio</div>
+      </div>
+      <div class="ep-date">11·05·06</div>
+      <div class="ep-dur">1:07:59</div>
+    </div>
+
+    <div class="ep">
+      <div class="ep-num"><a href="#" onclick="play('https://archive.org/download/choplogic-radio/chopone.mp3','1 · The first one');return false">1</a></div>
+      <div class="ep-body">
+        <div class="ep-label"><span class="tag">Première</span>The first one</div>
+        <div class="ep-tracks">Country Teasers · Pterodactyl · Lightning Bolt · Japanther</div>
+      </div>
+      <div class="ep-date">10·29·06</div>
+      <div class="ep-dur">1:12:13</div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="proj-foot">
+  <span>Choplogic Radio · Est. 2006</span>
+  <a href="/home/">← All work</a>
+</footer>
+
+<script>
+  var audio = document.getElementById('audio');
+  var player = document.getElementById('player');
+  var label = document.getElementById('player-label');
+
+  // Password gate (chopog)
+  var PASS_HASH = '1d88173f18c4d2c2edae8780a4fcfe7d24123951837296763d1d17d3ac6fecea';
+  var UNLOCKED_KEY = 'chop_unlocked_2026';
+
+  async function sha256(str) {
+    const buf = new TextEncoder().encode(str);
+    const hash = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function checkPassword() {
+    if (sessionStorage.getItem(UNLOCKED_KEY) === 'yes') return true;
+    const pw = prompt('Enter password to play:');
+    if (!pw) return false;
+    const hash = await sha256(pw);
+    if (hash === PASS_HASH) {
+      sessionStorage.setItem(UNLOCKED_KEY, 'yes');
+      return true;
     }
+    alert('Wrong password.');
+    return false;
+  }
 
-    async function isUnlocked() {
-      // Session unlock (survives refresh, clears on tab close)
-      return sessionStorage.getItem(UNLOCKED_KEY) === 'yes';
-    }
+  async function play(url, name) {
+    if (!(await checkPassword())) return;
+    audio.src = url;
+    audio.play().catch(() => {});
+    label.textContent = 'Now Playing · Episode ' + name;
+    player.classList.add('active');
+    player.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 
-    async function checkPassword() {
-      if (await isUnlocked()) return true;
-      const pw = prompt('Enter password to play:');
-      if (!pw) return false;
-      const hash = await sha256(pw);
-      if (hash === PASS_HASH) {
-        sessionStorage.setItem(UNLOCKED_KEY, 'yes');
-        return true;
-      }
-      alert('Wrong password.');
-      return false;
-    }
-
-    async function play(url, name) {
-      if (!(await checkPassword())) return;
-      audio.src = url;
-      audio.play().catch(function(){});
-      label.textContent = 'Now Playing: Choplogic Radio #' + name;
-      player.classList.add('active');
-      player.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    document.getElementById('close-player').addEventListener('click', function() {
-      audio.pause();
-      audio.src = '';
-      player.classList.remove('active');
-    });
-  </script>
+  document.getElementById('close-player').addEventListener('click', () => {
+    audio.pause();
+    audio.src = '';
+    player.classList.remove('active');
+  });
+</script>
 </body>
 </html>
