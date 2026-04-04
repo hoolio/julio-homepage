@@ -922,20 +922,54 @@ function saveEntries() {
 
 function seedData() {
   entries = [
-    {date:'2026-03-13', hrv:171, rhr:43, sleep:7.3, calories:1365, protein:176, note:"Peloton 20, pull-ups 20, pushups 50, yoga 60, Tonal bench PR. Sleep peak — HRV 171.", activity:true, strong:true},
-    {date:'2026-03-12', hrv:null, rhr:null, sleep:null, calories:819, protein:84, note:"20 pull-ups, Tonal legs (Strength PR), yoga 60, Peloton 30. Perbacco dinner. Under-fueled.", activity:true, strong:true},
-    {date:'2026-03-11', hrv:125, rhr:47, sleep:4.75, calories:1815, protein:243, note:"Yoga 60, Tonal 2x (13,183 lb total), Peloton 30, pull-ups 10. Worked late.", activity:true, strong:true},
-    {date:'2026-03-10', hrv:183, rhr:43, sleep:6.4, calories:1590, protein:168, note:"Peloton 15, yoga 60, 100 pushups, Tonal back (PRs). HRV 183 peak.", activity:true, strong:true},
-    {date:'2026-03-09', hrv:null, rhr:null, sleep:null, calories:1513, protein:176, note:"Yoga 45, Peloton 30, Tonal 39:42/16,291 lb. Multiple PRs. 25 pushups.", activity:true, strong:true},
-    {date:'2026-03-08', hrv:122, rhr:48, sleep:5.6, calories:1900, protein:170, note:"Ashtanga primary 60, Tonal upper body (Strength/Power/Volume PRs), sauna. DST.", activity:true, strong:true},
-    {date:'2026-03-07', hrv:105, rhr:53, sleep:6.7, calories:1990, protein:211, note:"Tonal lower 12,881 lb (Volume PR), yoga 60. NY Strip dinner.", activity:true, strong:true},
-    {date:'2026-03-06', hrv:null, rhr:null, sleep:null, calories:2105, protein:245, note:"Vinyasa 60, Tonal 26:34/8,081 lb, sauna 15.", activity:true, strong:false},
-    {date:'2026-03-05', hrv:140, rhr:45, sleep:6.8, calories:1805, protein:210, note:"Tonal full body 13,859 lb (Pallof PR), yoga 60, Peloton 15, massage.", activity:true, strong:true},
-    {date:'2026-03-04', hrv:150, rhr:40, sleep:6.7, calories:2267, protein:190, note:"Peloton 30, yoga 45, Tonal 10,432 lb, pull-ups 10. Massage 90.", activity:true, strong:true},
-    {date:'2026-03-03', hrv:109, rhr:45, sleep:5.2, calories:1310, protein:203, note:"Tonal biceps PR, pull-ups 15, yoga 60, pool. Pool party.", activity:true, strong:false},
-    {date:'2026-03-02', hrv:null, rhr:null, sleep:9.0, calories:2230, protein:100, note:"Travel day. 6,300 steps, no gym.", activity:false, strong:false},
-    {date:'2026-03-01', hrv:154, rhr:44, sleep:6.8, calories:1590, protein:170, note:"Tonal leg PR, pull-ups 5, sauna, 8k steps.", activity:true, strong:true},
-    {date:'2026-02-28', hrv:125, rhr:47, sleep:4.75, calories:1815, protein:243, note:"Yoga 60, Tonal 2x, Peloton 30 Z2.", activity:true, strong:true},
+    {
+      date:'2026-03-13', hrv:171, rhr:43, sleep:7.3, calories:1365, protein:176, strong:true,
+      note:"Sleep peak — HRV 171. Multiple PRs.",
+      activity: ["Peloton — 20 min, ~150 kcal", "Pull-ups — 20 total (15 wide-grip + 5 behind-the-neck)", "Pushups — 50 (25 standard + 25 wide)", "Vinyasa yoga — 60 min, ~280 kcal", "Tonal Ultimate Back Wkt 10: bench press 5 sets max 100 lb + front raise — 5,718 lb, 12 kJ, 16:14", "Tonal core: pullover crunch / lateral bridge row / half-kneeling lift / rotational lift — 3,941 lb, Power/Strength PRs"],
+      food: ["Brisket filling (no tortilla/guacamole) — 200 kcal, 27g P", "Aloha bar — 240 kcal, 14g P", "Chicken tender ~1/2 cup — 115 kcal, 22g P", "Spaghetti w/ marinara — 270 kcal, 9g P, 54g C", "Norse Code 2 scoops — 240 kcal, 50g P", "Chicken breast skinless 180g — 300 kcal, 54g P"]
+    },
+    {
+      date:'2026-03-12', hrv:null, rhr:null, sleep:null, calories:819, protein:84, strong:true,
+      note:"Under-fueled. Perbacco SF networking dinner (no alcohol).",
+      activity: ["20 pull-ups (slow wide-grip military)", "Tonal legs — 43:03, 8,008 lb — RDL/glute bridge/rack squat/curtsy lunge, Strength PR", "Sauna — 15 min", "Vinyasa yoga — 60 min", "Peloton Z2 — 30 min"],
+      food: ["Trifecta Sweet Garlic Pork (noodles left) — 330 kcal, 26g P", "Perbacco SF dinner: olives, arancini, veal carpaccio, fennel salad, halibut, clams, shrimp — ~489 kcal, 58g P"]
+    },
+    {
+      date:'2026-03-11', hrv:125, rhr:47, sleep:4.75, calories:1815, protein:243, strong:true,
+      note:"Worked late ~1am. Total Tonal 13,183 lb.",
+      activity: ["Vinyasa yoga — 60 min, ~280 kcal", "Tonal #1: bent-over row/face pull/Y-pull — 7,983 lb, PRs", "Peloton low Z2 — 30 min, ~220 kcal", "Tonal #2: lat pulldown/face curl — 5,200 lb, 13.3 kJ, 11:02, PRs", "Pull-ups — 10", "Sauna — 15 min"],
+      food: ["Cortado", "Morning shake — 320 kcal, 56g P", "Aloha bar — 220 kcal, 14g P", "Aloha mini — 110 kcal, 7g P", "Trifecta Korean chicken (~90%) — 355 kcal, 28g P", "NFGY 167g — 93 kcal, 15g P", "Biena chickpeas 1 tbsp — 35 kcal", "Norse Code 2 scoops — 240 kcal, 50g P", "Mussels drained 69g — 111 kcal, 13g P", "Late protein shake 2 scoops — 260 kcal, 56g P"]
+    },
+    {
+      date:'2026-03-10', hrv:183, rhr:43, sleep:6.4, calories:1590, protein:168, strong:true,
+      note:"HRV 183 peak recovery. Multiple PRs on Tonal back workout.",
+      activity: ["Peloton Z1 — 15 min, ~70 kcal", "Vinyasa yoga — 60 min, ~280 kcal", "Pushups — 100, ~35 kcal", "Tonal Ultimate Back Wkt 8: lat pulldown / straight-arm pulldown / half-kneeling pull / X-pulldown — 11,636 lb, ~35.9 kJ, Strength/Power/Volume PRs"],
+      food: ["Morning shake — 320 kcal, 56g P", "Norse Code 2 scoops — 220 kcal, 50g P", "Trifecta Dijon Pork (1/3 veg) — 425 kcal, 31g P, 30g F", "Fish. Sausalito: crab roll — 500 kcal, 30g P", "Fries (partial, 15–17) — 45 kcal", "Scrimshaw pilsner 6 oz — 75 kcal", "Pickle spear — 5 kcal"]
+    },
+    {
+      date:'2026-03-09', hrv:null, rhr:null, sleep:null, calories:1513, protein:176, strong:true,
+      note:"Very aggressive deficit (~1,250–1,450 kcal). Multiple PRs.",
+      activity: ["Vinyasa yoga — 45 min, ~220 kcal", "Peloton Z1 — 30 min, ~150 kcal", "Tonal — 39:42, 16,291 lb, 47.8 kJ — deadlift/biceps/RDL/straight-arm pull/lateral bridge row/rotational chop, multiple Power/Volume PRs, ~173 kcal", "Pushups — 25"],
+      food: ["Mandarin — 40 kcal", "Norse Code 1 scoop — 110 kcal, 25g P", "Coffee", "Trifecta Dijon Pork (1/3 veg) — 400 kcal, 26g P", "Chicken tender 25g — 40 kcal", "Chicken breast 100g — 165 kcal, 31g P", "Chicken tender 15g — 25 kcal", "Roasted beets 60g — 25 kcal", "Aloha mini — 110 kcal, 7g P", "Chicken breast 20g — 33 kcal", "Oatmeal (1/2c oats, 1c water, 1/2c milk) — 230 kcal, 9g P", "Biena chickpeas 2 tbsp — 70 kcal", "Protein 2 scoops — 260 kcal, 56g P"]
+    },
+    {
+      date:'2026-03-08', hrv:122, rhr:48, sleep:5.6, calories:1900, protein:170, strong:true,
+      note:"DST spring forward. Sleep score 73 actual ~7h50m. Strength/Power/Volume PRs.",
+      activity: ["Ashtanga primary series — 60 min, ~320 kcal", "Pushups — 25", "Tonal — 36:55, 9,642 lb, 27.8 kJ — bench press/front raise/half-kneeling press/incline fly/standing lift, Strength/Power/Volume PRs, ~210 kcal", "Sauna — 15 min"],
+      food: ["Ham & cheese croissant 85g — 260 kcal, 10g P", "2 cortados — 60 kcal", "Aloha bar — 220 kcal, 14g P", "Morning shake — 320 kcal, 56g P", "Trifecta Kung Pao Shrimp — 350 kcal, 31g P", "Tru Fru dessert (2 servings) — 180 kcal", "Bahn Mi Ba double chicken salad — 520 kcal, 55g P"]
+    },
+    {
+      date:'2026-03-07', hrv:105, rhr:53, sleep:6.7, calories:1990, protein:211, strong:true,
+      note:"Sleep score 84. Volume PR on Tonal. NY Strip dinner.",
+      activity: ["Tonal lower body — 31:44, 12,881 lb, 99% target — RDL/goblet squat/single-leg RDL/split squat/calf raise, Volume PR, ~225 kcal", "Vinyasa yoga — 60 min, ~285 kcal"],
+      food: ["Morning shake — 320 kcal, 56g P", "Protein shake 2 scoops — 260 kcal, 56g P", "Aloha mini — 110 kcal, 7g P", "Aloha bar — 220 kcal, 14g P", "NY Strip steak 16oz (left ~25% fat) — 580 kcal, 65g P, 36g F", "1/2 glass cabernet — 60 kcal", "Chocolate cake 2 small forkfuls — 90 kcal", "Lamb riblet — 95 kcal, 7g P", "Cream of spinach 1/2 cup — 150 kcal, 12g F", "Potato gratin 40g — 85 kcal"]
+    },
+    {
+      date:'2026-03-06', hrv:null, rhr:null, sleep:null, calories:2105, protein:245, strong:false,
+      note:"Full log Friday. Deficit ~250–350 kcal. Exercise burn ~520 kcal.",
+      activity: ["Vinyasa yoga — 60 min, ~280 kcal", "Tonal — 26:34, 8,081 lb, 21.1 kJ — bent-over rows/face pulls/upright rows/seated rows/single-arm rows, ~200 kcal", "Sauna — 15 min, ~40 kcal"],
+      food: ["Morning shake (TL 2 scoops + collagen/fiber/psyllium/colostrum/banana) — 320 kcal, 56g P", "Trifecta salmon — 300 kcal, 34g P, 20g F", "Aloha bar — 220 kcal, 14g P", "Aloha mini — 110 kcal, 7g P", "Biena chickpeas 2 tbsp — 70 kcal", "Coconut water 16 oz — 100 kcal", "Protein shake 2 scoops — 260 kcal, 56g P", "Cortado — 30 kcal", "Chicken breast salad + vinaigrette — 305 kcal, 52g P", "Duck-fat fries 10 pcs — 90 kcal", "NA beer 3/4 bottle — 60 kcal", "NFGY 196g — 110 kcal, 20g P", "Godiva dark chocolates x2 — 70 kcal"]
+    },
   ];
   saveEntries();
 }
@@ -1499,19 +1533,37 @@ function openModal(iso) {
   if (entry.calories) metrics.push({ l:'Calories', v:entry.calories });
   if (entry.protein) metrics.push({ l:'Protein', v:entry.protein + 'g' });
 
-  const parts = splitNote(entry.note);
+  // Prefer structured arrays, fall back to heuristic splitting
+  let activityItems = [], foodItems = [], otherItems = [];
+  if (Array.isArray(entry.activity)) {
+    activityItems = entry.activity;
+  }
+  if (Array.isArray(entry.food)) {
+    foodItems = entry.food;
+  }
+  // If no structured arrays, parse the note
+  if (activityItems.length === 0 && foodItems.length === 0 && entry.note) {
+    const parts = splitNote(entry.note);
+    activityItems = parts.activity;
+    foodItems = parts.food;
+    otherItems = parts.other;
+  }
 
   const section = (label, items, color) => items.length ? `
-    <div style="margin-bottom:18px">
-      <div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.18em;color:${color};margin-bottom:8px">${label}</div>
+    <div style="margin-bottom:20px">
+      <div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.18em;color:${color};margin-bottom:10px;display:flex;align-items:center;gap:10px">
+        <span>${label}</span>
+        <span style="flex:1;height:1px;background:var(--hairline)"></span>
+        <span style="color:var(--dimmer);font-size:8.5px">${items.length}</span>
+      </div>
       <ul style="list-style:none;padding:0;margin:0">
-        ${items.map(i => `<li style="font-family:var(--serif);font-size:1rem;color:var(--ink);line-height:1.5;padding:4px 0;border-bottom:1px solid var(--hairline)">${i}</li>`).join('')}
+        ${items.map(i => `<li style="font-family:var(--serif);font-size:1rem;color:var(--ink);line-height:1.55;padding:6px 0;border-bottom:1px solid var(--hairline)">${i}</li>`).join('')}
       </ul>
     </div>
   ` : '';
 
   const metricBlock = metrics.length ? `
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:10px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--hairline)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--hairline)">
       ${metrics.map(m => `
         <div style="background:var(--paper-warm);padding:10px 12px;border-radius:2px">
           <div style="font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dim);margin-bottom:3px">${m.l}</div>
@@ -1521,11 +1573,16 @@ function openModal(iso) {
     </div>
   ` : '';
 
+  const noteBlock = entry.note ? `
+    <p style="font-family:var(--serif);font-style:italic;font-size:0.95rem;line-height:1.5;color:var(--dim);margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--hairline)">${entry.note}</p>
+  ` : '';
+
   document.getElementById('modal-body').innerHTML = `
     ${metricBlock}
-    ${section('Activity', parts.activity, 'var(--gold)')}
-    ${section('Food', parts.food, 'var(--oxblood)')}
-    ${parts.other.length ? section('Notes', parts.other, 'var(--dim)') : ''}
+    ${noteBlock}
+    ${section('Activity', activityItems, 'var(--gold)')}
+    ${section('Food', foodItems, 'var(--oxblood)')}
+    ${otherItems.length ? section('Notes', otherItems, 'var(--dim)') : ''}
   `;
 
   document.getElementById('entry-modal').classList.add('active');
