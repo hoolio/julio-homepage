@@ -625,12 +625,22 @@
 
 <script src="/js/chop-auth.js"></script>
 <script>
-// ═══════════ LOCK / UNLOCK ═══════════
+// ═══════════ LOCK / UNLOCK (health-specific password) ═══════════
+const HEALTH_HASH = '77e9d03d2fa3fa2f24c1a02710b3566e337340e1ced5217bf863d8ea37f4658f'; // "log123"
+const HEALTH_KEY = 'health_unlocked';
+
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 async function unlock(ev) {
   ev.preventDefault();
   const pw = document.getElementById('lock-pw').value;
-  const ok = await ChopAuth.unlock(pw);
-  if (ok) {
+  const hash = await sha256(pw);
+  if (hash === HEALTH_HASH) {
+    localStorage.setItem(HEALTH_KEY, 'yes');
     document.getElementById('lock').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     init();
@@ -642,11 +652,11 @@ async function unlock(ev) {
 }
 
 function lockSession() {
-  ChopAuth.lock();
+  localStorage.removeItem(HEALTH_KEY);
   location.reload();
 }
 
-if (ChopAuth.isUnlocked()) {
+if (localStorage.getItem(HEALTH_KEY) === 'yes') {
   document.getElementById('lock').style.display = 'none';
   document.getElementById('app').style.display = 'block';
   init();
