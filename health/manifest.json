@@ -4,8 +4,8 @@
   "start_url": "/health/",
   "scope": "/health/",
   "display": "standalone",
-  "background_color": "#f2f2f7",
-  "theme_color": "#f2f2f7",
+  "background_color": "#1a1208",
+  "theme_color": "#1a1208",
   "description": "Personal health tracking — diet, exercise, sleep, biometrics.",
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },

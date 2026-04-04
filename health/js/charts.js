@@ -5,7 +5,7 @@ const Charts = (function () {
   const PAD = { top: 20, right: 12, bottom: 28, left: 36 };
 
   function line(container, data, opts = {}) {
-    const { color = '#0d9488', height = 160, highlightAbove, highlightColor = '#22c55e', label = '' } = opts;
+    const { color = '#c9a84c', height = 160, highlightAbove, highlightColor = '#d4b85c', label = '' } = opts;
     if (!data.length) { container.innerHTML = '<div class="chart-empty">No data</div>'; return; }
 
     const el = container;
@@ -62,7 +62,7 @@ const Charts = (function () {
   }
 
   function bar(container, data, opts = {}) {
-    const { color = '#3b82f6', height = 140, warnBelow, warnColor = '#ef4444', label = '' } = opts;
+    const { color = '#a08338', height = 140, warnBelow, warnColor = '#a04535', label = '' } = opts;
     if (!data.length) { container.innerHTML = '<div class="chart-empty">No data</div>'; return; }
 
     const el = container;

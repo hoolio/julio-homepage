@@ -84,7 +84,7 @@
   }
 
   // --- Navigation ---
-  const views = ['dashboard', 'log', 'import', 'settings'];
+  const views = ['dashboard', 'log', 'photos', 'import', 'settings'];
 
   function switchView(view) {
     views.forEach(v => document.getElementById(`view-${v}`).classList.toggle('active', v === view));
@@ -155,30 +155,30 @@
 
     container.innerHTML = `
       <div class="chart-section">
-        <div class="chart-label"><span class="chart-label-dot" style="background:var(--teal)"></span>HRV</div>
+        <div class="chart-label"><span class="chart-label-dot" style="background:var(--gold)"></span>HRV</div>
         <div class="chart-container" id="chart-hrv"></div>
       </div>
       <div class="chart-section">
-        <div class="chart-label"><span class="chart-label-dot" style="background:var(--blue)"></span>Sleep</div>
+        <div class="chart-label"><span class="chart-label-dot" style="background:var(--amber)"></span>Sleep</div>
         <div class="chart-container" id="chart-sleep"></div>
       </div>
       <div class="chart-section">
-        <div class="chart-label"><span class="chart-label-dot" style="background:var(--coral)"></span>RHR</div>
+        <div class="chart-label"><span class="chart-label-dot" style="background:var(--red)"></span>RHR</div>
         <div class="chart-container" id="chart-rhr"></div>
       </div>
       ${weightData.length ? `<div class="chart-section">
-        <div class="chart-label"><span class="chart-label-dot" style="background:var(--purple)"></span>Weight</div>
+        <div class="chart-label"><span class="chart-label-dot" style="background:var(--text-secondary)"></span>Weight</div>
         <div class="chart-container" id="chart-weight"></div>
       </div>` : ''}
     `;
 
     // Render after DOM is ready
     requestAnimationFrame(() => {
-      Charts.line(document.getElementById('chart-hrv'), hrvData, { color: '#0d9488', highlightAbove: 150, highlightColor: '#22c55e' });
-      Charts.bar(document.getElementById('chart-sleep'), sleepData, { color: '#3b82f6', warnBelow: 6, warnColor: '#ef4444' });
-      Charts.line(document.getElementById('chart-rhr'), rhrData, { color: '#f97066' });
+      Charts.line(document.getElementById('chart-hrv'), hrvData, { color: '#c9a84c', highlightAbove: 150, highlightColor: '#d4b85c' });
+      Charts.bar(document.getElementById('chart-sleep'), sleepData, { color: '#a08338', warnBelow: 6, warnColor: '#a04535' });
+      Charts.line(document.getElementById('chart-rhr'), rhrData, { color: '#8b3a2a' });
       if (weightData.length) {
-        Charts.line(document.getElementById('chart-weight'), weightData, { color: '#8b5cf6' });
+        Charts.line(document.getElementById('chart-weight'), weightData, { color: '#9a8060' });
       }
     });
   }
@@ -422,6 +422,62 @@
     toast('Settings saved');
   }
 
+  // --- Photo gallery ---
+  async function renderPhotoGallery() {
+    const gallery = document.getElementById('photo-gallery');
+    const photos = await Photos.getAll();
+
+    if (!photos.length) {
+      gallery.innerHTML = '<div class="photo-empty"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg><p>No check-in photos yet</p></div>';
+      return;
+    }
+
+    const compareMode = window._compareMode();
+    const compareSelection = window._compareSelection();
+
+    gallery.innerHTML = `<div class="photo-carousel">${photos.map(p => {
+      const url = Photos.blobToUrl(p.blob);
+      const selected = compareSelection.includes(p.id);
+      return `<div class="photo-carousel-item" data-id="${p.id}" style="${selected ? 'outline:2px solid var(--gold);border-radius:var(--radius-sm)' : ''}">
+        <img src="${url}" alt="Check-in ${p.date}">
+        <div class="photo-carousel-date">${fmtCompact(p.date)}</div>
+      </div>`;
+    }).join('')}</div>`;
+
+    gallery.querySelectorAll('.photo-carousel-item').forEach(item => {
+      item.addEventListener('click', async () => {
+        const id = parseInt(item.dataset.id);
+        if (compareMode) {
+          const sel = window._compareSelection();
+          if (sel.includes(id)) {
+            window._setCompareSelection(sel.filter(s => s !== id));
+          } else {
+            sel.push(id);
+            window._setCompareSelection(sel);
+          }
+          if (window._compareSelection().length === 2) {
+            await showCompare(window._compareSelection());
+          } else {
+            await renderPhotoGallery();
+          }
+        }
+      });
+    });
+  }
+
+  async function showCompare(ids) {
+    const photos = await Photos.getAll();
+    const [a, b] = ids.map(id => photos.find(p => p.id === id)).filter(Boolean);
+    if (!a || !b) return;
+
+    const grid = document.getElementById('compare-grid');
+    grid.innerHTML = `
+      <div><img src="${Photos.blobToUrl(a.blob)}" alt="${a.date}"><div class="compare-label">${fmtCompact(a.date)}</div></div>
+      <div><img src="${Photos.blobToUrl(b.blob)}" alt="${b.date}"><div class="compare-label">${fmtCompact(b.date)}</div></div>
+    `;
+    document.getElementById('compare-view').style.display = 'block';
+  }
+
   // --- Helpers ---
   function today() { return new Date().toISOString().slice(0, 10); }
   function fmtDate(d) { const [y,m,day] = d.split('-'); const mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return `${mo[parseInt(m)-1]} ${parseInt(day)}, ${y}`; }
@@ -471,6 +527,47 @@
 
     document.getElementById('btn-export-csv').addEventListener('click', exportCSV);
     document.getElementById('btn-export-csv-settings').addEventListener('click', exportCSV);
+
+    // Body check-in photos
+    document.getElementById('checkin-date').value = today();
+    const checkinZone = document.getElementById('checkin-upload-zone');
+    const checkinInput = document.getElementById('checkin-input');
+    checkinZone.addEventListener('click', () => checkinInput.click());
+    checkinInput.addEventListener('change', async () => {
+      const file = checkinInput.files[0];
+      if (!file) return;
+      const date = document.getElementById('checkin-date').value || today();
+      await Photos.save(date, file);
+      checkinInput.value = '';
+      toast('Photo saved');
+      await renderPhotoGallery();
+    });
+
+    let compareMode = false;
+    let compareSelection = [];
+
+    document.getElementById('btn-compare-mode').addEventListener('click', () => {
+      compareMode = !compareMode;
+      compareSelection = [];
+      document.getElementById('btn-compare-mode').textContent = compareMode ? 'Cancel' : 'Compare';
+      document.getElementById('btn-compare-mode').style.color = compareMode ? 'var(--red-bright)' : 'var(--gold-dim)';
+      renderPhotoGallery();
+    });
+
+    document.getElementById('btn-exit-compare').addEventListener('click', () => {
+      compareMode = false;
+      compareSelection = [];
+      document.getElementById('compare-view').style.display = 'none';
+      document.getElementById('btn-compare-mode').textContent = 'Compare';
+      document.getElementById('btn-compare-mode').style.color = 'var(--gold-dim)';
+      renderPhotoGallery();
+    });
+
+    window._compareMode = () => compareMode;
+    window._compareSelection = () => compareSelection;
+    window._setCompareSelection = (v) => { compareSelection = v; };
+
+    await renderPhotoGallery();
 
     await renderSettings();
     document.getElementById('btn-save-settings').addEventListener('click', saveSettingsForm);
