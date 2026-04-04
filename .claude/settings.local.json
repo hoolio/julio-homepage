@@ -28,7 +28,16 @@
       "Bash(/opt/homebrew/bin/brew list:*)",
       "Bash(export PATH=\"/opt/homebrew/bin:$PATH\")",
       "Bash(gh repo:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git remote:*)",
+      "Bash(git push:*)",
+      "Bash(git fetch:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(dig rafaelmaitra.com +short)",
+      "Bash(dig julioavalos.com +short)",
+      "Bash(gh api:*)",
+      "Bash(cp -r /Users/julio/health/css /Users/julio/homepage/health/css)",
+      "Bash(cp -r /Users/julio/health/js /Users/julio/homepage/health/js)"
     ]
   }
 }
