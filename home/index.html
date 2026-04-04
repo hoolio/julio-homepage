@@ -1,143 +1,467 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Work — Choplogic Radio</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choplogic Radio</title>
+<meta name="description" content="A platform for music, writing, and thought. Est. 2006.">
+<link rel="stylesheet" href="/css/journal.css">
 <style>
-  body {
-    background: #f9f6f0;
-    color: #1a1714;
-    font-family: Garamond, Georgia, serif;
-    margin: 0;
-    padding: 20px 20px 40px;
-    font-size: 16px;
-    line-height: 1.6;
+  /* Home page specific */
+  .home-nav {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--hairline);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
   }
 
-  body::after {
+  .home-nav-name {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--ink);
+    border: none;
+  }
+
+  .home-nav-name:hover { color: var(--ink); border: none; }
+
+  .home-nav-links {
+    display: flex;
+    gap: 22px;
+    list-style: none;
+  }
+
+  .home-nav-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    border: none;
+  }
+
+  .home-nav-links a:hover { color: var(--ink); border: none; }
+
+  /* Ticker */
+  .ticker {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 10px 24px;
+    border-bottom: 1px solid var(--hairline);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ticker::before, .ticker::after {
     content: '';
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 60px;
+    z-index: 2;
     pointer-events: none;
-    z-index: 100;
-    opacity: 0.04;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 180px 180px;
+  }
+  .ticker::before { left: 24px; background: linear-gradient(to right, var(--paper), transparent); }
+  .ticker::after { right: 24px; background: linear-gradient(to left, var(--paper), transparent); }
+
+  .ticker-track {
+    display: flex;
+    gap: 0;
+    animation: ticker 120s linear infinite;
+    width: max-content;
   }
 
-  a { color: #1a1714; }
-  a:hover { color: #800000; }
+  .ticker:hover .ticker-track { animation-play-state: paused; }
 
-  .wrap { max-width: 640px; margin: 0 auto; }
-
-  .nav {
-    font-size: 13px;
-    margin-bottom: 40px;
-  }
-  .nav a { color: #999; text-decoration: none; margin-right: 20px; }
-  .nav a:hover { color: #1a1714; }
-  .nav a.active { color: #1a1714; }
-
-  h1 {
-    font-size: 32px;
-    font-weight: normal;
-    margin: 0 0 40px 0;
+  .ticker-item {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    padding: 0 28px;
+    white-space: nowrap;
+    border: none;
+    transition: color 0.25s ease;
   }
 
-  .item {
-    margin-bottom: 36px;
+  .ticker-item:hover { color: var(--oxblood); }
+  .ticker-item.hi { color: var(--gold); }
+  .ticker-item.hi:hover { color: var(--oxblood); }
+
+  .ticker-sep {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--dimmer);
+    padding: 0 4px;
   }
 
-  .item a {
-    text-decoration: none;
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
 
-  .item-title {
-    font-size: 22px;
-    font-weight: normal;
+  /* Opening */
+  .opening {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 80px 24px 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .opening-kicker {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .opening-statement {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+    line-height: 1.4;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+
+  .opening-statement em {
+    font-style: italic;
+    color: var(--dim);
+  }
+
+  /* Work section */
+  .work-section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .work-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .work-heading h2 {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+  }
+
+  .work-heading .work-count {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--dimmer);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .work-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 32px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--hairline);
+    border-top: none;
+    transition: padding-left 0.4s ease, background 0.4s ease;
+  }
+
+  .work-item:first-of-type { border-top: 1px solid var(--hairline); }
+
+  .work-item:hover {
+    padding-left: 14px;
+    background: linear-gradient(90deg, var(--amber-glow) 0%, transparent 65%);
+  }
+
+  .work-item-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    line-height: 1.6;
+    padding-top: 4px;
+  }
+
+  .work-item-meta .meta-years {
+    color: var(--ink);
+    display: block;
     margin-bottom: 4px;
   }
 
-  .item-desc {
-    font-size: 15px;
-    font-style: italic;
-    color: #888;
-    line-height: 1.5;
+  .work-item-meta .meta-role {
+    color: var(--dim);
+    display: block;
   }
 
-  .item-detail {
-    font-size: 13px;
-    color: #aaa;
-    margin-top: 3px;
+  .work-item-body { min-width: 0; }
+
+  .work-item-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 10px;
+    letter-spacing: -0.005em;
   }
 
-  hr {
+  .work-item:hover .work-item-title {
+    color: var(--oxblood);
+  }
+
+  .work-item-title a {
+    color: inherit;
     border: none;
-    border-top: 1px solid #e0ddd6;
-    margin: 0 0 36px 0;
   }
 
-  .footer {
-    margin-top: 60px;
-    font-size: 12px;
-    color: #ccc;
+  .work-item-blurb {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.15rem;
+    line-height: 1.5;
+    color: var(--dim);
+    margin-bottom: 12px;
+    max-width: 580px;
+  }
+
+  .work-item-context {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 14px;
+    max-width: 620px;
+  }
+
+  .work-item-link {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--gold);
+    border: none;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease, letter-spacing 0.3s ease;
+  }
+
+  .work-item:hover .work-item-link {
+    border-bottom-color: var(--gold);
+    letter-spacing: 0.2em;
+  }
+
+  /* Footer */
+  .home-foot {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 30px 24px 60px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dimmer);
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .home-foot a { color: var(--dim); border: none; }
+  .home-foot a:hover { color: var(--ink); }
+
+  @media (max-width: 680px) {
+    .home-nav-links { gap: 14px; }
+    .opening { padding: 50px 20px 30px; }
+    .work-section { padding: 30px 20px 60px; }
+    .work-item { grid-template-columns: 1fr; gap: 6px; padding: 24px 0; }
+    .work-item-meta { padding-top: 0; margin-bottom: 4px; display: flex; gap: 16px; }
+    .work-item-meta .meta-years, .work-item-meta .meta-role { display: inline; margin: 0; }
+    .work-item:hover { padding-left: 10px; }
+    .work-item-title { font-size: 1.5rem; }
+    .work-item-blurb { font-size: 1.05rem; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <div class="nav">
-    <a href="/">choplogic radio</a>
-    <a href="/home/" class="active">work</a>
-    <a href="/about/">about</a>
+<nav class="home-nav">
+  <a href="/home/" class="home-nav-name">Choplogic Radio</a>
+  <ul class="home-nav-links">
+    <li><a href="/home/journal/">Journal</a></li>
+    <li><a href="/home/radio/">Radio</a></li>
+    <li><a href="/about/">About</a></li>
+  </ul>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <a href="/home/journal/" class="ticker-item hi">NEW ESSAY — A room we used to meet in</a>
+    <span class="ticker-sep">·</span>
+    <a href="/home/radio/" class="ticker-item">RADIO ARCHIVE RESTORED — 74 episodes live on Internet Archive</a>
+    <span class="ticker-sep">·</span>
+    <a href="#observable" class="ticker-item">OBSERVABLE — now co-CEO with Mike Bostock</a>
+    <span class="ticker-sep">·</span>
+    <a href="#shades" class="ticker-item">SHADES NEWS — launched on iOS, 2024</a>
+    <span class="ticker-sep">·</span>
+    <a href="/home/journal/" class="ticker-item hi">EST. 2006 — Bushwick, Brooklyn</a>
+    <span class="ticker-sep">·</span>
+    <!-- duplicate for seamless loop -->
+    <a href="/home/journal/" class="ticker-item hi">NEW ESSAY — A room we used to meet in</a>
+    <span class="ticker-sep">·</span>
+    <a href="/home/radio/" class="ticker-item">RADIO ARCHIVE RESTORED — 74 episodes live on Internet Archive</a>
+    <span class="ticker-sep">·</span>
+    <a href="#observable" class="ticker-item">OBSERVABLE — now co-CEO with Mike Bostock</a>
+    <span class="ticker-sep">·</span>
+    <a href="#shades" class="ticker-item">SHADES NEWS — launched on iOS, 2024</a>
+    <span class="ticker-sep">·</span>
+    <a href="/home/journal/" class="ticker-item hi">EST. 2006 — Bushwick, Brooklyn</a>
+    <span class="ticker-sep">·</span>
   </div>
-
-  <h1>Work</h1>
-
-  <div class="item">
-    <a href="/home/journal/">
-      <div class="item-title">Journal</div>
-      <div class="item-desc">Essays, annotations, archives. Writing with embedded audio and data.</div>
-      <div class="item-detail">New</div>
-    </a>
-  </div>
-
-  <hr>
-
-  <div class="item">
-    <a href="/home/radio/">
-      <div class="item-title">Choplogic Radio</div>
-      <div class="item-desc">Independent and progressive online radio from Bushwick, Brooklyn and San Francisco.</div>
-      <div class="item-detail">83 episodes, 2006&ndash;2012</div>
-    </a>
-  </div>
-
-  <hr>
-
-  <div class="item">
-    <a href="/home/writing/">
-      <div class="item-title">Writing</div>
-      <div class="item-desc">Essays, criticism, published work.</div>
-      <div class="item-detail">American Imago, Medium</div>
-    </a>
-  </div>
-
-  <hr>
-
-  <div class="item">
-    <a href="/home/press/">
-      <div class="item-title">Press & Appearances</div>
-      <div class="item-desc">Interviews, panels, podcasts, video.</div>
-      <div class="item-detail">MSNBC, WSJ, Stanford, podcasts</div>
-    </a>
-  </div>
-
-  <div class="footer">
-    choplogic radio &middot; est. 2006
-  </div>
-
 </div>
+
+<!-- OPENING -->
+<div class="opening">
+  <div class="opening-kicker">Est. 2006</div>
+  <p class="opening-statement">
+    A platform for music, writing, and thought.
+    Part rooftop radio station, part reading room, <em>part workshop</em>
+    for the things we keep making together.
+  </p>
+</div>
+
+<!-- WORK -->
+<section class="work-section">
+
+  <div class="work-heading">
+    <h2>Current Work</h2>
+    <span class="work-count">Active</span>
+  </div>
+
+  <a href="/home/journal/" class="work-item">
+    <div class="work-item-meta">
+      <span class="meta-years">2026 —</span>
+      <span class="meta-role">Writing</span>
+    </div>
+    <div class="work-item-body">
+      <div class="work-item-title">Journal</div>
+      <div class="work-item-blurb">Essays on music, taste, and thought — with embedded audio and data visualizations.</div>
+      <div class="work-item-context">A new kind of post: read on your phone, hear the song being discussed, see the data. Built for attention. Also the raw material for an upcoming podcast.</div>
+      <span class="work-item-link">Read the journal →</span>
+    </div>
+  </a>
+
+  <a href="#observable" class="work-item" id="observable">
+    <div class="work-item-meta">
+      <span class="meta-years">2019 —</span>
+      <span class="meta-role">Co-CEO</span>
+    </div>
+    <div class="work-item-body">
+      <div class="work-item-title">Observable</div>
+      <div class="work-item-blurb">Computational notebooks and data visualization — for the next era of data work.</div>
+      <div class="work-item-context">Co-leading with Mike Bostock, the creator of D3.js. Building the tools that let people think in data the way they think in language — visually, iteratively, in public.</div>
+      <span class="work-item-link">observablehq.com →</span>
+    </div>
+  </a>
+
+  <a href="#shades" class="work-item" id="shades">
+    <div class="work-item-meta">
+      <span class="meta-years">2021 —</span>
+      <span class="meta-role">Co-founder</span>
+    </div>
+    <div class="work-item-body">
+      <div class="work-item-title">Shades News</div>
+      <div class="work-item-blurb">A news app for a generation that wants to see things from more than one angle.</div>
+      <div class="work-item-context">Launched on iOS in 2024. News without a paywall, without an agenda, organized so people can actually form their own views. Co-founded with Sonali Maitra and Jeff Grimes.</div>
+      <span class="work-item-link">shadesnews.com →</span>
+    </div>
+  </a>
+
+  <div class="work-heading" style="margin-top:80px">
+    <h2>Archive</h2>
+    <span class="work-count">Past & ongoing</span>
+  </div>
+
+  <a href="/home/radio/" class="work-item">
+    <div class="work-item-meta">
+      <span class="meta-years">2006 — 2012</span>
+      <span class="meta-role">Radio</span>
+    </div>
+    <div class="work-item-body">
+      <div class="work-item-title">Choplogic Radio</div>
+      <div class="work-item-blurb">An independent and progressive radio show. Indie, post-punk, electronic, krautrock, hip-hop.</div>
+      <div class="work-item-context">Founded at the Office Ops Arts & Community Center in Bushwick, Brooklyn. 83 episodes broadcast between 2006 and 2012. Now permanently archived on the Internet Archive.</div>
+      <span class="work-item-link">83 episodes →</span>
+    </div>
+  </a>
+
+  <a href="#github" class="work-item" id="github">
+    <div class="work-item-meta">
+      <span class="meta-years">2012 — 2018</span>
+      <span class="meta-role">First GC → COO</span>
+    </div>
+    <div class="work-item-body">
+      <div class="work-item-title">GitHub</div>
+      <div class="work-item-blurb">Joined as the first general counsel. Left after running the business through the Microsoft acquisition.</div>
+      <div class="work-item-context">Six years building the legal, policy, and business foundations for the platform that defines how software gets made. Closed the $7.5B Microsoft acquisition in October 2018.</div>
+      <span class="work-item-link">github.com →</span>
+    </div>
+  </a>
+
+  <a href="/home/writing/" class="work-item">
+    <div class="work-item-meta">
+      <span class="meta-years">2005 —</span>
+      <span class="meta-role">Writing</span>
+    </div>
+    <div class="work-item-body">
+      <div class="work-item-title">Published Writing</div>
+      <div class="work-item-blurb">Essays, criticism, legal scholarship.</div>
+      <div class="work-item-context">Published in <em>American Imago</em> (Johns Hopkins, 2005) and Medium. Topics: psychoanalysis, legal practice, technology, culture.</div>
+      <span class="work-item-link">Selected writing →</span>
+    </div>
+  </a>
+
+  <a href="/home/press/" class="work-item">
+    <div class="work-item-meta">
+      <span class="meta-years">2014 —</span>
+      <span class="meta-role">Press &amp; Talks</span>
+    </div>
+    <div class="work-item-body">
+      <div class="work-item-title">Press &amp; Appearances</div>
+      <div class="work-item-blurb">Interviews, panels, podcasts, keynotes.</div>
+      <div class="work-item-context">MSNBC, Wall Street Journal, Legal 500, CodeX at Stanford, GitHub Universe, Collision, SaaStr. Featured in the <em>GC Powerlist: Rising Stars</em> (2014) and named Legal Innovator of the Year.</div>
+      <span class="work-item-link">Full list →</span>
+    </div>
+  </a>
+
+</section>
+
+<footer class="home-foot">
+  <span>Choplogic Radio &middot; Est. 2006</span>
+  <div>
+    <a href="/about/">About</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="mailto:chopradio@gmail.com">chopradio@gmail.com</a>
+  </div>
+</footer>
+
+<script src="/js/chop-auth.js"></script>
 </body>
 </html>
