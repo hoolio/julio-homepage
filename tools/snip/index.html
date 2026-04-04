@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snip — Audio Tool</title>
+<link rel="stylesheet" href="/css/project.css">
+<style>
+  .snip-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 60px 28px 100px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .snip-title {
+    font-family: var(--serif);
+    font-size: 2.4rem;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .snip-subtitle {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--dim);
+    margin-bottom: 40px;
+  }
+
+  .drop-zone {
+    border: 2px dashed var(--hairline-strong);
+    background: var(--paper-warm);
+    padding: 60px 24px;
+    text-align: center;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+  }
+
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--gold);
+    background: var(--amber-glow);
+  }
+
+  .drop-zone p {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    margin-bottom: 6px;
+  }
+
+  .drop-zone .big {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--ink);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 16px;
+  }
+
+  .drop-zone input[type=file] { display: none; }
+
+  .controls {
+    background: var(--paper-warm);
+    border: 1px solid var(--hairline);
+    padding: 24px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+    display: none;
+  }
+
+  .controls.visible { display: block; }
+
+  .controls label {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    display: block;
+    margin-bottom: 6px;
+    margin-top: 14px;
+  }
+
+  .controls label:first-child { margin-top: 0; }
+
+  .controls input[type=text] {
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+    padding: 10px 12px;
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--ink);
+  }
+
+  .controls input[type=text]:focus { outline: none; border-color: var(--gold); }
+
+  .time-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  audio {
+    width: 100%;
+    margin-top: 14px;
+    filter: sepia(0.3) hue-rotate(-10deg) saturate(0.8);
+  }
+
+  .output {
+    background: var(--well);
+    color: #ede8df;
+    padding: 24px;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 13px;
+    margin-top: 24px;
+    display: none;
+    white-space: pre-wrap;
+    word-break: break-all;
+    position: relative;
+  }
+
+  .output.visible { display: block; }
+
+  .output .label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: var(--gold);
+    color: var(--well);
+    border: none;
+    padding: 6px 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .copy-btn:hover { background: var(--gold-bright); }
+  .copy-btn.copied { background: var(--oxblood); color: #fff; }
+</style>
+</head>
+<body>
+
+<nav class="proj-nav">
+  <a href="/home/" class="proj-nav-home">Choplogic Radio</a>
+  <ul class="proj-nav-links">
+    <li><a href="/home/">Home</a></li>
+    <li><a href="/home/journal/">Journal</a></li>
+  </ul>
+</nav>
+
+<div class="snip-wrap">
+  <h1 class="snip-title">Snip</h1>
+  <p class="snip-subtitle">Drag an MP3. Get a ready-to-paste audio embed.</p>
+
+  <div class="drop-zone" id="drop">
+    <p>Drop MP3</p>
+    <div class="big">or click to choose</div>
+    <p>Stays on your device until you decide where it goes</p>
+    <input type="file" id="file" accept="audio/*,.mp3,.m4a">
+  </div>
+
+  <div class="controls" id="controls">
+    <label>Title</label>
+    <input type="text" id="title" placeholder="Artist — Track (year)">
+
+    <label>Archive.org filename (lowercase, no spaces, .mp3)</label>
+    <input type="text" id="filename" placeholder="artist-track.mp3">
+
+    <audio id="audio" controls></audio>
+  </div>
+
+  <div class="output" id="output">
+    <button class="copy-btn" id="copy">Copy</button>
+    <div class="label">Ready-to-paste markdown</div>
+    <div id="output-text"></div>
+  </div>
+
+  <div class="output" id="upload-cmd" style="margin-top:12px">
+    <button class="copy-btn" id="copy-cmd">Copy</button>
+    <div class="label">Upload command (run in terminal)</div>
+    <div id="cmd-text"></div>
+  </div>
+</div>
+
+<script>
+  const drop = document.getElementById('drop');
+  const fileInput = document.getElementById('file');
+  const controls = document.getElementById('controls');
+  const titleInput = document.getElementById('title');
+  const filenameInput = document.getElementById('filename');
+  const audio = document.getElementById('audio');
+  const output = document.getElementById('output');
+  const outputText = document.getElementById('output-text');
+  const uploadCmd = document.getElementById('upload-cmd');
+  const cmdText = document.getElementById('cmd-text');
+
+  let currentFile = null;
+
+  drop.addEventListener('click', () => fileInput.click());
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault();
+    drop.classList.remove('dragover');
+    if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+  });
+  fileInput.addEventListener('change', e => {
+    if (e.target.files.length) handleFile(e.target.files[0]);
+  });
+
+  function handleFile(f) {
+    currentFile = f;
+    const url = URL.createObjectURL(f);
+    audio.src = url;
+    controls.classList.add('visible');
+
+    // Pre-fill
+    const cleanName = f.name.replace(/\.[^.]+$/, '');
+    if (!titleInput.value) titleInput.value = cleanName;
+    if (!filenameInput.value) {
+      filenameInput.value = cleanName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.mp3';
+    }
+    updateOutput();
+  }
+
+  function updateOutput() {
+    const title = titleInput.value.trim() || 'Untitled';
+    const filename = filenameInput.value.trim() || 'untitled.mp3';
+    const url = `https://archive.org/download/choplogic-radio/${filename}`;
+
+    outputText.textContent = `::audio[${title}](${url})`;
+    output.classList.add('visible');
+
+    cmdText.textContent = `ia upload choplogic-radio "${currentFile.name}" --remote-name="${filename}"`;
+    uploadCmd.classList.add('visible');
+  }
+
+  titleInput.addEventListener('input', updateOutput);
+  filenameInput.addEventListener('input', updateOutput);
+
+  document.getElementById('copy').addEventListener('click', () => {
+    navigator.clipboard.writeText(outputText.textContent);
+    const btn = document.getElementById('copy');
+    btn.classList.add('copied');
+    btn.textContent = 'Copied';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = 'Copy'; }, 1500);
+  });
+
+  document.getElementById('copy-cmd').addEventListener('click', () => {
+    navigator.clipboard.writeText(cmdText.textContent);
+    const btn = document.getElementById('copy-cmd');
+    btn.classList.add('copied');
+    btn.textContent = 'Copied';
+    setTimeout(() => { btn.classList.remove('copied'); btn.textContent = 'Copy'; }, 1500);
+  });
+</script>
+</body>
+</html>
