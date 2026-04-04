@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docs — Choplogic Radio</title>
+<link rel="stylesheet" href="/css/project.css">
+<style>
+  .docs-wrap { max-width: 780px; margin: 0 auto; padding: 60px 28px 100px; position: relative; z-index: 2; }
+
+  .docs-kicker {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .docs-kicker::before { content:''; width:24px; height:1px; background: var(--gold); }
+
+  .docs-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+
+  .docs-deck {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--dim);
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .docs-toc {
+    background: var(--paper-warm);
+    border: 1px solid var(--hairline);
+    padding: 20px 24px;
+    margin-bottom: 50px;
+    border-radius: 2px;
+  }
+
+  .docs-toc-title {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .docs-toc ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; }
+
+  .docs-toc a {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink);
+    border: none;
+    padding: 3px 0;
+    display: block;
+  }
+  .docs-toc a:hover { color: var(--oxblood); }
+
+  .docs-section { margin-bottom: 50px; }
+
+  .docs-section h2 {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .docs-section h3 {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 24px 0 8px;
+  }
+
+  .docs-section p {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 1em;
+    max-width: 620px;
+  }
+
+  .docs-section strong { font-weight: 500; }
+  .docs-section em { font-family: var(--serif); font-style: italic; font-size: 1.05em; }
+
+  .docs-section ol, .docs-section ul {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--ink);
+    padding-left: 22px;
+    margin-bottom: 1em;
+    max-width: 620px;
+  }
+
+  .docs-section li { margin-bottom: 6px; }
+
+  .docs-section code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--paper-warm);
+    border: 1px solid var(--hairline);
+    padding: 1px 6px;
+    border-radius: 2px;
+    color: var(--ink);
+  }
+
+  .docs-section pre {
+    background: var(--well);
+    color: #ede8df;
+    padding: 18px 20px;
+    border-radius: 2px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.7;
+    margin-bottom: 1.5em;
+  }
+
+  .docs-section pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+  }
+
+  .docs-section a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--gold);
+    transition: color 0.2s, background 0.2s;
+  }
+  .docs-section a:hover { color: var(--oxblood); background: var(--amber-glow); }
+
+  .callout {
+    background: rgba(196, 125, 40, 0.05);
+    border-left: 2px solid var(--gold);
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-size: 14px;
+    color: var(--ink);
+    max-width: 620px;
+  }
+
+  .callout strong {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* Lock screen (reuse style from health) */
+  .lock-overlay {
+    position: fixed; inset: 0; background: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100; padding: 20px;
+  }
+  .lock-overlay::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+  .lock-card {
+    max-width: 340px; text-align: center; position: relative; z-index: 2;
+  }
+  .lock-card h1 { font-family: var(--serif); font-size: 2.2rem; font-weight: 400; margin-bottom: 10px; }
+  .lock-card p { font-family: var(--serif); font-style: italic; color: var(--dim); margin-bottom: 24px; }
+  .lock-card input {
+    width: 100%; background: var(--paper-warm);
+    border: 1px solid var(--hairline-strong); border-radius: 2px;
+    padding: 12px 14px; font-family: var(--mono); font-size: 14px;
+    text-align: center; letter-spacing: 0.2em; color: var(--ink); outline: none;
+  }
+  .lock-card input:focus { border-color: var(--gold); }
+  .lock-card button {
+    width: 100%; margin-top: 12px; background: var(--ink); color: var(--paper);
+    border: none; padding: 12px; font-family: var(--mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.18em; cursor: pointer; border-radius: 2px;
+  }
+  .lock-card button:hover { background: var(--gold); }
+  .lock-error {
+    font-family: var(--mono); font-size: 10px; color: var(--oxblood);
+    margin-top: 10px; min-height: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="lock-overlay" id="lock">
+  <div class="lock-card">
+    <h1>Docs</h1>
+    <p>Private operations notes.</p>
+    <form onsubmit="return unlock(event)">
+      <input type="password" id="lock-pw" placeholder="••••••••" autofocus>
+      <button type="submit">Unlock</button>
+    </form>
+    <div class="lock-error" id="lock-error"></div>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+
+<nav class="proj-nav">
+  <a href="/home/" class="proj-nav-home">Choplogic Radio</a>
+  <ul class="proj-nav-links">
+    <li><a href="/home/">Home</a></li>
+    <li><a href="/home/journal/">Writings</a></li>
+    <li><a href="/docs/" style="color:var(--gold)">Docs</a></li>
+  </ul>
+</nav>
+
+<div class="docs-wrap">
+  <div class="docs-kicker">Private · Operations</div>
+  <h1 class="docs-title">Docs</h1>
+  <p class="docs-deck">How to run the site. Workflow notes for Julio, future Julio, and the person who takes this over someday.</p>
+
+  <nav class="docs-toc">
+    <div class="docs-toc-title">Contents</div>
+    <ul>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#passwords">Passwords</a></li>
+      <li><a href="#journal">Writing a journal post</a></li>
+      <li><a href="#audio">Adding audio clips</a></li>
+      <li><a href="#upload">Uploading audio to Archive</a></li>
+      <li><a href="#health">Logging a health day</a></li>
+      <li><a href="#deploy">Deploying</a></li>
+      <li><a href="#radio">Radio password</a></li>
+      <li><a href="#backup">Backup &amp; safety</a></li>
+    </ul>
+  </nav>
+
+  <section class="docs-section" id="architecture">
+    <h2>Architecture</h2>
+    <p>The site lives in <code>/Users/julio/homepage</code> on this machine. Every page is static HTML. No server. No database. Everything deploys to <strong>GitHub Pages</strong> via the <code>hoolio/julio-homepage</code> repository.</p>
+
+    <h3>Directory map</h3>
+    <pre><code>/                       → /Users/julio/homepage
+index.html              → splash (deer click-through)
+/home/                  → main site (portfolio, projects, categories)
+  /home/journal/        → journal posts (all, generated)
+  /home/observable/     → Observable project page
+  /home/shades/         → Shades News project page
+  /home/github/         → GitHub project page
+  /home/radio/          → Chop Radio archive
+  /home/writings/       → Writings category (all posts)
+  /home/music/          → Music category filter
+  /home/sounds/         → Sounds category filter
+  /home/tech/           → Tech category filter
+  /home/history/        → History category filter
+  /home/culture/        → Culture category filter
+/about/                 → About page
+/health/                → Private health log (log123)
+/docs/                  → This page (log123)
+/posts/                 → Markdown source files for journal
+/css/                   → Stylesheets
+/js/                    → JavaScript (chop-auth, chop-viz, chop-player)
+/tools/                 → Build scripts + snip audio tool
+  /tools/build-journal.js
+  /tools/snip/          → Drag-drop MP3 → markdown tool
+/assets/                → Images (deer.jpg)</code></pre>
+  </section>
+
+  <section class="docs-section" id="passwords">
+    <h2>Passwords</h2>
+    <p>Two separate passwords. Both persist on the device once entered.</p>
+    <dl style="display:grid;grid-template-columns:120px 1fr;gap:10px 24px;margin:1em 0">
+      <dt style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dim)">chopog</dt>
+      <dd style="font-family:var(--sans);font-size:14px">Unlocks audio playback on <code>/home/radio/</code>. Session-scoped (clears when you close the browser tab).</dd>
+      <dt style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dim)">log123</dt>
+      <dd style="font-family:var(--sans);font-size:14px">Unlocks <code>/health/</code> and <code>/docs/</code>. Persistent (stays unlocked on this device until you click Lock).</dd>
+    </dl>
+    <div class="callout">
+      <strong>Note</strong>
+      Passwords are hashed with SHA-256 and compared client-side. Anyone who views the page source can see the hash. Fine for keeping casual visitors out. Not real security. Don't use these pages for anything that would be a disaster to leak.
+    </div>
+  </section>
+
+  <section class="docs-section" id="journal">
+    <h2>Writing a journal post</h2>
+    <p>Journal posts are plain Markdown files in <code>/posts/</code>. The build script turns them into HTML.</p>
+
+    <h3>1. Create the markdown file</h3>
+    <p>Filename format: <code>YYYY-MM-DD-slug.md</code>. Example: <code>/posts/2026-04-15-on-the-metro.md</code></p>
+
+    <h3>2. Write the frontmatter</h3>
+    <pre><code>---
+title: On the metro
+deck: A short piece about commuting and attention.
+date: 2026-04-15
+slug: on-the-metro
+categories: culture, tech
+---</code></pre>
+    <p>All fields required except <code>deck</code>. <code>slug</code> determines the URL. <code>categories</code> is a comma-separated list; each value becomes a tag that filters posts on that category's page. Valid categories: <code>music, sounds, tech, history, culture</code>.</p>
+
+    <h3>3. Write the body in Markdown</h3>
+    <p>Standard Markdown supported: <code>**bold**</code>, <code>*italic*</code>, <code>[link](url)</code>, <code>## headings</code>, <code>&gt; blockquotes</code>.</p>
+
+    <h3>4. Use custom tags for rich content</h3>
+    <pre><code>::audio[Title of clip](https://archive.org/download/choplogic-radio/file.mp3)
+::pullquote[A quoted line that gets italic centered treatment]
+::break
+::notebook[@username/notebook-name]</code></pre>
+
+    <h3>5. Build the site</h3>
+    <pre><code>node tools/build-journal.js</code></pre>
+    <p>This regenerates <code>/home/journal/</code>, all category pages, and the individual post page.</p>
+
+    <h3>6. Commit and push</h3>
+    <pre><code>git add -A
+git commit -m "New post: on the metro"
+git push</code></pre>
+    <p>GitHub Pages rebuilds automatically within a minute.</p>
+  </section>
+
+  <section class="docs-section" id="audio">
+    <h2>Adding audio clips</h2>
+    <p>Audio clips are hosted on the Internet Archive. The <code>::audio[...]</code> tag in markdown embeds a player inline.</p>
+    <p>To create a clip embed, you need two things:</p>
+    <ol>
+      <li><strong>Title</strong>: a short descriptive label (artist + track is ideal)</li>
+      <li><strong>Full URL</strong> to the audio file on archive.org</li>
+    </ol>
+    <p>Our archive lives at <a href="https://archive.org/details/choplogic-radio">archive.org/details/choplogic-radio</a>. Files follow the pattern <code>chop##.mp3</code> or similar.</p>
+    <p>Easier: use the <strong>Snip tool</strong>.</p>
+  </section>
+
+  <section class="docs-section" id="upload">
+    <h2>Uploading new audio to the Archive</h2>
+    <p>The easy way:</p>
+    <ol>
+      <li>Go to <a href="/tools/snip/">/tools/snip/</a></li>
+      <li>Drag an MP3 file onto the drop zone</li>
+      <li>Edit the title and filename as needed</li>
+      <li>Copy the ready-to-paste markdown for your post</li>
+      <li>Copy the <code>ia upload</code> command</li>
+      <li>Paste that command into Terminal to push the file to archive.org</li>
+    </ol>
+
+    <h3>One-time setup (already done)</h3>
+    <pre><code>pip3 install internetarchive
+ia configure
+# Enter chopradio@gmail.com + archive.org password</code></pre>
+
+    <h3>Manual upload</h3>
+    <pre><code>ia upload choplogic-radio myfile.mp3 --remote-name=my-file.mp3</code></pre>
+    <p>After upload, the file is available at <code>https://archive.org/download/choplogic-radio/my-file.mp3</code>.</p>
+  </section>
+
+  <section class="docs-section" id="health">
+    <h2>Logging a health day</h2>
+    <p>Go to <a href="/health/">/health/</a>, unlock with <code>log123</code>.</p>
+    <ol>
+      <li>Type a natural-language note in the big textarea ("Yoga 60, Tonal upper body, salmon lunch, slept 7h")</li>
+      <li>Fill in the metric fields: HRV, RHR, Sleep hrs, Weight, Calories, Protein (all optional)</li>
+      <li>Click <strong>Save Entry</strong></li>
+    </ol>
+    <p>The entry is saved to browser localStorage — <em>never leaves this device</em>. To back up, use the Export CSV button (coming soon) or copy the data manually from browser dev tools.</p>
+    <p>The dashboard auto-refreshes: stats cards, activity heatmap, HRV timeline, calories/protein/sleep chart all update.</p>
+    <div class="callout">
+      <strong>Warning</strong>
+      Data is local to this browser. If you clear site data or switch devices, the log is gone unless you've exported it. Plan to add real cloud sync later.
+    </div>
+  </section>
+
+  <section class="docs-section" id="deploy">
+    <h2>Deploying</h2>
+    <p>Every commit pushed to the <code>main</code> branch of <code>hoolio/julio-homepage</code> auto-deploys to chopradio.com via GitHub Pages. No build step, no CI — GitHub serves the static files directly.</p>
+    <pre><code>cd /Users/julio/homepage
+git add -A
+git commit -m "Your message"
+git push</code></pre>
+    <p>Check deployment status at <a href="https://github.com/hoolio/julio-homepage/actions">github.com/hoolio/julio-homepage/actions</a>.</p>
+    <p>DNS: chopradio.com → GitHub Pages via A records at GoDaddy (4 A records pointing to 185.199.108-111.153, plus CNAME for www → hoolio.github.io).</p>
+  </section>
+
+  <section class="docs-section" id="radio">
+    <h2>Radio password gate</h2>
+    <p>Episode track listings on <a href="/home/radio/">/home/radio/</a> are public. Clicking play requires the <code>chopog</code> password.</p>
+    <p>To change the password, regenerate its SHA-256 hash:</p>
+    <pre><code>echo -n "new-password" | shasum -a 256</code></pre>
+    <p>Then paste the new hash into <code>/home/radio/index.html</code>, replacing the value of <code>PASS_HASH</code>.</p>
+  </section>
+
+  <section class="docs-section" id="backup">
+    <h2>Backup &amp; safety</h2>
+    <p>The entire site is in git. Everything important is pushed to GitHub.</p>
+    <p>Audio archive: 200 files on Internet Archive (<a href="https://archive.org/details/choplogic-radio">archive.org/details/choplogic-radio</a>). Permanent. Free. Public.</p>
+    <p>Local staging copy of audio files: <code>/Users/julio/Music/chopradio-archive/</code> (6.7GB). Keep or delete — it's redundant now.</p>
+    <p>Health data: <em>browser localStorage only</em>. Export manually before switching devices or clearing browser data.</p>
+    <p>Passwords: memorize them. They're in this doc, but this doc is gated by one of them.</p>
+  </section>
+
+</div>
+
+<footer class="proj-foot">
+  <span>Choplogic Radio · Est. 2006 · Private Docs</span>
+  <a href="#" onclick="lockSession();return false">Lock</a>
+</footer>
+
+</div>
+
+<script>
+const DOCS_HASH = '77e9d03d2fa3fa2f24c1a02710b3566e337340e1ced5217bf863d8ea37f4658f'; // log123
+const DOCS_KEY = 'docs_unlocked';
+
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function unlock(ev) {
+  ev.preventDefault();
+  const pw = document.getElementById('lock-pw').value;
+  const hash = await sha256(pw);
+  if (hash === DOCS_HASH) {
+    localStorage.setItem(DOCS_KEY, 'yes');
+    document.getElementById('lock').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+  } else {
+    document.getElementById('lock-error').textContent = 'Wrong password.';
+    document.getElementById('lock-pw').value = '';
+  }
+  return false;
+}
+
+function lockSession() {
+  localStorage.removeItem(DOCS_KEY);
+  location.reload();
+}
+
+if (localStorage.getItem(DOCS_KEY) === 'yes') {
+  document.getElementById('lock').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+</script>
+</body>
+</html>
