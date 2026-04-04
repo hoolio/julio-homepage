@@ -197,6 +197,7 @@ function postHTML(meta, body) {
 </footer>
 
 <script src="/js/chop-player.js"></script>
+<script src="/js/chop-radio-player.js"></script>
 </body>
 </html>`;
 }

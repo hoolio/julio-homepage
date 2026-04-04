@@ -59,7 +59,18 @@
       "Bash(shasum -a 256)",
       "Bash(node:*)",
       "Bash(curl -sL \"https://observablehq.com/blog\" -A \"Mozilla/5.0\")",
-      "WebFetch(domain:observablehq.com)"
+      "WebFetch(domain:observablehq.com)",
+      "Bash(ls:*)",
+      "Bash(mkdir -p /tmp/dregs-staging)",
+      "Bash(cp \"Dregs - Dregs - 01 Sofj.mp3\" /tmp/dregs-staging/01-sofj.mp3)",
+      "Bash(cp \"Dregs - Dregs - 02 Swampy.mp3\" /tmp/dregs-staging/02-swampy.mp3)",
+      "Bash(cp \"Dregs - Dregs - 03 Keyed.mp3\" /tmp/dregs-staging/03-keyed.mp3)",
+      "Bash(cp \"Dregs - Dregs - 04 Guilt Garden.mp3\" /tmp/dregs-staging/04-guilt-garden.mp3)",
+      "Bash(SCRIPT='<script src=\"\"/js/chop-radio-player.js\"\"></script>')",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(if ! grep -q \"chop-radio-player.js\" \"$f\")",
+      "Bash(then)"
     ]
   }
 }
