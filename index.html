@@ -5,10 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="An independent and progressive radio station broadcasting from Bushwick/East Williamsburg, Brooklyn.">
-<meta name="keywords" content="indie rock music progressive brooklyn bushwick hipster williamsburg new york city julio pitchfork podcast stream choplogic radio">
 <style>
   body {
-    background: white;
+    background: #f9f6f0;
     margin: 0;
     padding: 0;
     display: flex;
@@ -19,28 +18,51 @@
     cursor: pointer;
   }
 
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
   h1 {
-    font-family: Garamond, 'Cormorant', Georgia, serif;
-    font-size: 3.5rem;
+    font-family: Garamond, Georgia, serif;
+    font-size: 3.2rem;
     font-weight: normal;
-    color: #000;
-    margin: 0 0 1.5rem 0;
-    letter-spacing: 0.02em;
+    color: #1a1714;
+    margin: 0 0 2rem 0;
+    letter-spacing: 0.04em;
   }
 
   img {
-    max-width: 600px;
-    width: 90%;
+    max-width: 480px;
+    width: 85%;
     height: auto;
+    filter: contrast(1.05) brightness(1.02);
+    mix-blend-mode: multiply;
   }
 
   a { display: block; }
+
+  .est {
+    margin-top: 2.5rem;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #bbb;
+    font-family: calibri, arial, sans-serif;
+  }
 </style>
 </head>
 <body onclick="window.location='/work/'">
 
 <h1>choplogic radio</h1>
 <a href="/work/"><img src="/assets/deer.jpg" alt="choplogic radio"></a>
+<div class="est">Est. 2006</div>
 
 </body>
 </html>
