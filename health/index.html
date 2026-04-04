@@ -541,8 +541,12 @@ let foodPhotoB64 = null;
 document.getElementById('today-date').textContent =
   new Date().toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
 
-loadEntries();
-renderHistory();
+(async function init() {
+  await migrateEncryptedData();
+  loadEntries();
+  seedIfEmpty();
+  renderHistory();
+})();
 
 // ─── Photo handlers ───────────────────────────────
 function handlePhoto(e, type) {
@@ -757,8 +761,108 @@ function saveEntries() {
 function loadEntries() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) entries = JSON.parse(raw);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      // Convert old format (date/food/exercise/etc) to new format (date/raw/activity/food)
+      entries = parsed.map(e => {
+        if (e.raw !== undefined) return e; // already new format
+        // Convert old format entry
+        const activity = [];
+        if (e.exercise) activity.push({ name: e.exercise.split(';')[0].trim().substring(0, 60), detail: e.exercise });
+        const food = [];
+        if (e.food) {
+          e.food.split(';').forEach(f => {
+            const t = f.trim();
+            if (t) food.push({ name: t.substring(0, 50), detail: '' });
+          });
+        }
+        return {
+          id: new Date(e.date).getTime(),
+          date: new Date(e.date + 'T12:00:00').toISOString(),
+          raw: [e.food, e.exercise, e.notes].filter(Boolean).join(' | '),
+          bodyPhoto: null,
+          foodPhoto: null,
+          activity,
+          food,
+          metrics: {
+            total_calories: e.notes ? (e.notes.match(/~?([\d,]+)\s*kcal/i)?.[1]?.replace(/,/g,'') || null) : null,
+            active_minutes: null,
+            notes: [e.sleep_hours ? `Sleep: ${e.sleep_hours}h ${e.sleep_quality||''}` : null, e.hrv ? `HRV: ${e.hrv}` : null, e.rhr ? `RHR: ${e.rhr}` : null, e.energy ? `Energy: ${e.energy}` : null].filter(Boolean).join(' · ') || null,
+          }
+        };
+      });
+      entries.sort((a,b) => new Date(b.date) - new Date(a.date));
+    }
   } catch(e) { entries = []; }
+}
+
+// ─── Migrate encrypted data ──────────────────────
+async function migrateEncryptedData() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw || !raw.startsWith('enc:')) return; // not encrypted or no data
+
+  const pw = prompt('Your health data is encrypted from before. Enter your password to decrypt and migrate:');
+  if (!pw) return;
+
+  try {
+    // PBKDF2 + AES-GCM decryption (matching old crypto.js)
+    const SALT_KEY = 'health_vault_salt';
+    const saltB64 = localStorage.getItem(SALT_KEY);
+    if (!saltB64) throw new Error('No salt found');
+
+    const salt = Uint8Array.from(atob(saltB64), c => c.charCodeAt(0));
+    const enc = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(pw), 'PBKDF2', false, ['deriveKey']);
+    const key = await crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt, iterations: 600000, hash: 'SHA-256' },
+      keyMaterial,
+      { name: 'AES-GCM', length: 256 },
+      false,
+      ['decrypt']
+    );
+
+    // Decrypt
+    const payload = raw.slice(4); // remove 'enc:'
+    const [ivB64, ctB64] = payload.split('.');
+    const iv = Uint8Array.from(atob(ivB64), c => c.charCodeAt(0));
+    const ct = Uint8Array.from(atob(ctB64), c => c.charCodeAt(0));
+    const plainBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ct);
+    const decrypted = new TextDecoder().decode(plainBuffer);
+    const data = JSON.parse(decrypted);
+
+    // Save as plain JSON
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    console.log(`Migrated ${data.length} encrypted entries`);
+  } catch(err) {
+    console.error('Decryption failed:', err);
+    alert('Wrong password or corrupted data. Old entries could not be decrypted.');
+  }
+}
+
+// ─── Seed data (fallback) ────────────────────────
+function seedIfEmpty() {
+  if (entries.length > 0) return;
+  // Seed data from March/April 2025
+  const seed = [
+    {"date":"2025-03-21","food":"Morning shake; Trifecta salmon; Aloha bar; chicken breast dinner salad + duck-fat fries; NFGY 196g; 2 Godiva dark chocolates","exercise":"Yoga 60 min; Tonal 26:34 rows/back (8,081 lbs); sauna 15 min","notes":"~2,105 kcal | P 245g | C 137g | F 60g"},
+    {"date":"2025-03-22","food":"Morning shake; NY strip steak; half glass cab; cream of spinach","exercise":"Tonal 31:44 posterior chain (12,881 lbs); yoga 60 min","notes":"Sleep score 84. ~1,990 kcal | P 211g","sleep_hours":6.73,"hrv":105,"rhr":53},
+    {"date":"2025-03-25","food":"Cortado; morning shake; Aloha bar; Trifecta dijon pork; Fish Sausalito","exercise":"Peloton 15 min; yoga 60 min; 100 pushups; Tonal Ultimate Back (11,636 lbs)","notes":"Sleep score 89. HRV 183 peak. ~1,590 kcal | P 168g","sleep_hours":6.43,"hrv":183,"rhr":43},
+    {"date":"2025-03-30","food":"Morning shake; Norse code 2 scoops; Trifecta beef cheddar chili; tuna belly sashimi; miso soup; NFGY 220g","exercise":"Tonal full body (13,859 lbs) — deadlift, bicep curls, single-leg RDL, Pallof press PRs; yoga 60 min; Peloton 15 min; pull-ups 15; pushups 100; massage 60 min","notes":"Sleep score 87. Pallof press PR. ~1,805 kcal","sleep_hours":6.8,"hrv":140,"rhr":45},
+    {"date":"2025-04-01","food":"Flat white; morning shake; Norse code 2 scoops; Trifecta Mediterranean chicken; raw oysters 6; Fish Sausalito; NFGY 185g","exercise":"Stretching 30 min; Jivamukti yoga 60 min; heated vinyasa 60 min; Tonal core + lower body (11,270 lbs); sauna 15 min","notes":"Sleep score 89. HRV 183 peak. Double yoga + double Tonal. Front squat PR. ~1,730 kcal | P 242g","sleep_hours":6.1,"hrv":183,"rhr":43},
+  ];
+  seed.forEach(s => {
+    entries.push({
+      id: new Date(s.date).getTime(),
+      date: new Date(s.date + 'T12:00:00').toISOString(),
+      raw: [s.food, s.exercise, s.notes].filter(Boolean).join(' | '),
+      bodyPhoto: null, foodPhoto: null,
+      activity: s.exercise ? [{ name: s.exercise.split(';')[0].trim(), detail: s.exercise }] : [],
+      food: s.food ? s.food.split(';').map(f => ({ name: f.trim().substring(0,50), detail: '' })) : [],
+      metrics: { total_calories: s.notes?.match(/~?([\d,]+)\s*kcal/i)?.[1]?.replace(/,/g,'') || null, active_minutes: null, notes: [s.sleep_hours?`Sleep: ${s.sleep_hours}h`:null, s.hrv?`HRV: ${s.hrv}`:null, s.rhr?`RHR: ${s.rhr}`:null].filter(Boolean).join(' · ') || null }
+    });
+  });
+  entries.sort((a,b) => new Date(b.date) - new Date(a.date));
+  saveEntries();
 }
 
 // ─── API Key ─────────────────────────────────────
