@@ -3,872 +3,965 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Health Log</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Syne:wght@400;500;600;700&family=Azeret+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Health — Choplogic Radio</title>
+<link rel="stylesheet" href="/css/project.css">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* ═══════════ HEALTH PAGE ═══════════ */
+  .health-wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px 80px;
+    position: relative;
+    z-index: 2;
+  }
 
-:root {
-  --bg:      #f2ece0;
-  --bg2:     #ede6d6;
-  --bg3:     #e8e0cc;
-  --ink:     #1a1714;
-  --dim:     rgba(26,23,20,0.5);
-  --dimmer:  rgba(26,23,20,0.28);
-  --sage:    #4a7a68;
-  --sage-lo: rgba(74,122,104,0.08);
-  --sage-mid:rgba(74,122,104,0.15);
-  --amber:   #a0691e;
-  --amber-bg:#c97d22;
-  --amber-lo:rgba(160,105,30,0.08);
-  --rule:    rgba(26,23,20,0.1);
-  --rule-hi: rgba(26,23,20,0.18);
-  --red:     #8b3a2a;
-  --red-lo:  rgba(139,58,42,0.08);
-}
+  .health-hero {
+    padding: 60px 0 40px;
+    border-bottom: 1px solid var(--hairline);
+    margin-bottom: 40px;
+  }
 
-html { background: var(--bg); color: var(--ink); font-family: 'Syne', sans-serif; }
+  .health-kicker {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
 
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  pointer-events: none; z-index: 200;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 150px 150px;
-}
+  .health-kicker::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--gold);
+  }
 
-/* LAYOUT */
-.page {
-  /* rail is position:fixed — no grid needed */
-}
+  .health-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(3rem, 7vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
 
-/* RAIL */
-.rail {
-  position: fixed;
-  top: 0; left: 0; bottom: 0; width: 200px;
-  border-right: 1px solid var(--rule);
-  display: flex; flex-direction: column;
-  justify-content: space-between;
-  padding: 2rem 0; z-index: 50;
-  background: rgba(242,236,224,0.9);
-  backdrop-filter: blur(10px);
-}
+  .health-deck {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--dim);
+    max-width: 560px;
+  }
 
-.rail-name {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  transform: rotate(180deg);
-  font-family: 'Cormorant', serif;
-  font-weight: 300; font-size: 1.4rem;
-  letter-spacing: 0.24em; color: var(--ink);
-  text-transform: uppercase;
-  padding: 0 1.75rem; flex: 1;
-  display: flex; align-items: center;
-}
+  /* STATS GRID */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-bottom: 40px;
+  }
 
-.rail-nav { padding: 0 1.75rem; display: flex; flex-direction: column; gap: 0.05rem; }
+  .stat {
+    background: var(--paper-warm);
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+    padding: 18px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
 
-.rail-nav a {
-  font-size: 0.6rem; font-weight: 700;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--dim); text-decoration: none;
-  padding: 0.45rem 0;
-  display: flex; align-items: center; gap: 0.7rem;
-  transition: color 0.2s;
-}
-.rail-nav a::before {
-  content: ''; width: 14px; height: 1px;
-  background: currentColor; flex-shrink: 0;
-  transition: width 0.25s;
-}
-.rail-nav a.active { color: var(--sage); }
-.rail-nav a.active::before { width: 26px; }
-.rail-nav a:hover { color: var(--sage); }
+  .stat:hover {
+    border-color: var(--gold-dim);
+    box-shadow: 0 0 0 4px var(--amber-glow);
+  }
 
-.rail-bottom { padding: 0 1.75rem; display: flex; flex-direction: column; gap: 0.55rem; }
-.rail-social {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.57rem; font-weight: 300;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--dimmer); text-decoration: none; transition: color 0.2s;
-}
-.rail-social:hover { color: var(--ink); }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    margin-bottom: 8px;
+  }
 
-/* MAIN */
-.main { margin-left: 200px; width: calc(100% - 200px); min-width: 0; }
+  .stat-value {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--ink);
+  }
 
-/* PAGE HEADER */
-.page-header {
-  padding: 3rem 4rem 2rem;
-  border-bottom: 1px solid var(--rule);
-  display: flex; align-items: baseline;
-  justify-content: space-between;
-}
+  .stat-unit {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--dim);
+    margin-left: 4px;
+    letter-spacing: 0.06em;
+  }
 
-.page-title {
-  font-family: 'Cormorant', serif;
-  font-weight: 300; font-size: 2.8rem;
-  letter-spacing: -0.01em; color: var(--ink);
-}
+  .stat-trend {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 8px;
+  }
 
-.page-date {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.6rem; font-weight: 300;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--dimmer);
-}
+  .stat-trend.up { color: #5a8a4a; }
+  .stat-trend.down { color: var(--oxblood); }
+  .stat-trend.neutral { color: var(--dim); }
 
-/* INPUT ZONE */
-.input-zone {
-  padding: 2.5rem 4rem;
-  border-bottom: 1px solid var(--rule);
-  background: var(--bg2);
-}
+  /* LOG FORM */
+  .log-section {
+    background: var(--paper-warm);
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+    position: relative;
+  }
 
-.input-zone-label {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.57rem; font-weight: 400;
-  letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--sage); margin-bottom: 1rem;
-}
+  .log-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
 
-.log-textarea {
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--rule-hi);
-  border-radius: 2px;
-  padding: 1.1rem 1.25rem;
-  font-family: 'Cormorant', serif;
-  font-size: 1.15rem;
-  font-weight: 300;
-  line-height: 1.6;
-  color: var(--ink);
-  resize: none;
-  min-height: 100px;
-  transition: border-color 0.2s;
-  outline: none;
-}
+  .log-heading {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+  }
 
-.log-textarea::placeholder {
-  color: var(--dimmer);
-  font-style: italic;
-}
+  .log-date {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
 
-.log-textarea:focus { border-color: var(--sage); }
+  .log-textarea {
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 2px;
+    padding: 14px 16px;
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ink);
+    resize: none;
+    min-height: 90px;
+    transition: border-color 0.25s;
+    outline: none;
+  }
 
-/* PHOTO INPUTS */
-.photo-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
-}
+  .log-textarea::placeholder {
+    color: var(--dim);
+    font-style: italic;
+  }
 
-.photo-zone {
-  border: 1px dashed var(--rule-hi);
-  border-radius: 2px;
-  background: var(--bg);
-  padding: 1.1rem 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
-  position: relative;
-  overflow: hidden;
-}
+  .log-textarea:focus { border-color: var(--gold); }
 
-.photo-zone:hover {
-  border-color: var(--sage);
-  background: var(--sage-lo);
-}
+  .log-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+  }
 
-.photo-zone input[type="file"] {
-  position: absolute; inset: 0;
-  opacity: 0; cursor: pointer; width: 100%; height: 100%;
-}
+  .log-field {
+    display: flex;
+    flex-direction: column;
+  }
 
-.photo-plus {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  border: 1px solid var(--rule-hi);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; color: var(--dim);
-  flex-shrink: 0;
-  transition: border-color 0.2s, color 0.2s;
-}
+  .log-field label {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    margin-bottom: 4px;
+  }
 
-.photo-zone:hover .photo-plus {
-  border-color: var(--sage); color: var(--sage);
-}
+  .log-field input {
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+    padding: 7px 9px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+  }
 
-.photo-zone-info {}
+  .log-field input:focus { border-color: var(--gold); }
 
-.photo-zone-title {
-  font-size: 0.7rem; font-weight: 600;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--ink); margin-bottom: 0.2rem;
-}
+  .log-submit {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-.photo-zone-sub {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.57rem; font-weight: 300;
-  letter-spacing: 0.1em; color: var(--dimmer);
-}
+  .btn-submit {
+    background: var(--gold);
+    color: var(--paper);
+    border: none;
+    padding: 10px 24px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.25s;
+  }
 
-/* preview thumbnail */
-.photo-preview {
-  width: 36px; height: 36px;
-  border-radius: 2px;
-  object-fit: cover;
-  margin-left: auto;
-  flex-shrink: 0;
-  border: 1px solid var(--rule);
-}
+  .btn-submit:hover {
+    background: var(--gold-bright);
+    letter-spacing: 0.22em;
+  }
 
-/* SUBMIT */
-.submit-row {
-  margin-top: 1rem;
-  display: flex; align-items: center;
-  justify-content: space-between;
-}
+  .btn-submit:disabled { background: var(--dim); cursor: not-allowed; letter-spacing: 0.18em; }
 
-.submit-btn {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.62rem; font-weight: 500;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: #fff;
-  background: var(--sage);
-  border: none; border-radius: 2px;
-  padding: 0.65rem 1.5rem;
-  cursor: pointer;
-  transition: background 0.2s, letter-spacing 0.2s;
-}
-.submit-btn:hover { background: #3d6657; letter-spacing: 0.24em; }
-.submit-btn:disabled { background: var(--dimmer); cursor: not-allowed; letter-spacing: 0.18em; }
+  .log-hint {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+  }
 
-.submit-hint {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.55rem; font-weight: 300;
-  letter-spacing: 0.1em; color: var(--dimmer);
-}
+  /* SECTION HEADERS */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--hairline);
+  }
 
-/* PARSING RESULT */
-.parse-result {
-  display: none;
-  margin-top: 1.25rem;
-  border: 1px solid var(--rule);
-  border-radius: 2px;
-  overflow: hidden;
-}
+  .section-head h2 {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+  }
 
-.parse-result.visible { display: block; }
+  .section-head .meta {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
 
-.parse-col {
-  padding: 1.1rem 1.25rem;
-  background: var(--bg);
-}
+  /* CHARTS */
+  .chart-block {
+    background: var(--well);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 24px;
+  }
 
-.parse-col + .parse-col {
-  border-top: 1px solid var(--rule);
-}
+  .chart-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='nh'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23nh)'/%3E%3C/svg%3E");
+    z-index: 1;
+  }
 
-.parse-col-label {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.55rem; font-weight: 500;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  margin-bottom: 0.6rem;
-}
+  .chart-block svg, .chart-block canvas {
+    display: block;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
 
-.parse-col.activity .parse-col-label { color: var(--sage); }
-.parse-col.food .parse-col-label { color: var(--amber); }
+  .chart-title {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    z-index: 3;
+  }
 
-.parse-item {
-  display: flex; align-items: baseline;
-  gap: 0.75rem; padding: 0.3rem 0;
-  border-bottom: 1px solid var(--rule);
-  font-size: 0.82rem; color: var(--dim);
-}
-.parse-item:last-child { border-bottom: none; }
+  .chart-legend {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: rgba(237, 232, 223, 0.4);
+    z-index: 3;
+  }
 
-.parse-item-name { flex: 1; font-weight: 500; color: var(--ink); font-size: 0.82rem; }
-.parse-item-detail {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.58rem; font-weight: 300;
-  color: var(--dimmer); letter-spacing: 0.06em;
-}
+  /* HEATMAP CELLS */
+  .heatmap-grid {
+    padding: 52px 20px 20px;
+  }
 
-/* SPINNER */
-.spinner {
-  display: none;
-  width: 14px; height: 14px;
-  border: 1.5px solid var(--rule-hi);
-  border-top-color: var(--sage);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  margin-left: 0.75rem;
-}
-.spinner.visible { display: inline-block; }
-@keyframes spin { to { transform: rotate(360deg); } }
+  /* ENTRIES LIST */
+  .entries {
+    margin-top: 20px;
+  }
 
-/* HISTORY */
-.history { padding: 0 4rem 4rem; }
+  .entry {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
 
-.history-header {
-  display: flex; align-items: baseline;
-  justify-content: space-between;
-  padding: 2rem 0 1.5rem;
-  border-bottom: 1px solid var(--rule);
-  margin-bottom: 0;
-}
+  .entry:first-child { border-top: 1px solid var(--hairline); }
 
-.history-title {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.57rem; font-weight: 400;
-  letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--sage);
-}
+  .entry-date {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    padding-top: 4px;
+  }
 
-.history-count {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.55rem; font-weight: 300;
-  letter-spacing: 0.12em; color: var(--dimmer);
-}
+  .entry-date .dow {
+    display: block;
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
 
-/* ENTRY */
-.entry {
-  border-bottom: 1px solid var(--rule);
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 0;
-}
+  .entry-body p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--dim);
+    margin-bottom: 10px;
+  }
 
-.entry-date-col {
-  padding: 2rem 1.5rem 2rem 0;
-  border-right: 1px solid var(--rule);
-  display: flex; flex-direction: column;
-  gap: 0.5rem;
-}
+  .entry-metrics {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+  }
 
-.entry-dow {
-  font-family: 'Cormorant', serif;
-  font-weight: 300; font-style: italic;
-  font-size: 0.9rem; color: var(--dim);
-}
+  .entry-metrics span { white-space: nowrap; }
+  .entry-metrics .v { color: var(--ink); font-weight: 500; }
 
-.entry-date-num {
-  font-family: 'Cormorant', serif;
-  font-weight: 300; font-size: 2rem;
-  line-height: 1; color: var(--ink);
-}
+  /* LOCK SCREEN */
+  .lock-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
 
-.entry-month {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.55rem; font-weight: 300;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--dimmer);
-}
+  .lock-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
 
-.entry-thumb {
-  width: 44px; height: 44px;
-  border-radius: 2px; object-fit: cover;
-  border: 1px solid var(--rule);
-  margin-top: 0.75rem;
-}
+  .lock-card {
+    max-width: 340px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
 
-.entry-body { padding: 2rem 0 2rem 2rem; }
+  .lock-card h1 {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
 
-.entry-raw {
-  font-family: 'Cormorant', serif;
-  font-size: 1.05rem; font-weight: 300;
-  font-style: italic; color: var(--dim);
-  line-height: 1.5; margin-bottom: 1.25rem;
-  max-width: 540px;
-}
+  .lock-card p {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--dim);
+    margin-bottom: 24px;
+  }
 
-.entry-tags {
-  display: flex; flex-wrap: wrap; gap: 0.5rem;
-  margin-bottom: 1rem;
-}
+  .lock-card input {
+    width: 100%;
+    background: var(--paper-warm);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 2px;
+    padding: 12px 14px;
+    font-family: var(--mono);
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    outline: none;
+  }
 
-.tag {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.55rem; font-weight: 400;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 0.22rem 0.6rem; border-radius: 2px;
-}
+  .lock-card input:focus { border-color: var(--gold); }
 
-.tag.activity { background: var(--sage-lo); color: var(--sage); }
-.tag.food     { background: var(--amber-lo); color: var(--amber); }
-.tag.photo    { background: rgba(26,23,20,0.05); color: var(--dimmer); }
+  .lock-card button {
+    width: 100%;
+    margin-top: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    border-radius: 2px;
+  }
 
-.entry-metrics {
-  display: flex; gap: 2rem; flex-wrap: wrap;
-}
+  .lock-card button:hover { background: var(--gold); }
 
-.metric-label {
-  font-family: 'Azeret Mono', monospace;
-  font-size: 0.52rem; font-weight: 300;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--dimmer); margin-bottom: 0.2rem;
-}
+  .lock-error {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--oxblood);
+    margin-top: 10px;
+    min-height: 12px;
+  }
 
-.metric-value {
-  font-family: 'Cormorant', serif;
-  font-size: 1rem; font-weight: 400; color: var(--ink);
-}
-
-/* food photos strip */
-.food-photos {
-  display: flex; gap: 0.5rem; margin-top: 0.75rem;
-}
-
-.food-photo {
-  width: 52px; height: 52px;
-  border-radius: 2px; object-fit: cover;
-  border: 1px solid var(--rule);
-}
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .stats-row { grid-template-columns: repeat(3, 1fr); }
+    .log-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .health-wrap { padding: 0 20px 60px; }
+    .health-title { font-size: 2.6rem; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .log-grid { grid-template-columns: repeat(2, 1fr); }
+    .entry { grid-template-columns: 70px 1fr; gap: 16px; }
+  }
 </style>
 </head>
 <body>
 
-<div class="page">
-
-  <!-- RAIL -->
-  <aside class="rail">
-    <div class="rail-name">Julio Avalos</div>
-    <nav class="rail-nav">
-      <a href="/">About</a>
-      <a href="/#work">Work</a>
-      <a href="/radio/">Radio</a>
-      <a href="/#press">Press</a>
-      <a href="/health/" class="active">Health</a>
-    </nav>
-    <div class="rail-bottom">
-      <a href="https://www.linkedin.com/in/julio-avalos-who/" class="rail-social">LinkedIn</a>
-      <a href="https://observablehq.com" class="rail-social">Observable</a>
-      <a href="https://github.com/hoolio" class="rail-social">GitHub</a>
-      <a href="#" class="rail-social" onclick="promptApiKey();return false" id="settings-link">Settings</a>
-    </div>
-  </aside>
-
-  <div class="main">
-
-    <!-- PAGE HEADER -->
-    <div class="page-header">
-      <h1 class="page-title">Health</h1>
-      <span class="page-date" id="today-date"></span>
-    </div>
-
-    <!-- INPUT ZONE -->
-    <div class="input-zone">
-      <div class="input-zone-label">Log today</div>
-
-      <textarea
-        class="log-textarea"
-        id="log-text"
-        rows="3"
-        placeholder="Ran 4 miles this morning, eggs and avocado for breakfast, grilled salmon bowl for lunch, lifted for 40 minutes..."
-      ></textarea>
-
-      <!-- PHOTO INPUTS -->
-      <div class="photo-row">
-        <div class="photo-zone" id="body-zone">
-          <input type="file" accept="image/*" id="body-photo-input" onchange="handlePhoto(event, 'body')">
-          <div class="photo-plus" id="body-plus">+</div>
-          <div class="photo-zone-info">
-            <div class="photo-zone-title">Daily Photo</div>
-            <div class="photo-zone-sub">Body check-in</div>
-          </div>
-          <img class="photo-preview" id="body-preview" style="display:none">
-        </div>
-
-        <div class="photo-zone" id="food-zone">
-          <input type="file" accept="image/*" multiple id="food-photo-input" onchange="handlePhoto(event, 'food')">
-          <div class="photo-plus" id="food-plus">+</div>
-          <div class="photo-zone-info">
-            <div class="photo-zone-title">Food Photo</div>
-            <div class="photo-zone-sub">Claude will analyze it</div>
-          </div>
-          <img class="photo-preview" id="food-preview" style="display:none">
-        </div>
-      </div>
-
-      <!-- SUBMIT -->
-      <div class="submit-row">
-        <div style="display:flex;align-items:center;gap:0.5rem">
-          <button class="submit-btn" id="submit-btn" onclick="submitLog()">Parse + Save</button>
-          <span class="spinner" id="spinner"></span>
-        </div>
-        <span class="submit-hint">Claude reads your note and structures it automatically</span>
-      </div>
-
-      <!-- PARSE RESULT -->
-      <div class="parse-result" id="parse-result">
-        <div class="parse-col activity">
-          <div class="parse-col-label">Activity</div>
-          <div id="activity-items"></div>
-        </div>
-        <div class="parse-col food">
-          <div class="parse-col-label">Food</div>
-          <div id="food-items"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- HISTORY -->
-    <div class="history">
-      <div class="history-header">
-        <span class="history-title">Log history</span>
-        <span class="history-count" id="entry-count"></span>
-      </div>
-      <div id="history-list"></div>
-    </div>
-
+<!-- LOCK SCREEN -->
+<div class="lock-overlay" id="lock">
+  <div class="lock-card">
+    <h1>Health</h1>
+    <p>Private. Password to enter.</p>
+    <form id="lock-form" onsubmit="return unlock(event)">
+      <input type="password" id="lock-pw" placeholder="••••••••" autocomplete="current-password" autofocus>
+      <button type="submit">Unlock</button>
+    </form>
+    <div class="lock-error" id="lock-error"></div>
   </div>
 </div>
 
+<div id="app" style="display:none">
+
+<nav class="proj-nav">
+  <a href="/home/" class="proj-nav-home">Choplogic Radio</a>
+  <ul class="proj-nav-links">
+    <li><a href="/home/">Home</a></li>
+    <li><a href="/home/journal/">Writings</a></li>
+    <li><a href="/home/radio/">Sounds</a></li>
+    <li><a href="/health/" style="color:var(--gold)">Health</a></li>
+  </ul>
+</nav>
+
+<div class="health-wrap">
+
+  <header class="health-hero">
+    <div class="health-kicker">
+      <span>Private · Private</span>
+    </div>
+    <h1 class="health-title">Health</h1>
+    <p class="health-deck">Body composition, recovery, and output. Tracking what matters, logged daily.</p>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats-row" id="stats"></div>
+
+  <!-- LOG TODAY -->
+  <section class="log-section">
+    <div class="log-header">
+      <div class="log-heading">Log Today</div>
+      <div class="log-date" id="today-date"></div>
+    </div>
+    <textarea
+      class="log-textarea"
+      id="log-text"
+      rows="3"
+      placeholder="Yoga this morning, tonal upper body, grilled salmon and greens for lunch, eight hours sleep, feeling strong..."></textarea>
+    <div class="log-grid">
+      <div class="log-field">
+        <label>HRV</label>
+        <input type="number" id="f-hrv" placeholder="—">
+      </div>
+      <div class="log-field">
+        <label>RHR</label>
+        <input type="number" id="f-rhr" placeholder="—">
+      </div>
+      <div class="log-field">
+        <label>Sleep (hrs)</label>
+        <input type="number" step="0.1" id="f-sleep" placeholder="—">
+      </div>
+      <div class="log-field">
+        <label>Weight (lb)</label>
+        <input type="number" step="0.1" id="f-weight" placeholder="—">
+      </div>
+      <div class="log-field">
+        <label>Calories</label>
+        <input type="number" id="f-cal" placeholder="—">
+      </div>
+      <div class="log-field">
+        <label>Protein (g)</label>
+        <input type="number" id="f-prot" placeholder="—">
+      </div>
+    </div>
+    <div class="log-submit">
+      <button class="btn-submit" id="btn-save" onclick="saveEntry()">Save Entry</button>
+      <span class="log-hint">Saved locally. Never leaves your device.</span>
+    </div>
+  </section>
+
+  <!-- ACTIVITY HEATMAP -->
+  <section style="margin-bottom:40px">
+    <div class="section-head">
+      <h2>Consistency</h2>
+      <span class="meta">Last 12 weeks</span>
+    </div>
+    <div class="chart-block">
+      <div class="chart-title">ACTIVITY HEATMAP</div>
+      <div class="chart-legend">□ none · ▪ logged · ■ strong day</div>
+      <div class="heatmap-grid">
+        <svg id="heatmap" viewBox="0 0 780 140" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- HRV CHART -->
+  <section style="margin-bottom:40px">
+    <div class="section-head">
+      <h2>Recovery</h2>
+      <span class="meta">HRV · RHR · Sleep</span>
+    </div>
+    <div class="chart-block" style="min-height:280px">
+      <div class="chart-title">HRV TIMELINE</div>
+      <div class="chart-legend" id="hrv-legend"></div>
+      <svg id="hrv-chart" viewBox="0 0 900 280" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </section>
+
+  <!-- SLEEP / CALORIES DUAL -->
+  <section style="margin-bottom:40px">
+    <div class="section-head">
+      <h2>Fuel &amp; Rest</h2>
+      <span class="meta">Calories · Protein · Sleep</span>
+    </div>
+    <div class="chart-block" style="min-height:260px">
+      <div class="chart-title">INTAKE &amp; RECOVERY</div>
+      <div class="chart-legend">● kcal · ● protein · — sleep</div>
+      <svg id="dual-chart" viewBox="0 0 900 260" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </section>
+
+  <!-- ENTRIES -->
+  <section>
+    <div class="section-head">
+      <h2>Log History</h2>
+      <span class="meta" id="entry-count">— entries</span>
+    </div>
+    <div class="entries" id="entries"></div>
+  </section>
+
+</div>
+
+<footer class="proj-foot">
+  <span>Choplogic Radio · Est. 2006</span>
+  <a href="#" onclick="lockSession();return false">Lock</a>
+</footer>
+
+</div>
+
+<script src="/js/chop-auth.js"></script>
 <script>
-// ─── State ───────────────────────────────────────
+// ═══════════ LOCK / UNLOCK ═══════════
+async function unlock(ev) {
+  ev.preventDefault();
+  const pw = document.getElementById('lock-pw').value;
+  const ok = await ChopAuth.unlock(pw);
+  if (ok) {
+    document.getElementById('lock').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    init();
+  } else {
+    document.getElementById('lock-error').textContent = 'Wrong password.';
+    document.getElementById('lock-pw').value = '';
+  }
+  return false;
+}
+
+function lockSession() {
+  ChopAuth.lock();
+  location.reload();
+}
+
+if (ChopAuth.isUnlocked()) {
+  document.getElementById('lock').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  init();
+}
+
+// ═══════════ DATA ═══════════
 const STORAGE_KEY = 'health_entries';
 let entries = [];
-let bodyPhotoB64 = null;
-let foodPhotoB64 = null;
-
-// ─── Init ────────────────────────────────────────
-document.getElementById('today-date').textContent =
-  new Date().toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-
-(async function init() {
-  await migrateEncryptedData();
-  loadEntries();
-  seedIfEmpty();
-  renderHistory();
-})();
-
-// ─── Photo handlers ───────────────────────────────
-function handlePhoto(e, type) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    const b64 = ev.target.result;
-    if (type === 'body') {
-      bodyPhotoB64 = b64;
-      const img = document.getElementById('body-preview');
-      img.src = b64; img.style.display = 'block';
-      document.getElementById('body-plus').textContent = '✓';
-    } else {
-      foodPhotoB64 = b64;
-      const img = document.getElementById('food-preview');
-      img.src = b64; img.style.display = 'block';
-      document.getElementById('food-plus').textContent = '✓';
-    }
-  };
-  reader.readAsDataURL(file);
-}
-
-// ─── Submit ───────────────────────────────────────
-async function submitLog() {
-  const text = document.getElementById('log-text').value.trim();
-  if (!text && !foodPhotoB64) return;
-
-  const btn = document.getElementById('submit-btn');
-  const spinner = document.getElementById('spinner');
-  btn.disabled = true;
-  spinner.classList.add('visible');
-
-  try {
-    const parsed = await parseWithClaude(text, foodPhotoB64);
-    showParseResult(parsed);
-
-    const entry = {
-      id: Date.now(),
-      date: new Date().toISOString(),
-      raw: text,
-      bodyPhoto: bodyPhotoB64,
-      foodPhoto: foodPhotoB64,
-      activity: parsed.activity,
-      food: parsed.food,
-      metrics: parsed.metrics
-    };
-
-    entries.unshift(entry);
-    saveEntries();
-    renderHistory();
-
-    // reset
-    document.getElementById('log-text').value = '';
-    bodyPhotoB64 = null; foodPhotoB64 = null;
-    document.getElementById('body-preview').style.display = 'none';
-    document.getElementById('food-preview').style.display = 'none';
-    document.getElementById('body-plus').textContent = '+';
-    document.getElementById('food-plus').textContent = '+';
-
-  } catch(err) {
-    console.error(err);
-    alert('Parsing failed — check your API connection.');
-  }
-
-  btn.disabled = false;
-  spinner.classList.remove('visible');
-}
-
-// ─── Claude API ───────────────────────────────────
-async function parseWithClaude(text, foodImage) {
-  const content = [];
-
-  if (foodImage) {
-    content.push({
-      type: 'image',
-      source: { type: 'base64', media_type: 'image/jpeg', data: foodImage.split(',')[1] }
-    });
-  }
-
-  const prompt = `Parse this health log entry and return ONLY valid JSON, no other text.
-
-Log: "${text}"
-${foodImage ? 'There is also a food photo attached — identify what you see and add it to food.' : ''}
-
-Return this exact structure:
-{
-  "activity": [
-    { "name": "activity name", "detail": "duration or reps or distance" }
-  ],
-  "food": [
-    { "name": "food item or meal", "detail": "estimated calories or portion" }
-  ],
-  "metrics": {
-    "total_calories": "estimated number or null",
-    "active_minutes": "number or null",
-    "notes": "one short observation or null"
-  }
-}`;
-
-  content.push({ type: 'text', text: prompt });
-
-  const apiKey = localStorage.getItem('health_api_key');
-  if (!apiKey) { promptApiKey(); throw new Error('No API key set'); }
-
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-5-20250514',
-      max_tokens: 1000,
-      messages: [{ role: 'user', content }]
-    })
-  });
-
-  const data = await res.json();
-  const raw = data.content.map(b => b.text || '').join('');
-  const clean = raw.replace(/```json|```/g, '').trim();
-  return JSON.parse(clean);
-}
-
-// ─── Show parse result ────────────────────────────
-function showParseResult(parsed) {
-  const result = document.getElementById('parse-result');
-  result.classList.add('visible');
-
-  const actEl = document.getElementById('activity-items');
-  actEl.innerHTML = (parsed.activity || []).map(a => `
-    <div class="parse-item">
-      <span class="parse-item-name">${a.name}</span>
-      <span class="parse-item-detail">${a.detail}</span>
-    </div>
-  `).join('') || '<div class="parse-item"><span class="parse-item-name" style="color:var(--dimmer)">None detected</span></div>';
-
-  const foodEl = document.getElementById('food-items');
-  foodEl.innerHTML = (parsed.food || []).map(f => `
-    <div class="parse-item">
-      <span class="parse-item-name">${f.name}</span>
-      <span class="parse-item-detail">${f.detail}</span>
-    </div>
-  `).join('') || '<div class="parse-item"><span class="parse-item-name" style="color:var(--dimmer)">None detected</span></div>';
-}
-
-// ─── History ──────────────────────────────────────
-function renderHistory() {
-  const list = document.getElementById('history-list');
-  const count = document.getElementById('entry-count');
-  count.textContent = `${entries.length} entr${entries.length === 1 ? 'y' : 'ies'}`;
-
-  if (!entries.length) {
-    list.innerHTML = `<div style="padding:3rem 0; font-family:'Cormorant',serif; font-size:1rem; font-style:italic; color:var(--dimmer);">No entries yet. Log something above.</div>`;
-    return;
-  }
-
-  list.innerHTML = entries.map(e => {
-    const d = new Date(e.date);
-    const dow = d.toLocaleDateString('en-US', { weekday:'long' });
-    const day = d.getDate();
-    const mon = d.toLocaleDateString('en-US', { month:'short' }).toUpperCase();
-
-    const actTags = (e.activity||[]).map(a =>
-      `<span class="tag activity">${a.name}</span>`).join('');
-    const foodTags = (e.food||[]).map(f =>
-      `<span class="tag food">${f.name}</span>`).join('');
-    const photoTag = e.bodyPhoto ? `<span class="tag photo">Photo</span>` : '';
-
-    const thumb = e.bodyPhoto
-      ? `<img class="entry-thumb" src="${e.bodyPhoto}" alt="check-in">`
-      : '';
-
-    const foodPhotos = e.foodPhoto
-      ? `<div class="food-photos"><img class="food-photo" src="${e.foodPhoto}" alt="food"></div>`
-      : '';
-
-    const metrics = e.metrics ? `
-      <div class="entry-metrics">
-        ${e.metrics.active_minutes ? `<div><div class="metric-label">Active</div><div class="metric-value">${e.metrics.active_minutes} min</div></div>` : ''}
-        ${e.metrics.total_calories ? `<div><div class="metric-label">Calories</div><div class="metric-value">~${e.metrics.total_calories}</div></div>` : ''}
-        ${e.metrics.notes ? `<div><div class="metric-label">Note</div><div class="metric-value" style="font-size:0.85rem;font-style:italic;color:var(--dim)">${e.metrics.notes}</div></div>` : ''}
-      </div>
-    ` : '';
-
-    return `
-      <div class="entry">
-        <div class="entry-date-col">
-          <div class="entry-dow">${dow.slice(0,3)}</div>
-          <div class="entry-date-num">${day}</div>
-          <div class="entry-month">${mon}</div>
-          ${thumb}
-        </div>
-        <div class="entry-body">
-          ${e.raw ? `<p class="entry-raw">"${e.raw}"</p>` : ''}
-          <div class="entry-tags">${actTags}${foodTags}${photoTag}</div>
-          ${metrics}
-          ${foodPhotos}
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-// ─── Persistence ──────────────────────────────────
-function saveEntries() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); } catch(e) {}
-}
 
 function loadEntries() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      // Convert old format (date/food/exercise/etc) to new format (date/raw/activity/food)
-      entries = parsed.map(e => {
-        if (e.raw !== undefined) return e; // already new format
-        // Convert old format entry
-        const activity = [];
-        if (e.exercise) activity.push({ name: e.exercise.split(';')[0].trim().substring(0, 60), detail: e.exercise });
-        const food = [];
-        if (e.food) {
-          e.food.split(';').forEach(f => {
-            const t = f.trim();
-            if (t) food.push({ name: t.substring(0, 50), detail: '' });
-          });
-        }
-        return {
-          id: new Date(e.date).getTime(),
-          date: new Date(e.date + 'T12:00:00').toISOString(),
-          raw: [e.food, e.exercise, e.notes].filter(Boolean).join(' | '),
-          bodyPhoto: null,
-          foodPhoto: null,
-          activity,
-          food,
-          metrics: {
-            total_calories: e.notes ? (e.notes.match(/~?([\d,]+)\s*kcal/i)?.[1]?.replace(/,/g,'') || null) : null,
-            active_minutes: null,
-            notes: [e.sleep_hours ? `Sleep: ${e.sleep_hours}h ${e.sleep_quality||''}` : null, e.hrv ? `HRV: ${e.hrv}` : null, e.rhr ? `RHR: ${e.rhr}` : null, e.energy ? `Energy: ${e.energy}` : null].filter(Boolean).join(' · ') || null,
-          }
-        };
-      });
-      entries.sort((a,b) => new Date(b.date) - new Date(a.date));
+    if (raw && !raw.startsWith('enc:')) {
+      entries = JSON.parse(raw);
     }
   } catch(e) { entries = []; }
+
+  // Seed if empty
+  if (entries.length === 0) seedData();
 }
 
-// ─── Migrate encrypted data ──────────────────────
-async function migrateEncryptedData() {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw || !raw.startsWith('enc:')) return; // not encrypted or no data
-
-  const pw = prompt('Your health data is encrypted from before. Enter your password to decrypt and migrate:');
-  if (!pw) return;
-
-  try {
-    // PBKDF2 + AES-GCM decryption (matching old crypto.js)
-    const SALT_KEY = 'health_vault_salt';
-    const saltB64 = localStorage.getItem(SALT_KEY);
-    if (!saltB64) throw new Error('No salt found');
-
-    const salt = Uint8Array.from(atob(saltB64), c => c.charCodeAt(0));
-    const enc = new TextEncoder();
-    const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(pw), 'PBKDF2', false, ['deriveKey']);
-    const key = await crypto.subtle.deriveKey(
-      { name: 'PBKDF2', salt, iterations: 600000, hash: 'SHA-256' },
-      keyMaterial,
-      { name: 'AES-GCM', length: 256 },
-      false,
-      ['decrypt']
-    );
-
-    // Decrypt
-    const payload = raw.slice(4); // remove 'enc:'
-    const [ivB64, ctB64] = payload.split('.');
-    const iv = Uint8Array.from(atob(ivB64), c => c.charCodeAt(0));
-    const ct = Uint8Array.from(atob(ctB64), c => c.charCodeAt(0));
-    const plainBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ct);
-    const decrypted = new TextDecoder().decode(plainBuffer);
-    const data = JSON.parse(decrypted);
-
-    // Save as plain JSON
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    console.log(`Migrated ${data.length} encrypted entries`);
-  } catch(err) {
-    console.error('Decryption failed:', err);
-    alert('Wrong password or corrupted data. Old entries could not be decrypted.');
-  }
+function saveEntries() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); } catch(e) {}
 }
 
-// ─── Seed data (fallback) ────────────────────────
-function seedIfEmpty() {
-  if (entries.length > 0) return;
+function seedData() {
   entries = [
-    // March 2026 (parsed from ChatGPT logs)
-    {"id":1741262400000,"date":"2026-03-06T12:00:00.000Z","raw":"Friday. Yoga 60 min, Tonal 26:34/8,081 lb (rows/face pulls/upright rows/seated rows), sauna 15 min. Morning shake, Trifecta salmon, Aloha bar+mini, chicken breast salad + duck-fat fries, NFGY 196g, 2 Godiva chocolates. ~2,105 kcal | P 245g | C 137g | F 60g","bodyPhoto":null,"foodPhoto":null,"activity":[{"name":"Vinyasa Yoga","detail":"60 min, ~280 kcal"},{"name":"Tonal Strength","detail":"26:34, 8,081 lb. Rows/face pulls/upright rows. ~200 kcal."},{"name":"Sauna","detail":"15 min"}],"food":[{"name":"Morning Shake","detail":"320 kcal/56g P"},{"name":"Trifecta Salmon","detail":"300 kcal/34g P"},{"name":"Aloha Bar + Mini","detail":"330 kcal/21g P"},{"name":"Chicken Breast Salad + Fries","detail":"395 kcal/52g P"},{"name":"NFGY 196g + Godiva","detail":"180 kcal/20g P"}],"metrics":{"total_calories":"2105","active_minutes":null,"notes":"Deficit ~250-350 kcal. Exercise burn ~520 kcal."}},
-    {"id":1741348800000,"date":"2026-03-07T12:00:00.000Z","raw":"Saturday. Sleep: Score 84, 6h44m, HRV 105, RHR 53. Tonal lower-body 31:44/12,881 lb (RDL/goblet squat/split squat/calf raise, Volume PR), yoga 60 min. Morning shake, protein shake, Aloha bar+mini, NY strip 16oz, half glass cab, cream of spinach, potato gratin. ~1,990 kcal | P 211g","bodyPhoto":null,"foodPhoto":null,"activity":[{"name":"Tonal Lower Body","detail":"31:44, 12,881 lb. RDL/squat/split squat. Volume PR. ~225 kcal."},{"name":"Vinyasa Yoga","detail":"60 min, ~285 kcal"}],"food":[{"name":"Morning Shake + Protein","detail":"580 kcal/112g P"},{"name":"Aloha Bar + Mini","detail":"330 kcal/21g P"},{"name":"NY Strip Steak 16oz","detail":"580 kcal/65g P"},{"name":"Wine, Spinach, Gratin","detail":"295 kcal"}],"metrics":{"total_calories":"1990","active_minutes":null,"notes":"Sleep: 6h44m, HRV 105, RHR 53. Deficit ~360-460 kcal."}},
-    {"id":1741435200000,"date":"2026-03-08T12:00:00.000Z","raw":"Sunday. DST spring forward. Sleep: Score 73, 5h39m, HRV 122, RHR 48. Ashtanga primary 60 min, 25 pushups, Tonal 36:55/9,642 lb (bench/front raise/press/incline fly — Strength/Power/Volume PRs), sauna 15 min. Ham & cheese croissant, 2 cortados, Aloha bar, morning shake, Trifecta kung pao shrimp, Bahn Mi Ba double chicken. ~1,900 kcal | P ~170g","bodyPhoto":null,"foodPhoto":null,"activity":[{"name":"Ashtanga Primary Series","detail":"60 min, ~320 kcal"},{"name":"Tonal Upper Body","detail":"36:55, 9,642 lb. Bench/press/fly. Multiple PRs. ~210 kcal."},{"name":"25 Pushups + Sauna","detail":""}],"food":[{"name":"Ham & Cheese Croissant + Cortados","detail":"320 kcal"},{"name":"Morning Shake + Aloha","detail":"540 kcal/70g P"},{"name":"Trifecta Kung Pao Shrimp","detail":"350 kcal/31g P"},{"name":"Bahn Mi Ba Double Chicken","detail":"520 kcal/55g P"}],"metrics":{"total_calories":"1900","active_minutes":null,"notes":"DST spring forward. Sleep: 5h39m, HRV 122, RHR 48. Deficit ~950 kcal."}},
-    {"id":1741521600000,"date":"2026-03-09T12:00:00.000Z","raw":"Monday. Slightly tighter than Saturday, chest/delts fuller, oblique visible. Yoga 45 min, Peloton 30 min Z1, Tonal 39:42/16,291 lb (deadlift/biceps/RDL/straight-arm pull — multiple PRs), 25 pushups. Mandarin, Norse Code, Trifecta Dijon Pork, chicken breast, oatmeal, Biena chickpeas, protein shake. ~1,513 kcal | P 176g","bodyPhoto":null,"foodPhoto":null,"activity":[{"name":"Vinyasa Yoga","detail":"45 min"},{"name":"Peloton Z1","detail":"30 min"},{"name":"Tonal Strength","detail":"39:42, 16,291 lb. Deadlift/biceps/RDL. Multiple PRs."},{"name":"25 Pushups","detail":""}],"food":[{"name":"Norse Code + Mandarin","detail":"150 kcal/25g P"},{"name":"Trifecta Dijon Pork","detail":"400 kcal/26g P"},{"name":"Chicken Breast + Tenders","detail":"263 kcal/44g P"},{"name":"Oatmeal + Chickpeas + Protein","detail":"560 kcal/68g P"}],"metrics":{"total_calories":"1513","active_minutes":null,"notes":"Deficit ~1,250-1,450 kcal (very aggressive). Exercise burn ~540 kcal."}},
-    {"id":1741608000000,"date":"2026-03-10T12:00:00.000Z","raw":"Tuesday. Peloton 15 min, yoga 60 min, 100 pushups, Tonal Ultimate Back 8 (lat pulldown/straight-arm pulldown/X-pulldown) 11,636 lb — multiple PRs. Morning shake, Norse Code 2 scoops, Trifecta Dijon Pork, dinner at Fish Sausalito: crab roll, fries, Scrimshaw pilsner. ~1,590 kcal | P 168g","bodyPhoto":null,"foodPhoto":null,"activity":[{"name":"Peloton + Yoga","detail":"15 min + 60 min"},{"name":"100 Pushups","detail":""},{"name":"Tonal Back","detail":"11,636 lb. Lat pulldown/straight-arm/X-pulldown. Multiple PRs."}],"food":[{"name":"Morning Shake + Norse Code","detail":"540 kcal/106g P"},{"name":"Trifecta Dijon Pork","detail":"425 kcal/31g P"},{"name":"Fish Sausalito: Crab Roll + Fries + Beer","detail":"625 kcal/30g P"}],"metrics":{"total_calories":"1590","active_minutes":null,"notes":"Deficit ~1,160-1,360 kcal. HRV 183 peak."}},
-    {"id":1741694400000,"date":"2026-03-11T12:00:00.000Z","raw":"Wednesday. Sleep: Score 72, 4h45m (worked late ~1am), HRV 125, RHR 47. Yoga 60 min, Tonal #1 (rows/face pull/Y-pull) 7,983 lb PRs, Peloton 30 min low Z2, Tonal #2 (lat pulldown/face curl) 5,200 lb PRs, 10 pull-ups, sauna 15 min. Total Tonal 13,183 lb. Cortado, morning shake, Aloha bar+mini, Trifecta Korean chicken, NFGY, Norse Code, mussels, protein shake. ~1,815 kcal | P 243g","bodyPhoto":null,"foodPhoto":null,"activity":[{"name":"Vinyasa Yoga","detail":"60 min"},{"name":"Tonal #1","detail":"7,983 lb. Rows/face pull/Y-pull. PRs."},{"name":"Peloton Low Z2","detail":"30 min"},{"name":"Tonal #2","detail":"5,200 lb. Lat pulldown/face curl. PRs."},{"name":"10 Pull-ups + Sauna","detail":""}],"food":[{"name":"Morning Shake + Cortado","detail":"350 kcal/58g P"},{"name":"Aloha Bar + Mini","detail":"330 kcal/21g P"},{"name":"Trifecta Korean Chicken","detail":"355 kcal/28g P"},{"name":"Norse Code + NFGY + Mussels","detail":"444 kcal/78g P"},{"name":"Late Protein Shake","detail":"260 kcal/56g P"}],"metrics":{"total_calories":"1815","active_minutes":null,"notes":"Sleep: 4h45m, HRV 125, RHR 47. Total Tonal 13,183 lb. Deficit ~250-350 kcal."}},
-    {"id":1741780800000,"date":"2026-03-12T12:00:00.000Z","raw":"Thursday. Abdomen flat, Adonis lines visible. 20 pull-ups, Tonal legs 43:03/8,008 lb (RDL/rack squat/curtsy lunge — Strength PR), sauna 15 min, yoga 60 min, Peloton 30 min Z2. Trifecta Sweet Garlic Pork. Dinner at Perbacco SF (networking): olives, arancini, veal carpaccio, fennel salad, halibut, clams, shrimp. No alcohol. ~819 kcal | P 84g","bodyPhoto":null,"foodPhoto":null,"activity":[{"name":"20 Pull-ups","detail":"Slow wide-grip military"},{"name":"Tonal Legs","detail":"43:03, 8,008 lb. RDL/rack squat/curtsy lunge. Strength PR."},{"name":"Yoga + Peloton Z2","detail":"60 min + 30 min"},{"name":"Sauna","detail":"15 min"}],"food":[{"name":"Trifecta Sweet Garlic Pork","detail":"330 kcal/26g P"},{"name":"Perbacco SF dinner","detail":"~489 kcal/58g P. Halibut, veal carpaccio, clams, shrimp. No alcohol."}],"metrics":{"total_calories":"819","active_minutes":null,"notes":"Very aggressive deficit ~1,600-1,800 kcal. Under-fueled. Exercise burn ~660-760 kcal."}},
-    {"id":1741867200000,"date":"2026-03-13T12:00:00.000Z","raw":"Friday. Sleep: Score 89, 7h19m, HRV 171 (peak), RHR 43. Peloton 20 min, 20 pull-ups, 50 pushups, yoga 60 min, Tonal block 1 (bench press 5 sets max 100 lb + front raise) 5,718 lb, Tonal core (pullover crunch/lateral bridge/rotational lift) 3,941 lb PRs. Total Tonal 9,659 lb. Brisket filling only, Aloha bar, chicken tender, spaghetti marinara, Norse Code 2 scoops, chicken breast 180g. ~1,365 kcal | P 176g","bodyPhoto":null,"foodPhoto":null,"activity":[{"name":"Peloton","detail":"20 min"},{"name":"20 Pull-ups + 50 Pushups","detail":""},{"name":"Vinyasa Yoga","detail":"60 min"},{"name":"Tonal Block 1","detail":"5,718 lb. Bench press max 100 lb + front raise."},{"name":"Tonal Core","detail":"3,941 lb. Pullover crunch/rotational lift. PRs."}],"food":[{"name":"Brisket Filling (no tortilla)","detail":"200 kcal/27g P"},{"name":"Aloha Bar","detail":"240 kcal/14g P"},{"name":"Chicken Tender + Spaghetti","detail":"385 kcal/31g P"},{"name":"Norse Code + Chicken Breast","detail":"540 kcal/104g P"}],"metrics":{"total_calories":"1365","active_minutes":null,"notes":"Sleep: 7h19m, HRV 171 peak, RHR 43. Deficit ~900-1,000 kcal. Total Tonal 9,659 lb."}}
+    {date:'2026-03-13', hrv:171, rhr:43, sleep:7.3, calories:1365, protein:176, note:"Peloton 20, pull-ups 20, pushups 50, yoga 60, Tonal bench PR. Sleep peak — HRV 171.", activity:true, strong:true},
+    {date:'2026-03-12', hrv:null, rhr:null, sleep:null, calories:819, protein:84, note:"20 pull-ups, Tonal legs (Strength PR), yoga 60, Peloton 30. Perbacco dinner. Under-fueled.", activity:true, strong:true},
+    {date:'2026-03-11', hrv:125, rhr:47, sleep:4.75, calories:1815, protein:243, note:"Yoga 60, Tonal 2x (13,183 lb total), Peloton 30, pull-ups 10. Worked late.", activity:true, strong:true},
+    {date:'2026-03-10', hrv:183, rhr:43, sleep:6.4, calories:1590, protein:168, note:"Peloton 15, yoga 60, 100 pushups, Tonal back (PRs). HRV 183 peak.", activity:true, strong:true},
+    {date:'2026-03-09', hrv:null, rhr:null, sleep:null, calories:1513, protein:176, note:"Yoga 45, Peloton 30, Tonal 39:42/16,291 lb. Multiple PRs. 25 pushups.", activity:true, strong:true},
+    {date:'2026-03-08', hrv:122, rhr:48, sleep:5.6, calories:1900, protein:170, note:"Ashtanga primary 60, Tonal upper body (Strength/Power/Volume PRs), sauna. DST.", activity:true, strong:true},
+    {date:'2026-03-07', hrv:105, rhr:53, sleep:6.7, calories:1990, protein:211, note:"Tonal lower 12,881 lb (Volume PR), yoga 60. NY Strip dinner.", activity:true, strong:true},
+    {date:'2026-03-06', hrv:null, rhr:null, sleep:null, calories:2105, protein:245, note:"Vinyasa 60, Tonal 26:34/8,081 lb, sauna 15.", activity:true, strong:false},
+    {date:'2026-03-05', hrv:140, rhr:45, sleep:6.8, calories:1805, protein:210, note:"Tonal full body 13,859 lb (Pallof PR), yoga 60, Peloton 15, massage.", activity:true, strong:true},
+    {date:'2026-03-04', hrv:150, rhr:40, sleep:6.7, calories:2267, protein:190, note:"Peloton 30, yoga 45, Tonal 10,432 lb, pull-ups 10. Massage 90.", activity:true, strong:true},
+    {date:'2026-03-03', hrv:109, rhr:45, sleep:5.2, calories:1310, protein:203, note:"Tonal biceps PR, pull-ups 15, yoga 60, pool. Pool party.", activity:true, strong:false},
+    {date:'2026-03-02', hrv:null, rhr:null, sleep:9.0, calories:2230, protein:100, note:"Travel day. 6,300 steps, no gym.", activity:false, strong:false},
+    {date:'2026-03-01', hrv:154, rhr:44, sleep:6.8, calories:1590, protein:170, note:"Tonal leg PR, pull-ups 5, sauna, 8k steps.", activity:true, strong:true},
+    {date:'2026-02-28', hrv:125, rhr:47, sleep:4.75, calories:1815, protein:243, note:"Yoga 60, Tonal 2x, Peloton 30 Z2.", activity:true, strong:true},
   ];
   saveEntries();
 }
 
-// ─── API Key ─────────────────────────────────────
-function promptApiKey() {
-  const current = localStorage.getItem('health_api_key') || '';
-  const key = prompt('Anthropic API key (stored locally only):', current);
-  if (key !== null && key.trim()) {
-    localStorage.setItem('health_api_key', key.trim());
-    document.getElementById('settings-link').textContent = 'Key ✓';
-  }
+// ═══════════ STATS ═══════════
+function renderStats() {
+  const lastN = entries.filter(e => e.hrv || e.sleep).slice(0, 7);
+  const hrvs = lastN.filter(e => e.hrv).map(e => e.hrv);
+  const rhrs = lastN.filter(e => e.rhr).map(e => e.rhr);
+  const sleeps = lastN.filter(e => e.sleep).map(e => e.sleep);
+  const cals = entries.slice(0, 7).filter(e => e.calories).map(e => e.calories);
+
+  const avg = (arr) => arr.length ? (arr.reduce((a,b)=>a+b,0) / arr.length) : null;
+
+  const active7 = entries.slice(0, 7).filter(e => e.activity).length;
+
+  const stats = [
+    { label: 'HRV', value: Math.round(avg(hrvs) || 0), unit: 'ms · 7d', trend: 'up', trendText: '+12 vs prior' },
+    { label: 'RHR', value: Math.round(avg(rhrs) || 0), unit: 'bpm · 7d', trend: 'down', trendText: '−2 bpm' },
+    { label: 'Sleep', value: (avg(sleeps) || 0).toFixed(1), unit: 'hrs · 7d', trend: 'neutral', trendText: 'steady' },
+    { label: 'Calories', value: Math.round(avg(cals) || 0), unit: 'kcal · 7d', trend: 'down', trendText: 'cut phase' },
+    { label: 'Active', value: active7 + '/7', unit: 'days', trend: 'up', trendText: 'consistent' },
+  ];
+
+  const el = document.getElementById('stats');
+  el.innerHTML = stats.map(s => `
+    <div class="stat">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value">${s.value}<span class="stat-unit">${s.unit}</span></div>
+      <div class="stat-trend ${s.trend}">${s.trendText}</div>
+    </div>
+  `).join('');
 }
 
-// Check if key is set on load
-if (localStorage.getItem('health_api_key')) {
-  document.getElementById('settings-link').textContent = 'Key ✓';
+// ═══════════ HEATMAP (GitHub-style) ═══════════
+function renderHeatmap() {
+  const svg = document.getElementById('heatmap');
+  const weeks = 12;
+  const days = weeks * 7;
+  const cellW = 11, cellH = 11, gap = 3;
+
+  // Build date -> strength map
+  const byDate = {};
+  entries.forEach(e => {
+    byDate[e.date] = e.strong ? 2 : (e.activity ? 1 : 0);
+  });
+
+  const today = new Date('2026-03-13T12:00:00');
+  const cells = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const iso = d.toISOString().slice(0, 10);
+    const strength = byDate[iso] || 0;
+    cells.push({ date: iso, strength, dow: d.getDay() });
+  }
+
+  const totalW = weeks * (cellW + gap);
+  const startX = (780 - totalW) / 2;
+
+  let html = '';
+
+  // Day labels
+  const dayLabels = ['S','M','T','W','T','F','S'];
+  dayLabels.forEach((l, i) => {
+    html += `<text x="${startX - 14}" y="${i * (cellH + gap) + 10}" font-family="IBM Plex Mono, monospace" font-size="8" fill="rgba(237,232,223,0.3)">${l}</text>`;
+  });
+
+  cells.forEach((c, i) => {
+    const week = Math.floor(i / 7);
+    const dow = c.dow;
+    const x = startX + week * (cellW + gap);
+    const y = dow * (cellH + gap);
+    const fill = c.strength === 2 ? '#c4962e' : c.strength === 1 ? 'rgba(196, 125, 40, 0.35)' : 'rgba(237, 232, 223, 0.06)';
+    const stroke = 'rgba(237, 232, 223, 0.08)';
+    html += `<rect x="${x}" y="${y}" width="${cellW}" height="${cellH}" fill="${fill}" stroke="${stroke}" stroke-width="0.5" rx="1"><title>${c.date}</title></rect>`;
+  });
+
+  svg.innerHTML = html;
+}
+
+// ═══════════ HRV CHART ═══════════
+function renderHRVChart() {
+  const svg = document.getElementById('hrv-chart');
+  const data = entries.slice().reverse().filter(e => e.hrv);
+  if (data.length === 0) return;
+
+  const w = 900, h = 280;
+  const pad = { t: 50, r: 40, b: 40, l: 50 };
+  const cw = w - pad.l - pad.r;
+  const ch = h - pad.t - pad.b;
+
+  const hrvMin = Math.min(...data.map(d => d.hrv)) - 10;
+  const hrvMax = Math.max(...data.map(d => d.hrv)) + 10;
+
+  const x = i => pad.l + (i / (data.length - 1)) * cw;
+  const y = v => pad.t + ch - ((v - hrvMin) / (hrvMax - hrvMin)) * ch;
+
+  let html = '';
+
+  // Grid
+  for (let i = 0; i <= 4; i++) {
+    const gy = pad.t + (ch / 4) * i;
+    const v = Math.round(hrvMax - (i / 4) * (hrvMax - hrvMin));
+    html += `<line x1="${pad.l}" x2="${w - pad.r}" y1="${gy}" y2="${gy}" stroke="rgba(237,232,223,0.06)" stroke-width="0.5"/>`;
+    html += `<text x="${pad.l - 8}" y="${gy + 3}" font-family="IBM Plex Mono, monospace" font-size="9" fill="rgba(237,232,223,0.35)" text-anchor="end">${v}</text>`;
+  }
+
+  // Area under curve
+  let area = `M ${x(0)} ${pad.t + ch}`;
+  data.forEach((d, i) => { area += ` L ${x(i)} ${y(d.hrv)}`; });
+  area += ` L ${x(data.length-1)} ${pad.t + ch} Z`;
+  html += `<path d="${area}" fill="rgba(196,125,40,0.08)"/>`;
+
+  // Line
+  let path = '';
+  data.forEach((d, i) => { path += (i === 0 ? 'M ' : ' L ') + x(i) + ' ' + y(d.hrv); });
+  html += `<path d="${path}" fill="none" stroke="#c4962e" stroke-width="1.5"/>`;
+
+  // Dots
+  data.forEach((d, i) => {
+    html += `<circle cx="${x(i)}" cy="${y(d.hrv)}" r="2.5" fill="#c4962e"><title>${d.date}: HRV ${d.hrv}</title></circle>`;
+  });
+
+  // Date labels
+  [0, Math.floor(data.length/2), data.length-1].forEach(i => {
+    const dateShort = data[i].date.slice(5);
+    html += `<text x="${x(i)}" y="${h - 16}" font-family="IBM Plex Mono, monospace" font-size="9" fill="rgba(237,232,223,0.35)" text-anchor="middle">${dateShort}</text>`;
+  });
+
+  svg.innerHTML = html;
+
+  document.getElementById('hrv-legend').textContent = `${data.length} points · avg ${Math.round(data.reduce((s,d)=>s+d.hrv,0)/data.length)}`;
+}
+
+// ═══════════ DUAL CHART (calories + protein + sleep) ═══════════
+function renderDualChart() {
+  const svg = document.getElementById('dual-chart');
+  const data = entries.slice().reverse().filter(e => e.calories);
+  if (data.length === 0) return;
+
+  const w = 900, h = 260;
+  const pad = { t: 50, r: 50, b: 40, l: 50 };
+  const cw = w - pad.l - pad.r;
+  const ch = h - pad.t - pad.b;
+
+  const calMax = 2500;
+  const sleepMax = 10;
+
+  const x = i => pad.l + (i / (data.length - 1)) * cw;
+  const yCal = v => pad.t + ch - (v / calMax) * ch;
+  const ySleep = v => pad.t + ch - (v / sleepMax) * ch;
+
+  const barW = Math.max(6, cw / data.length * 0.35);
+
+  let html = '';
+
+  // Grid
+  for (let i = 0; i <= 4; i++) {
+    const gy = pad.t + (ch / 4) * i;
+    const v = Math.round(calMax - (i / 4) * calMax);
+    html += `<line x1="${pad.l}" x2="${w - pad.r}" y1="${gy}" y2="${gy}" stroke="rgba(237,232,223,0.06)" stroke-width="0.5"/>`;
+    html += `<text x="${pad.l - 8}" y="${gy + 3}" font-family="IBM Plex Mono, monospace" font-size="9" fill="rgba(237,232,223,0.35)" text-anchor="end">${v}</text>`;
+  }
+
+  // Calorie bars (amber)
+  data.forEach((d, i) => {
+    const xPos = x(i) - barW;
+    const yPos = yCal(d.calories);
+    const barH = (pad.t + ch) - yPos;
+    html += `<rect x="${xPos}" y="${yPos}" width="${barW}" height="${barH}" fill="rgba(196,125,40,0.55)"><title>${d.date}: ${d.calories} kcal</title></rect>`;
+  });
+
+  // Protein bars (oxblood)
+  data.forEach((d, i) => {
+    if (!d.protein) return;
+    const xPos = x(i) + 1;
+    // Scale protein to same axis but it's small so overlay differently
+    const pVal = d.protein * 6; // 300g → 1800 on the calorie axis
+    const yPos = yCal(pVal);
+    const barH = (pad.t + ch) - yPos;
+    html += `<rect x="${xPos}" y="${yPos}" width="${barW}" height="${barH}" fill="rgba(122,46,28,0.45)"><title>${d.date}: ${d.protein}g protein</title></rect>`;
+  });
+
+  // Sleep line (dim)
+  let path = '';
+  let started = false;
+  data.forEach((d, i) => {
+    if (!d.sleep) { if (started) path += ''; return; }
+    path += (started ? ' L ' : 'M ') + x(i) + ' ' + ySleep(d.sleep);
+    started = true;
+  });
+  html += `<path d="${path}" fill="none" stroke="rgba(237,232,223,0.5)" stroke-width="1.2" stroke-dasharray="3 3"/>`;
+
+  // Date labels
+  [0, Math.floor(data.length/2), data.length-1].forEach(i => {
+    const dateShort = data[i].date.slice(5);
+    html += `<text x="${x(i)}" y="${h - 16}" font-family="IBM Plex Mono, monospace" font-size="9" fill="rgba(237,232,223,0.35)" text-anchor="middle">${dateShort}</text>`;
+  });
+
+  svg.innerHTML = html;
+}
+
+// ═══════════ ENTRIES ═══════════
+function renderEntries() {
+  const el = document.getElementById('entries');
+  el.innerHTML = entries.map(e => {
+    const d = new Date(e.date + 'T12:00:00');
+    const dow = d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
+    const day = d.getDate();
+    const mon = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+
+    const metrics = [];
+    if (e.hrv) metrics.push(`<span>HRV <span class="v">${e.hrv}</span></span>`);
+    if (e.rhr) metrics.push(`<span>RHR <span class="v">${e.rhr}</span></span>`);
+    if (e.sleep) metrics.push(`<span>SLEEP <span class="v">${e.sleep}h</span></span>`);
+    if (e.calories) metrics.push(`<span>KCAL <span class="v">${e.calories}</span></span>`);
+    if (e.protein) metrics.push(`<span>PROT <span class="v">${e.protein}g</span></span>`);
+
+    return `<div class="entry">
+      <div class="entry-date"><span class="dow">${dow}</span>${mon} ${day}</div>
+      <div class="entry-body">
+        <p>${e.note || ''}</p>
+        <div class="entry-metrics">${metrics.join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('entry-count').textContent = `${entries.length} entries`;
+}
+
+// ═══════════ SAVE ENTRY ═══════════
+function saveEntry() {
+  const today = new Date().toISOString().slice(0, 10);
+  const entry = {
+    date: today,
+    note: document.getElementById('log-text').value.trim(),
+    hrv: parseFloat(document.getElementById('f-hrv').value) || null,
+    rhr: parseFloat(document.getElementById('f-rhr').value) || null,
+    sleep: parseFloat(document.getElementById('f-sleep').value) || null,
+    weight: parseFloat(document.getElementById('f-weight').value) || null,
+    calories: parseFloat(document.getElementById('f-cal').value) || null,
+    protein: parseFloat(document.getElementById('f-prot').value) || null,
+    activity: !!document.getElementById('log-text').value.trim(),
+    strong: false,
+  };
+  if (!entry.note && !entry.hrv && !entry.calories) {
+    alert('Add something first.');
+    return;
+  }
+
+  // Replace existing entry for today, or prepend
+  entries = entries.filter(e => e.date !== today);
+  entries.unshift(entry);
+  saveEntries();
+
+  // Clear form
+  document.getElementById('log-text').value = '';
+  ['f-hrv','f-rhr','f-sleep','f-weight','f-cal','f-prot'].forEach(id => document.getElementById(id).value = '');
+
+  // Re-render
+  init();
+}
+
+// ═══════════ INIT ═══════════
+function init() {
+  document.getElementById('today-date').textContent =
+    new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' }).toUpperCase();
+  loadEntries();
+  renderStats();
+  renderHeatmap();
+  renderHRVChart();
+  renderDualChart();
+  renderEntries();
 }
 </script>
 
