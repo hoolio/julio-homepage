@@ -49,7 +49,13 @@
       "Bash(ia list:*)",
       "Read(//Users/julio/**)",
       "Bash(ls -lt /Users/julio/Downloads/*.html)",
-      "Bash(grep -E '\\\\.\\(mp3|m4a\\)$')"
+      "Bash(grep -E '\\\\.\\(mp3|m4a\\)$')",
+      "Bash(dig chopradio.com +short)",
+      "Bash(dig www.chopradio.com +short)",
+      "Bash(find /Users/julio/Music/Chop -name deer* -o -name hamster* -o -name deathgate*)",
+      "Bash(mdfind \"kMDItemFSName == ''deer.jpg''\")",
+      "Bash(mdfind \"kMDItemFSName == ''deathgate.jpg''\")",
+      "Bash(mdfind \"kMDItemFSName == ''hamster.jpg''\")"
     ]
   }
 }
