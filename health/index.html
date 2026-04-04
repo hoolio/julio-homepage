@@ -896,6 +896,7 @@ function lockSession() {
 // ═══════════ DATA ═══════════
 const STORAGE_KEY = 'health_entries';
 let entries = [];
+let calViewMonth = new Date();
 
 if (localStorage.getItem(HEALTH_KEY) === 'yes') {
   document.getElementById('lock').style.display = 'none';
@@ -1393,7 +1394,7 @@ function importData() {
 }
 
 // ═══════════ CALENDAR ═══════════
-let calViewMonth = new Date();
+// calViewMonth declared above
 
 function calMonth(delta) {
   calViewMonth.setMonth(calViewMonth.getMonth() + delta);
