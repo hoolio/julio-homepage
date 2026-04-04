@@ -242,6 +242,85 @@
     color: var(--dim);
   }
 
+  /* Calendar */
+  .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; background: var(--paper-warm); border: 1px solid var(--hairline); padding: 2px; }
+  .cal-dow {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    padding: 10px 6px;
+    text-align: center;
+    background: var(--paper);
+  }
+  .cal-day {
+    aspect-ratio: 1.2;
+    padding: 8px 10px;
+    background: var(--paper);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    transition: background 0.2s;
+    position: relative;
+    text-align: left;
+    font-family: inherit;
+  }
+  .cal-day:hover { background: var(--amber-glow); }
+  .cal-day.empty { cursor: default; background: transparent; opacity: 0.2; }
+  .cal-day.empty:hover { background: transparent; }
+  .cal-day.today { background: rgba(196, 125, 40, 0.08); }
+  .cal-day.has-entry { background: var(--paper); }
+  .cal-day-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.04em;
+  }
+  .cal-day.today .cal-day-num { color: var(--gold); font-weight: 500; }
+  .cal-day.has-entry .cal-day-num { color: var(--ink); }
+  .cal-day-dots { display: flex; gap: 2px; margin-top: 6px; flex-wrap: wrap; }
+  .cal-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); }
+  .cal-dot.strong { background: var(--oxblood); }
+  .cal-preview {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 10px;
+    color: var(--dim);
+    line-height: 1.3;
+    margin-top: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    width: 100%;
+  }
+  .cal-nav {
+    background: none;
+    border: 1px solid var(--hairline);
+    color: var(--dim);
+    width: 24px; height: 24px;
+    font-family: var(--mono);
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .cal-nav:hover { color: var(--gold); border-color: var(--gold-dim); }
+
+  /* Entry modal */
+  .entry-modal { display: none; position: fixed; inset: 0; background: rgba(26, 20, 16, 0.5); backdrop-filter: blur(4px); z-index: 200; align-items: flex-start; justify-content: center; padding: 80px 20px 40px; }
+  .entry-modal.active { display: flex; }
+  .entry-modal-card { background: var(--paper); border: 1px solid var(--hairline-strong); border-radius: 2px; padding: 24px 28px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px -20px rgba(26,20,16,0.3); }
+  .entry-modal-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--hairline); }
+  .entry-modal-head span { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; color: var(--ink); }
+  .entry-modal-close { background: none; border: none; color: var(--dim); font-size: 20px; cursor: pointer; line-height: 1; padding: 0 4px; }
+  .entry-modal-close:hover { color: var(--oxblood); }
+
   /* Photo drop */
   .photo-row { display: flex; gap: 12px; margin-top: 12px; align-items: stretch; }
   .photo-drop {
@@ -734,6 +813,19 @@
     </div>
   </section>
 
+  <!-- CALENDAR -->
+  <section style="margin-bottom:30px">
+    <div class="section-head">
+      <h2>Calendar</h2>
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="cal-nav" onclick="calMonth(-1)">←</button>
+        <span class="meta" id="cal-label">—</span>
+        <button class="cal-nav" onclick="calMonth(1)">→</button>
+      </div>
+    </div>
+    <div class="calendar-grid" id="calendar"></div>
+  </section>
+
   <!-- ENTRIES -->
   <section>
     <div class="section-head">
@@ -743,11 +835,27 @@
     <div class="entries" id="entries"></div>
   </section>
 
+  <!-- Entry detail modal -->
+  <div class="entry-modal" id="entry-modal" onclick="if(event.target===this) closeModal()">
+    <div class="entry-modal-card">
+      <div class="entry-modal-head">
+        <span id="modal-date"></span>
+        <button class="entry-modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
 </div>
 
 <footer class="proj-foot">
   <span>Choplogic Radio · Est. 2006</span>
-  <a href="#" onclick="lockSession();return false">Lock</a>
+  <div style="display:flex;gap:16px;align-items:center">
+    <a href="#" onclick="exportData();return false">Export</a>
+    <a href="#" onclick="importData();return false">Import</a>
+    <a href="#" onclick="diagnosticInfo();return false">Diagnostic</a>
+    <a href="#" onclick="lockSession();return false">Lock</a>
+  </div>
 </footer>
 
 </div>
@@ -1241,18 +1349,172 @@ function cancelParse() {
   document.getElementById('parse-preview').style.display = 'none';
 }
 
+// ═══════════ EXPORT / IMPORT ═══════════
+function exportData() {
+  const data = JSON.stringify(entries, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `health-entries-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const imported = JSON.parse(ev.target.result);
+        if (!Array.isArray(imported)) throw new Error('Not an array');
+        if (confirm(`Import ${imported.length} entries? This will MERGE with existing (same-date entries replaced).`)) {
+          // Merge by date
+          const byDate = {};
+          entries.forEach(e => byDate[e.date] = e);
+          imported.forEach(e => { if (e.date) byDate[e.date] = e; });
+          entries = Object.values(byDate).sort((a,b) => b.date.localeCompare(a.date));
+          saveEntries();
+          init();
+          alert('Imported.');
+        }
+      } catch(err) {
+        alert('Import failed: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+// ═══════════ CALENDAR ═══════════
+let calViewMonth = new Date();
+
+function calMonth(delta) {
+  calViewMonth.setMonth(calViewMonth.getMonth() + delta);
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const el = document.getElementById('calendar');
+  if (!el) return;
+  const year = calViewMonth.getFullYear();
+  const month = calViewMonth.getMonth();
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('cal-label').textContent = `${monthNames[month]} ${year}`;
+
+  const first = new Date(year, month, 1);
+  const last = new Date(year, month + 1, 0);
+  const startDow = first.getDay(); // 0 = Sunday
+  const daysInMonth = last.getDate();
+  const todayStr = new Date().toISOString().slice(0,10);
+
+  // Index entries by date
+  const byDate = {};
+  entries.forEach(e => { byDate[e.date] = e; });
+
+  let html = '';
+  ['S','M','T','W','T','F','S'].forEach(d => {
+    html += `<div class="cal-dow">${d}</div>`;
+  });
+
+  // Empty cells before month starts
+  for (let i = 0; i < startDow; i++) html += '<div class="cal-day empty"></div>';
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const iso = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const entry = byDate[iso];
+    const isToday = iso === todayStr;
+    const classes = ['cal-day'];
+    if (isToday) classes.push('today');
+    if (entry) classes.push('has-entry');
+
+    let dots = '';
+    let preview = '';
+    if (entry) {
+      const metrics = [entry.hrv, entry.rhr, entry.sleep, entry.calories].filter(x => x != null).length;
+      for (let i = 0; i < Math.min(metrics, 4); i++) {
+        dots += `<span class="cal-dot${entry.strong ? ' strong' : ''}"></span>`;
+      }
+      if (entry.note) preview = `<div class="cal-preview">${entry.note.substring(0, 50)}${entry.note.length > 50 ? '…' : ''}</div>`;
+    }
+
+    html += `<button class="${classes.join(' ')}" onclick="openModal('${iso}')">
+      <span class="cal-day-num">${day}</span>
+      <div class="cal-day-dots">${dots}</div>
+      ${preview}
+    </button>`;
+  }
+
+  el.innerHTML = html;
+}
+
+function openModal(iso) {
+  const byDate = {}; entries.forEach(e => byDate[e.date] = e);
+  const entry = byDate[iso];
+  const d = new Date(iso + 'T12:00:00');
+  const dateStr = d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+  document.getElementById('modal-date').textContent = dateStr;
+
+  if (!entry) {
+    document.getElementById('modal-body').innerHTML = `
+      <p style="font-family:var(--serif);font-style:italic;color:var(--dim);font-size:1rem">No entry for this day.</p>
+      <p style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dim);margin-top:14px">To log it, use the form at the top of the page (date defaults to today).</p>
+    `;
+  } else {
+    const metrics = [];
+    if (entry.hrv) metrics.push(`<span>HRV <span class="v">${entry.hrv}</span></span>`);
+    if (entry.rhr) metrics.push(`<span>RHR <span class="v">${entry.rhr}</span></span>`);
+    if (entry.sleep) metrics.push(`<span>SLEEP <span class="v">${entry.sleep}h</span></span>`);
+    if (entry.weight) metrics.push(`<span>WEIGHT <span class="v">${entry.weight}</span></span>`);
+    if (entry.calories) metrics.push(`<span>KCAL <span class="v">${entry.calories}</span></span>`);
+    if (entry.protein) metrics.push(`<span>PROT <span class="v">${entry.protein}g</span></span>`);
+
+    document.getElementById('modal-body').innerHTML = `
+      ${entry.note ? `<p style="font-family:var(--serif);font-style:italic;font-size:1.05rem;line-height:1.55;color:var(--ink);margin-bottom:16px">${entry.note}</p>` : ''}
+      ${metrics.length ? `<div class="entry-metrics" style="display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--dim)">${metrics.join('')}</div>` : ''}
+    `;
+  }
+
+  document.getElementById('entry-modal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('entry-modal').classList.remove('active');
+}
+
+function diagnosticInfo() {
+  const raw = localStorage.getItem(STORAGE_KEY) || '(none)';
+  const preview = raw.startsWith('enc:') ? '[encrypted — old format]' : `${entries.length} entries, latest: ${entries[0]?.date || 'none'}`;
+  alert(`Storage diagnostic:\n\nKey: ${STORAGE_KEY}\nContents: ${preview}\nRaw size: ${raw.length} chars\n\nCheck DevTools > Application > Local Storage to see the raw JSON.`);
+}
+
 // ═══════════ INIT ═══════════
 function init() {
   document.getElementById('today-date').textContent =
     new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' }).toUpperCase();
   loadEntries();
+  // If latest entry is more than a month old, jump calendar to that month so the user sees their data
+  if (entries.length > 0) {
+    const latest = new Date(entries[0].date + 'T12:00:00');
+    const now = new Date();
+    const diff = (now - latest) / (1000 * 60 * 60 * 24);
+    if (diff > 7) calViewMonth = latest;
+  }
   renderStats();
   renderHeatmap();
   renderHRVChart();
   renderDualChart();
   renderEntries();
+  renderCalendar();
   initPhotoDrop();
   updateApiKeyStatus();
+  console.log(`Health: ${entries.length} entries loaded. Latest: ${entries[0]?.date || 'none'}`);
 }
 </script>
 
