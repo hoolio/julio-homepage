@@ -26,10 +26,12 @@ const Intel = (function () {
     return result;
   }
 
-  // Get rolling average over last N days for a numeric field
+  // Get rolling average over last N days for a numeric field (anchored to most recent entry)
   function rollingAvg(entries, field, days) {
-    const now = new Date();
-    const cutoff = new Date(now);
+    if (!entries.length) return null;
+    const sorted = [...entries].sort((a, b) => b.date.localeCompare(a.date));
+    const latest = new Date(sorted[0].date + 'T12:00:00');
+    const cutoff = new Date(latest);
     cutoff.setDate(cutoff.getDate() - days);
     const cutoffStr = cutoff.toISOString().slice(0, 10);
 
@@ -38,10 +40,12 @@ const Intel = (function () {
     return relevant.reduce((sum, e) => sum + e[field], 0) / relevant.length;
   }
 
-  // Get rolling average of parsed nutrition
+  // Get rolling average of parsed nutrition (anchored to most recent entry)
   function nutritionAvg(entries, nutrientKey, days) {
-    const now = new Date();
-    const cutoff = new Date(now);
+    if (!entries.length) return null;
+    const sorted = [...entries].sort((a, b) => b.date.localeCompare(a.date));
+    const latest = new Date(sorted[0].date + 'T12:00:00');
+    const cutoff = new Date(latest);
     cutoff.setDate(cutoff.getDate() - days);
     const cutoffStr = cutoff.toISOString().slice(0, 10);
 
@@ -158,10 +162,12 @@ const Intel = (function () {
     return nudges.slice(0, 2); // Max 2 nudges
   }
 
-  // Get entries for a date range
+  // Get entries for a date range, anchored to the most recent entry (not today)
   function getRange(entries, days) {
-    const now = new Date();
-    const cutoff = new Date(now);
+    if (!entries.length) return [];
+    const sorted = [...entries].sort((a, b) => b.date.localeCompare(a.date));
+    const latest = new Date(sorted[0].date + 'T12:00:00');
+    const cutoff = new Date(latest);
     cutoff.setDate(cutoff.getDate() - days);
     const cutoffStr = cutoff.toISOString().slice(0, 10);
     return entries
