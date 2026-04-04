@@ -38,7 +38,8 @@
       "Bash(gh api:*)",
       "Bash(cp -r /Users/julio/health/css /Users/julio/homepage/health/css)",
       "Bash(cp -r /Users/julio/health/js /Users/julio/homepage/health/js)",
-      "Bash(chmod +x /Users/julio/homepage/tools/import.js)"
+      "Bash(chmod +x /Users/julio/homepage/tools/import.js)",
+      "Bash(python3 -c \":*)"
     ]
   }
 }

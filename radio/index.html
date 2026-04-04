@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choplogic Radio — Julio Avalos</title>
+  <meta name="description" content="Choplogic Radio. Independent and progressive online radio from Brooklyn and San Francisco. 83 episodes, 2006–2012.">
+  <meta name="theme-color" content="#1a1208">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    /* Radio-specific styles */
+    .radio-hero {
+      padding: 120px 0 60px;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+
+    .radio-title {
+      font-family: var(--serif);
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 0.75rem;
+    }
+
+    .radio-title .chop { color: var(--text); }
+    .radio-title .logic { color: var(--gold); }
+
+    .radio-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .radio-meta {
+      font-size: 0.78rem;
+      color: var(--text-faint);
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .radio-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* Now playing */
+    .now-playing {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 2.5rem 2rem;
+    }
+
+    .player-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-hover);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      display: none;
+    }
+
+    .player-card.active { display: block; }
+
+    .player-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .player-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    .player-close {
+      background: none;
+      border: none;
+      color: var(--text-faint);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+
+    .player-close:hover { color: var(--text); }
+
+    .player-card audio {
+      width: 100%;
+      height: 36px;
+      filter: sepia(0.3) hue-rotate(-10deg);
+    }
+
+    /* Episode grid */
+    .episodes-section {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2rem 2.5rem 4rem;
+    }
+
+    .episode-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .episode {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      gap: 1.25rem;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+      transition: background 0.15s;
+    }
+
+    .episode:first-child { border-top: 1px solid var(--border); }
+
+    .episode:hover {
+      background: var(--gold-glow);
+      margin: 0 -1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .episode-num {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--text-faint);
+      text-align: right;
+      padding-top: 0.15rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .episode-info { min-width: 0; }
+
+    .episode-title-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .episode-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .episode-date {
+      font-size: 0.72rem;
+      color: var(--text-faint);
+    }
+
+    .episode-desc {
+      font-size: 0.82rem;
+      color: var(--text-tertiary);
+      line-height: 1.5;
+      margin-top: 0.2rem;
+    }
+
+    .episode-special {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: var(--gold);
+      background: rgba(201, 168, 76, 0.08);
+      padding: 1px 6px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .episode-actions {
+      display: flex;
+      gap: 0.5rem;
+      padding-top: 0.15rem;
+      flex-shrink: 0;
+    }
+
+    .play-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-faint);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 0.7rem;
+    }
+
+    .play-btn:hover {
+      border-color: var(--gold-dim);
+      color: var(--gold);
+    }
+
+    .episode-duration {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-faint);
+      padding-top: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .radio-hero { padding-left: 1.5rem; padding-right: 1.5rem; padding-top: 80px; }
+      .radio-title { font-size: 2.4rem; }
+      .now-playing { padding: 0 1.5rem 1.5rem; }
+      .episodes-section { padding: 1.5rem 1.5rem 3rem; }
+
+      .episode {
+        grid-template-columns: 36px 1fr auto;
+        gap: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-name">Julio Avalos</a>
+      <ul class="nav-links">
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#work">Work</a></li>
+        <li><a href="/radio/">Radio</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="radio-hero">
+    <h1 class="radio-title"><span class="chop">Chop</span><span class="logic">logic</span> Radio</h1>
+    <p class="radio-subtitle">Independent and progressive online radio. Indie, post-punk, electronic, krautrock, hip-hop, experimental, and everything in between. Broadcasting from Bushwick, Brooklyn and later San Francisco.</p>
+    <div class="radio-meta">
+      <span>83 episodes</span>
+      <span>2006 &ndash; 2012</span>
+      <span>chopradio@gmail.com</span>
+    </div>
+  </div>
+
+  <!-- Player -->
+  <div class="now-playing">
+    <div class="player-card" id="player-card">
+      <div class="player-header">
+        <span class="player-title" id="player-title">Now Playing</span>
+        <button class="player-close" id="player-close">&times;</button>
+      </div>
+      <audio controls id="audio-player" preload="none"></audio>
+    </div>
+  </div>
+
+  <!-- Episodes -->
+  <div class="episodes-section">
+    <div class="section-label">All Episodes</div>
+    <div class="episode-list" id="episode-list"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-text">&copy; 2026 Julio Avalos &middot; Choplogic Radio</div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+    </ul>
+  </footer>
+
+  <script>
+  (function () {
+    // Episode data extracted from chopradio.xml + main.html
+    const episodes = [
+      { num: 83, date: 'Dec 7, 2012', duration: '~45:00', desc: 'Operating Theatre, Maximum Joy, Oppenheimer Analysis, Elodie Lauten, Peaking Lights, Savages, Linea Aspera.', url: 'http://www.chopradio.com/chop83.m4a' },
+      { num: 82, date: 'Aug 15, 2012', duration: '53:38', desc: 'Central Unit, SOS Band, Eola, Ariel Pink, TOPS, The Bats, Jacques Greene, Turquoise Days, Mi Ami.', url: 'http://www.chopradio.com/chop82.m4a' },
+      { num: 81, date: 'May 22, 2012', duration: '31:16', desc: '"Rings of Saturn" from Tops rewards repeated listening. Gonzales, 13th Floor Elevators, Jana Hunter, Hospitality.', url: 'http://www.chopradio.com/chop81.m4a' },
+      { num: 80, date: 'Mar 20, 2012', duration: '43:24', desc: 'John Talabot, Dustin Wong, Slapp Happy (1974), War from Oslo, Peaking Lights, Mister Lies, Killing Joke.', url: 'http://www.chopradio.com/chop80.m4a' },
+      { num: 79, date: 'Feb 6, 2012', duration: '34:36', desc: 'Michael Hurley, Fire Engines, post punk, Saint-Preux, Kraus, Ruth, The Offset.', url: 'http://www.chopradio.com/chop79.m4a' },
+      { num: 78, date: 'Jan 17, 2012', duration: '46:22', desc: 'Dirty Beaches, Peaking Lights, Portishead. Winter edition.', url: 'http://www.chopradio.com/chop78.m4a', tag: 'hiver' },
+      { num: 76, date: 'Aug 15, 2011', duration: '30:55', desc: 'Kindness, Sbtrkt, Beak>, and more.', url: 'http://www.chopradio.com/chop76.mp3' },
+      { num: 73, date: 'Aug 15, 2011', duration: '38:26', desc: 'Warm summer nights mix. Blood Orange, Part Time, Rifle Recoil, Sbtrkt.', url: 'http://www.chopradio.com/chop73.mp3', tag: 'summer mix' },
+      { num: 72, date: 'Jul 17, 2011', duration: '39:34', desc: 'Pure X, Crinkles, Beirut. Great new Brooklyn bands: La Big Vick, Swamp Donkey, Boy Friend.', url: 'http://www.chopradio.com/chop72.mp3' },
+      { num: 67, date: 'Apr 1, 2010', duration: '41:00', desc: 'Biber, Bodies of Water, Hospitality, The Clean, Blood on the Wall, Michael Rother, Pauline Oliveros.', url: 'http://www.chopradio.com/chop67a.mp3', parts: ['http://www.chopradio.com/chop67a.mp3','http://www.chopradio.com/chop67b.mp3','http://www.chopradio.com/chop67c.mp3'] },
+      { num: 52, date: 'Mar 9, 2008', duration: '~109:00', desc: 'The History of Kraftwerk. Five parts.', url: 'http://www.chopradio.com/chop52a.mp3', tag: 'special', parts: ['http://www.chopradio.com/chop52a.mp3','http://www.chopradio.com/chop52b.mp3','http://www.chopradio.com/chop52c.mp3','http://www.chopradio.com/chop52d.mp3','http://www.chopradio.com/chop52e.mp3'] },
+      { num: 50, date: 'Feb 17, 2008', duration: '34:00', desc: 'Edición en español desde Latinoamérica.', url: 'http://www.chopradio.com/chop50a.mp3', tag: 'en español', parts: ['http://www.chopradio.com/chop50a.mp3','http://www.chopradio.com/chop50b.mp3','http://www.chopradio.com/chop50c.mp3'] },
+      { num: 44, date: 'Dec 23, 2007', duration: '~70:00', desc: 'Best 25 Songs of 2007.', url: 'http://www.chopradio.com/chop45a.mp3', tag: 'year-end' },
+      { num: 40, date: 'Oct 28, 2007', duration: '~50:00', desc: 'Halloween edition.', url: 'http://www.chopradio.com/chop29a.mp3', tag: 'halloween' },
+      { num: 38, date: 'Oct 7, 2007', duration: '~58:00', desc: 'The Hip Hop Show. Four parts.', url: 'http://www.chopradio.com/chop29a.mp3', tag: 'hip hop' },
+      { num: 15, date: 'Mar 4, 2007', duration: '50:54', desc: 'Three parts. One of the early peaks.', url: 'http://www.chopradio.com/chop15a.mp3', parts: ['http://www.chopradio.com/chop15a.mp3','http://www.chopradio.com/chop15b.mp3','http://www.chopradio.com/chop15c.mp3'] },
+      { num: 10, date: 'Jan 21, 2007', duration: '1:06:22', desc: 'Bookended with Galt MacDermot. New songs from Clap Your Hands Say Yeah and Menomena.', url: 'http://www.chopradio.com/chop10.mp3' },
+      { num: 7, date: 'Dec 17, 2006', duration: '1:01:41', desc: 'End-of-the-Year Edition.', url: 'http://www.chopradio.com/chop7.mp3', tag: 'year-end' },
+      { num: 6, date: 'Dec 10, 2006', duration: '1:10:40', desc: 'Special Global Indie Music Edition.', url: 'http://www.chopradio.com/chopsix.mp3', tag: 'global' },
+      { num: 5, date: 'Dec 3, 2006', duration: '1:07:01', desc: 'Sonali\'s favorites. New music from The Shins, Malajube, Oxy Cottontail.', url: 'http://www.chopradio.com/chop5.mp3' },
+      { num: 4, date: 'Nov 19, 2006', duration: '1:09:34', desc: 'Thanksgiving edition. Morrissey, The Rosebuds, Casual Dots, Animal Collective.', url: 'http://www.chopradio.com/chopfour.mp3', tag: 'thanksgiving' },
+      { num: 3, date: 'Nov 12, 2006', duration: '1:13:49', desc: 'Beirut, Dance Disaster Movement, Professor Murder, LCD Soundsystem.', url: 'http://www.chopradio.com/chopthree.mp3' },
+      { num: 2, date: 'Nov 5, 2006', duration: '1:07:59', desc: 'Country Teasers, Peter Bjorn and John, Chromatics, TV on the Radio.', url: 'http://www.chopradio.com/choptwo.mp3' },
+      { num: 1, date: 'Oct 29, 2006', duration: '1:12:13', desc: 'The first one. Country Teasers, Pterodactyl, Lightning Bolt, Japanther.', url: 'http://www.chopradio.com/chopone.mp3', tag: 'premiere' },
+    ];
+
+    const list = document.getElementById('episode-list');
+    const playerCard = document.getElementById('player-card');
+    const playerTitle = document.getElementById('player-title');
+    const audioPlayer = document.getElementById('audio-player');
+
+    episodes.forEach(ep => {
+      const tag = ep.tag ? `<span class="episode-special">${ep.tag}</span>` : '';
+      const el = document.createElement('div');
+      el.className = 'episode';
+      el.innerHTML = `
+        <div class="episode-num">#${ep.num}</div>
+        <div class="episode-info">
+          <div class="episode-title-row">
+            <span class="episode-name">Episode ${ep.num}</span>
+            ${tag}
+            <span class="episode-date">${ep.date}</span>
+          </div>
+          <div class="episode-desc">${ep.desc}</div>
+        </div>
+        <div class="episode-actions">
+          <div class="episode-duration">${ep.duration}</div>
+          <button class="play-btn" title="Play">\u25B6</button>
+        </div>
+      `;
+
+      el.querySelector('.play-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        playEpisode(ep);
+      });
+
+      list.appendChild(el);
+    });
+
+    function playEpisode(ep) {
+      playerTitle.textContent = `Episode ${ep.num} — ${ep.date}`;
+      audioPlayer.src = ep.url;
+      audioPlayer.play().catch(() => {});
+      playerCard.classList.add('active');
+      playerCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    document.getElementById('player-close').addEventListener('click', () => {
+      audioPlayer.pause();
+      audioPlayer.src = '';
+      playerCard.classList.remove('active');
+    });
+  })();
+  </script>
+</body>
+</html>
