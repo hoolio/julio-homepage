@@ -92,7 +92,6 @@ body::after {
 .site {
   display: grid;
   grid-template-columns: 200px 1fr;
-  min-height: 100vh;
 }
 
 /* RAIL */
@@ -254,8 +253,9 @@ body::after {
 
 .hero-meta {
   display: flex;
+  flex-direction: row;
   gap: 3rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .meta-label {
@@ -721,6 +721,11 @@ body::after {
 
     <!-- HERO -->
     <div class="hero">
+      <div class="hero-kicker">
+        <span class="hero-kicker-pill">Now</span>
+        <span class="hero-kicker-text">Observable · Shades News · Chop Radio</span>
+      </div>
+
       <h1 class="hero-headline">
         Julio<br>
         <strong>Avalos</strong>
