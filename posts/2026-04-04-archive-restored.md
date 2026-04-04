@@ -1,45 +1,35 @@
 ---
-title: The archive is back
-deck: 83 episodes of Choplogic Radio, permanently restored to the Internet Archive. Broadcasting from 2006 Bushwick.
+title: Choplogic Radio files added to Internet Archive
+deck: 83 episodes of a pioneering 2006 Bushwick proto-podcast now live, permanently, at archive.org.
 date: 2026-04-04
-slug: archive-restored
+slug: internet-archive-choplogic
 categories: music, culture, history
 ---
 
-<strong>Announcement</strong>. In October 2006 we started a radio show in a warehouse at the corner of Irving Avenue and Stanhope in Bushwick, Brooklyn. It was called <em>Choplogic Radio</em>. The warehouse was the Office Ops Arts &amp; Community Center — a rooftop space, a performance hall, a loft where people lived and argued and made things, depending on the day. The L train was unreliable. We had no budget. Nobody was calling it a podcast yet because the word was still clumsy.
+<strong>For immediate release.</strong> The full run of <em>Choplogic Radio</em>, an independent and progressive online radio show broadcast from Brooklyn and San Francisco between 2006 and 2012, has been added to the Internet Archive. All 83 episodes — 200 audio files, 6.7 gigabytes — are now publicly available at <a href="https://archive.org/details/choplogic-radio">archive.org/details/choplogic-radio</a>.
 
-Twenty years later, all 83 episodes are live again. <em>The archive is restored.</em>
-
-::break
+Choplogic launched in October 2006 from a rooftop studio at the Office Ops Arts &amp; Community Center in pre-gentrified industrial Bushwick, Brooklyn, putting it among the earliest independent podcasts on the iTunes directory. It predates the word "podcast" as common usage. It predates most of the infrastructure that now makes one.
 
 ## What it was
 
-Choplogic was a weekly show. I played indie and post-punk and krautrock and hip hop and whatever was coming across the pond that week. I recorded it on a hand-me-down iMac in GarageBand, uploaded it to a server I paid $4/month for, and published it to the iTunes podcast directory the way you'd file a cassette in a shoebox.
+Hosted by Julio Avalos, Choplogic covered indie, post-punk, electronic, krautrock, hip-hop, and experimental music — a weekly hour of whatever was new, old, strange, or worth the trip. Specials included <em>The History of Kraftwerk</em> (five parts), <em>The Hip Hop Show</em> (four parts), an edition entirely in Spanish from Latin America, and an annual Halloween edition.
 
-There was no marketing. There was no strategy. People in Berlin and Mexico City and Tokyo listened — which felt impossible and obvious at the same time, because the internet was still weird and generous then. Some weeks I got letters. Some weeks I got nothing. It didn't matter. Broadcasting is a kind of selfishness you convince yourself is a gift.
+The show moved from Brooklyn to San Francisco in 2009 and ran until December 2012. At the time, listeners wrote in from Berlin, Mexico City, Tokyo, and places the host had never been.
 
-::pullquote[Office Ops was a building where people who couldn't afford to live anywhere else were building the thing that would be used to justify pushing them out of it.]
+::pullquote[It was made in the window between blogging and streaming — when you could still upload an MP3 to a directory and have strangers in other countries hear it.]
 
-## Where it came from
+## Why it matters
 
-Bushwick in 2006 was industrial. Not industrial the way it is now — it was <em>actually</em> industrial. Warehouses full of people doing things that weren't profitable. Steel, print shops, the last Polish delis, stolen bike parts, noise bands, collectives. We'd walk to the studio at 11pm on a Sunday night and the only other person on the street was a guy running a generator for a puppet show nobody bought tickets to.
+The early podcast era (2005–2008) is one of the least-archived periods in independent audio. Most shows from that window are gone — hosting expired, domains released, MP3s scattered across decommissioned hard drives. Choplogic's restoration joins a small but growing canon of preserved proto-podcasts at the Internet Archive.
 
-That's the context Choplogic was made in. It's why the show sounds the way it does. Listen to episode 1 — the first song is a Country Teasers track followed by something by Lightning Bolt and then Japanther. That's a room at 11pm in a rooftop space you got to by a fire escape.
-
-## What happened to the files
-
-After the show ended in 2012, chopradio.com stayed up for about a decade and then quietly expired. The MP3s were scattered across old hard drives, GarageBand projects, a CRATEZ folder on a machine I keep meaning to throw away.
-
-This month we found all 83 episodes. They're now hosted on the <a href="https://archive.org/details/choplogic-radio">Internet Archive</a>, permanently, for free. 6.7 gigabytes. 200 files. Every episode streamable from this site.
+"This is exactly what the Archive is for," a spokesperson did not say, because none was asked. But the work speaks: 83 episodes of live curation, with track listings, metadata, and the recorded voice of a specific place and moment intact.
 
 ## Listen
 
-Go to the <a href="/home/radio/">archive</a>. Every episode is back. The track listings are intact. The original show notes are restored. Episode 52 is five parts of Kraftwerk history. Episode 38 is four parts of hip-hop. Episode 50 was the Spanish-language edition. Episode 40 is the Halloween edition. Episode 73 is "Warm summer nights mix".
+- <strong>Archive page</strong>: <a href="https://archive.org/details/choplogic-radio">archive.org/details/choplogic-radio</a>
+- <strong>Curated archive with track listings</strong>: <a href="/home/radio/">chopradio.com/home/radio/</a>
+- <strong>First episode</strong>: <a href="https://archive.org/download/choplogic-radio/chopone.mp3">chopone.mp3</a> — October 29, 2006
+- <strong>Kraftwerk history (5 parts)</strong>: Episode 52, March 2008
+- <strong>Hip Hop Show (4 parts)</strong>: Episode 38, October 2007
 
-There's a password gate on the audio because I don't want random crawlers scraping it, but I'll give you the password if you ask. The track lists are public.
-
-::break
-
-<em>This is what restoration means.</em> Nothing about the show was meant to last. It was made for the Sunday night it was made for, and then made for whoever was paying attention to their iTunes feed that week, and now it's back — twenty years older, a little weathered, unmistakably the thing it was.
-
-Something about that feels right.
+Contact: <a href="mailto:chopradio@gmail.com">chopradio@gmail.com</a>

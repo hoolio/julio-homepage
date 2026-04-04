@@ -83,14 +83,16 @@
 
   .featured-card {
     display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 40px;
+    grid-template-columns: 1fr 360px;
+    gap: 0;
     background: var(--well);
     border: 1px solid var(--hairline-strong);
     border-radius: 2px;
     overflow: hidden;
     position: relative;
     transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    height: 360px;
+    max-height: 360px;
   }
 
   .featured-card::before {
@@ -110,13 +112,21 @@
   }
 
   .featured-text {
-    padding: 36px 36px 36px 40px;
+    padding: 32px 32px 28px 36px;
     position: relative;
     z-index: 2;
     color: #ede8df;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .featured-text .featured-deck {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .featured-kicker {
@@ -197,6 +207,29 @@
   }
 
   #featured-viz { width: 100%; height: 100%; display: block; }
+
+  /* Deer graphic treatment — duotone warm amber */
+  .deer-graphic { position: relative; overflow: hidden; }
+  .deer-treated {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: grayscale(1) contrast(1.35) brightness(0.75) sepia(0.4) hue-rotate(-10deg) saturate(2.2);
+    mix-blend-mode: screen;
+    background: #2a1810;
+  }
+  .deer-overlay {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse at 30% 30%, rgba(196, 125, 40, 0.15), transparent 60%),
+      linear-gradient(135deg, rgba(10, 7, 4, 0.4), transparent 50%, rgba(122, 46, 28, 0.18));
+    mix-blend-mode: multiply;
+  }
+  .deer-graphic::after {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='nd'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23nd)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
 
   .featured-meta {
     position: absolute;
@@ -604,18 +637,19 @@
   <div class="carousel">
     <div class="carousel-track" id="carousel-track">
 
-      <!-- SLIDE 1: Archive restored announcement -->
-      <a href="/home/journal/archive-restored/" class="featured-card carousel-slide" data-slide="0">
+      <!-- SLIDE 1: Internet Archive acquisition announcement -->
+      <a href="/home/journal/internet-archive-choplogic/" class="featured-card carousel-slide" data-slide="0">
         <div class="featured-text">
           <div>
-            <div class="featured-kicker"><span class="tag">Restored</span> Announcement · April 2026</div>
-            <div class="featured-title">The archive is <em>back.</em></div>
-            <p class="featured-deck">83 episodes of Choplogic Radio — a pioneering proto-podcast from 2006 pre-gentrified industrial Bushwick at the Office Ops Arts &amp; Community Center — permanently restored to the Internet Archive. 6.7 gigabytes. 200 files. Twenty years later.</p>
+            <div class="featured-kicker"><span class="tag">Announcement</span> April 2026</div>
+            <div class="featured-title">Choplogic Radio files added to <em>Internet Archive.</em></div>
+            <p class="featured-deck">83 episodes of a pioneering 2006 Bushwick proto-podcast — indie, post-punk, krautrock, hip-hop, broadcast from a rooftop at the Office Ops Arts &amp; Community Center — now permanently hosted at archive.org. 6.7 gigabytes. 200 files. Twenty years in.</p>
           </div>
-          <span class="featured-link">Read the announcement →</span>
+          <span class="featured-link">Read the release →</span>
         </div>
-        <div class="featured-graphic">
-          <svg id="archive-viz" viewBox="0 0 340 300" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block"></svg>
+        <div class="featured-graphic deer-graphic">
+          <img src="/assets/deer.jpg" alt="" class="deer-treated">
+          <div class="deer-overlay"></div>
           <div class="featured-meta">2006 — 2026 · 83 EPISODES</div>
         </div>
       </a>
@@ -640,8 +674,8 @@
       <a href="/home/journal/listening-this-week-indigenous-electronic/" class="featured-card carousel-slide" data-slide="2">
         <div class="featured-text">
           <div>
-            <div class="featured-kicker"><span class="tag">Listening</span> This week · April 2026</div>
-            <div class="featured-title">Something <em>old,</em> something very new.</div>
+            <div class="featured-kicker"><span class="tag">Listening</span> <span id="listening-date">Week of April 4</span></div>
+            <div class="featured-title">What we're listening to <em>this week.</em></div>
             <p class="featured-deck">Debit. el plvybxy. DJ Fucci. El Irreal Veintiuno. A corner of experimental electronic music folding pre-Hispanic sound and deconstructed club into something that sounds unearthed rather than composed.</p>
           </div>
           <span class="featured-link">Read the list →</span>
@@ -1003,6 +1037,19 @@
   grain.style.filter = 'url(#arc-grain)';
   grain.style.mixBlendMode = 'overlay';
   svg.appendChild(grain);
+})();
+
+// ══════════ Auto-date for "What we're listening to this week" ══════════
+(function() {
+  const el = document.getElementById('listening-date');
+  if (!el) return;
+  const d = new Date();
+  const dow = d.getDay();
+  const daysToMonday = (dow === 0 ? 6 : dow - 1);
+  const monday = new Date(d);
+  monday.setDate(d.getDate() - daysToMonday);
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  el.textContent = `Week of ${months[monday.getMonth()]} ${monday.getDate()}`;
 })();
 
 // ══════════ STONE + MACHINE SVG (slide 3) ══════════
