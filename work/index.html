@@ -8,10 +8,10 @@
   body {
     background: #f9f6f0;
     color: #1a1714;
-    font-family: calibri, arial, geneva, helvetica, sans-serif;
+    font-family: Garamond, Georgia, serif;
     margin: 0;
-    padding: 20px;
-    font-size: 14px;
+    padding: 20px 20px 40px;
+    font-size: 16px;
     line-height: 1.6;
   }
 
@@ -26,86 +26,62 @@
     background-size: 180px 180px;
   }
 
-  a { color: #333; }
+  a { color: #1a1714; }
   a:hover { color: #800000; }
 
-  .wrap { max-width: 900px; margin: 0 auto; }
+  .wrap { max-width: 640px; margin: 0 auto; }
 
   .nav {
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    font-size: 13px;
+    margin-bottom: 40px;
   }
-  .nav a { color: #999; text-decoration: none; margin-right: 18px; text-transform: uppercase; }
+  .nav a { color: #999; text-decoration: none; margin-right: 20px; }
   .nav a:hover { color: #1a1714; }
   .nav a.active { color: #1a1714; }
 
   h1 {
-    font-family: Garamond, Georgia, serif;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: normal;
-    margin: 0 0 30px 0;
+    margin: 0 0 40px 0;
   }
 
-  .portfolio {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+  .item {
+    margin-bottom: 36px;
   }
 
-  .portfolio-item {
-    display: block;
+  .item a {
     text-decoration: none;
-    padding: 24px 0;
-    border-bottom: 1px solid #ddd;
-    transition: padding-left 0.2s;
   }
 
-  .portfolio-item:first-child {
-    border-top: 1px solid #ddd;
-  }
-
-  .portfolio-item:hover {
-    padding-left: 12px;
-  }
-
-  .portfolio-title {
-    font-family: Garamond, Georgia, serif;
+  .item-title {
     font-size: 22px;
     font-weight: normal;
-    color: #000;
     margin-bottom: 4px;
   }
 
-  .portfolio-item:hover .portfolio-title {
-    color: #800000;
-  }
-
-  .portfolio-desc {
-    font-size: 13px;
-    color: #666;
+  .item-desc {
+    font-size: 15px;
+    font-style: italic;
+    color: #888;
     line-height: 1.5;
   }
 
-  .portfolio-meta {
-    font-size: 11px;
-    color: #999;
-    margin-top: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+  .item-detail {
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 3px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e0ddd6;
+    margin: 0 0 36px 0;
   }
 
   .footer {
     margin-top: 60px;
-    padding-top: 20px;
-    text-align: center;
-    font-size: 10px;
-    color: #bbb;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border-top: 1px solid rgba(0,0,0,0.06);
+    font-size: 12px;
+    color: #ccc;
   }
 </style>
 </head>
@@ -113,37 +89,43 @@
 <div class="wrap">
 
   <div class="nav">
-    <a href="/">Home</a>
-    <a href="/work/" class="active">Work</a>
-    <a href="/about/">About</a>
+    <a href="/">home</a>
+    <a href="/work/" class="active">work</a>
+    <a href="/about/">about</a>
   </div>
 
   <h1>Work</h1>
 
-  <div class="portfolio">
-
-    <a href="/work/radio/" class="portfolio-item">
-      <div class="portfolio-title">Choplogic Radio</div>
-      <div class="portfolio-desc">Independent and progressive online radio from Bushwick, Brooklyn and San Francisco. Indie, post-punk, electronic, krautrock, hip-hop, experimental.</div>
-      <div class="portfolio-meta">83 episodes &middot; 2006 &ndash; 2012 &middot; Internet Archive</div>
+  <div class="item">
+    <a href="/work/radio/">
+      <div class="item-title">Choplogic Radio</div>
+      <div class="item-desc">Independent and progressive online radio from Bushwick, Brooklyn and San Francisco.</div>
+      <div class="item-detail">83 episodes, 2006&ndash;2012</div>
     </a>
+  </div>
 
-    <a href="/work/writing/" class="portfolio-item">
-      <div class="portfolio-title">Writing</div>
-      <div class="portfolio-desc">Published work. Essays on law, technology, culture, and the practice of building things with people.</div>
-      <div class="portfolio-meta">American Imago &middot; Medium &middot; Essays</div>
+  <hr>
+
+  <div class="item">
+    <a href="/work/writing/">
+      <div class="item-title">Writing</div>
+      <div class="item-desc">Essays, criticism, published work.</div>
+      <div class="item-detail">American Imago, Medium</div>
     </a>
+  </div>
 
-    <a href="/work/press/" class="portfolio-item">
-      <div class="portfolio-title">Press & Appearances</div>
-      <div class="portfolio-desc">Interviews, panels, podcasts, and video. Conversations about GitHub, Observable, open source, legal innovation, and media.</div>
-      <div class="portfolio-meta">MSNBC &middot; WSJ &middot; Podcasts &middot; Stanford</div>
+  <hr>
+
+  <div class="item">
+    <a href="/work/press/">
+      <div class="item-title">Press & Appearances</div>
+      <div class="item-desc">Interviews, panels, podcasts, video.</div>
+      <div class="item-detail">MSNBC, WSJ, Stanford, podcasts</div>
     </a>
-
   </div>
 
   <div class="footer">
-    Choplogic Radio &middot; Est. 2006
+    choplogic radio &middot; est. 2006
   </div>
 
 </div>
