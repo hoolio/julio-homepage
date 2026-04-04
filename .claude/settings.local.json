@@ -46,7 +46,9 @@
       "Bash(pip3 install:*)",
       "Bash(python3 -c \"import internetarchive; print\\(''installed at'', internetarchive.__file__\\)\")",
       "Bash(ia upload:*)",
-      "Bash(ia list:*)"
+      "Bash(ia list:*)",
+      "Read(//Users/julio/**)",
+      "Bash(ls -lt /Users/julio/Downloads/*.html)"
     ]
   }
 }
