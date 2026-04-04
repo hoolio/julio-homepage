@@ -48,7 +48,8 @@
       "Bash(ia upload:*)",
       "Bash(ia list:*)",
       "Read(//Users/julio/**)",
-      "Bash(ls -lt /Users/julio/Downloads/*.html)"
+      "Bash(ls -lt /Users/julio/Downloads/*.html)",
+      "Bash(grep -E '\\\\.\\(mp3|m4a\\)$')"
     ]
   }
 }
