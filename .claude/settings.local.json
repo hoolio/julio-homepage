@@ -55,7 +55,8 @@
       "Bash(find /Users/julio/Music/Chop -name deer* -o -name hamster* -o -name deathgate*)",
       "Bash(mdfind \"kMDItemFSName == ''deer.jpg''\")",
       "Bash(mdfind \"kMDItemFSName == ''deathgate.jpg''\")",
-      "Bash(mdfind \"kMDItemFSName == ''hamster.jpg''\")"
+      "Bash(mdfind \"kMDItemFSName == ''hamster.jpg''\")",
+      "Bash(shasum -a 256)"
     ]
   }
 }
