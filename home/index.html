@@ -258,7 +258,7 @@
 
   .carousel-track {
     display: flex;
-    transition: transform 1.2s cubic-bezier(0.7, 0, 0.2, 1);
+    transition: transform 0.7s cubic-bezier(0.7, 0, 0.2, 1);
     will-change: transform;
   }
 
@@ -1174,7 +1174,7 @@
 
   let current = 0;
   let timer = null;
-  const HOLD = 9000; // hold 9s then advance
+  const HOLD = 4500; // hold 4.5s then advance (doubled speed)
 
   function show(idx) {
     current = ((idx % slides.length) + slides.length) % slides.length;
