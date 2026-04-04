@@ -90,8 +90,7 @@ body::after {
 
 /* LAYOUT */
 .site {
-  display: grid;
-  grid-template-columns: 200px 1fr;
+  /* rail is position:fixed, so no grid needed — content uses margin-left */
 }
 
 /* RAIL */
@@ -180,7 +179,7 @@ body::after {
 .rail-social:hover { color: var(--ink); }
 
 /* CONTENT */
-.content { margin-left: 200px; min-width: 0; }
+.content { margin-left: 200px; min-width: 0; width: calc(100% - 200px); overflow-x: hidden; }
 
 /* HERO */
 .hero {
@@ -278,7 +277,7 @@ body::after {
 /* SECTIONS */
 .section {
   display: grid;
-  grid-template-columns: 72px 1fr;
+  grid-template-columns: 72px minmax(0, 1fr);
   border-bottom: 1px solid var(--rule);
 }
 
@@ -400,7 +399,7 @@ body::after {
 
 .chop-inner {
   display: grid;
-  grid-template-columns: 72px 1fr;
+  grid-template-columns: 72px minmax(0, 1fr);
   position: relative; z-index: 3;
 }
 
