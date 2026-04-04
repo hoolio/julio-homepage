@@ -76,14 +76,14 @@
   .featured {
     max-width: 1080px;
     margin: 0 auto;
-    padding: 40px 24px 0;
+    padding: 100px 24px 0;
     position: relative;
     z-index: 2;
   }
 
   .featured-card {
     display: grid;
-    grid-template-columns: 1fr 360px;
+    grid-template-columns: 1fr 440px;
     gap: 0;
     background: var(--well);
     border: 1px solid var(--hairline-strong);
@@ -91,8 +91,8 @@
     overflow: hidden;
     position: relative;
     transition: border-color 0.4s ease, box-shadow 0.4s ease;
-    height: 360px;
-    max-height: 360px;
+    height: 440px;
+    max-height: 440px;
   }
 
   .featured-card::before {
@@ -247,6 +247,41 @@
     .featured-card { grid-template-columns: 1fr; }
     .featured-graphic { min-height: 200px; order: -1; }
     .featured-text { padding: 28px 24px 28px 28px; }
+  }
+
+  /* Epilogue */
+  .epilogue {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 140px 24px 120px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .epilogue-mark {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+  .epilogue-text {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+    line-height: 1.5;
+    color: var(--dim);
+    letter-spacing: -0.005em;
+  }
+  .epilogue-text em { color: var(--ink); font-style: italic; }
+  .epilogue-divider {
+    width: 40px;
+    height: 1px;
+    background: var(--gold-dim);
+    margin: 32px auto 0;
   }
 
   /* CAROUSEL — horizontal slide, continuous motion */
@@ -699,6 +734,12 @@
 </section>
 
 
+
+<section class="epilogue">
+  <div class="epilogue-mark">Choplogic · MMVI—</div>
+  <p class="epilogue-text">A long signal from <em>one place</em> that keeps finding new ones.</p>
+  <div class="epilogue-divider"></div>
+</section>
 
 <footer class="home-foot">
   <span>Choplogic Radio &middot; Est. 2006</span>
