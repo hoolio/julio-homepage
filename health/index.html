@@ -450,6 +450,26 @@
 
   .entry:first-child { border-top: 1px solid var(--hairline); }
 
+  .entry.today {
+    background: linear-gradient(90deg, rgba(196, 125, 40, 0.06), transparent 70%);
+    padding-left: 14px;
+    margin-left: -14px;
+  }
+
+  .today-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 8.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: rgba(196, 125, 40, 0.18);
+    color: var(--gold);
+    margin-top: 6px;
+  }
+  .today-badge.yest { background: rgba(26, 23, 20, 0.06); color: var(--dim); }
+
   .entry-date {
     font-family: var(--mono);
     font-size: 10px;
@@ -633,7 +653,7 @@
   <!-- LOG TODAY -->
   <section class="log-section">
     <div class="log-header">
-      <div class="log-heading">Log Today</div>
+      <div class="log-heading">Log Today <span id="today-status" style="font-weight:400;text-transform:none;letter-spacing:0.06em;margin-left:6px"></span></div>
       <div class="log-date" id="today-date"></div>
     </div>
     <textarea
@@ -1013,6 +1033,9 @@ function renderDualChart() {
 // ═══════════ ENTRIES ═══════════
 function renderEntries() {
   const el = document.getElementById('entries');
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const yesterdayStr = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+
   el.innerHTML = entries.map(e => {
     const d = new Date(e.date + 'T12:00:00');
     const dow = d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
@@ -1026,8 +1049,13 @@ function renderEntries() {
     if (e.calories) metrics.push(`<span>KCAL <span class="v">${e.calories}</span></span>`);
     if (e.protein) metrics.push(`<span>PROT <span class="v">${e.protein}g</span></span>`);
 
-    return `<div class="entry">
-      <div class="entry-date"><span class="dow">${dow}</span>${mon} ${day}</div>
+    let badge = '';
+    let extraClass = '';
+    if (e.date === todayStr) { badge = '<span class="today-badge">Today</span>'; extraClass = ' today'; }
+    else if (e.date === yesterdayStr) { badge = '<span class="today-badge yest">Yesterday</span>'; }
+
+    return `<div class="entry${extraClass}">
+      <div class="entry-date"><span class="dow">${dow}</span>${mon} ${day}${badge}</div>
       <div class="entry-body">
         <p>${e.note || ''}</p>
         <div class="entry-metrics">${metrics.join('')}</div>
@@ -1036,6 +1064,14 @@ function renderEntries() {
   }).join('');
 
   document.getElementById('entry-count').textContent = `${entries.length} entries`;
+
+  // Show a hint in the form header if today already has an entry
+  const hasToday = entries.some(e => e.date === todayStr);
+  const hdr = document.getElementById('today-status');
+  if (hdr) {
+    hdr.textContent = hasToday ? '· already logged · saving will replace' : '';
+    hdr.style.color = hasToday ? 'var(--oxblood)' : 'var(--dim)';
+  }
 }
 
 // ═══════════ SAVE ENTRY ═══════════
