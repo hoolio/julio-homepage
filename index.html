@@ -180,7 +180,7 @@ body::after {
 .rail-social:hover { color: var(--ink); }
 
 /* CONTENT */
-.content { margin-left: 200px; }
+.content { margin-left: 200px; min-width: 0; }
 
 /* HERO */
 .hero {
@@ -295,6 +295,8 @@ body::after {
 .section-body {
   padding: 3rem 4.5rem 3rem 2.5rem;
   border-left: 1px solid var(--rule);
+  max-width: none;
+  min-width: 0;
 }
 
 .section-label {
@@ -310,7 +312,7 @@ body::after {
 /* ABOUT */
 .about-text {
   font-family: 'Cormorant', serif;
-  font-size: 1.35rem;
+  font-size: 1.1rem;
   font-weight: 300;
   line-height: 1.72;
   color: var(--dim);
