@@ -242,6 +242,115 @@
     color: var(--dim);
   }
 
+  /* Photo drop */
+  .photo-row { display: flex; gap: 12px; margin-top: 12px; align-items: stretch; }
+  .photo-drop {
+    flex: 1;
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px;
+    border: 1px dashed var(--hairline-strong);
+    background: var(--paper);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .photo-drop:hover { border-color: var(--gold); background: var(--amber-glow); }
+  .photo-drop.dragover { border-color: var(--gold); background: var(--amber-glow); border-style: solid; }
+
+  .photo-drop-icon {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--hairline-strong);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--dim); flex-shrink: 0;
+    transition: all 0.25s;
+  }
+  .photo-drop:hover .photo-drop-icon { border-color: var(--gold); color: var(--gold); }
+
+  .photo-drop-text {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+  }
+
+  .photo-preview { position: relative; width: 70px; height: 70px; flex-shrink: 0; }
+  .photo-preview img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; border: 1px solid var(--hairline); }
+  .photo-remove {
+    position: absolute; top: -6px; right: -6px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    border: none; font-size: 13px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Spinner */
+  .spinner-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid var(--hairline-strong);
+    border-top-color: var(--gold);
+    display: inline-block;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Parse preview */
+  .parse-preview {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: var(--well);
+    color: #ede8df;
+    border-radius: 2px;
+    font-family: var(--mono);
+  }
+  .parse-preview-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .parse-preview pre {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.7;
+    color: rgba(237, 232, 223, 0.85);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .btn-confirm, .btn-cancel {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .btn-confirm { background: var(--gold); color: var(--well); }
+  .btn-confirm:hover { background: var(--gold-bright); }
+  .btn-cancel { background: transparent; color: rgba(237,232,223,0.5); }
+  .btn-cancel:hover { color: var(--paper); }
+
+  /* API key link */
+  .api-key-link {
+    background: none; border: none; padding: 0;
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    cursor: pointer;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+    width: 100%;
+    text-align: left;
+  }
+  .api-key-link:hover { color: var(--gold); }
+
   /* SECTION HEADERS */
   .section-head {
     display: flex;
@@ -530,38 +639,38 @@
     <textarea
       class="log-textarea"
       id="log-text"
-      rows="3"
-      placeholder="Yoga this morning, tonal upper body, grilled salmon and greens for lunch, eight hours sleep, feeling strong..."></textarea>
-    <div class="log-grid">
-      <div class="log-field">
-        <label>HRV</label>
-        <input type="number" id="f-hrv" placeholder="—">
-      </div>
-      <div class="log-field">
-        <label>RHR</label>
-        <input type="number" id="f-rhr" placeholder="—">
-      </div>
-      <div class="log-field">
-        <label>Sleep (hrs)</label>
-        <input type="number" step="0.1" id="f-sleep" placeholder="—">
-      </div>
-      <div class="log-field">
-        <label>Weight (lb)</label>
-        <input type="number" step="0.1" id="f-weight" placeholder="—">
-      </div>
-      <div class="log-field">
-        <label>Calories</label>
-        <input type="number" id="f-cal" placeholder="—">
-      </div>
-      <div class="log-field">
-        <label>Protein (g)</label>
-        <input type="number" id="f-prot" placeholder="—">
+      rows="4"
+      placeholder="Slept 6h 40m. HRV 125, RHR 47. Yoga 60, Tonal upper body (10,432 lb). Salmon + greens for lunch. ~1,800 kcal, 210g protein. Felt strong in session."></textarea>
+
+    <div class="photo-row">
+      <label class="photo-drop" id="photo-drop">
+        <input type="file" id="photo-input" accept="image/*" style="display:none">
+        <span class="photo-drop-icon">+</span>
+        <span class="photo-drop-text">Drop screenshot (Eight Sleep, Tonal, Whoop...) or click</span>
+      </label>
+      <div class="photo-preview" id="photo-preview" style="display:none">
+        <img id="photo-preview-img">
+        <button type="button" class="photo-remove" onclick="removePhoto()">&times;</button>
       </div>
     </div>
+
     <div class="log-submit">
-      <button class="btn-submit" id="btn-save" onclick="saveEntry()">Save Entry</button>
-      <span class="log-hint">Saved locally. Never leaves your device.</span>
+      <button class="btn-submit" id="btn-save" onclick="saveEntry()">Parse &amp; Save</button>
+      <span class="spinner-dot" id="save-spinner" style="display:none"></span>
+      <span class="log-hint">Claude reads your text + photo. Extracts structure. Never leaves this device without your API key.</span>
     </div>
+
+    <!-- Parsed preview -->
+    <div class="parse-preview" id="parse-preview" style="display:none">
+      <div class="parse-preview-label">Parsed</div>
+      <pre id="parse-preview-body"></pre>
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <button class="btn-confirm" onclick="confirmSave()">Confirm &amp; Save</button>
+        <button class="btn-cancel" onclick="cancelParse()">Discard</button>
+      </div>
+    </div>
+
+    <button class="api-key-link" onclick="setApiKey()" id="api-key-status">Set API Key</button>
   </section>
 
   <!-- ACTIVITY HEATMAP -->
@@ -930,36 +1039,170 @@ function renderEntries() {
 }
 
 // ═══════════ SAVE ENTRY ═══════════
-function saveEntry() {
-  const today = new Date().toISOString().slice(0, 10);
-  const entry = {
-    date: today,
-    note: document.getElementById('log-text').value.trim(),
-    hrv: parseFloat(document.getElementById('f-hrv').value) || null,
-    rhr: parseFloat(document.getElementById('f-rhr').value) || null,
-    sleep: parseFloat(document.getElementById('f-sleep').value) || null,
-    weight: parseFloat(document.getElementById('f-weight').value) || null,
-    calories: parseFloat(document.getElementById('f-cal').value) || null,
-    protein: parseFloat(document.getElementById('f-prot').value) || null,
-    activity: !!document.getElementById('log-text').value.trim(),
-    strong: false,
+// ═══════════ PHOTO HANDLING ═══════════
+let uploadedPhoto = null;
+
+function initPhotoDrop() {
+  const drop = document.getElementById('photo-drop');
+  const input = document.getElementById('photo-input');
+  if (!drop || !input) return;
+
+  drop.addEventListener('click', () => input.click());
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault();
+    drop.classList.remove('dragover');
+    if (e.dataTransfer.files.length) handlePhoto(e.dataTransfer.files[0]);
+  });
+  input.addEventListener('change', e => {
+    if (e.target.files.length) handlePhoto(e.target.files[0]);
+  });
+}
+
+function handlePhoto(file) {
+  const reader = new FileReader();
+  reader.onload = ev => {
+    uploadedPhoto = ev.target.result;
+    document.getElementById('photo-preview-img').src = ev.target.result;
+    document.getElementById('photo-preview').style.display = 'block';
+    document.getElementById('photo-drop').style.display = 'none';
   };
-  if (!entry.note && !entry.hrv && !entry.calories) {
-    alert('Add something first.');
-    return;
+  reader.readAsDataURL(file);
+}
+
+function removePhoto() {
+  uploadedPhoto = null;
+  document.getElementById('photo-preview').style.display = 'none';
+  document.getElementById('photo-drop').style.display = 'flex';
+  document.getElementById('photo-input').value = '';
+}
+
+// ═══════════ API KEY ═══════════
+function setApiKey() {
+  const current = localStorage.getItem('anthropic_key') || '';
+  const key = prompt('Anthropic API key (stored only on this device):', current);
+  if (key !== null) {
+    if (key.trim()) localStorage.setItem('anthropic_key', key.trim());
+    else localStorage.removeItem('anthropic_key');
+    updateApiKeyStatus();
+  }
+}
+
+function updateApiKeyStatus() {
+  const btn = document.getElementById('api-key-status');
+  if (!btn) return;
+  btn.textContent = localStorage.getItem('anthropic_key') ? 'API Key ✓ (click to update)' : 'Set API Key';
+}
+
+// ═══════════ AI PARSE ═══════════
+let pendingEntry = null;
+
+async function saveEntry() {
+  const text = document.getElementById('log-text').value.trim();
+  if (!text && !uploadedPhoto) { alert('Write something or drop a photo.'); return; }
+
+  const apiKey = localStorage.getItem('anthropic_key');
+  if (!apiKey) { alert('Set your Anthropic API key first (link at bottom of form).'); setApiKey(); return; }
+
+  const btn = document.getElementById('btn-save');
+  const spinner = document.getElementById('save-spinner');
+  btn.disabled = true;
+  btn.textContent = 'Parsing...';
+  spinner.style.display = 'inline-block';
+
+  try {
+    const parsed = await parseWithClaude(text, uploadedPhoto, apiKey);
+    pendingEntry = parsed;
+    document.getElementById('parse-preview-body').textContent = JSON.stringify(parsed, null, 2);
+    document.getElementById('parse-preview').style.display = 'block';
+  } catch (err) {
+    alert('Parse failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Parse & Save';
+    spinner.style.display = 'none';
+  }
+}
+
+async function parseWithClaude(text, photoDataUrl, apiKey) {
+  const content = [];
+
+  if (photoDataUrl) {
+    const mediaType = photoDataUrl.match(/data:(.*?);/)[1];
+    const data = photoDataUrl.split(',')[1];
+    content.push({ type: 'image', source: { type: 'base64', media_type: mediaType, data } });
   }
 
-  // Replace existing entry for today, or prepend
-  entries = entries.filter(e => e.date !== today);
-  entries.unshift(entry);
+  const today = new Date().toISOString().slice(0, 10);
+  const prompt = `You are a health log parser. Extract structured data from the text and/or image.
+
+${photoDataUrl ? 'The image is a screenshot of a health tracker (Eight Sleep, Whoop, Oura, Tonal, Apple Health, etc). Read values from it.\n\n' : ''}Text: ${text || '(no text provided, use only the image)'}
+
+Return ONLY a JSON object with this exact shape, no other text, no markdown fences:
+{
+  "date": "${today}",
+  "note": "one-line summary in your own words",
+  "hrv": number or null,
+  "rhr": number or null,
+  "sleep": number (in hours, e.g. 6.67) or null,
+  "weight": number (in pounds) or null,
+  "calories": number or null,
+  "protein": number (grams) or null,
+  "activity": true if any exercise/activity mentioned else false,
+  "strong": true if multiple activities or PRs or strong metrics else false
+}
+
+For sleep, convert "6h 40m" to 6.67, "7h 19m" to 7.32, etc. Return only the JSON.`;
+
+  content.push({ type: 'text', text: prompt });
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5-20250514',
+      max_tokens: 800,
+      messages: [{ role: 'user', content }]
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error?.message || `API ${res.status}`);
+  }
+
+  const data = await res.json();
+  const raw = data.content.map(b => b.text || '').join('');
+  const clean = raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  return JSON.parse(clean);
+}
+
+function confirmSave() {
+  if (!pendingEntry) return;
+  const date = pendingEntry.date || new Date().toISOString().slice(0, 10);
+  entries = entries.filter(e => e.date !== date);
+  entries.unshift(pendingEntry);
   saveEntries();
 
   // Clear form
   document.getElementById('log-text').value = '';
-  ['f-hrv','f-rhr','f-sleep','f-weight','f-cal','f-prot'].forEach(id => document.getElementById(id).value = '');
+  removePhoto();
+  document.getElementById('parse-preview').style.display = 'none';
+  pendingEntry = null;
 
   // Re-render
   init();
+}
+
+function cancelParse() {
+  pendingEntry = null;
+  document.getElementById('parse-preview').style.display = 'none';
 }
 
 // ═══════════ INIT ═══════════
@@ -972,6 +1215,8 @@ function init() {
   renderHRVChart();
   renderDualChart();
   renderEntries();
+  initPhotoDrop();
+  updateApiKeyStatus();
 }
 </script>
 
