@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Choplogic Radio — About</title>
+<title>About — Choplogic Radio</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
@@ -19,22 +19,13 @@
   a:visited { color: #666666; }
   a:hover { color: #800000; }
 
-  .wrap {
-    max-width: 900px;
-    margin: 0 auto;
-  }
+  .wrap { max-width: 900px; margin: 0 auto; }
 
   .nav {
     font-size: 12px;
     margin-bottom: 20px;
   }
-
-  .nav a {
-    color: #666;
-    text-decoration: none;
-    margin-right: 16px;
-  }
-
+  .nav a { color: #666; text-decoration: none; margin-right: 16px; }
   .nav a:hover { text-decoration: underline; }
   .nav a.active { color: #000; font-weight: bold; }
 
@@ -52,93 +43,25 @@
     margin-bottom: 30px;
   }
 
-  .bio p {
-    margin: 0 0 14px 0;
+  .links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
   }
 
-  /* Links table — same style as radio page */
-  .links-table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 0;
-    background: #000000;
-    margin-bottom: 30px;
-  }
-
-  .links-table td {
-    padding: 6px 10px;
-    vertical-align: top;
-  }
-
-  .links-header td {
-    background: #2f2f4f;
-    color: #ffff00;
-    font-weight: bold;
-    font-size: 13px;
-    padding: 5px 10px;
-  }
-
-  .links-header td:first-child { text-align: center; }
-
-  .links-row td {
-    background: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
+  .links li {
+    padding: 4px 0;
     font-size: 13px;
   }
 
-  .links-row td:first-child {
-    width: 100px;
-    font-weight: bold;
-    color: #333;
-  }
-
-  /* Career */
-  .career-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #000000;
-    margin-bottom: 30px;
-  }
-
-  .career-table td {
-    padding: 6px 10px;
-    vertical-align: top;
-  }
-
-  .career-header td {
-    background: #2f2f4f;
-    color: #ffff00;
-    font-weight: bold;
-    font-size: 13px;
-    padding: 5px 10px;
-  }
-
-  .career-row td {
-    background: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
-    font-size: 13px;
-  }
-
-  .career-row td:first-child {
-    width: 100px;
-    color: #666;
-    white-space: nowrap;
-  }
-
-  .career-row td:nth-child(2) {
-    font-weight: bold;
-    width: 140px;
-  }
-
-  .section-head {
-    font-family: Garamond, Georgia, serif;
-    font-size: 20px;
-    font-weight: normal;
-    margin: 30px 0 16px 0;
+  .links li span {
+    display: inline-block;
+    width: 90px;
+    color: #999;
   }
 
   .footer {
-    margin-top: 30px;
+    margin-top: 40px;
     padding-top: 10px;
     border-top: 1px solid #ccc;
     font-size: 11px;
@@ -151,8 +74,8 @@
 
   <div class="nav">
     <a href="/">Home</a>
+    <a href="/work/">Work</a>
     <a href="/about/" class="active">About</a>
-    <a href="/radio/">Radio</a>
   </div>
 
   <h1>About</h1>
@@ -161,43 +84,13 @@
     <p>Chop is hosted by Julio. He plays music.</p>
   </div>
 
-  <h2 class="section-head">Work</h2>
-
-  <table class="career-table" cellpadding="4" cellspacing="1">
-    <tr class="career-header"><td>Years</td><td>Role</td><td>Organization</td></tr>
-    <tr class="career-row"><td>2019 — now</td><td>Co-CEO</td><td><a href="https://observablehq.com">Observable</a></td></tr>
-    <tr class="career-row"><td>2021 — now</td><td>Co-founder</td><td><a href="https://shadesnews.com">Shades News</a></td></tr>
-    <tr class="career-row"><td>2012 — 2018</td><td>GC → COO</td><td><a href="https://github.com">GitHub</a></td></tr>
-    <tr class="career-row"><td>2018</td><td>Acquisition</td><td>Microsoft · $7.5B</td></tr>
-    <tr class="career-row"><td>2011 — 2012</td><td>Counsel</td><td>Yelp (through IPO)</td></tr>
-    <tr class="career-row"><td>2007 — 2011</td><td>Associate</td><td>Orrick, Herrington & Sutcliffe</td></tr>
-    <tr class="career-row"><td>2006</td><td>JD</td><td>Columbia Law School</td></tr>
-    <tr class="career-row"><td>2003</td><td>BA</td><td>University of Florida — English & Philosophy</td></tr>
-  </table>
-
-  <h2 class="section-head">Elsewhere</h2>
-
-  <table class="links-table" cellpadding="4" cellspacing="1">
-    <tr class="links-header"><td>Where</td><td>Link</td></tr>
-    <tr class="links-row"><td>Wikipedia</td><td><a href="https://en.wikipedia.org/wiki/Julio_Avalos">en.wikipedia.org/wiki/Julio_Avalos</a></td></tr>
-    <tr class="links-row"><td>LinkedIn</td><td><a href="https://www.linkedin.com/in/julio-avalos-who/">linkedin.com/in/julio-avalos-who</a></td></tr>
-    <tr class="links-row"><td>Observable</td><td><a href="https://observablehq.com">observablehq.com</a></td></tr>
-    <tr class="links-row"><td>Shades News</td><td><a href="https://shadesnews.com">shadesnews.com</a></td></tr>
-    <tr class="links-row"><td>GitHub</td><td><a href="https://github.com/hoolio">github.com/hoolio</a></td></tr>
-    <tr class="links-row"><td>Medium</td><td><a href="https://medium.com/@j.avalos">medium.com/@j.avalos</a></td></tr>
-    <tr class="links-row"><td>Archive</td><td><a href="https://archive.org/details/choplogic-radio">Choplogic Radio on Internet Archive</a></td></tr>
-  </table>
-
-  <h2 class="section-head">Press & Appearances</h2>
-
-  <table class="links-table" cellpadding="4" cellspacing="1">
-    <tr class="links-header"><td>Type</td><td>Title</td></tr>
-    <tr class="links-row"><td>Podcast</td><td><a href="https://partnergrow.substack.com/p/julio-avalos-from-shades-news-on">The Future of Media — Partner Grow</a></td></tr>
-    <tr class="links-row"><td>Podcast</td><td><a href="https://www.youtube.com/watch?v=btBipudshaU">Breaking Boundaries: GitHub Culture — True Builders</a></td></tr>
-    <tr class="links-row"><td>Talk</td><td><a href="https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/">Lawyers Are Over! Long Live Lawyers! — CodeX FutureLaw, Stanford</a></td></tr>
-    <tr class="links-row"><td>Press</td><td><a href="https://www.legal500.com/gc-powerlist/united-states-rising-stars-2014/julio-avalos/">GC Powerlist: Rising Stars — Legal 500 (2014)</a></td></tr>
-    <tr class="links-row"><td>Alumni</td><td><a href="https://connect.ufalumni.ufl.edu/events/40gatorsunder40/honorees/julio-avalos">40 Gators Under 40 — University of Florida (2020)</a></td></tr>
-  </table>
+  <ul class="links">
+    <li><span>Wikipedia</span> <a href="https://en.wikipedia.org/wiki/Julio_Avalos">en.wikipedia.org/wiki/Julio_Avalos</a></li>
+    <li><span>LinkedIn</span> <a href="https://www.linkedin.com/in/julio-avalos-who/">linkedin.com/in/julio-avalos-who</a></li>
+    <li><span>Observable</span> <a href="https://observablehq.com">observablehq.com</a></li>
+    <li><span>GitHub</span> <a href="https://github.com/hoolio">github.com/hoolio</a></li>
+    <li><span>Email</span> <a href="mailto:chopradio@gmail.com">chopradio@gmail.com</a></li>
+  </ul>
 
   <div class="footer">
     &copy; Choplogic Radio. Est. 2006. chopradio@gmail.com
