@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Choplogic Radio</title>
 <meta name="description" content="A platform for music, writing, and thought. Est. 2006.">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/journal.css">
 <style>
   /* Home page specific */
@@ -21,33 +22,71 @@
   .home-nav-name {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     color: var(--ink);
     border: none;
+    text-decoration: none;
   }
 
   .home-nav-name:hover { color: var(--ink); border: none; }
 
-  .wordmark {
-    display: block;
-    height: 22px;
-    width: auto;
-  }
-
+  /* NES-style pixel dot */
   .wordmark-dot {
-    width: 6px;
-    height: 6px;
-    background: var(--gold);
-    border-radius: 50%;
+    width: 9px;
+    height: 9px;
+    background: var(--amber);
     flex-shrink: 0;
-    box-shadow: 0 0 8px rgba(196, 125, 40, 0.4);
-    animation: dotPulse 3s ease-in-out infinite;
+    box-shadow:
+      inset 0 0 0 2px #0f0c08,
+      0 0 0 2px var(--amber),
+      2px 2px 0 #7a2e1c;
+    animation: nesPulse 1.4s steps(2) infinite;
+    image-rendering: pixelated;
   }
 
-  @keyframes dotPulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(196, 125, 40, 0.4); }
-    50% { opacity: 0.4; box-shadow: 0 0 14px rgba(196, 125, 40, 0.7); }
+  @keyframes nesPulse {
+    0%, 50% { background: var(--amber); box-shadow: inset 0 0 0 2px #0f0c08, 0 0 0 2px var(--amber), 2px 2px 0 #7a2e1c; }
+    50.01%, 100% { background: var(--gold-bright); box-shadow: inset 0 0 0 2px #0f0c08, 0 0 0 2px var(--gold-bright), 2px 2px 0 #7a2e1c, 0 0 12px rgba(196, 150, 46, 0.5); }
   }
+
+  /* Hybrid wordmark: NES pixel CHOP + italic cursive radio */
+  .wordmark-chop {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--amber);
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0 #7a2e1c;
+    line-height: 1;
+    padding-top: 1px;
+    transition: color 0.2s, text-shadow 0.2s;
+  }
+
+  .wordmark-slash {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 13px;
+    color: var(--dimmer);
+    margin: 0 2px;
+  }
+
+  .wordmark-radio {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold-dim);
+    letter-spacing: 0;
+    line-height: 1;
+    padding-top: 2px;
+    transition: color 0.2s;
+  }
+
+  .home-nav-name:hover .wordmark-chop {
+    color: var(--gold-bright);
+    text-shadow: 2px 2px 0 #9b3b24;
+  }
+  .home-nav-name:hover .wordmark-radio { color: var(--oxblood); }
 
   /* FEATURED HERO */
   .featured {
@@ -559,12 +598,10 @@
 <body>
 
 <nav class="home-nav">
-  <a href="/home/" class="home-nav-name">
+  <a href="/home/" class="home-nav-name" aria-label="chopradio">
     <span class="wordmark-dot"></span>
-    <svg class="wordmark" viewBox="0 0 180 26" xmlns="http://www.w3.org/2000/svg" aria-label="chopradio">
-      <text x="0" y="20" font-family="Cormorant Garamond, Georgia, serif" font-size="24" font-weight="400" letter-spacing="0.5" fill="currentColor">chop</text>
-      <text x="60" y="20" font-family="Cormorant Garamond, Georgia, serif" font-size="24" font-style="italic" font-weight="400" letter-spacing="0.5" fill="#a07828">radio</text>
-    </svg>
+    <span class="wordmark-chop">CHOP</span>
+    <span class="wordmark-radio">radio</span>
   </a>
   <ul class="home-nav-links">
     <li><a href="/home/writings/">Writings</a></li>
