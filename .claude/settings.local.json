@@ -39,7 +39,13 @@
       "Bash(cp -r /Users/julio/health/css /Users/julio/homepage/health/css)",
       "Bash(cp -r /Users/julio/health/js /Users/julio/homepage/health/js)",
       "Bash(chmod +x /Users/julio/homepage/tools/import.js)",
-      "Bash(python3 -c \":*)"
+      "Bash(python3 -c \":*)",
+      "Bash(sort -t'/' -k7)",
+      "Bash(grep -iE '\\\\.\\(mp3|m4a|aac|wav|aiff\\)$')",
+      "Bash(grep -iE '\\\\.\\(mp3|m4a\\)$')",
+      "Bash(pip3 install:*)",
+      "Bash(python3 -c \"import internetarchive; print\\(''installed at'', internetarchive.__file__\\)\")",
+      "Bash(ia upload:*)"
     ]
   }
 }
