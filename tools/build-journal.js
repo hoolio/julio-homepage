@@ -19,6 +19,12 @@ function parseFrontmatter(src) {
     const kv = line.match(/^(\w+):\s*(.*)$/);
     if (kv) meta[kv[1]] = kv[2].trim();
   });
+  // Parse categories as array
+  if (meta.categories) {
+    meta.categories = meta.categories.split(',').map(c => c.trim().toLowerCase());
+  } else {
+    meta.categories = [];
+  }
   return { meta, body: match[2] };
 }
 
@@ -145,6 +151,9 @@ function renderNotebook(ref) {
 function postHTML(meta, body) {
   const date = meta.date || '';
   const dateDisplay = formatDate(date);
+  const cats = (meta.categories || []).map(c =>
+    `<a href="/home/${c}/" style="color:var(--gold);border:none;padding:2px 7px;background:rgba(160,120,40,0.08);border-radius:2px;font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.14em;margin-right:6px">${c}</a>`
+  ).join('');
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -160,8 +169,8 @@ function postHTML(meta, body) {
 <nav class="journal-nav">
   <a href="/home/" class="journal-nav-home">← Choplogic Radio</a>
   <ul class="journal-nav-links">
-    <li><a href="/home/journal/">Journal</a></li>
-    <li><a href="/home/radio/">Radio</a></li>
+    <li><a href="/home/journal/">Writings</a></li>
+    <li><a href="/home/radio/">Sounds</a></li>
     <li><a href="/about/">About</a></li>
   </ul>
 </nav>
@@ -178,6 +187,8 @@ function postHTML(meta, body) {
   ${meta.deck ? `<p class="post-deck">${renderInline(meta.deck)}</p>` : ''}
 
   ${body}
+
+  ${cats ? `<div style="margin-top:60px;padding-top:24px;border-top:1px solid var(--hairline)">${cats}</div>` : ''}
 </article>
 
 <footer class="post-foot">
@@ -190,41 +201,100 @@ function postHTML(meta, body) {
 </html>`;
 }
 
-function indexHTML(posts) {
-  const items = posts.map(p => `
+function indexHTML(posts, titleOverride, subtitleOverride, categoryFilter) {
+  const filtered = categoryFilter
+    ? posts.filter(p => (p.categories || []).includes(categoryFilter))
+    : posts;
+
+  const items = filtered.map(p => {
+    const tags = (p.categories || []).map(c => `<span class="journal-item-tag">${c}</span>`).join('');
+    return `
     <a href="/home/journal/${p.slug}/" class="journal-item">
       <div class="journal-item-date">${formatDate(p.date)}</div>
       <div class="journal-item-title">${renderInline(p.title)}</div>
       <div class="journal-item-deck">${renderInline(p.deck || '')}</div>
+      ${tags ? `<div class="journal-item-tags">${tags}</div>` : ''}
     </a>
-  `).join('\n');
+  `;
+  }).join('\n');
+
+  const title = titleOverride || 'Journal';
+  const subtitle = subtitleOverride || 'Essays, annotations, archives.';
+  const empty = filtered.length === 0
+    ? `<div style="padding:60px 0;font-family:var(--serif);font-style:italic;color:var(--dim);">Nothing here yet.</div>`
+    : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Journal — Choplogic Radio</title>
+<title>${title} — Choplogic Radio</title>
 <link rel="stylesheet" href="/css/journal.css">
+<style>
+  .journal-item-tags { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .journal-item-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+    background: rgba(160, 120, 40, 0.08);
+    padding: 2px 7px;
+    border-radius: 2px;
+  }
+  .category-nav {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px 30px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .category-nav a {
+    color: var(--dim);
+    border: none;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .category-nav a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+  .category-nav a.active { color: var(--gold); border-bottom-color: var(--gold); }
+</style>
 </head>
 <body>
 
 <nav class="journal-nav">
   <a href="/home/" class="journal-nav-home">← Choplogic Radio</a>
   <ul class="journal-nav-links">
-    <li><a href="/home/journal/">Journal</a></li>
-    <li><a href="/home/radio/">Radio</a></li>
+    <li><a href="/home/journal/">Writings</a></li>
+    <li><a href="/home/radio/">Sounds</a></li>
     <li><a href="/about/">About</a></li>
   </ul>
 </nav>
 
 <header class="journal-header">
-  <h1 class="journal-title">Journal</h1>
-  <p class="journal-subtitle">Essays, annotations, archives.</p>
+  <h1 class="journal-title">${title}</h1>
+  <p class="journal-subtitle">${subtitle}</p>
 </header>
+
+<nav class="category-nav">
+  <a href="/home/journal/"${!categoryFilter ? ' class="active"' : ''}>All</a>
+  <a href="/home/music/"${categoryFilter==='music' ? ' class="active"' : ''}>Music</a>
+  <a href="/home/sounds/"${categoryFilter==='sounds' ? ' class="active"' : ''}>Sounds</a>
+  <a href="/home/tech/"${categoryFilter==='tech' ? ' class="active"' : ''}>Tech</a>
+  <a href="/home/history/"${categoryFilter==='history' ? ' class="active"' : ''}>History</a>
+  <a href="/home/culture/"${categoryFilter==='culture' ? ' class="active"' : ''}>Culture</a>
+</nav>
 
 <div class="journal-list">
   ${items}
+  ${empty}
 </div>
 
 <footer class="post-foot">
@@ -275,9 +345,29 @@ function build() {
   // Sort by date descending
   posts.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 
-  // Write index
+  // Write main journal index (all posts)
   fs.writeFileSync(path.join(OUT_DIR, 'index.html'), indexHTML(posts));
-  console.log(`✓ index (${posts.length} posts)`);
+  console.log(`✓ journal index (${posts.length} posts)`);
+
+  // Write category pages
+  const HOME_DIR = path.join(__dirname, '..', 'home');
+  const categories = [
+    { slug: 'music', title: 'Music', subtitle: 'Listening, criticism, lists.' },
+    { slug: 'sounds', title: 'Sounds', subtitle: 'Audio, radio, archives.' },
+    { slug: 'tech', title: 'Tech', subtitle: 'AI, software, systems.' },
+    { slug: 'history', title: 'History', subtitle: 'Archives, origins, time.' },
+    { slug: 'culture', title: 'Culture', subtitle: 'Ideas, aesthetics, taste.' },
+    { slug: 'writings', title: 'Writings', subtitle: 'All essays and annotations.' },
+  ];
+
+  categories.forEach(cat => {
+    const catDir = path.join(HOME_DIR, cat.slug);
+    if (!fs.existsSync(catDir)) fs.mkdirSync(catDir, { recursive: true });
+    const filter = cat.slug === 'writings' ? null : cat.slug;
+    const count = filter ? posts.filter(p => (p.categories || []).includes(filter)).length : posts.length;
+    fs.writeFileSync(path.join(catDir, 'index.html'), indexHTML(posts, cat.title, cat.subtitle, filter));
+    console.log(`✓ ${cat.slug} (${count} posts)`);
+  });
 }
 
 build();

@@ -3,6 +3,7 @@ title: A room we used to meet in
 deck: On Bushwick, broadcasting into the void, and what got left behind.
 date: 2026-04-04
 slug: a-room-we-used-to-meet-in
+categories: music, history, culture
 ---
 
 In 2006 we had a room at the Office Ops Arts & Community Center in Bushwick. It was a rooftop space, then a warehouse, then an art collective, then a thing that used to be there. We recorded a radio show in that room for the first four months of the show's life, and we called it Choplogic.
