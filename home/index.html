@@ -19,14 +19,179 @@
   }
 
   .home-nav-name {
-    font-family: var(--serif);
-    font-size: 1.1rem;
-    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     color: var(--ink);
     border: none;
   }
 
   .home-nav-name:hover { color: var(--ink); border: none; }
+
+  .wordmark {
+    display: block;
+    height: 22px;
+    width: auto;
+  }
+
+  .wordmark-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(196, 125, 40, 0.4);
+    animation: dotPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(196, 125, 40, 0.4); }
+    50% { opacity: 0.4; box-shadow: 0 0 14px rgba(196, 125, 40, 0.7); }
+  }
+
+  /* FEATURED HERO */
+  .featured {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 24px 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 40px;
+    background: var(--well);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .featured-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='nf'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23nf)'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
+    z-index: 1;
+  }
+
+  .featured-card:hover {
+    border-color: var(--gold-dim);
+    box-shadow: 0 0 0 1px var(--gold-dim), 0 20px 60px -20px rgba(196, 125, 40, 0.2);
+  }
+
+  .featured-text {
+    padding: 36px 36px 36px 40px;
+    position: relative;
+    z-index: 2;
+    color: #ede8df;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .featured-kicker {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold-bright, #c4962e);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .featured-kicker::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--gold, #c4962e);
+  }
+
+  .featured-kicker .tag {
+    background: rgba(196, 125, 40, 0.15);
+    color: #c4962e;
+    padding: 3px 8px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .featured-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    line-height: 1.15;
+    color: #ede8df;
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+  }
+
+  .featured-title em { font-style: italic; color: rgba(237, 232, 223, 0.6); }
+
+  .featured-deck {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(237, 232, 223, 0.7);
+    max-width: 480px;
+    margin-bottom: 24px;
+  }
+
+  .featured-link {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #c4962e;
+    border: none;
+    align-self: flex-start;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(196, 125, 40, 0.3);
+    transition: border-color 0.3s ease, letter-spacing 0.3s ease;
+  }
+
+  .featured-card:hover .featured-link {
+    border-bottom-color: #c4962e;
+    letter-spacing: 0.22em;
+  }
+
+  .featured-link:hover { color: #c4962e; border: none; border-bottom: 1px solid #c4962e; }
+
+  /* Featured graphic */
+  .featured-graphic {
+    position: relative;
+    background: #0a0704;
+    overflow: hidden;
+    min-height: 260px;
+  }
+
+  #featured-viz { width: 100%; height: 100%; display: block; }
+
+  .featured-meta {
+    position: absolute;
+    bottom: 14px;
+    right: 16px;
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: rgba(196, 125, 40, 0.5);
+    z-index: 2;
+  }
+
+  @media (max-width: 780px) {
+    .featured-card { grid-template-columns: 1fr; }
+    .featured-graphic { min-height: 200px; order: -1; }
+    .featured-text { padding: 28px 24px 28px 28px; }
+  }
 
   .home-nav-links {
     display: flex;
@@ -302,40 +467,71 @@
 <body>
 
 <nav class="home-nav">
-  <a href="/home/" class="home-nav-name">Choplogic Radio</a>
+  <a href="/home/" class="home-nav-name">
+    <span class="wordmark-dot"></span>
+    <svg class="wordmark" viewBox="0 0 180 26" xmlns="http://www.w3.org/2000/svg" aria-label="chopradio">
+      <text x="0" y="20" font-family="Cormorant Garamond, Georgia, serif" font-size="24" font-weight="400" letter-spacing="0.5" fill="currentColor">chop</text>
+      <text x="60" y="20" font-family="Cormorant Garamond, Georgia, serif" font-size="24" font-style="italic" font-weight="400" letter-spacing="0.5" fill="#a07828">radio</text>
+    </svg>
+  </a>
   <ul class="home-nav-links">
-    <li><a href="/home/journal/">Journal</a></li>
-    <li><a href="/home/radio/">Radio</a></li>
-    <li><a href="/about/">About</a></li>
+    <li><a href="/home/journal/">Writings</a></li>
+    <li><a href="/home/radio/">Sounds</a></li>
+    <li><a href="/home/music/">Music</a></li>
+    <li><a href="/home/tech/">Tech</a></li>
+    <li><a href="/home/history/">History</a></li>
+    <li><a href="/home/culture/">Culture</a></li>
   </ul>
 </nav>
 
 <!-- TICKER -->
 <div class="ticker">
   <div class="ticker-track">
-    <a href="/home/journal/" class="ticker-item hi">NEW ESSAY — A room we used to meet in</a>
+    <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="ticker-item hi">NEW ON OBSERVABLE — The medium is the problem · March 25</a>
     <span class="ticker-sep">·</span>
-    <a href="/home/radio/" class="ticker-item">RADIO ARCHIVE RESTORED — 74 episodes live on Internet Archive</a>
+    <a href="/home/journal/" class="ticker-item">NEW ESSAY — A room we used to meet in</a>
     <span class="ticker-sep">·</span>
-    <a href="/home/observable/" class="ticker-item">OBSERVABLE — now co-CEO with Mike Bostock</a>
+    <a href="/home/radio/" class="ticker-item">RADIO ARCHIVE RESTORED — 74 episodes on Internet Archive</a>
     <span class="ticker-sep">·</span>
-    <a href="/home/shades/" class="ticker-item">SHADES NEWS — launched on iOS, 2024</a>
+    <a href="/home/shades/" class="ticker-item">SHADES NEWS — live on iOS</a>
     <span class="ticker-sep">·</span>
-    <a href="/home/journal/" class="ticker-item hi">EST. 2006 — Bushwick, Brooklyn</a>
+    <a href="/home/observable/" class="ticker-item">OBSERVABLE — co-CEO with Mike Bostock</a>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item hi">EST. 2006 — BUSHWICK, BROOKLYN</span>
     <span class="ticker-sep">·</span>
     <!-- duplicate for seamless loop -->
-    <a href="/home/journal/" class="ticker-item hi">NEW ESSAY — A room we used to meet in</a>
+    <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="ticker-item hi">NEW ON OBSERVABLE — The medium is the problem · March 25</a>
     <span class="ticker-sep">·</span>
-    <a href="/home/radio/" class="ticker-item">RADIO ARCHIVE RESTORED — 74 episodes live on Internet Archive</a>
+    <a href="/home/journal/" class="ticker-item">NEW ESSAY — A room we used to meet in</a>
     <span class="ticker-sep">·</span>
-    <a href="/home/observable/" class="ticker-item">OBSERVABLE — now co-CEO with Mike Bostock</a>
+    <a href="/home/radio/" class="ticker-item">RADIO ARCHIVE RESTORED — 74 episodes on Internet Archive</a>
     <span class="ticker-sep">·</span>
-    <a href="/home/shades/" class="ticker-item">SHADES NEWS — launched on iOS, 2024</a>
+    <a href="/home/shades/" class="ticker-item">SHADES NEWS — live on iOS</a>
     <span class="ticker-sep">·</span>
-    <a href="/home/journal/" class="ticker-item hi">EST. 2006 — Bushwick, Brooklyn</a>
+    <a href="/home/observable/" class="ticker-item">OBSERVABLE — co-CEO with Mike Bostock</a>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item hi">EST. 2006 — BUSHWICK, BROOKLYN</span>
     <span class="ticker-sep">·</span>
   </div>
 </div>
+
+<!-- FEATURED -->
+<section class="featured">
+  <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="featured-card">
+    <div class="featured-text">
+      <div>
+        <div class="featured-kicker"><span class="tag">New</span> Observable · March 25, 2026</div>
+        <div class="featured-title">The medium <em>is</em> the problem.</div>
+        <p class="featured-deck">AI can generate code faster than ever. But the comprehension gap that opens up — where no one can fully inspect what was written — is the real bottleneck. The solution isn't better generation. It's restoring the write/run/inspect loop at machine speed.</p>
+      </div>
+      <span class="featured-link">Read on Observable →</span>
+    </div>
+    <div class="featured-graphic">
+      <canvas id="featured-viz"></canvas>
+      <div class="featured-meta">COMPREHENSION / GENERATION</div>
+    </div>
+  </a>
+</section>
 
 <!-- OPENING -->
 <div class="opening">
@@ -463,5 +659,92 @@
 </footer>
 
 <script src="/js/chop-auth.js"></script>
+<script>
+// Featured viz — two diverging curves: generation (amber, fast) vs comprehension (dim, trailing)
+(function() {
+  const canvas = document.getElementById('featured-viz');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  let w, h, t = 0;
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    w = rect.width; h = rect.height;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.scale(dpr, dpr);
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); });
+
+  function frame() {
+    ctx.fillStyle = 'rgba(10, 7, 4, 0.1)';
+    ctx.fillRect(0, 0, w, h);
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(196, 125, 40, 0.06)';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < 6; i++) {
+      ctx.beginPath();
+      ctx.moveTo(0, (h / 6) * i);
+      ctx.lineTo(w, (h / 6) * i);
+      ctx.stroke();
+    }
+
+    // Generation curve (steep, amber)
+    ctx.strokeStyle = '#c47d28';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (let x = 0; x < w; x++) {
+      const p = x / w;
+      const y = h - (Math.pow(p, 1.8) * h * 0.92 + Math.sin(p * 10 + t) * 3);
+      if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Comprehension curve (flat, dim)
+    ctx.strokeStyle = 'rgba(237, 232, 223, 0.35)';
+    ctx.lineWidth = 1.2;
+    ctx.setLineDash([3, 4]);
+    ctx.beginPath();
+    for (let x = 0; x < w; x++) {
+      const p = x / w;
+      const y = h - (Math.pow(p, 0.5) * h * 0.38 + Math.sin(p * 6 + t * 0.5) * 2);
+      if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // The gap (filled, subtle)
+    ctx.fillStyle = 'rgba(196, 125, 40, 0.04)';
+    ctx.beginPath();
+    ctx.moveTo(0, h);
+    for (let x = 0; x < w; x++) {
+      const p = x / w;
+      const y = h - (Math.pow(p, 1.8) * h * 0.92 + Math.sin(p * 10 + t) * 3);
+      ctx.lineTo(x, y);
+    }
+    for (let x = w - 1; x >= 0; x--) {
+      const p = x / w;
+      const y = h - (Math.pow(p, 0.5) * h * 0.38 + Math.sin(p * 6 + t * 0.5) * 2);
+      ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    // Labels
+    ctx.fillStyle = 'rgba(196, 125, 40, 0.6)';
+    ctx.font = '9px IBM Plex Mono, monospace';
+    ctx.fillText('GENERATION', 14, 22);
+    ctx.fillStyle = 'rgba(237, 232, 223, 0.4)';
+    ctx.fillText('COMPREHENSION', 14, h - 14);
+
+    t += 0.015;
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
 </body>
 </html>

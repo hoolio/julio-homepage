@@ -57,7 +57,9 @@
       "Bash(mdfind \"kMDItemFSName == ''deathgate.jpg''\")",
       "Bash(mdfind \"kMDItemFSName == ''hamster.jpg''\")",
       "Bash(shasum -a 256)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(curl -sL \"https://observablehq.com/blog\" -A \"Mozilla/5.0\")",
+      "WebFetch(domain:observablehq.com)"
     ]
   }
 }
