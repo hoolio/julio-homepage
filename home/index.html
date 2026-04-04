@@ -216,31 +216,23 @@
     .featured-text { padding: 28px 24px 28px 28px; }
   }
 
-  /* CAROUSEL */
+  /* CAROUSEL — horizontal slide, continuous motion */
   .carousel {
     position: relative;
+    overflow: hidden;
+    border-radius: 2px;
   }
 
   .carousel-track {
-    position: relative;
-    min-height: 300px;
+    display: flex;
+    transition: transform 1.2s cubic-bezier(0.7, 0, 0.2, 1);
+    will-change: transform;
   }
 
   .carousel-slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.7s ease;
+    flex: 0 0 100%;
+    min-width: 100%;
   }
-
-  .carousel-slide.active {
-    opacity: 1;
-    pointer-events: auto;
-    position: relative;
-  }
-
-  .carousel-slide:not(.active) { position: absolute; }
 
   /* Dots */
   .carousel-dots {
@@ -252,36 +244,19 @@
   }
 
   .carousel-dot {
-    width: 28px;
+    width: 24px;
     height: 2px;
     background: var(--hairline-strong);
     border: none;
     cursor: pointer;
     padding: 0;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s;
+    transition: background 0.4s, width 0.4s;
   }
 
-  .carousel-dot::after {
-    content: '';
-    position: absolute;
-    inset: 0;
+  .carousel-dot.active {
     background: var(--gold);
-    transform: scaleX(0);
-    transform-origin: left;
+    width: 40px;
   }
-
-  .carousel-dot.active::after {
-    animation: dotFill 7s linear;
-  }
-
-  @keyframes dotFill {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
-  }
-
-  .carousel-dot.active { background: var(--hairline-strong); }
 
   .carousel-counter {
     margin-left: auto;
@@ -290,22 +265,6 @@
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--dim);
-  }
-
-  /* Featured title entrance animation */
-  .featured-card.active .featured-title {
-    animation: titleRise 0.8s ease-out both;
-  }
-  .featured-card.active .featured-deck {
-    animation: titleRise 0.8s 0.15s ease-out both;
-  }
-  .featured-card.active .featured-kicker {
-    animation: titleRise 0.8s 0.05s ease-out both;
-  }
-
-  @keyframes titleRise {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
   }
 
   .home-nav-links {
@@ -645,8 +604,24 @@
   <div class="carousel">
     <div class="carousel-track" id="carousel-track">
 
-      <!-- SLIDE 1: Observable article -->
-      <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="featured-card carousel-slide active" data-slide="0">
+      <!-- SLIDE 1: Archive restored announcement -->
+      <a href="/home/journal/archive-restored/" class="featured-card carousel-slide" data-slide="0">
+        <div class="featured-text">
+          <div>
+            <div class="featured-kicker"><span class="tag">Restored</span> Announcement · April 2026</div>
+            <div class="featured-title">The archive is <em>back.</em></div>
+            <p class="featured-deck">83 episodes of Choplogic Radio — a pioneering proto-podcast from 2006 pre-gentrified industrial Bushwick at the Office Ops Arts &amp; Community Center — permanently restored to the Internet Archive. 6.7 gigabytes. 200 files. Twenty years later.</p>
+          </div>
+          <span class="featured-link">Read the announcement →</span>
+        </div>
+        <div class="featured-graphic">
+          <svg id="archive-viz" viewBox="0 0 340 300" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block"></svg>
+          <div class="featured-meta">2006 — 2026 · 83 EPISODES</div>
+        </div>
+      </a>
+
+      <!-- SLIDE 2: Observable article -->
+      <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="featured-card carousel-slide" data-slide="1">
         <div class="featured-text">
           <div>
             <div class="featured-kicker"><span class="tag">New</span> Observable · March 25, 2026</div>
@@ -661,8 +636,8 @@
         </div>
       </a>
 
-      <!-- SLIDE 2: Listening this week -->
-      <a href="/home/journal/listening-this-week-indigenous-electronic/" class="featured-card carousel-slide" data-slide="1">
+      <!-- SLIDE 3: Listening this week -->
+      <a href="/home/journal/listening-this-week-indigenous-electronic/" class="featured-card carousel-slide" data-slide="2">
         <div class="featured-text">
           <div>
             <div class="featured-kicker"><span class="tag">Listening</span> This week · April 2026</div>
@@ -682,7 +657,8 @@
     <div class="carousel-dots">
       <button class="carousel-dot active" data-slide="0" aria-label="Slide 1"></button>
       <button class="carousel-dot" data-slide="1" aria-label="Slide 2"></button>
-      <span class="carousel-counter" id="slide-counter">01 / 02</span>
+      <button class="carousel-dot" data-slide="2" aria-label="Slide 3"></button>
+      <span class="carousel-counter" id="slide-counter">01 / 03</span>
     </div>
   </div>
 </section>
@@ -891,7 +867,145 @@
   frame();
 })();
 
-// ══════════ STONE + MACHINE SVG (slide 2) ══════════
+// ══════════ ARCHIVE MONUMENT SVG (slide 1) — stone slab with 83 carved marks ══════════
+(function() {
+  const svg = document.getElementById('archive-viz');
+  if (!svg) return;
+  const NS = 'http://www.w3.org/2000/svg';
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="slab" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3a2818"/>
+        <stop offset="50%" stop-color="#1e140a"/>
+        <stop offset="100%" stop-color="#0a0604"/>
+      </linearGradient>
+      <radialGradient id="arc-glow" cx="0.5" cy="0.85">
+        <stop offset="0%" stop-color="#c47d28" stop-opacity="0.35"/>
+        <stop offset="50%" stop-color="#7a2e1c" stop-opacity="0.08"/>
+        <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="arc-rough">
+        <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4" seed="9"/>
+        <feDisplacementMap in="SourceGraphic" scale="1.5"/>
+      </filter>
+      <filter id="arc-grain">
+        <feTurbulence type="fractalNoise" baseFrequency="1.8" numOctaves="2" seed="7"/>
+        <feColorMatrix values="0 0 0 0 0.7 0 0 0 0 0.5 0 0 0 0 0.2 0 0 0 0.25 0"/>
+        <feComposite in2="SourceGraphic" operator="in"/>
+      </filter>
+    </defs>
+    <rect width="340" height="300" fill="url(#slab)"/>
+    <rect width="340" height="300" fill="url(#arc-glow)"/>
+  `;
+
+  // Carved horizontal bands (like stratified rock)
+  for (let i = 0; i < 8; i++) {
+    const y = 30 + i * 35 + Math.random() * 4;
+    const band = document.createElementNS(NS, 'line');
+    band.setAttribute('x1', '0');
+    band.setAttribute('x2', '340');
+    band.setAttribute('y1', y);
+    band.setAttribute('y2', y);
+    band.setAttribute('stroke', '#c47d28');
+    band.setAttribute('stroke-width', 0.4 + Math.random() * 0.4);
+    band.setAttribute('opacity', 0.06 + Math.random() * 0.08);
+    svg.appendChild(band);
+  }
+
+  // 83 tally marks in a monument grid (like scratched into stone)
+  const tallyGroup = document.createElementNS(NS, 'g');
+  tallyGroup.setAttribute('transform', 'translate(30, 55)');
+
+  const cols = 14;
+  const rows = 6;
+  const cellW = 20, cellH = 30;
+
+  for (let i = 0; i < 83; i++) {
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const x = col * cellW + Math.random() * 2 - 1;
+    const y = row * cellH + Math.random() * 2 - 1;
+
+    const mark = document.createElementNS(NS, 'line');
+    mark.setAttribute('x1', x);
+    mark.setAttribute('y1', y);
+    mark.setAttribute('x2', x + Math.random() * 2 - 1);
+    mark.setAttribute('y2', y + 14 + Math.random() * 3);
+    mark.setAttribute('stroke', '#c47d28');
+    mark.setAttribute('stroke-width', 0.9);
+    mark.setAttribute('opacity', 0.55 + Math.random() * 0.3);
+    mark.setAttribute('stroke-linecap', 'square');
+    tallyGroup.appendChild(mark);
+
+    // Every 5th tally: diagonal stroke (tally bundles)
+    if ((i + 1) % 5 === 0) {
+      const slash = document.createElementNS(NS, 'line');
+      slash.setAttribute('x1', x - 8);
+      slash.setAttribute('y1', y + 4);
+      slash.setAttribute('x2', x + 4);
+      slash.setAttribute('y2', y + 14);
+      slash.setAttribute('stroke', '#c47d28');
+      slash.setAttribute('stroke-width', 0.9);
+      slash.setAttribute('opacity', 0.6);
+      slash.setAttribute('stroke-linecap', 'square');
+      tallyGroup.appendChild(slash);
+    }
+  }
+
+  tallyGroup.style.filter = 'url(#arc-rough)';
+  svg.appendChild(tallyGroup);
+
+  // Roman numeral LXXXIII (83) carved in center — large
+  const romanLabel = document.createElementNS(NS, 'text');
+  romanLabel.setAttribute('x', '170');
+  romanLabel.setAttribute('y', '275');
+  romanLabel.setAttribute('text-anchor', 'middle');
+  romanLabel.setAttribute('font-family', 'Cormorant Garamond, Georgia, serif');
+  romanLabel.setAttribute('font-size', '28');
+  romanLabel.setAttribute('font-weight', '400');
+  romanLabel.setAttribute('font-style', 'italic');
+  romanLabel.setAttribute('letter-spacing', '4');
+  romanLabel.setAttribute('fill', '#c4962e');
+  romanLabel.setAttribute('opacity', '0.7');
+  romanLabel.textContent = 'LXXXIII';
+  svg.appendChild(romanLabel);
+
+  // Date range text — small mono at top
+  const dateLabel = document.createElementNS(NS, 'text');
+  dateLabel.setAttribute('x', '170');
+  dateLabel.setAttribute('y', '22');
+  dateLabel.setAttribute('text-anchor', 'middle');
+  dateLabel.setAttribute('font-family', 'IBM Plex Mono, monospace');
+  dateLabel.setAttribute('font-size', '8');
+  dateLabel.setAttribute('letter-spacing', '3');
+  dateLabel.setAttribute('fill', 'rgba(196, 125, 40, 0.5)');
+  dateLabel.textContent = 'MMVI — MMXII';
+  svg.appendChild(dateLabel);
+
+  // Vertical rule on each side
+  [20, 320].forEach(x => {
+    const rule = document.createElementNS(NS, 'line');
+    rule.setAttribute('x1', x); rule.setAttribute('x2', x);
+    rule.setAttribute('y1', 40); rule.setAttribute('y2', 260);
+    rule.setAttribute('stroke', '#c47d28');
+    rule.setAttribute('stroke-width', '0.5');
+    rule.setAttribute('opacity', '0.3');
+    svg.appendChild(rule);
+  });
+
+  // Grain overlay
+  const grain = document.createElementNS(NS, 'rect');
+  grain.setAttribute('width', '340');
+  grain.setAttribute('height', '300');
+  grain.setAttribute('fill', '#fff');
+  grain.setAttribute('opacity', '0.035');
+  grain.style.filter = 'url(#arc-grain)';
+  grain.style.mixBlendMode = 'overlay';
+  svg.appendChild(grain);
+})();
+
+// ══════════ STONE + MACHINE SVG (slide 3) ══════════
 (function() {
   const svg = document.getElementById('stone-viz');
   if (!svg) return;
@@ -1059,27 +1173,31 @@
   }
 })();
 
-// ══════════ CAROUSEL ══════════
+// ══════════ CAROUSEL — horizontal slide, hold, advance ══════════
 (function() {
+  const track = document.getElementById('carousel-track');
   const slides = document.querySelectorAll('.carousel-slide');
   const dots = document.querySelectorAll('.carousel-dot');
   const counter = document.getElementById('slide-counter');
-  if (!slides.length) return;
+  if (!track || !slides.length) return;
 
   let current = 0;
   let timer = null;
-  const DURATION = 7000;
+  const HOLD = 9000; // hold 9s then advance
 
   function show(idx) {
-    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
-    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-    counter.textContent = `0${idx + 1} / 0${slides.length}`;
-    current = idx;
+    current = ((idx % slides.length) + slides.length) % slides.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    if (counter) counter.textContent = `0${current + 1} / 0${slides.length}`;
   }
 
-  function next() { show((current + 1) % slides.length); }
+  function next() { show(current + 1); }
 
-  function start() { clearInterval(timer); timer = setInterval(next, DURATION); }
+  function start() { clearTimeout(timer); timer = setTimeout(next, HOLD); }
+
+  // After each transition ends, start the next hold
+  track.addEventListener('transitionend', start);
 
   dots.forEach((dot, i) => {
     dot.addEventListener('click', (e) => {
@@ -1090,12 +1208,13 @@
   });
 
   // Pause on hover
-  const track = document.getElementById('carousel-track');
-  if (track) {
-    track.addEventListener('mouseenter', () => clearInterval(timer));
-    track.addEventListener('mouseleave', start);
+  const wrap = track.parentElement;
+  if (wrap) {
+    wrap.addEventListener('mouseenter', () => clearTimeout(timer));
+    wrap.addEventListener('mouseleave', start);
   }
 
+  show(0);
   start();
 })();
 </script>
