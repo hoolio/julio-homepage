@@ -70,7 +70,9 @@
       "Bash(for f:*)",
       "Bash(do)",
       "Bash(if ! grep -q \"chop-radio-player.js\" \"$f\")",
-      "Bash(then)"
+      "Bash(then)",
+      "Bash(find '/Users/julio/Music/CRATEZ/Music/2022/21 Feb' -iname *.jpg -o -iname *.jpeg -o -iname *.png)",
+      "Bash(find '/Users/julio/Music/CRATEZ/Music/2024/March/24/rouond 2/Debit - Love Discipline \\(QTT11\\)' -iname *.jpg -o -iname *.jpeg -o -iname *.png)"
     ]
   }
 }
