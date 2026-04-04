@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Import Log — Health</title>
+  <meta name="theme-color" content="#1a1208">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { padding-bottom: 40px; }
+    .import-page { max-width: 600px; margin: 0 auto; padding: 16px; }
+    .import-page h1 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+    .import-page .subtitle { font-size: 13px; color: var(--text-tertiary); margin-bottom: 24px; }
+    .back-link { font-size: 13px; color: var(--gold-dim); display: inline-block; margin-bottom: 16px; }
+    .back-link:hover { color: var(--gold); }
+    .back-link::before { content: '\2190 '; }
+
+    .drop-zone {
+      border: 2px dashed rgba(201, 168, 76, 0.2);
+      border-radius: var(--radius);
+      padding: 48px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 16px;
+    }
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--gold-dim);
+      background: var(--gold-glow);
+    }
+    .drop-zone svg { width: 36px; height: 36px; color: var(--text-faint); margin-bottom: 8px; }
+    .drop-zone p { font-size: 15px; color: var(--text-secondary); }
+    .drop-zone .hint { font-size: 12px; color: var(--text-faint); margin-top: 4px; }
+
+    .progress-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .progress-card.active { display: block; }
+
+    .progress-bar-track {
+      height: 6px;
+      background: var(--bg-surface);
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+
+    .progress-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .progress-stat {
+      text-align: center;
+      padding: 8px;
+      background: var(--bg-surface);
+      border-radius: var(--radius-sm);
+    }
+    .progress-stat .val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gold);
+    }
+    .progress-stat .lbl {
+      font-size: 10px;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-top: 2px;
+    }
+
+    .progress-status {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .progress-preview {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      margin-top: 12px;
+    }
+    .progress-preview .label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+    .progress-preview pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-secondary);
+      white-space: pre-wrap;
+      line-height: 1.5;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .result-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: none;
+      text-align: center;
+    }
+    .result-card.active { display: block; }
+    .result-card h2 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .result-card p { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+    .result-actions { display: flex; gap: 8px; }
+
+    .api-key-group { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="import-page">
+    <a href="/health/" class="back-link">Health Log</a>
+    <h1>Import Log File</h1>
+    <p class="subtitle">Drop a text file — ChatGPT export, notes dump, any freeform health log. AI chunks and parses it automatically.</p>
+
+    <div class="api-key-group">
+      <div class="form-group">
+        <label class="form-label" for="api-key-input">Anthropic API Key</label>
+        <input type="password" class="form-input" id="api-key-input" placeholder="sk-ant-...">
+        <div class="form-hint">Stored in sessionStorage only. Required for parsing.</div>
+      </div>
+    </div>
+
+    <div class="drop-zone" id="drop-zone">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12H9.75m0 0l2.25-2.25M9.75 15l2.25 2.25M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+      <p>Drop your text file here</p>
+      <p class="hint">Or tap to browse. .txt, .md, .log supported.</p>
+      <input type="file" id="file-input" accept=".txt,.md,.log,.text" hidden>
+    </div>
+
+    <div class="progress-card" id="progress-card">
+      <div class="progress-status" id="progress-status">Preparing...</div>
+      <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-bar"></div></div>
+      <div class="progress-stats">
+        <div class="progress-stat"><div class="val" id="stat-chunk">0/0</div><div class="lbl">Chunks</div></div>
+        <div class="progress-stat"><div class="val" id="stat-entries">0</div><div class="lbl">Entries</div></div>
+        <div class="progress-stat"><div class="val" id="stat-eta">—</div><div class="lbl">ETA</div></div>
+      </div>
+      <div class="progress-preview" id="progress-preview" style="display:none">
+        <div class="label">Last Parsed Entry</div>
+        <pre id="preview-content"></pre>
+      </div>
+    </div>
+
+    <div class="result-card" id="result-card">
+      <h2 id="result-title">Import Complete</h2>
+      <p id="result-desc"></p>
+      <div class="result-actions">
+        <button class="btn btn-primary" id="btn-download-json">Download JSON</button>
+        <button class="btn btn-secondary" id="btn-save-to-app">Save to Health App</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/chunker.js"></script>
+  <script src="js/crypto.js"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    const STORAGE_KEY = 'health_entries';
+    let parsedEntries = [];
+
+    // API key persistence (sessionStorage)
+    const keyInput = document.getElementById('api-key-input');
+    const savedKey = sessionStorage.getItem('health_import_apikey');
+    if (savedKey) keyInput.value = savedKey;
+    keyInput.addEventListener('change', () => sessionStorage.setItem('health_import_apikey', keyInput.value.trim()));
+
+    // Drop zone
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', (ev) => { ev.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', (ev) => {
+      ev.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (ev.dataTransfer.files.length) processFile(ev.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', () => { if (fileInput.files.length) processFile(fileInput.files[0]); });
+
+    async function processFile(file) {
+      const apiKey = keyInput.value.trim();
+      if (!apiKey) { alert('Enter your Anthropic API key first.'); return; }
+
+      const text = await file.text();
+      const chunks = Chunker.prepareChunks(text, 8000);
+
+      // Show progress
+      const progressCard = document.getElementById('progress-card');
+      const resultCard = document.getElementById('result-card');
+      progressCard.classList.add('active');
+      resultCard.classList.remove('active');
+      dropZone.style.display = 'none';
+
+      const allEntries = [];
+      const startTime = Date.now();
+
+      for (let i = 0; i < chunks.length; i++) {
+        const chunk = chunks[i];
+        updateProgress(i, chunks.length, allEntries.length, startTime, 'Processing...');
+
+        try {
+          const result = await callWithRetry(apiKey, chunk.text);
+          const cleaned = result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+          const entries = JSON.parse(cleaned);
+          const arr = Array.isArray(entries) ? entries : [entries];
+          allEntries.push(...arr);
+
+          // Show last entry preview
+          if (arr.length > 0) {
+            const preview = document.getElementById('progress-preview');
+            preview.style.display = 'block';
+            document.getElementById('preview-content').textContent = JSON.stringify(arr[arr.length - 1], null, 2);
+          }
+        } catch (err) {
+          updateProgress(i, chunks.length, allEntries.length, startTime, `Chunk ${i + 1} error: ${err.message}`);
+        }
+
+        // Brief pause
+        if (i < chunks.length - 1) await sleep(300);
+      }
+
+      // Deduplicate
+      parsedEntries = mergeEntries(allEntries);
+      updateProgress(chunks.length, chunks.length, parsedEntries.length, startTime, 'Complete!');
+
+      // Show results
+      setTimeout(() => {
+        progressCard.classList.remove('active');
+        resultCard.classList.add('active');
+        document.getElementById('result-title').textContent = `${parsedEntries.length} Entries Parsed`;
+        document.getElementById('result-desc').textContent = `From ${chunks.length} chunks, ${allEntries.length} raw entries merged to ${parsedEntries.length} unique days.`;
+      }, 800);
+    }
+
+    function updateProgress(current, total, entries, startTime, status) {
+      const pct = total > 0 ? ((current + 1) / total * 100).toFixed(0) : 0;
+      document.getElementById('progress-bar').style.width = pct + '%';
+      document.getElementById('stat-chunk').textContent = `${current + 1}/${total}`;
+      document.getElementById('stat-entries').textContent = entries;
+      document.getElementById('progress-status').textContent = status;
+
+      if (current > 0) {
+        const elapsed = (Date.now() - startTime) / 1000;
+        const perChunk = elapsed / current;
+        const remaining = Math.round((total - current) * perChunk);
+        document.getElementById('stat-eta').textContent = remaining > 60 ? `${Math.round(remaining / 60)}m` : `${remaining}s`;
+      }
+    }
+
+    async function callWithRetry(apiKey, text, retries = 0) {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-5-20250514',
+          max_tokens: 4096,
+          messages: [{ role: 'user', content: Chunker.PARSE_PROMPT + '\n\n' + text }],
+        }),
+      });
+
+      if (res.status === 429 || res.status >= 500) {
+        if (retries >= 5) throw new Error(`API error ${res.status} after retries`);
+        const delay = 1000 * Math.pow(2, retries) + Math.random() * 1000;
+        document.getElementById('progress-status').textContent = `Rate limited, retrying in ${(delay / 1000).toFixed(0)}s...`;
+        await sleep(delay);
+        return callWithRetry(apiKey, text, retries + 1);
+      }
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error?.message || `API ${res.status}`);
+      }
+
+      return (await res.json()).content[0].text;
+    }
+
+    function mergeEntries(allEntries) {
+      const byDate = new Map();
+      for (const entry of allEntries) {
+        if (!entry.date) continue;
+        const existing = byDate.get(entry.date);
+        if (existing) {
+          for (const [key, value] of Object.entries(entry)) {
+            if (value != null && value !== '' && (existing[key] == null || existing[key] === '')) {
+              existing[key] = value;
+            }
+          }
+        } else {
+          byDate.set(entry.date, { ...entry });
+        }
+      }
+      return Array.from(byDate.values()).sort((a, b) => a.date.localeCompare(b.date));
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    // Download JSON
+    document.getElementById('btn-download-json').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(parsedEntries, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'health-log-import.json';
+      a.click();
+    });
+
+    // Save to app (encrypted storage)
+    document.getElementById('btn-save-to-app').addEventListener('click', async () => {
+      // Need to unlock vault first
+      if (!Vault.isSetUp()) {
+        alert('Set up the Health App first (create a password) before importing.');
+        return;
+      }
+
+      const pw = prompt('Enter your Health App password to save entries:');
+      if (!pw) return;
+
+      try {
+        await Vault.unlock(pw);
+        const existing = await Vault.getEncrypted(STORAGE_KEY, []);
+        // Merge with existing
+        const merged = mergeWithExisting(existing, parsedEntries);
+        await Vault.setEncrypted(STORAGE_KEY, merged);
+        Vault.lock();
+        alert(`Saved ${parsedEntries.length} entries to Health App. (${merged.length} total entries now.)`);
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    });
+
+    function mergeWithExisting(existing, newEntries) {
+      const byDate = new Map();
+      for (const e of existing) byDate.set(e.date, { ...e });
+      for (const e of newEntries) {
+        const ex = byDate.get(e.date);
+        if (ex) {
+          for (const [k, v] of Object.entries(e)) {
+            if (v != null && v !== '' && (ex[k] == null || ex[k] === '')) ex[k] = v;
+          }
+        } else {
+          byDate.set(e.date, { ...e });
+        }
+      }
+      return Array.from(byDate.values()).sort((a, b) => b.date.localeCompare(a.date));
+    }
+  })();
+  </script>
+</body>
+</html>
