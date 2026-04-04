@@ -193,6 +193,98 @@
     .featured-text { padding: 28px 24px 28px 28px; }
   }
 
+  /* CAROUSEL */
+  .carousel {
+    position: relative;
+  }
+
+  .carousel-track {
+    position: relative;
+    min-height: 300px;
+  }
+
+  .carousel-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s ease;
+  }
+
+  .carousel-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    position: relative;
+  }
+
+  .carousel-slide:not(.active) { position: absolute; }
+
+  /* Dots */
+  .carousel-dots {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    padding-left: 4px;
+    align-items: center;
+  }
+
+  .carousel-dot {
+    width: 28px;
+    height: 2px;
+    background: var(--hairline-strong);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .carousel-dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .carousel-dot.active::after {
+    animation: dotFill 7s linear;
+  }
+
+  @keyframes dotFill {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  .carousel-dot.active { background: var(--hairline-strong); }
+
+  .carousel-counter {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+  }
+
+  /* Featured title entrance animation */
+  .featured-card.active .featured-title {
+    animation: titleRise 0.8s ease-out both;
+  }
+  .featured-card.active .featured-deck {
+    animation: titleRise 0.8s 0.15s ease-out both;
+  }
+  .featured-card.active .featured-kicker {
+    animation: titleRise 0.8s 0.05s ease-out both;
+  }
+
+  @keyframes titleRise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   .home-nav-links {
     display: flex;
     gap: 22px;
@@ -517,22 +609,51 @@
   </div>
 </div>
 
-<!-- FEATURED -->
+<!-- FEATURED CAROUSEL -->
 <section class="featured">
-  <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="featured-card">
-    <div class="featured-text">
-      <div>
-        <div class="featured-kicker"><span class="tag">New</span> Observable · March 25, 2026</div>
-        <div class="featured-title">The medium <em>is</em> the problem.</div>
-        <p class="featured-deck">AI can generate code faster than ever. But the comprehension gap that opens up — where no one can fully inspect what was written — is the real bottleneck. The solution isn't better generation. It's restoring the write/run/inspect loop at machine speed.</p>
-      </div>
-      <span class="featured-link">Read on Observable →</span>
+  <div class="carousel">
+    <div class="carousel-track" id="carousel-track">
+
+      <!-- SLIDE 1: Observable article -->
+      <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="featured-card carousel-slide active" data-slide="0">
+        <div class="featured-text">
+          <div>
+            <div class="featured-kicker"><span class="tag">New</span> Observable · March 25, 2026</div>
+            <div class="featured-title">The medium <em>is</em> the problem.</div>
+            <p class="featured-deck">AI can generate code faster than ever. But the comprehension gap that opens up — where no one can fully inspect what was written — is the real bottleneck. The solution isn't better generation. It's restoring the write/run/inspect loop at machine speed.</p>
+          </div>
+          <span class="featured-link">Read on Observable →</span>
+        </div>
+        <div class="featured-graphic">
+          <canvas id="featured-viz"></canvas>
+          <div class="featured-meta">COMPREHENSION / GENERATION</div>
+        </div>
+      </a>
+
+      <!-- SLIDE 2: Listening this week -->
+      <a href="/home/journal/listening-this-week-indigenous-electronic/" class="featured-card carousel-slide" data-slide="1">
+        <div class="featured-text">
+          <div>
+            <div class="featured-kicker"><span class="tag">Listening</span> This week · April 2026</div>
+            <div class="featured-title">Something <em>old,</em> something very new.</div>
+            <p class="featured-deck">Debit. el plvybxy. DJ Fucci. El Irreal Veintiuno. A corner of experimental electronic music folding pre-Hispanic sound and deconstructed club into something that sounds unearthed rather than composed.</p>
+          </div>
+          <span class="featured-link">Read the list →</span>
+        </div>
+        <div class="featured-graphic">
+          <svg id="stone-viz" viewBox="0 0 340 300" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block"></svg>
+          <div class="featured-meta">STONE · MACHINE</div>
+        </div>
+      </a>
+
     </div>
-    <div class="featured-graphic">
-      <canvas id="featured-viz"></canvas>
-      <div class="featured-meta">COMPREHENSION / GENERATION</div>
+
+    <div class="carousel-dots">
+      <button class="carousel-dot active" data-slide="0" aria-label="Slide 1"></button>
+      <button class="carousel-dot" data-slide="1" aria-label="Slide 2"></button>
+      <span class="carousel-counter" id="slide-counter">01 / 02</span>
     </div>
-  </a>
+  </div>
 </section>
 
 <!-- OPENING -->
@@ -746,6 +867,214 @@
     requestAnimationFrame(frame);
   }
   frame();
+})();
+
+// ══════════ STONE + MACHINE SVG (slide 2) ══════════
+(function() {
+  const svg = document.getElementById('stone-viz');
+  if (!svg) return;
+  const NS = 'http://www.w3.org/2000/svg';
+
+  // Warm obsidian gradient background
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="rock" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#2a1a10"/>
+        <stop offset="40%" stop-color="#1a1008"/>
+        <stop offset="100%" stop-color="#0a0604"/>
+      </linearGradient>
+      <radialGradient id="glow" cx="0.75" cy="0.3">
+        <stop offset="0%" stop-color="#c47d28" stop-opacity="0.4"/>
+        <stop offset="60%" stop-color="#7a2e1c" stop-opacity="0.1"/>
+        <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="rough">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="5"/>
+        <feDisplacementMap in="SourceGraphic" scale="2"/>
+      </filter>
+      <filter id="grain">
+        <feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="2" seed="3"/>
+        <feColorMatrix values="0 0 0 0 0.7 0 0 0 0 0.5 0 0 0 0 0.2 0 0 0 0.3 0"/>
+        <feComposite in2="SourceGraphic" operator="in"/>
+      </filter>
+    </defs>
+    <rect width="340" height="300" fill="url(#rock)"/>
+    <rect width="340" height="300" fill="url(#glow)"/>
+  `;
+
+  // Stepped-fret glyph (Greca-inspired) — nested geometric blocks, carved stone look
+  const glyphGroup = document.createElementNS(NS, 'g');
+  glyphGroup.setAttribute('transform', 'translate(30, 40)');
+
+  // Four glyphs in a grid, each different rotation
+  const glyphs = [
+    { x: 0, y: 0, rotate: 0 },
+    { x: 140, y: 0, rotate: 90 },
+    { x: 0, y: 130, rotate: 180 },
+    { x: 140, y: 130, rotate: 270 },
+  ];
+
+  glyphs.forEach((g, i) => {
+    const gg = document.createElementNS(NS, 'g');
+    gg.setAttribute('transform', `translate(${g.x}, ${g.y})`);
+
+    // Stepped fret — carved stone block
+    const fret = document.createElementNS(NS, 'path');
+    fret.setAttribute('d', 'M 0 90 L 0 20 L 20 20 L 20 40 L 40 40 L 40 60 L 60 60 L 60 40 L 80 40 L 80 20 L 100 20 L 100 90 L 80 90 L 80 70 L 60 70 L 60 90 L 40 90 L 40 70 L 20 70 L 20 90 Z');
+    fret.setAttribute('fill', 'none');
+    fret.setAttribute('stroke', '#c47d28');
+    fret.setAttribute('stroke-width', '1');
+    fret.setAttribute('opacity', '0.45');
+    fret.setAttribute('transform', `rotate(${g.rotate} 50 55)`);
+    fret.style.filter = 'url(#rough)';
+    gg.appendChild(fret);
+
+    // Inner circle (machine eye)
+    const circle = document.createElementNS(NS, 'circle');
+    circle.setAttribute('cx', '50');
+    circle.setAttribute('cy', '55');
+    circle.setAttribute('r', '3');
+    circle.setAttribute('fill', '#c4962e');
+    circle.setAttribute('opacity', '0.8');
+    circle.classList.add('pulse-eye');
+    circle.style.animationDelay = `${i * 0.4}s`;
+    gg.appendChild(circle);
+
+    glyphGroup.appendChild(gg);
+  });
+
+  svg.appendChild(glyphGroup);
+
+  // Connecting gold wires (machine layer)
+  const wires = [
+    'M 80 95 L 170 95',
+    'M 260 95 L 260 170',
+    'M 80 225 L 170 225',
+    'M 80 95 L 80 225',
+  ];
+  wires.forEach((d, i) => {
+    const w = document.createElementNS(NS, 'path');
+    w.setAttribute('d', d);
+    w.setAttribute('stroke', '#a07828');
+    w.setAttribute('stroke-width', '0.6');
+    w.setAttribute('fill', 'none');
+    w.setAttribute('opacity', '0.5');
+    w.setAttribute('stroke-dasharray', '2 4');
+    w.classList.add('wire-pulse');
+    w.style.animationDelay = `${i * 0.3}s`;
+    svg.appendChild(w);
+  });
+
+  // Center sigil — sun/machine core
+  const center = document.createElementNS(NS, 'g');
+  center.setAttribute('transform', 'translate(170, 150)');
+  center.classList.add('sigil-rotate');
+
+  const rings = [28, 22, 16, 10];
+  rings.forEach((r, i) => {
+    const ring = document.createElementNS(NS, 'circle');
+    ring.setAttribute('cx', '0');
+    ring.setAttribute('cy', '0');
+    ring.setAttribute('r', r);
+    ring.setAttribute('fill', 'none');
+    ring.setAttribute('stroke', i % 2 === 0 ? '#c47d28' : '#7a2e1c');
+    ring.setAttribute('stroke-width', '0.7');
+    ring.setAttribute('opacity', 0.6 - i * 0.08);
+    ring.setAttribute('stroke-dasharray', i === 1 ? '3 2' : 'none');
+    center.appendChild(ring);
+  });
+
+  // Center dot
+  const core = document.createElementNS(NS, 'circle');
+  core.setAttribute('cx', '0');
+  core.setAttribute('cy', '0');
+  core.setAttribute('r', '3');
+  core.setAttribute('fill', '#c4962e');
+  core.classList.add('pulse-eye');
+  center.appendChild(core);
+
+  // 8 radial spokes
+  for (let i = 0; i < 8; i++) {
+    const angle = (i / 8) * Math.PI * 2;
+    const spoke = document.createElementNS(NS, 'line');
+    const inner = 12;
+    const outer = 30;
+    spoke.setAttribute('x1', Math.cos(angle) * inner);
+    spoke.setAttribute('y1', Math.sin(angle) * inner);
+    spoke.setAttribute('x2', Math.cos(angle) * outer);
+    spoke.setAttribute('y2', Math.sin(angle) * outer);
+    spoke.setAttribute('stroke', '#a07828');
+    spoke.setAttribute('stroke-width', '0.6');
+    spoke.setAttribute('opacity', '0.4');
+    center.appendChild(spoke);
+  }
+
+  svg.appendChild(center);
+
+  // Grain overlay
+  const grain = document.createElementNS(NS, 'rect');
+  grain.setAttribute('width', '340');
+  grain.setAttribute('height', '300');
+  grain.setAttribute('fill', '#fff');
+  grain.setAttribute('opacity', '0.03');
+  grain.style.filter = 'url(#grain)';
+  grain.style.mixBlendMode = 'overlay';
+  svg.appendChild(grain);
+
+  // Add inline animation CSS
+  if (!document.getElementById('stone-anim')) {
+    const style = document.createElement('style');
+    style.id = 'stone-anim';
+    style.textContent = `
+      .pulse-eye { animation: eyePulse 2.5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      @keyframes eyePulse { 0%, 100% { opacity: 0.8; r: 3; } 50% { opacity: 0.3; r: 2; } }
+      .wire-pulse { animation: wireShift 4s linear infinite; }
+      @keyframes wireShift { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 12; } }
+      .sigil-rotate { animation: sigilSpin 60s linear infinite; transform-box: fill-box; transform-origin: center; }
+      @keyframes sigilSpin { from { transform: translate(170px, 150px) rotate(0deg); } to { transform: translate(170px, 150px) rotate(360deg); } }
+    `;
+    document.head.appendChild(style);
+  }
+})();
+
+// ══════════ CAROUSEL ══════════
+(function() {
+  const slides = document.querySelectorAll('.carousel-slide');
+  const dots = document.querySelectorAll('.carousel-dot');
+  const counter = document.getElementById('slide-counter');
+  if (!slides.length) return;
+
+  let current = 0;
+  let timer = null;
+  const DURATION = 7000;
+
+  function show(idx) {
+    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    counter.textContent = `0${idx + 1} / 0${slides.length}`;
+    current = idx;
+  }
+
+  function next() { show((current + 1) % slides.length); }
+
+  function start() { clearInterval(timer); timer = setInterval(next, DURATION); }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', (e) => {
+      e.preventDefault();
+      show(i);
+      start();
+    });
+  });
+
+  // Pause on hover
+  const track = document.getElementById('carousel-track');
+  if (track) {
+    track.addEventListener('mouseenter', () => clearInterval(timer));
+    track.addEventListener('mouseleave', start);
+  }
+
+  start();
 })();
 </script>
 </body>

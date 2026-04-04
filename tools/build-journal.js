@@ -353,11 +353,11 @@ function build() {
   const HOME_DIR = path.join(__dirname, '..', 'home');
   const categories = [
     { slug: 'music', title: 'Music', subtitle: 'Listening, criticism, lists.' },
-    { slug: 'sounds', title: 'Sounds', subtitle: 'Audio, radio, archives.' },
     { slug: 'tech', title: 'Tech', subtitle: 'AI, software, systems.' },
     { slug: 'history', title: 'History', subtitle: 'Archives, origins, time.' },
     { slug: 'culture', title: 'Culture', subtitle: 'Ideas, aesthetics, taste.' },
     { slug: 'writings', title: 'Writings', subtitle: 'All essays and annotations.' },
+    // 'sounds' is hand-built (includes the radio archive card) — skip it
   ];
 
   categories.forEach(cat => {
