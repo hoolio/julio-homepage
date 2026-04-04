@@ -1495,26 +1495,31 @@ function diagnosticInfo() {
 }
 
 // ═══════════ INIT ═══════════
+function safe(name, fn) {
+  try { fn(); } catch(e) { console.error(`[init] ${name} failed:`, e); }
+}
+
 function init() {
-  document.getElementById('today-date').textContent =
-    new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' }).toUpperCase();
-  loadEntries();
-  // If latest entry is more than a month old, jump calendar to that month so the user sees their data
+  safe('today-date', () => {
+    document.getElementById('today-date').textContent =
+      new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' }).toUpperCase();
+  });
+  safe('loadEntries', loadEntries);
+  console.log(`[health] loaded ${entries.length} entries, latest: ${entries[0]?.date || 'none'}`);
   if (entries.length > 0) {
     const latest = new Date(entries[0].date + 'T12:00:00');
     const now = new Date();
     const diff = (now - latest) / (1000 * 60 * 60 * 24);
     if (diff > 7) calViewMonth = latest;
   }
-  renderStats();
-  renderHeatmap();
-  renderHRVChart();
-  renderDualChart();
-  renderEntries();
-  renderCalendar();
-  initPhotoDrop();
-  updateApiKeyStatus();
-  console.log(`Health: ${entries.length} entries loaded. Latest: ${entries[0]?.date || 'none'}`);
+  safe('renderStats', renderStats);
+  safe('renderHeatmap', renderHeatmap);
+  safe('renderHRVChart', renderHRVChart);
+  safe('renderDualChart', renderDualChart);
+  safe('renderEntries', renderEntries);
+  safe('renderCalendar', renderCalendar);
+  safe('initPhotoDrop', initPhotoDrop);
+  safe('updateApiKeyStatus', updateApiKeyStatus);
 }
 </script>
 
