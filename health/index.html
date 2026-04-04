@@ -893,15 +893,15 @@ function lockSession() {
   location.reload();
 }
 
+// ═══════════ DATA ═══════════
+const STORAGE_KEY = 'health_entries';
+let entries = [];
+
 if (localStorage.getItem(HEALTH_KEY) === 'yes') {
   document.getElementById('lock').style.display = 'none';
   document.getElementById('app').style.display = 'block';
   init();
 }
-
-// ═══════════ DATA ═══════════
-const STORAGE_KEY = 'health_entries';
-let entries = [];
 
 function loadEntries() {
   try {
