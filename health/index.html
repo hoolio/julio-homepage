@@ -1163,7 +1163,7 @@ function renderEntries() {
     if (e.date === todayStr) { badge = '<span class="today-badge">Today</span>'; extraClass = ' today'; }
     else if (e.date === yesterdayStr) { badge = '<span class="today-badge yest">Yesterday</span>'; }
 
-    return `<div class="entry${extraClass}">
+    return `<div class="entry${extraClass}" onclick="openModal('${e.date}')" style="cursor:pointer">
       <div class="entry-date"><span class="dow">${dow}</span>${mon} ${day}${badge}</div>
       <div class="entry-body">
         <p>${e.note || ''}</p>
@@ -1455,6 +1455,26 @@ function renderCalendar() {
   el.innerHTML = html;
 }
 
+// Parse a free-text note into activity vs food buckets using heuristics
+function splitNote(note) {
+  if (!note) return { activity: [], food: [], other: [] };
+  const chunks = note.split(/[;.·]|(?:\s—\s)|(?:\sand\s)/i).map(s => s.trim()).filter(Boolean);
+  const activityKeys = /\b(yoga|tonal|peloton|pushups?|pull-?ups?|sauna|run|steps|deadlift|squat|bench|press|row|curl|rdl|sprint|ride|bike|swim|hike|lift|stretch|ashtanga|vinyasa|massage|nordic|box|club)\b/i;
+  const foodKeys = /\b(shake|bar|salmon|chicken|steak|eggs?|protein|oatmeal|yogurt|greek|cheese|rice|bowl|salad|fries|beer|wine|coffee|cortado|mandarin|chickpeas|mussels|clams|shrimp|pork|lamb|beef|turkey|tuna|crab|fish|duck|bread|arancini|halibut|sashimi|carpaccio|aloha|trifecta|norse|kcal|calor|protein|fat|carbs|grams?)\b/i;
+  const activity = [];
+  const food = [];
+  const other = [];
+  chunks.forEach(c => {
+    const isAct = activityKeys.test(c);
+    const isFood = foodKeys.test(c);
+    if (isAct && !isFood) activity.push(c);
+    else if (isFood && !isAct) food.push(c);
+    else if (isAct && isFood) activity.push(c);
+    else other.push(c);
+  });
+  return { activity, food, other };
+}
+
 function openModal(iso) {
   const byDate = {}; entries.forEach(e => byDate[e.date] = e);
   const entry = byDate[iso];
@@ -1465,22 +1485,48 @@ function openModal(iso) {
   if (!entry) {
     document.getElementById('modal-body').innerHTML = `
       <p style="font-family:var(--serif);font-style:italic;color:var(--dim);font-size:1rem">No entry for this day.</p>
-      <p style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dim);margin-top:14px">To log it, use the form at the top of the page (date defaults to today).</p>
+      <p style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dim);margin-top:14px">To log it, use the form at the top of the page.</p>
     `;
-  } else {
-    const metrics = [];
-    if (entry.hrv) metrics.push(`<span>HRV <span class="v">${entry.hrv}</span></span>`);
-    if (entry.rhr) metrics.push(`<span>RHR <span class="v">${entry.rhr}</span></span>`);
-    if (entry.sleep) metrics.push(`<span>SLEEP <span class="v">${entry.sleep}h</span></span>`);
-    if (entry.weight) metrics.push(`<span>WEIGHT <span class="v">${entry.weight}</span></span>`);
-    if (entry.calories) metrics.push(`<span>KCAL <span class="v">${entry.calories}</span></span>`);
-    if (entry.protein) metrics.push(`<span>PROT <span class="v">${entry.protein}g</span></span>`);
-
-    document.getElementById('modal-body').innerHTML = `
-      ${entry.note ? `<p style="font-family:var(--serif);font-style:italic;font-size:1.05rem;line-height:1.55;color:var(--ink);margin-bottom:16px">${entry.note}</p>` : ''}
-      ${metrics.length ? `<div class="entry-metrics" style="display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--dim)">${metrics.join('')}</div>` : ''}
-    `;
+    document.getElementById('entry-modal').classList.add('active');
+    return;
   }
+
+  const metrics = [];
+  if (entry.hrv) metrics.push({ l:'HRV', v:entry.hrv });
+  if (entry.rhr) metrics.push({ l:'RHR', v:entry.rhr });
+  if (entry.sleep) metrics.push({ l:'Sleep', v:entry.sleep + 'h' });
+  if (entry.weight) metrics.push({ l:'Weight', v:entry.weight });
+  if (entry.calories) metrics.push({ l:'Calories', v:entry.calories });
+  if (entry.protein) metrics.push({ l:'Protein', v:entry.protein + 'g' });
+
+  const parts = splitNote(entry.note);
+
+  const section = (label, items, color) => items.length ? `
+    <div style="margin-bottom:18px">
+      <div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.18em;color:${color};margin-bottom:8px">${label}</div>
+      <ul style="list-style:none;padding:0;margin:0">
+        ${items.map(i => `<li style="font-family:var(--serif);font-size:1rem;color:var(--ink);line-height:1.5;padding:4px 0;border-bottom:1px solid var(--hairline)">${i}</li>`).join('')}
+      </ul>
+    </div>
+  ` : '';
+
+  const metricBlock = metrics.length ? `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:10px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--hairline)">
+      ${metrics.map(m => `
+        <div style="background:var(--paper-warm);padding:10px 12px;border-radius:2px">
+          <div style="font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dim);margin-bottom:3px">${m.l}</div>
+          <div style="font-family:var(--serif);font-size:1.3rem;color:var(--ink);line-height:1">${m.v}</div>
+        </div>
+      `).join('')}
+    </div>
+  ` : '';
+
+  document.getElementById('modal-body').innerHTML = `
+    ${metricBlock}
+    ${section('Activity', parts.activity, 'var(--gold)')}
+    ${section('Food', parts.food, 'var(--oxblood)')}
+    ${parts.other.length ? section('Notes', parts.other, 'var(--dim)') : ''}
+  `;
 
   document.getElementById('entry-modal').classList.add('active');
 }
