@@ -50,7 +50,7 @@ if (!apiKey) {
 // --- API call with retry ---
 async function callAnthropic(chunk, retryCount = 0) {
   const body = JSON.stringify({
-    model: 'claude-sonnet-4-5-20250514',
+    model: 'claude-sonnet-4-6',
     max_tokens: 4096,
     messages: [{
       role: 'user',
