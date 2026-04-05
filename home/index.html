@@ -306,8 +306,13 @@
   /* CAROUSEL — horizontal slide, continuous motion */
   .carousel {
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     border-radius: 0;
+    width: 100%;
+  }
+  .carousel-viewport {
+    position: relative;
+    overflow: hidden;
     width: 100%;
   }
 
@@ -353,24 +358,32 @@
   }
 
   .carousel-arrow {
-    width: 36px; height: 36px;
-    background: none;
-    border: 1px solid rgba(26, 23, 20, 0.25);
+    width: 40px; height: 40px;
+    background: rgba(249, 246, 240, 0.85);
+    border: 1px solid rgba(26, 23, 20, 0.3);
     color: #1a1714;
     cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
     padding: 0;
     border-radius: 50%;
-    transition: color 0.25s, border-color 0.25s, background 0.25s;
+    transition: color 0.25s, border-color 0.25s, background 0.25s, transform 0.25s;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
   .carousel-arrow svg { width: 13px; height: 13px; }
   .carousel-arrow:hover {
     color: #6a1e1a;
     border-color: #6a1e1a;
-    background: rgba(106, 30, 26, 0.04);
+    background: #f9f6f0;
+    transform: scale(1.08);
   }
-  #carousel-prev { margin-right: 4px; }
-  #carousel-next { margin-right: 22px; }
+  .carousel-arrow-side {
+    position: absolute;
+    top: 50%; margin-top: -20px;
+    z-index: 10;
+  }
+  .carousel-arrow-prev { left: clamp(12px, 2vw, 28px); }
+  .carousel-arrow-next { right: clamp(12px, 2vw, 28px); }
 
   .carousel-counter {
     margin-left: auto;
@@ -687,6 +700,13 @@
 <!-- FEATURED CAROUSEL -->
 <section class="featured">
   <div class="carousel">
+    <button class="carousel-arrow carousel-arrow-side carousel-arrow-prev" id="carousel-prev" aria-label="Previous slide">
+      <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3 L5 8 L10 13"/></svg>
+    </button>
+    <button class="carousel-arrow carousel-arrow-side carousel-arrow-next" id="carousel-next" aria-label="Next slide">
+      <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3 L11 8 L6 13"/></svg>
+    </button>
+    <div class="carousel-viewport">
     <div class="carousel-track" id="carousel-track">
 
       <!-- SLIDE 1: Internet Archive acquisition announcement -->
@@ -734,17 +754,12 @@
       </a>
 
     </div>
+    </div>
 
     <div class="carousel-dots">
-      <button class="carousel-arrow" id="carousel-prev" aria-label="Previous slide">
-        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M10 3 L5 8 L10 13"/></svg>
-      </button>
       <button class="carousel-dot active" data-slide="0" aria-label="Slide 1"></button>
       <button class="carousel-dot" data-slide="1" aria-label="Slide 2"></button>
       <button class="carousel-dot" data-slide="2" aria-label="Slide 3"></button>
-      <button class="carousel-arrow" id="carousel-next" aria-label="Next slide">
-        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 3 L11 8 L6 13"/></svg>
-      </button>
       <span class="carousel-counter" id="slide-counter">01 / 03</span>
     </div>
   </div>
