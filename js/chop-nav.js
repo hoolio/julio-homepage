@@ -4,11 +4,9 @@
   'use strict';
 
   const LINKS = [
-    { href: '/home/',          label: 'Home' },
     { href: '/home/writings/', label: 'Writings' },
     { href: '/home/sounds/',   label: 'Sounds' },
     { href: '/home/tech/',     label: 'Tech' },
-    { href: '/home/history/',  label: 'History' },
     { href: '/home/culture/',  label: 'Culture' },
     { href: '/about/',         label: 'About' },
   ];
