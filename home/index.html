@@ -134,7 +134,7 @@
     font-size: 9.5px;
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    color: var(--gold-bright, #c4962e);
+    color: #c4706a;
     display: flex;
     align-items: center;
     gap: 14px;
@@ -145,15 +145,16 @@
     content: '';
     width: 24px;
     height: 1px;
-    background: var(--gold, #c4962e);
+    background: #a04535;
   }
 
   .featured-kicker .tag {
-    background: rgba(196, 125, 40, 0.15);
-    color: #c4962e;
+    background: rgba(160, 69, 53, 0.2);
+    color: #e0a8a0;
     padding: 3px 8px;
     border-radius: 2px;
     font-weight: 500;
+    border: 1px solid rgba(160, 69, 53, 0.35);
   }
 
   .featured-title {
@@ -183,20 +184,21 @@
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: #c4962e;
+    color: #d48a82;
     border: none;
     align-self: flex-start;
     padding-bottom: 3px;
-    border-bottom: 1px solid rgba(196, 125, 40, 0.3);
-    transition: border-color 0.3s ease, letter-spacing 0.3s ease;
+    border-bottom: 1px solid rgba(212, 138, 130, 0.35);
+    transition: border-color 0.3s ease, letter-spacing 0.3s ease, color 0.3s ease;
   }
 
   .featured-card:hover .featured-link {
-    border-bottom-color: #c4962e;
+    border-bottom-color: #d48a82;
     letter-spacing: 0.22em;
+    color: #e0a8a0;
   }
 
-  .featured-link:hover { color: #c4962e; border: none; border-bottom: 1px solid #c4962e; }
+  .featured-link:hover { color: #e0a8a0; border: none; border-bottom: 1px solid #e0a8a0; }
 
   /* Featured graphic */
   .featured-graphic {
@@ -208,28 +210,20 @@
 
   #featured-viz { width: 100%; height: 100%; display: block; }
 
-  /* Image treatment — duotone warm amber + oxblood bleed */
+  /* Image treatment — duotone warm amber */
   .deer-graphic { position: relative; overflow: hidden; }
   .deer-treated {
     width: 100%; height: 100%; object-fit: cover; display: block;
-    filter: grayscale(1) contrast(1.42) brightness(0.68) sepia(0.55) hue-rotate(-22deg) saturate(2.4);
+    filter: grayscale(1) contrast(1.35) brightness(0.75) sepia(0.4) hue-rotate(-10deg) saturate(2.2);
     mix-blend-mode: screen;
-    background: #2a0e0a;
+    background: #2a1810;
   }
   .deer-overlay {
     position: absolute; inset: 0; pointer-events: none;
     background:
-      radial-gradient(ellipse at 25% 35%, rgba(196, 125, 40, 0.18), transparent 55%),
-      radial-gradient(ellipse at 75% 75%, rgba(106, 30, 26, 0.55), transparent 65%),
-      linear-gradient(135deg, rgba(10, 3, 3, 0.5), transparent 45%, rgba(122, 30, 22, 0.42));
+      radial-gradient(ellipse at 30% 30%, rgba(196, 125, 40, 0.15), transparent 60%),
+      linear-gradient(135deg, rgba(10, 7, 4, 0.4), transparent 50%, rgba(122, 46, 28, 0.18));
     mix-blend-mode: multiply;
-  }
-  .deer-graphic::before {
-    content: '';
-    position: absolute; inset: 0; pointer-events: none;
-    background: radial-gradient(ellipse at 60% 45%, transparent 25%, rgba(42, 10, 8, 0.35) 85%);
-    mix-blend-mode: multiply;
-    z-index: 1;
   }
   .deer-graphic::after {
     content: '';
@@ -247,7 +241,7 @@
     font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: rgba(196, 125, 40, 0.5);
+    color: rgba(224, 168, 160, 0.55);
     z-index: 2;
   }
 
