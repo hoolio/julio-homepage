@@ -14,7 +14,15 @@
 
   const ARTIST = 'Dregs';
   const ALBUM = 'Dregs · 2024';
-  const CONTEXT = 'Songs of the Week';
+  // Compute "Songs of the Week · W/e Apr 5" — week-ending (Sunday) of current date
+  function weekLabel() {
+    const d = new Date();
+    const daysUntilSun = (7 - d.getDay()) % 7;
+    const sun = new Date(d); sun.setDate(d.getDate() + daysUntilSun);
+    const mon = sun.toLocaleDateString('en-US', { month: 'short' });
+    return `Songs of the Week · W/e ${mon} ${sun.getDate()}`;
+  }
+  const CONTEXT = weekLabel();
 
   const MUTE_KEY = 'chop_muted';
   const IDX_KEY = 'chop_track_idx';

@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Choplogic Radio</title>
+<title>chopradio</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="An independent and progressive radio station broadcasting from Bushwick/East Williamsburg, Brooklyn.">
+<meta name="description" content="chopradio — Julio Avalos. Choplogic Radio, est. 2006.">
 <style>
+  html, body { overflow-x: hidden; }
   body {
     background: #f9f6f0;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    cursor: pointer;
+    font-family: 'Calibri', Arial, sans-serif;
+    color: #1a1714;
   }
 
   body::after {
@@ -29,24 +30,38 @@
     background-size: 180px 180px;
   }
 
+  .splash {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    cursor: pointer;
+  }
+
   h1 {
     font-family: Garamond, Georgia, serif;
-    font-size: 3.2rem;
+    font-size: clamp(1.8rem, 8vw, 3.2rem);
     font-weight: normal;
     color: #1a1714;
     margin: 0 0 2rem 0;
     letter-spacing: 0.04em;
+    text-align: center;
+    max-width: 100%;
+    word-wrap: break-word;
   }
 
-  img {
+  img.deer {
     max-width: 480px;
     width: 85%;
     height: auto;
     filter: contrast(1.05) brightness(1.02);
     mix-blend-mode: multiply;
+    display: block;
   }
 
-  a { display: block; }
+  .splash a.enter { display: block; }
 
   .est {
     margin-top: 2.5rem;
@@ -54,15 +69,84 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #bbb;
-    font-family: calibri, arial, sans-serif;
+  }
+
+  footer {
+    padding: 18px 22px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8a8580;
+    flex-wrap: wrap;
+    background: rgba(249, 246, 240, 0.9);
+    cursor: default;
+  }
+  footer .who { color: #1a1714; font-weight: 600; letter-spacing: 0.14em; }
+  footer .links { display: flex; gap: 14px; margin-left: auto; flex-wrap: wrap; align-items: center; }
+  footer a {
+    color: #5a534a;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 2px;
+    transition: color 0.25s ease, text-shadow 0.3s ease;
+  }
+  footer a:hover {
+    color: #6a1e1a;
+    text-shadow: 0 0 12px rgba(106, 30, 26, 0.25);
+  }
+  footer svg { width: 14px; height: 14px; opacity: 0.8; }
+  footer a:hover svg { opacity: 1; }
+
+  @media (max-width: 580px) {
+    footer { padding: 14px 16px; font-size: 9px; gap: 10px; flex-direction: column; align-items: flex-start; }
+    footer .links { margin-left: 0; gap: 12px; }
   }
 </style>
 </head>
-<body onclick="window.location='/home/'">
+<body>
 
-<h1>choplogic radio</h1>
-<a href="/home/"><img src="/assets/deer.jpg" alt="choplogic radio"></a>
-<div class="est">Est. 2006</div>
+<div class="splash" onclick="window.location='/home/'">
+  <h1>chopradio</h1>
+  <a class="enter" href="/home/"><img class="deer" src="/assets/deer.jpg" alt="chopradio"></a>
+  <div class="est">Est. 2006 · Brooklyn</div>
+</div>
+
+<footer>
+  <span class="who">Julio Avalos</span>
+  <span>Choplogic Radio</span>
+  <div class="links">
+    <a href="https://en.wikipedia.org/wiki/Julio_Avalos" aria-label="Wikipedia">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.09 13.119c-.936 1.932-2.217 4.548-2.853 5.728-.616 1.074-1.127.931-1.532.029-1.406-3.321-4.293-9.144-5.651-12.409-.251-.601-.441-.987-.619-1.139-.181-.15-.554-.24-1.122-.271-.156-.01-.236-.07-.236-.212v-.655l.007-.009c.509-.026 2.354-.032 3.023-.032.641 0 1.803.012 2.738.037l.007.009v.619c0 .138-.065.204-.215.219l-.621.031c-.572.032-.569.285-.429.567l4.836 10.14 2.708-5.509-.748-1.653c-.301-.667-1.002-2.225-1.252-2.668-.327-.579-.789-.717-1.23-.745l-.558-.029c-.14-.006-.21-.084-.21-.227v-.623l.01-.008c.772-.025 2.196-.038 2.868-.038.663 0 1.792.013 2.438.038l.008.008v.617c0 .137-.056.208-.169.215l-.432.028c-.724.05-.677.219-.421.816 1.111 2.611 2.219 5.024 3.305 7.579l.008-.02 3.185-7.298c.312-.727.275-.947-.115-.977l-.571-.046c-.147-.012-.221-.085-.221-.215v-.618l.011-.008c.66-.019 1.674-.029 2.107-.029.465 0 1.295.005 1.863.029l.011.008v.614c0 .147-.069.22-.208.22h-.22c-.519 0-.768.154-1.107.834-.621 1.244-2.353 4.87-3.989 8.471-1.635 3.601-2.307 5.324-2.616 6.031-.372.853-.561 1.075-.979 1.075-.319 0-.536-.278-.778-.775l-3.145-6.575z"/></svg>
+      Wikipedia
+    </a>
+    <a href="https://www.linkedin.com/in/julio-avalos-who/" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/></svg>
+      LinkedIn
+    </a>
+    <a href="https://observablehq.com" aria-label="Observable">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c6.6 0 12 5.4 12 12s-5.4 12-12 12S0 18.6 0 12 5.4 0 12 0zm0 4c-4.4 0-8 3.6-8 8 0 1.8.6 3.5 1.6 4.9L16.9 5.6C15.5 4.6 13.8 4 12 4zm6.4 3.1L7.1 18.4c1.4 1 3.1 1.6 4.9 1.6 4.4 0 8-3.6 8-8 0-1.8-.6-3.5-1.6-4.9z"/></svg>
+      Observable
+    </a>
+    <a href="https://github.com/hoolio" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      GitHub
+    </a>
+    <a href="https://shadesnews.com" aria-label="Shades">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="13" r="4"/><circle cx="17" cy="13" r="4"/><path d="M11 13h2" stroke-linecap="round"/><path d="M2 9 L5 7 M22 9 L19 7" stroke-linecap="round"/></svg>
+      Shades
+    </a>
+    <a href="mailto:chopradio@gmail.com" aria-label="Email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="1"/><path d="M2 7 L12 13 L22 7" stroke-linejoin="round"/></svg>
+      Email
+    </a>
+  </div>
+</footer>
 
 </body>
 </html>

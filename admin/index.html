@@ -86,14 +86,8 @@
 
 <div id="app" style="display:none">
 
-<nav class="proj-nav">
-  <a href="/home/" class="proj-nav-home">Choplogic Radio</a>
-  <ul class="proj-nav-links">
-    <li><a href="/home/">Home</a></li>
-    <li><a href="/docs/">Docs</a></li>
-    <li><a href="/admin/" style="color:var(--gold)">Admin</a></li>
-  </ul>
-</nav>
+<div id="chop-nav"></div>
+<script src="/js/chop-nav.js"></script>
 
 <div class="admin-wrap">
   <div class="admin-kicker"><span>Private · Operations</span></div>
@@ -102,6 +96,26 @@
 
   <!-- Content stats -->
   <div class="admin-stats" id="stats"></div>
+
+  <!-- Private sections -->
+  <div class="admin-section">
+    <div class="admin-section-head">
+      <h2>Private Sections</h2>
+      <span class="meta">Gated</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
+      <a href="/health/" style="display:block;padding:22px 20px;background:var(--paper-warm);border:1px solid var(--hairline);border-radius:2px;text-decoration:none;color:inherit;transition:border-color 0.3s,box-shadow 0.3s">
+        <div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.18em;color:var(--gold);margin-bottom:10px">Private</div>
+        <div style="font-family:var(--serif);font-size:1.5rem;line-height:1.1;color:var(--ink);margin-bottom:6px">Health</div>
+        <div style="font-family:var(--serif);font-style:italic;font-size:0.95rem;color:var(--dim)">Body composition, recovery, output.</div>
+      </a>
+      <a href="/docs/" style="display:block;padding:22px 20px;background:var(--paper-warm);border:1px solid var(--hairline);border-radius:2px;text-decoration:none;color:inherit;transition:border-color 0.3s,box-shadow 0.3s">
+        <div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.18em;color:var(--gold);margin-bottom:10px">Private</div>
+        <div style="font-family:var(--serif);font-size:1.5rem;line-height:1.1;color:var(--ink);margin-bottom:6px">Docs</div>
+        <div style="font-family:var(--serif);font-style:italic;font-size:0.95rem;color:var(--dim)">Personal documents and references.</div>
+      </a>
+    </div>
+  </div>
 
   <!-- GoatCounter setup -->
   <div class="setup-panel" id="setup-panel">
@@ -210,7 +224,6 @@ const INVENTORY = {
   posts: [
     { slug: 'archive-restored', title: 'The archive is back', date: '2026-04-04', cats: ['music','culture','history'] },
     { slug: 'listening-this-week-indigenous-electronic', title: 'Something old, something very new', date: '2026-04-04', cats: ['music','sounds','culture'] },
-    { slug: 'a-room-we-used-to-meet-in', title: 'A room we used to meet in', date: '2026-04-04', cats: ['music','history','culture'] },
     { slug: 'the-comprehension-gap', title: 'The comprehension gap', date: '2026-03-28', cats: ['tech','culture'] },
     { slug: 'what-im-listening-to-march-2026', title: "What I'm listening to this month", date: '2026-03-15', cats: ['music','sounds'] },
   ],

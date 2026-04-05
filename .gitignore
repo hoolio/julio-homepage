@@ -1,0 +1,13 @@
+# Secrets
+tools/.env
+
+# Private health log imports (contain personal metrics + food/activity)
+tools/batch2.txt
+tools/batch3.txt
+tools/batch2_parsed.json
+tools/batch3_parsed.json
+tools/health_entries_merged.json
+tools/health_console_snippet.js
+
+# OS
+.DS_Store

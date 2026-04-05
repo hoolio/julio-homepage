@@ -244,9 +244,28 @@
   }
 
   @media (max-width: 780px) {
-    .featured-card { grid-template-columns: 1fr; }
-    .featured-graphic { min-height: 200px; order: -1; }
-    .featured-text { padding: 28px 24px 28px 28px; }
+    .featured { padding: 40px 16px 0; }
+    .carousel, .carousel-track, .carousel-slide { min-height: 0; }
+    .featured-card {
+      grid-template-columns: 1fr;
+      grid-template-rows: 180px auto;
+      height: auto;
+      max-height: none;
+      overflow: hidden;
+    }
+    .carousel-track { align-items: stretch; }
+    .featured-graphic { min-height: 180px; height: 180px; order: -1; }
+    .featured-text {
+      padding: 20px 18px 22px;
+      overflow: visible;
+      justify-content: flex-start;
+      gap: 14px;
+    }
+    .featured-text .featured-deck { -webkit-line-clamp: unset; display: block; }
+    .featured-title { font-size: clamp(1.4rem, 5.5vw, 1.9rem); margin-bottom: 12px; line-height: 1.18; }
+    .featured-kicker { font-size: 9px; margin-bottom: 12px; }
+    .featured-deck { font-size: 13px; margin-bottom: 14px; max-width: none; }
+    .featured-link { margin-top: 4px; }
   }
 
   /* Epilogue */
@@ -325,6 +344,25 @@
     background: var(--gold);
     width: 40px;
   }
+
+  .carousel-arrow {
+    width: 28px; height: 28px;
+    background: none;
+    border: 1px solid var(--hairline-strong);
+    color: var(--dim);
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0;
+    border-radius: 2px;
+    transition: color 0.25s, border-color 0.25s, background 0.25s;
+  }
+  .carousel-arrow:hover {
+    color: var(--oxblood, #6a1e1a);
+    border-color: rgba(106, 30, 26, 0.35);
+    background: rgba(106, 30, 26, 0.04);
+  }
+  #carousel-prev { margin-right: 6px; }
+  #carousel-next { margin-left: 6px; }
 
   .carousel-counter {
     margin-left: auto;
@@ -608,40 +646,13 @@
 </head>
 <body>
 
-<nav class="home-nav">
-  <a href="/home/" class="home-nav-name" aria-label="chopradio">
-    <svg class="colophon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <!-- Outer circle -->
-      <circle cx="12" cy="12" r="10.5" stroke="currentColor" stroke-width="0.8"/>
-      <!-- Inscribed square, rotated 45° (diamond) -->
-      <rect x="5.5" y="5.5" width="13" height="13" stroke="currentColor" stroke-width="0.6" transform="rotate(45 12 12)" opacity="0.5"/>
-      <!-- Horizontal rule through center -->
-      <line x1="2.5" y1="12" x2="21.5" y2="12" stroke="currentColor" stroke-width="0.6" opacity="0.7"/>
-      <!-- Vertical rule through center -->
-      <line x1="12" y1="2.5" x2="12" y2="21.5" stroke="currentColor" stroke-width="0.6" opacity="0.35"/>
-      <!-- Center dot -->
-      <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
-    </svg>
-    <span class="wordmark-text">chop<span class="italic">radio</span></span>
-  </a>
-  <ul class="home-nav-links">
-    <li><a href="/home/writings/">Writings</a></li>
-    <li><a href="/home/sounds/">Sounds</a></li>
-    <li><a href="/home/music/">Music</a></li>
-    <li><a href="/home/tech/">Tech</a></li>
-    <li><a href="/home/history/">History</a></li>
-    <li><a href="/home/culture/">Culture</a></li>
-    <li><a href="/health/" style="color:var(--gold);opacity:0.6">Health</a></li>
-    <li><a href="/docs/" style="color:var(--gold);opacity:0.4">Docs</a></li>
-  </ul>
-</nav>
+<div id="chop-nav"></div>
+<script src="/js/chop-nav.js"></script>
 
 <!-- TICKER -->
 <div class="ticker">
   <div class="ticker-track">
     <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="ticker-item hi">NEW ON OBSERVABLE — The medium is the problem · March 25</a>
-    <span class="ticker-sep">·</span>
-    <a href="/home/journal/" class="ticker-item">NEW ESSAY — A room we used to meet in</a>
     <span class="ticker-sep">·</span>
     <a href="/home/radio/" class="ticker-item">RADIO ARCHIVE RESTORED — 74 episodes on Internet Archive</a>
     <span class="ticker-sep">·</span>
@@ -653,8 +664,6 @@
     <span class="ticker-sep">·</span>
     <!-- duplicate for seamless loop -->
     <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="ticker-item hi">NEW ON OBSERVABLE — The medium is the problem · March 25</a>
-    <span class="ticker-sep">·</span>
-    <a href="/home/journal/" class="ticker-item">NEW ESSAY — A room we used to meet in</a>
     <span class="ticker-sep">·</span>
     <a href="/home/radio/" class="ticker-item">RADIO ARCHIVE RESTORED — 74 episodes on Internet Archive</a>
     <span class="ticker-sep">·</span>
@@ -725,9 +734,15 @@
     </div>
 
     <div class="carousel-dots">
+      <button class="carousel-arrow" id="carousel-prev" aria-label="Previous slide">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M10 3 L5 8 L10 13"/></svg>
+      </button>
       <button class="carousel-dot active" data-slide="0" aria-label="Slide 1"></button>
       <button class="carousel-dot" data-slide="1" aria-label="Slide 2"></button>
       <button class="carousel-dot" data-slide="2" aria-label="Slide 3"></button>
+      <button class="carousel-arrow" id="carousel-next" aria-label="Next slide">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 3 L11 8 L6 13"/></svg>
+      </button>
       <span class="carousel-counter" id="slide-counter">01 / 03</span>
     </div>
   </div>
@@ -737,7 +752,6 @@
 
 <section class="epilogue">
   <div class="epilogue-mark">Choplogic · MMVI—</div>
-  <p class="epilogue-text">A long signal from <em>one place</em> that keeps finding new ones.</p>
   <div class="epilogue-divider"></div>
 </section>
 
@@ -747,6 +761,8 @@
     <a href="/about/">About</a>
     &nbsp;&nbsp;&nbsp;
     <a href="mailto:chopradio@gmail.com">chopradio@gmail.com</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="/admin/" style="opacity:0.5">Admin</a>
   </div>
 </footer>
 
@@ -1191,11 +1207,43 @@
     });
   });
 
+  const prevBtn = document.getElementById('carousel-prev');
+  const nextBtn = document.getElementById('carousel-next');
+  if (prevBtn) prevBtn.addEventListener('click', (e) => { e.preventDefault(); show(current - 1); start(); });
+  if (nextBtn) nextBtn.addEventListener('click', (e) => { e.preventDefault(); show(current + 1); start(); });
+
   // Pause on hover
   const wrap = track.parentElement;
   if (wrap) {
     wrap.addEventListener('mouseenter', () => clearTimeout(timer));
     wrap.addEventListener('mouseleave', start);
+  }
+
+  // Touch swipe — advance/back on horizontal flick
+  let tStartX = 0, tStartY = 0, tStartT = 0, swiping = false;
+  const SWIPE_THRESHOLD = 40;
+  const SWIPE_MAX_TIME = 600;
+  if (wrap) {
+    wrap.addEventListener('touchstart', (e) => {
+      const t = e.touches[0];
+      tStartX = t.clientX; tStartY = t.clientY; tStartT = Date.now();
+      swiping = true;
+      clearTimeout(timer);
+    }, { passive: true });
+    wrap.addEventListener('touchend', (e) => {
+      if (!swiping) return;
+      swiping = false;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - tStartX;
+      const dy = t.clientY - tStartY;
+      const dt = Date.now() - tStartT;
+      if (dt < SWIPE_MAX_TIME && Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        // Prevent the click from firing on the <a> slide
+        e.preventDefault();
+        if (dx < 0) show(current + 1); else show(current - 1);
+      }
+      start();
+    });
   }
 
   show(0);

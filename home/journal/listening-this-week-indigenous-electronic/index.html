@@ -3,67 +3,452 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What I'm listening to this week — Choplogic Radio</title>
-<meta name="description" content="A corner of experimental electronic music working out something old and something very new at the same time.">
-<link rel="stylesheet" href="/css/journal.css">
+<title>The Hotlist · Spring 2026 — Choplogic Radio</title>
+<meta name="description" content="Four producers folding pre-Hispanic sound into deconstructed club. Something unearthed, not composed.">
+<style>
+  :root {
+    --paper: #f9f6f0;
+    --paper-warm: #f2ece0;
+    --ink: #1a1714;
+    --dim: #5a534a;
+    --dimmer: #8a8580;
+    --hairline: rgba(26, 23, 20, 0.08);
+    --hairline-strong: rgba(26, 23, 20, 0.14);
+    --gold: #a07828;
+    --oxblood: #6a1e1a;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'IBM Plex Sans', -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: var(--sans); font-weight: 300; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 68vh;
+    max-height: 720px;
+    background: #0d0906;
+    color: #ede8df;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(106, 30, 26, 0.55), transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(196, 125, 40, 0.35), transparent 55%),
+      linear-gradient(135deg, #1a0706 0%, #0d0906 50%, #1f0a05 100%);
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    mix-blend-mode: overlay;
+  }
+  .hero-inner {
+    position: relative; z-index: 2;
+    max-width: 1080px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 48px 40px 56px;
+  }
+  .hero-kicker {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgba(196, 125, 40, 0.85);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .hero-kicker::before {
+    content: ''; width: 30px; height: 1px; background: rgba(196, 125, 40, 0.6);
+  }
+  .hero-kicker .cat {
+    background: rgba(106, 30, 26, 0.3);
+    color: #ede8df;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 22px;
+    max-width: 12ch;
+  }
+  .hero h1 em { font-style: italic; color: rgba(237, 232, 223, 0.65); }
+  .hero-deck {
+    font-family: var(--serif);
+    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+    font-style: italic;
+    line-height: 1.5;
+    color: rgba(237, 232, 223, 0.75);
+    max-width: 60ch;
+    margin: 0 0 28px;
+    font-weight: 400;
+  }
+  .hero-byline {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(237, 232, 223, 0.45);
+    display: flex; gap: 18px; flex-wrap: wrap;
+  }
+  .hero-byline span::before {
+    content: '—'; margin-right: 10px; color: rgba(196, 125, 40, 0.5);
+  }
+  .hero-byline span:first-child::before { display: none; }
+
+  /* STANDFIRST */
+  .standfirst {
+    max-width: 720px;
+    margin: 64px auto 40px;
+    padding: 0 40px;
+  }
+  .standfirst p {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    line-height: 1.55;
+    color: var(--dim);
+    margin: 0 0 18px;
+    font-weight: 400;
+  }
+  .standfirst p:first-child { font-size: 1.55rem; color: var(--ink); }
+  .standfirst p em { font-style: italic; color: var(--ink); }
+
+  /* HOTLIST */
+  .hotlist {
+    max-width: 1080px;
+    margin: 20px auto 80px;
+    padding: 0 40px;
+  }
+  .entry {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 44px;
+    padding: 44px 0;
+    border-top: 1px solid var(--hairline);
+    align-items: start;
+  }
+  .entry:first-of-type { border-top-width: 2px; border-top-color: var(--hairline-strong); }
+  .entry-cover {
+    aspect-ratio: 1 / 1;
+    background: #1a1714;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 6px 30px -8px rgba(26, 23, 20, 0.25);
+  }
+  .entry-cover img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+    filter: contrast(1.02) saturate(1.05);
+  }
+  .entry-cover svg {
+    width: 100%; height: 100%; display: block;
+  }
+  .entry-cover::after {
+    content: '';
+    position: absolute; inset: 0;
+    opacity: 0.06;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='ne'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23ne)'/%3E%3C/svg%3E");
+    background-size: 120px 120px;
+    mix-blend-mode: overlay;
+  }
+
+  .entry-body { min-width: 0; }
+  .entry-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--oxblood);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .entry-num::after {
+    content: ''; flex: 1; height: 1px; background: var(--hairline-strong);
+  }
+  .entry-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    background: rgba(160, 120, 40, 0.08);
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-bottom: 14px;
+  }
+  .entry-artist {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(1.8rem, 3vw, 2.3rem);
+    line-height: 1.1;
+    margin: 0 0 6px;
+    color: var(--ink);
+  }
+  .entry-album {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--dim);
+    margin: 0 0 20px;
+    font-weight: 400;
+  }
+  .entry-album::before { content: '— '; color: var(--dimmer); font-style: normal; }
+  .entry-text p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--dim);
+    margin: 0 0 14px;
+  }
+  .entry-text p strong { color: var(--ink); font-weight: 500; }
+  .entry-text p em { font-style: italic; color: var(--ink); }
+  .entry-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--oxblood);
+    text-decoration: none;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(106, 30, 26, 0.3);
+    transition: letter-spacing 0.3s, border-color 0.3s;
+  }
+  .entry-link:hover { letter-spacing: 0.22em; border-bottom-color: var(--oxblood); }
+  .entry-link::after {
+    content: '→';
+    transition: transform 0.3s;
+  }
+  .entry-link:hover::after { transform: translateX(3px); }
+
+  /* CLOSE */
+  .close {
+    max-width: 720px;
+    margin: 40px auto 80px;
+    padding: 40px 40px 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .close p {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--dim);
+    font-style: italic;
+  }
+
+  /* FOOTER */
+  .post-foot {
+    border-top: 1px solid var(--hairline);
+    padding: 24px 40px;
+    max-width: 1080px;
+    margin: 0 auto;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dimmer);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .post-foot a { color: var(--dim); text-decoration: none; }
+  .post-foot a:hover { color: var(--ink); }
+
+  @media (max-width: 820px) {
+    .hero-inner { padding: 36px 22px 40px; }
+    .hero h1 { max-width: none; }
+    .standfirst, .close { padding: 0 22px; margin: 44px auto 32px; }
+    .standfirst p { font-size: 1.15rem; }
+    .standfirst p:first-child { font-size: 1.32rem; }
+    .hotlist { padding: 0 22px; margin: 10px auto 60px; }
+    .entry {
+      grid-template-columns: 1fr;
+      gap: 22px;
+      padding: 34px 0;
+    }
+    .entry-cover { max-width: 380px; }
+    .entry-artist { font-size: 1.7rem; }
+    .entry-album { font-size: 1.05rem; }
+    .post-foot { padding: 20px 22px; flex-direction: column; gap: 10px; align-items: flex-start; }
+  }
+</style>
 </head>
 <body>
 
-<nav class="journal-nav">
-  <a href="/home/" class="journal-nav-home">← Choplogic Radio</a>
-  <ul class="journal-nav-links">
-    <li><a href="/home/journal/">Writings</a></li>
-    <li><a href="/home/radio/">Sounds</a></li>
-    <li><a href="/about/">About</a></li>
-  </ul>
-</nav>
+<div id="chop-nav"></div>
+<script src="/js/chop-nav.js"></script>
 
-<article class="post">
-  <div class="post-meta">
-    <span>Apr 4, 2026</span>
-    <span class="divider"></span>
-    <span>Journal</span>
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-kicker">
+      <span class="cat">The Hotlist</span>
+      <span>Spring 2026</span>
+    </div>
+    <h1>Something <em>unearthed,</em> not composed.</h1>
+    <p class="hero-deck">Four producers folding pre-Hispanic sound, field recordings, and deconstructed club into a conversation across time.</p>
+    <div class="hero-byline">
+      <span>By Julio Avalos</span>
+      <span>April 4, 2026</span>
+      <span>8 min read</span>
+    </div>
   </div>
+</header>
 
-  <h1>What I'm listening to this week</h1>
+<section class="standfirst">
+  <p>A corner of experimental electronic music is doing something worth paying attention to right now. Producers across Mexico, Texas, and further south are folding pre-Hispanic sound, field recordings, broken club percussion, and deconstructed dembow into something that sounds like it's being <em>unearthed</em> rather than composed.</p>
+  <p>Not nostalgia. Not pastiche. A conversation across time.</p>
+</section>
 
-  <p class="post-deck">A corner of experimental electronic music working out something old and something very new at the same time.</p>
+<main class="hotlist">
 
-  <p>A corner of experimental electronic music is doing something worth paying attention to right now. Producers across Mexico, Texas, and further south are folding pre-Hispanic sound, field recordings, broken club percussion, and deconstructed dembow into something that sounds like it's being unearthed rather than composed.</p>
+  <article class="entry">
+    <div class="entry-cover">
+      <img src="/assets/debit-long-count.jpg" alt="Debit — The Long Count album cover">
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">01 / The Patient</div>
+      <div class="entry-tag">Deconstructed Ambient</div>
+      <h2 class="entry-artist">Debit</h2>
+      <p class="entry-album">The Long Count</p>
+      <div class="entry-text">
+        <p><strong>Delia Beatriz</strong> makes music under the name Debit out of Mexico City and Brooklyn. Her album <em>The Long Count</em> reworked flutes recorded from pre-Columbian instruments at the Mayan Sound Atlas into something closer to deconstructed ambient than club music.</p>
+        <p>It is patient. It does not flinch. You can hear the original instruments breathing beneath the digital processing — not sampled, not mimicked, but <em>held</em>.</p>
+      </div>
+      <a class="entry-link" href="https://debit.bandcamp.com/album/the-long-count">Listen on Bandcamp</a>
+    </div>
+  </article>
 
-<p>Not nostalgia. Not pastiche. <em>A conversation across time.</em></p>
+  <article class="entry">
+    <div class="entry-cover">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="g2" cx="30%" cy="30%">
+            <stop offset="0%" stop-color="#c44a32"/>
+            <stop offset="60%" stop-color="#5a1a12"/>
+            <stop offset="100%" stop-color="#1a0606"/>
+          </radialGradient>
+        </defs>
+        <rect width="400" height="400" fill="url(#g2)"/>
+        <g fill="none" stroke="#ede8df" stroke-opacity="0.5" stroke-width="0.8">
+          <line x1="0" y1="200" x2="400" y2="200"/>
+          <line x1="200" y1="0" x2="200" y2="400"/>
+          <circle cx="200" cy="200" r="140"/>
+          <circle cx="200" cy="200" r="90" stroke-opacity="0.3"/>
+          <circle cx="200" cy="200" r="40" stroke-opacity="0.7"/>
+        </g>
+        <text x="200" y="215" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="48" fill="#ede8df" fill-opacity="0.85">EP</text>
+      </svg>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">02 / The Hollow</div>
+      <div class="entry-tag">Regional Mexican · Club</div>
+      <h2 class="entry-artist">El Plvybxy</h2>
+      <p class="entry-album">Cumbia at the Edge</p>
+      <div class="entry-text">
+        <p><strong>El Plvybxy</strong> produces a kind of regional Mexican club that feels hollowed-out and haunted. Cumbia's DNA shows through but the scaffolding has been torn off.</p>
+        <p>You can hear the machine deciding. There's a moment midway through each track where you realize it stopped being about rhythm and started being about <em>memory.</em></p>
+      </div>
+      <a class="entry-link" href="#">Find on Bandcamp</a>
+    </div>
+  </article>
 
-<div class="chop-break">* * *</div>
+  <article class="entry">
+    <div class="entry-cover">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#a07828"/>
+            <stop offset="50%" stop-color="#2a1a08"/>
+            <stop offset="100%" stop-color="#0a0502"/>
+          </linearGradient>
+        </defs>
+        <rect width="400" height="400" fill="url(#g3)"/>
+        <g stroke="#ede8df" stroke-opacity="0.4" stroke-width="0.6" fill="none">
+          <path d="M 40 360 Q 100 200 200 240 T 360 120"/>
+          <path d="M 40 320 Q 120 180 220 220 T 380 100" stroke-opacity="0.25"/>
+          <path d="M 40 280 Q 140 160 240 200 T 400 80" stroke-opacity="0.15"/>
+        </g>
+        <rect x="180" y="180" width="40" height="40" fill="#ede8df" fill-opacity="0.12" transform="rotate(45 200 200)"/>
+        <text x="200" y="214" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="42" fill="#ede8df" fill-opacity="0.85">DJ F</text>
+      </svg>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">03 / The Structural</div>
+      <div class="entry-tag">Tribal · Reggaeton</div>
+      <h2 class="entry-artist">DJ Fucci</h2>
+      <p class="entry-album">Monterrey Mixes</p>
+      <div class="entry-text">
+        <p><strong>DJ Fucci</strong> has been putting out mixes that lean into tribal percussion and reggaeton rebuilt as a structural practice. Rooted somewhere between Monterrey and the internet.</p>
+        <p>These aren't sets — they're arguments. Each mix walks you through a specific proposition about what percussion can still do.</p>
+      </div>
+      <a class="entry-link" href="#">Follow on SoundCloud</a>
+    </div>
+  </article>
 
-<h2>Debit</h2>
+  <article class="entry">
+    <div class="entry-cover">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="g4" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="#2a1510"/>
+            <stop offset="70%" stop-color="#0a0403"/>
+            <stop offset="100%" stop-color="#000000"/>
+          </radialGradient>
+        </defs>
+        <rect width="400" height="400" fill="url(#g4)"/>
+        <g fill="#ede8df" fill-opacity="0.08">
+          <circle cx="120" cy="120" r="2"/><circle cx="280" cy="90" r="1.5"/>
+          <circle cx="340" cy="250" r="2"/><circle cx="80" cy="300" r="1.5"/>
+          <circle cx="220" cy="340" r="2"/><circle cx="160" cy="220" r="1"/>
+        </g>
+        <g stroke="#c44a32" stroke-opacity="0.6" stroke-width="0.8" fill="none">
+          <polygon points="200,80 320,280 80,280" stroke-opacity="0.4"/>
+          <polygon points="200,140 280,260 120,260" stroke-opacity="0.25"/>
+          <circle cx="200" cy="220" r="30" stroke-opacity="0.8"/>
+        </g>
+        <text x="200" y="236" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="40" fill="#ede8df" fill-opacity="0.85">E.I.</text>
+      </svg>
+    </div>
+    <div class="entry-body">
+      <div class="entry-num">04 / The Excavation</div>
+      <div class="entry-tag">Sound Design · Club</div>
+      <h2 class="entry-artist">El Irreal Veintiuno</h2>
+      <p class="entry-album">Jose Cruz</p>
+      <div class="entry-text">
+        <p><strong>El Irreal Veintiuno</strong> — Jose Cruz — is making the stuff that sounds, to me, the most like the future. Sound design as excavation.</p>
+        <p>Something about it feels right for the moment. Like he's recovered a signal that was always there and is only now learning to transmit it cleanly.</p>
+      </div>
+      <a class="entry-link" href="#">Find on Bandcamp</a>
+    </div>
+  </article>
 
-<p><strong>Delia Beatriz</strong> makes music under the name Debit out of Mexico City and Brooklyn. Her album <em>The Long Count</em> reworked flutes recorded from pre-Columbian instruments at the Mayan Sound Atlas into something closer to deconstructed ambient than club music. It is patient. It does not flinch.</p>
+</main>
 
-<h2>El Plvybxy</h2>
-
-<p><strong>El Plvybxy</strong> produces a kind of regional Mexican club that feels hollowed-out and haunted. Cumbia's DNA shows through but the scaffolding has been torn off. You can hear the machine deciding.</p>
-
-<h2>DJ Fucci</h2>
-
-<p><strong>DJ Fucci</strong> has been putting out mixes that lean into tribal percussion and reggaeton rebuilt as a structural practice. Rooted somewhere between Monterrey and the internet.</p>
-
-<h2>El Irreal Veintiuno</h2>
-
-<p><strong>El Irreal Veintiuno</strong> — Jose Cruz — is making the stuff that sounds, to me, the most like the future. Sound design as excavation. Something about it feels right for the moment.</p>
-
-<div class="chop-break">* * *</div>
-
-<p>I'm not going to pretend to have a thesis here. I'm listening, I'm buying records, I'm sending things to friends. When you hear music that has this much care in it you understand that something is being restored and something new is being made, and those turn out to have always been the same work.</p>
-
-  <div style="margin-top:60px;padding-top:24px;border-top:1px solid var(--hairline)"><a href="/home/music/" style="color:var(--gold);border:none;padding:2px 7px;background:rgba(160,120,40,0.08);border-radius:2px;font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.14em;margin-right:6px">music</a><a href="/home/sounds/" style="color:var(--gold);border:none;padding:2px 7px;background:rgba(160,120,40,0.08);border-radius:2px;font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.14em;margin-right:6px">sounds</a><a href="/home/culture/" style="color:var(--gold);border:none;padding:2px 7px;background:rgba(160,120,40,0.08);border-radius:2px;font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.14em;margin-right:6px">culture</a></div>
-</article>
+<section class="close">
+  <p>I'm not going to pretend to have a thesis here. I'm listening, I'm buying records, I'm sending things to friends. When you hear music that has this much care in it you understand that something is being restored and something new is being made — and those turn out to have always been the same work.</p>
+</section>
 
 <footer class="post-foot">
   <span>Choplogic Radio · Est. 2006</span>
   <a href="/home/journal/">All entries →</a>
 </footer>
 
-<script src="/js/chop-player.js"></script>
 <script src="/js/chop-radio-player.js"></script>
 </body>
 </html>
