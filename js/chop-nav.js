@@ -4,11 +4,9 @@
   'use strict';
 
   const LINKS = [
-    { href: '/home/writings/', label: 'Writings' },
-    { href: '/home/sounds/',   label: 'Sounds' },
-    { href: '/home/tech/',     label: 'Tech' },
-    { href: '/home/culture/',  label: 'Culture' },
-    { href: '/about/',         label: 'About' },
+    { href: '/#writings',    label: 'Writings' },
+    { href: '/home/radio/',  label: 'Sounds' },
+    { href: '/',             label: 'About' },
   ];
 
   const DUSTY_RED = '#6a1e1a';
@@ -117,12 +115,19 @@
     const host = document.getElementById('chop-nav');
     if (!host) return;
     const here = (location.pathname.replace(/\/+$/, '') + '/') || '/';
+    const hash = location.hash || '';
+    const isRoot = (here === '/' || here === '/about/');
+    function activeFor(href) {
+      if (href.startsWith('/#')) return isRoot && hash === href.slice(1);
+      if (href === '/') return isRoot && !hash;
+      return here === href || here.indexOf(href) === 0;
+    }
     const items = LINKS.map(l => {
-      const isActive = here === l.href || (here.indexOf(l.href) === 0);
+      const isActive = activeFor(l.href);
       return `<a class="cn-link${isActive ? ' active' : ''}" href="${l.href}">${l.label}</a>`;
     }).join('');
     host.innerHTML = `
-      <a class="cn-brand" href="/home/" aria-label="chopradio">
+      <a class="cn-brand" href="/" aria-label="chopradio">
         ${COLOPHON}
         <span>chop<span class="wm-italic">radio</span></span>
       </a>
