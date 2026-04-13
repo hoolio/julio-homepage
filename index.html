@@ -37,6 +37,58 @@
   a { color: #333; }
   a:hover { color: #800000; }
 
+  /* ---------- Ticker (under nav) ---------- */
+  .ticker {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 10px 24px;
+    border-bottom: 1px solid rgba(26, 23, 20, 0.08);
+    overflow: hidden;
+    position: relative;
+  }
+  .ticker::before, .ticker::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 60px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .ticker::before { left: 24px; background: linear-gradient(to right, #f9f6f0, transparent); }
+  .ticker::after  { right: 24px; background: linear-gradient(to left,  #f9f6f0, transparent); }
+  .ticker-track {
+    display: flex;
+    gap: 0;
+    animation: ticker 120s linear infinite;
+    width: max-content;
+  }
+  .ticker:hover .ticker-track { animation-play-state: paused; }
+  .ticker-item {
+    font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #5a534a;
+    padding: 0 28px;
+    white-space: nowrap;
+    border: none;
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+  .ticker-item:hover { color: #6a1e1a; }
+  .ticker-item.hi { color: #a07828; }
+  .ticker-item.hi:hover { color: #6a1e1a; }
+  .ticker-sep {
+    font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+    font-size: 10.5px;
+    color: #8a8580;
+    padding: 0 4px;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
   .main {
     max-width: 640px;
     margin: 0 auto;
@@ -54,16 +106,16 @@
 
   h1 {
     font-family: Garamond, Georgia, serif;
-    font-size: 36px;
+    font-size: 43px;
     font-weight: normal;
     letter-spacing: 0.04em;
-    margin: 0 0 12px 0;
+    margin: 0 0 14px 0;
     color: #1a1714;
   }
 
   .tagline {
     font-family: Garamond, Georgia, serif;
-    font-size: 16px;
+    font-size: 19px;
     font-style: italic;
     color: #888;
     margin-bottom: 50px;
@@ -78,26 +130,26 @@
 
   .links-table {
     width: 100%;
-    max-width: 420px;
+    max-width: 480px;
     margin: 0 auto 50px;
     border-collapse: collapse;
     text-align: left;
   }
 
   .links-table td {
-    padding: 8px 0;
+    padding: 10px 0;
     border-bottom: 1px solid rgba(0,0,0,0.06);
-    font-size: 13px;
+    font-size: 16px;
   }
 
   .links-table td:first-child {
-    width: 100px;
+    width: 120px;
     color: #aaa;
-    font-size: 10px;
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     vertical-align: top;
-    padding-top: 10px;
+    padding-top: 13px;
   }
 
   .links-table a {
@@ -119,7 +171,7 @@
     padding: 0;
     margin: 0;
     font: inherit;
-    font-size: 13px;
+    font-size: 16px;
     color: #6a1e1a;
     cursor: pointer;
     border-bottom: 1px solid rgba(106, 30, 26, 0.35);
@@ -563,6 +615,31 @@
 
 <div id="chop-nav"></div>
 <script src="/js/chop-nav.js"></script>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="ticker-item hi">NEW ON OBSERVABLE — The medium is the problem · March 25</a>
+    <span class="ticker-sep">·</span>
+    <a href="/home/radio/" class="ticker-item">RADIO ARCHIVE RESTORED — 74 episodes on Internet Archive</a>
+    <span class="ticker-sep">·</span>
+    <a href="/home/shades/" class="ticker-item">SHADES NEWS — live on iOS</a>
+    <span class="ticker-sep">·</span>
+    <a href="/home/observable/" class="ticker-item">OBSERVABLE — co-CEO with Mike Bostock</a>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item hi">EST. 2006 — BUSHWICK, BROOKLYN</span>
+    <span class="ticker-sep">·</span>
+    <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="ticker-item hi">NEW ON OBSERVABLE — The medium is the problem · March 25</a>
+    <span class="ticker-sep">·</span>
+    <a href="/home/radio/" class="ticker-item">RADIO ARCHIVE RESTORED — 74 episodes on Internet Archive</a>
+    <span class="ticker-sep">·</span>
+    <a href="/home/shades/" class="ticker-item">SHADES NEWS — live on iOS</a>
+    <span class="ticker-sep">·</span>
+    <a href="/home/observable/" class="ticker-item">OBSERVABLE — co-CEO with Mike Bostock</a>
+    <span class="ticker-sep">·</span>
+    <span class="ticker-item hi">EST. 2006 — BUSHWICK, BROOKLYN</span>
+    <span class="ticker-sep">·</span>
+  </div>
+</div>
 
 <div class="main">
 
