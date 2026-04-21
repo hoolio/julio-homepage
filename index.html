@@ -794,48 +794,65 @@
 
   .footer-art-wrap {
     position: relative;
-    width: 320px;
-    margin: 80px auto 0;
-    display: flex;
-    justify-content: center;
+    max-width: 400px;
+    margin: 80px auto 20px;
+    padding: 40px;
   }
   .footer-art {
     display: block;
     width: 100%;
     mix-blend-mode: multiply;
-    filter: contrast(1.2) brightness(1.05) sepia(0.15);
+    filter: contrast(1.15) brightness(1.1) sepia(0.2) saturate(0.7);
     opacity: 0;
-    transition: opacity 1.5s ease;
-    mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, black 40%, transparent 72%);
-    -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, black 40%, transparent 72%);
+    transform: scale(0.97);
+    transition: opacity 2s ease, transform 2s ease;
+    mask-image:
+      radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 70%);
+    -webkit-mask-image:
+      radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 70%);
   }
   .footer-art-wrap.revealed .footer-art {
-    opacity: 0.55;
+    opacity: 0.65;
+    transform: scale(1);
   }
   .footer-art-halo {
     position: absolute;
-    inset: -30px;
+    inset: -60px;
     border-radius: 50%;
-    background: radial-gradient(ellipse at center, rgba(160, 120, 40, 0.12), transparent 65%);
-    opacity: 0;
-    transition: opacity 0.8s ease;
     pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(ellipse at 50% 45%,
+      rgba(196, 155, 60, 0.15) 0%,
+      rgba(196, 155, 60, 0.06) 35%,
+      transparent 65%);
   }
   .footer-art-wrap.revealed .footer-art-halo {
-    animation: haloReveal 3s ease-out forwards;
+    animation: haloReveal 4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
   }
   @keyframes haloReveal {
-    0%   { opacity: 0; transform: scale(0.85); }
-    30%  { opacity: 1; transform: scale(1.05); }
-    60%  { opacity: 0.6; transform: scale(1); }
-    100% { opacity: 0; transform: scale(1.1); }
+    0%   { opacity: 0; transform: scale(0.7); }
+    25%  { opacity: 1; transform: scale(1.1); }
+    50%  { opacity: 0.7; transform: scale(1.05); }
+    80%  { opacity: 0.3; transform: scale(1.15); }
+    100% { opacity: 0; transform: scale(1.2); }
+  }
+  /* Hover re-triggers a softer glow */
+  .footer-art-wrap:hover .footer-art-halo {
+    opacity: 0.5;
+    transform: scale(1.05);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .footer-art-wrap:hover .footer-art {
+    opacity: 0.8;
+    filter: contrast(1.2) brightness(1.05) sepia(0.1) saturate(0.8);
+    transition: opacity 0.6s ease, filter 0.6s ease;
   }
   @media (max-width: 580px) {
-    .footer-art-wrap { width: 220px; margin-top: 50px; }
+    .footer-art-wrap { max-width: 260px; margin-top: 50px; padding: 20px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .footer-art-halo { display: none; }
-    .footer-art-wrap.revealed .footer-art { opacity: 0.45; }
+    .footer-art-wrap.revealed .footer-art { opacity: 0.5; transform: none; }
   }
   .footer {
     text-align: center;
