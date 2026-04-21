@@ -195,9 +195,9 @@
       background: rgba(160, 69, 53, 0.04);
     }
 
-    /* Collapsed (muted) — just album icon + compact */
+    /* Collapsed (muted) — compact but still shows context */
     #chop-radio.muted .cr-shell { padding: 7px 10px 7px 8px; }
-    #chop-radio.muted .cr-context, #chop-radio.muted .cr-progress { display: none; }
+    #chop-radio.muted .cr-progress { display: none; }
     #chop-radio.muted .cr-main { font-size: 10.5px; color: rgba(26,23,20,0.5); }
     #chop-radio.muted .cr-artist, #chop-radio.muted .cr-track { color: rgba(26,23,20,0.65); }
     #chop-radio.muted .cr-controls { display: none; }
