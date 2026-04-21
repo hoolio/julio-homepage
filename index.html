@@ -817,35 +817,38 @@
   }
   .footer-art-halo {
     position: absolute;
-    inset: -60px;
+    inset: -80px;
     border-radius: 50%;
     pointer-events: none;
     opacity: 0;
     background: radial-gradient(ellipse at 50% 45%,
-      rgba(196, 155, 60, 0.15) 0%,
-      rgba(196, 155, 60, 0.06) 35%,
-      transparent 65%);
+      rgba(196, 155, 60, 0.25) 0%,
+      rgba(196, 155, 60, 0.10) 40%,
+      transparent 70%);
   }
   .footer-art-wrap.revealed .footer-art-halo {
-    animation: haloReveal 4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+    animation: haloReveal 5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
   }
   @keyframes haloReveal {
-    0%   { opacity: 0; transform: scale(0.7); }
-    25%  { opacity: 1; transform: scale(1.1); }
-    50%  { opacity: 0.7; transform: scale(1.05); }
-    80%  { opacity: 0.3; transform: scale(1.15); }
-    100% { opacity: 0; transform: scale(1.2); }
+    0%   { opacity: 0; transform: scale(0.6); }
+    20%  { opacity: 1; transform: scale(1.15); }
+    40%  { opacity: 0.85; transform: scale(1.05); }
+    65%  { opacity: 0.4; transform: scale(1.1); }
+    100% { opacity: 0; transform: scale(1.25); }
   }
-  /* Hover re-triggers a softer glow */
+  /* Hover brings the glow back */
   .footer-art-wrap:hover .footer-art-halo {
-    opacity: 0.5;
-    transform: scale(1.05);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    opacity: 0.6;
+    transform: scale(1.08);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .footer-art-wrap:not(:hover) .footer-art-halo {
+    transition: opacity 1.5s ease, transform 1.5s ease;
   }
   .footer-art-wrap:hover .footer-art {
-    opacity: 0.8;
-    filter: contrast(1.2) brightness(1.05) sepia(0.1) saturate(0.8);
-    transition: opacity 0.6s ease, filter 0.6s ease;
+    opacity: 0.85;
+    filter: contrast(1.2) brightness(1.0) sepia(0.08) saturate(0.9);
+    transition: opacity 0.8s ease, filter 0.8s ease;
   }
   @media (max-width: 580px) {
     .footer-art-wrap { max-width: 260px; margin-top: 50px; padding: 20px; }
@@ -970,6 +973,19 @@
   <div class="footer-art-halo"></div>
   <img src="/assets/angel.png" alt="" class="footer-art">
 </div>
+<script>
+(function() {
+  var el = document.getElementById('footerArt');
+  if (!el) return;
+  var obs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      el.classList.add('revealed');
+      obs.disconnect();
+    }
+  }, { threshold: 0 });
+  obs.observe(el);
+})();
+</script>
 <div class="footer">
   Choplogic Radio &middot; Est. 2006
 </div>
@@ -1899,7 +1915,7 @@
           footerObs.unobserve(footerArt);
         }
       });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.05, rootMargin: '0px 0px 100px 0px' });
     footerObs.observe(footerArt);
   }
 
