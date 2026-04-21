@@ -8,10 +8,11 @@
 <style>
   html {
     background:
-      radial-gradient(ellipse 1400px 900px at 50% 0%, rgba(196, 125, 40, 0.055), transparent 70%),
-      radial-gradient(ellipse 1100px 700px at 80% 40%, rgba(160, 120, 40, 0.04), transparent 65%),
-      #f9f6f0;
+      radial-gradient(ellipse 1400px 900px at 50% 0%, rgba(160, 120, 40, 0.07), transparent 70%),
+      radial-gradient(ellipse 1100px 700px at 80% 40%, rgba(140, 110, 50, 0.05), transparent 65%),
+      #f0ebe1;
     background-attachment: fixed;
+    scroll-behavior: smooth;
   }
   body {
     background: transparent;
@@ -21,6 +22,9 @@
     padding: 0;
     font-size: 14px;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body::after {
@@ -29,65 +33,14 @@
     inset: 0;
     pointer-events: none;
     z-index: 100;
-    opacity: 0.04;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 180px 180px;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+    mix-blend-mode: multiply;
   }
 
   a { color: #333; }
   a:hover { color: #800000; }
-
-  /* ---------- Ticker (under nav) ---------- */
-  .ticker {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 10px 24px;
-    border-bottom: 1px solid rgba(26, 23, 20, 0.08);
-    overflow: hidden;
-    position: relative;
-  }
-  .ticker::before, .ticker::after {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 60px;
-    z-index: 2;
-    pointer-events: none;
-  }
-  .ticker::before { left: 24px; background: linear-gradient(to right, #f9f6f0, transparent); }
-  .ticker::after  { right: 24px; background: linear-gradient(to left,  #f9f6f0, transparent); }
-  .ticker-track {
-    display: flex;
-    gap: 0;
-    animation: ticker 120s linear infinite;
-    width: max-content;
-  }
-  .ticker:hover .ticker-track { animation-play-state: paused; }
-  .ticker-item {
-    font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
-    font-size: 10.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: #5a534a;
-    padding: 0 28px;
-    white-space: nowrap;
-    border: none;
-    text-decoration: none;
-    transition: color 0.25s ease;
-  }
-  .ticker-item:hover { color: #6a1e1a; }
-  .ticker-item.hi { color: #a07828; }
-  .ticker-item.hi:hover { color: #6a1e1a; }
-  .ticker-sep {
-    font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
-    font-size: 10.5px;
-    color: #8a8580;
-    padding: 0 4px;
-  }
-  @keyframes ticker {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
 
   .main {
     max-width: 640px;
@@ -102,30 +55,39 @@
     margin-bottom: 40px;
     filter: contrast(1.05) brightness(1.02);
     mix-blend-mode: multiply;
+    transition: filter 0.5s ease, transform 0.5s ease;
+  }
+  .portrait:hover {
+    filter: contrast(1.08) brightness(1.04);
+    transform: scale(1.015);
   }
 
   h1 {
     font-family: Garamond, Georgia, serif;
-    font-size: 43px;
+    font-size: 46px;
     font-weight: normal;
-    letter-spacing: 0.04em;
-    margin: 0 0 14px 0;
+    letter-spacing: 0.06em;
+    margin: 0 0 10px 0;
     color: #1a1714;
+    text-transform: lowercase;
   }
 
   .tagline {
-    font-family: Garamond, Georgia, serif;
-    font-size: 19px;
-    font-style: italic;
-    color: #888;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+    font-style: normal;
+    color: #a89c80;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
     margin-bottom: 50px;
   }
 
   .divider {
-    width: 40px;
-    height: 1px;
-    background: #ccc;
+    width: 28px;
+    height: 1.5px;
+    background: #6a1e1a;
     margin: 0 auto 40px;
+    opacity: 0.4;
   }
 
   .links-table {
@@ -138,19 +100,31 @@
 
   .links-table td {
     padding: 10px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    font-family: Garamond, Georgia, serif;
     font-size: 16px;
   }
 
   .links-table td:first-child {
     width: 120px;
-    color: #aaa;
-    font-size: 12px;
+    color: #b4a98f;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 9px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.18em;
     vertical-align: top;
-    padding-top: 13px;
+    padding-top: 15px;
   }
+  .links-table .link-ico {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    vertical-align: -1px;
+    margin-right: 5px;
+    opacity: 0.35;
+    transition: opacity 0.3s;
+  }
+  tr:hover .link-ico { opacity: 0.6; }
 
   .links-table a {
     color: #1a1714;
@@ -164,81 +138,238 @@
     color: #800000;
   }
 
-  .links-table .works-row td { border-bottom: 1px solid rgba(0,0,0,0.06); }
-  .works-toggle {
-    background: none;
-    border: 0;
-    padding: 0;
-    margin: 0;
+  /* Inline contact form */
+  .contact-form {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+  }
+  .contact-input {
+    flex: 1;
     font: inherit;
+    font-size: 14px;
+    color: #1a1714;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 4px 0;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .contact-input::placeholder {
+    color: #bbb;
+    font-style: italic;
+  }
+  .contact-input:focus {
+    border-color: #6a1e1a;
+  }
+  .contact-send {
+    background: none;
+    border: 1px solid rgba(0,0,0,0.12);
+    color: #aaa;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 5px 10px;
+    margin-left: 8px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    flex-shrink: 0;
+  }
+  .contact-send:hover {
+    color: #6a1e1a;
+    border-color: rgba(106, 30, 26, 0.4);
+    background: rgba(106, 30, 26, 0.03);
+  }
+  .contact-send:active {
+    transform: scale(0.96);
+  }
+  .contact-sent {
+    font-size: 13px;
+    color: #6a1e1a;
+    font-style: italic;
+    display: none;
+  }
+
+  .links-table .works-row td { border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .works-link {
     font-size: 16px;
     color: #6a1e1a;
-    cursor: pointer;
+    text-decoration: none;
     border-bottom: 1px solid rgba(106, 30, 26, 0.35);
-    transition: border-color 0.2s, color 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    transition: border-color 0.3s ease, color 0.3s ease, letter-spacing 0.3s ease;
   }
-  .works-toggle:hover { color: #800000; border-color: #800000; }
-  .works-toggle .chev {
-    display: inline-block;
-    transition: transform 0.3s ease;
-    font-size: 9px;
-    color: #6a1e1a;
+  .works-link:hover {
+    color: #800000;
+    border-color: #800000;
+    letter-spacing: 0.01em;
   }
-  .works-toggle[aria-expanded="true"] .chev { transform: rotate(180deg); }
 
-  /* ---------- Works gallery ---------- */
-  .works {
-    max-width: 880px;
+  /* ---------- Timeline ---------- */
+  .timeline {
+    max-width: 760px;
     margin: 0 auto 60px;
-    padding: 0 20px;
-    overflow: hidden;
-    max-height: 0;
+    padding: 60px 20px 20px;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 44px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      #6a1e1a 4px,
+      #6a1e1a 18px,
+      transparent 20px,
+      transparent 24px,
+      #6a1e1a 26px,
+      #6a1e1a 50px,
+      transparent 52px
+    );
+    opacity: 0.3;
+    mask-image: linear-gradient(to bottom, transparent, black 80px, black calc(100% - 80px), transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 80px, black calc(100% - 80px), transparent);
+  }
+  .timeline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 3px,
+      rgba(26, 23, 20, 0.012) 3px,
+      rgba(26, 23, 20, 0.012) 4px
+    );
+  }
+
+  /* --- Node entrance --- */
+  .tl-node {
+    position: relative;
+    padding-left: 76px;
+    padding-bottom: 72px;
     opacity: 0;
-    transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.4s ease;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .works.open {
-    max-height: 4000px;
+  .tl-node.visible {
     opacity: 1;
+    transform: translateY(0);
   }
-  .works-inner {
-    border-top: 1px solid rgba(0,0,0,0.08);
-    padding-top: 32px;
+  /* Stagger children */
+  .tl-node .tl-year {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+  }
+  .tl-node .tl-label {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease 0.18s, transform 0.5s ease 0.18s;
+  }
+  .tl-node .tl-narrative {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease 0.26s, transform 0.5s ease 0.26s;
+  }
+  .tl-node .tl-cards {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease 0.38s, transform 0.6s ease 0.38s;
+  }
+  .tl-node.visible .tl-year,
+  .tl-node.visible .tl-label,
+  .tl-node.visible .tl-narrative,
+  .tl-node.visible .tl-cards {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  .works-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-  }
-  .works-tab {
+  /* --- Pip --- */
+  .tl-pip {
+    position: absolute;
+    left: 40px;
+    top: 8px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
     background: none;
-    border: 0;
-    padding: 6px 2px;
-    font-family: 'IBM Plex Sans', -apple-system, sans-serif;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: #aaa;
-    cursor: pointer;
-    border-bottom: 1px solid transparent;
-    transition: color 0.2s, border-color 0.2s;
+    border: 1.5px solid #6a1e1a;
+    z-index: 1;
+    transform: scale(0);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s;
+    opacity: 0.6;
   }
-  .works-tab:hover { color: #1a1714; }
-  .works-tab.active {
-    color: #1a1714;
-    border-bottom-color: #6a1e1a;
+  .tl-node.visible .tl-pip {
+    transform: scale(1);
   }
 
-  .works-grid {
+  .tl-year {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: #6a1e1a;
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+  .tl-label {
+    font-family: Garamond, Georgia, serif;
+    font-size: 28px;
+    font-weight: normal;
+    font-style: italic;
+    color: #1a1714;
+    letter-spacing: 0.01em;
+    margin: 0 0 14px 0;
+    position: relative;
+  }
+  .tl-label::after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: #6a1e1a;
+    margin-top: 10px;
+    opacity: 0.35;
+  }
+  .tl-narrative {
+    font-family: Garamond, Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: #3a342c;
+    max-width: 540px;
+    margin-bottom: 22px;
+    letter-spacing: 0.005em;
+  }
+  .tl-narrative em {
+    font-style: italic;
+    color: #1a1714;
+  }
+  .tl-narrative a {
+    color: #6a1e1a;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(106, 30, 26, 0.25);
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .tl-narrative a:hover { border-color: #6a1e1a; color: #800000; }
+
+  .tl-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 26px;
-    padding-bottom: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(105px, 110px));
+    gap: 22px 14px;
+    margin-top: 12px;
+    justify-content: start;
+  }
+  .tl-cards .work-card {
+    width: 100%;
   }
 
   .work-card {
@@ -260,8 +391,9 @@
     aspect-ratio: 4 / 5;
     background: #ece6da;
     overflow: hidden;
-    border: 1px solid rgba(0,0,0,0.08);
-    box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+    border: none;
+    outline: 1px solid rgba(26, 23, 20, 0.1);
+    outline-offset: -1px;
     transition: transform 0.25s ease, box-shadow 0.3s ease, filter 0.3s ease;
     transform-origin: center;
   }
@@ -357,19 +489,32 @@
     text-align: center;
   }
 
-  /* subtle nudge + oxblood glow on hover */
-  @keyframes jiggle {
-    0%, 100% { transform: rotate(0deg) translateY(-1px); }
-    35%      { transform: rotate(-0.5deg) translateY(-1px); }
-    70%      { transform: rotate(0.4deg) translateY(-1px); }
+  /* Card hover — layered shadows, smooth lift */
+  .work-card {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .work-card:hover {
+    transform: translateY(-3px);
+  }
+  .work-card:active {
+    transform: translateY(0) scale(0.98);
+    transition-duration: 0.1s;
+  }
+  .work-thumb {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.3s ease;
+    box-shadow:
+      0 1px 2px rgba(26, 23, 20, 0.06),
+      0 2px 6px rgba(26, 23, 20, 0.04);
   }
   .work-card:hover .work-thumb {
     box-shadow:
-      0 0 0 1px rgba(106, 30, 26, 0.32),
-      0 10px 28px rgba(106, 30, 26, 0.28),
-      0 18px 50px rgba(106, 30, 26, 0.18);
-    filter: brightness(1.03);
-    animation: jiggle 0.7s ease-in-out;
+      0 0 0 1px rgba(106, 30, 26, 0.18),
+      0 4px 12px rgba(106, 30, 26, 0.12),
+      0 12px 32px rgba(106, 30, 26, 0.16),
+      0 20px 48px rgba(106, 30, 26, 0.08);
+    filter: brightness(1.03) contrast(1.02);
   }
   .work-card:focus-visible .work-thumb {
     outline: 2px solid #6a1e1a;
@@ -379,18 +524,22 @@
   .work-meta {
     text-align: center;
     line-height: 1.4;
+    transition: opacity 0.3s ease;
   }
+  .work-card:hover .work-meta { opacity: 0.85; }
   .work-meta .wm-title {
     font-family: Garamond, Georgia, serif;
-    font-size: 15px;
-    color: #1a1714;
+    font-size: 13.5px;
+    font-style: italic;
+    color: #3a342c;
     display: block;
   }
   .work-meta .wm-sub {
-    font-size: 10px;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 8px;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #aaa;
+    letter-spacing: 0.16em;
+    color: #b4a98f;
     margin-top: 3px;
     display: block;
   }
@@ -455,6 +604,13 @@
       transform: none !important;
     }
     .modal-backdrop.open { transition: opacity 0.15s ease; }
+    .tl-node, .tl-node .tl-year, .tl-node .tl-label,
+    .tl-node .tl-narrative, .tl-node .tl-cards, .tl-pip {
+      transition: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
   .modal-close {
     position: absolute;
@@ -625,20 +781,134 @@
   @media (max-width: 580px) {
     .main { padding: 50px 18px 40px; }
     h1 { font-size: 30px; }
-    .works-tabs { gap: 18px; }
-    .works-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .timeline { padding: 40px 10px 10px; }
+    .timeline::before { left: 24px; }
+    .tl-node { padding-left: 52px; }
+    .tl-pip { left: 18px; }
+    .tl-label { font-size: 22px; }
+    .tl-narrative { font-size: 15.5px; }
+    .tl-cards { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 16px 10px; }
     .modal-body { padding: 22px 22px 28px; }
     .modal-title { font-size: 22px; }
   }
 
+  .footer-art-wrap {
+    position: relative;
+    width: 320px;
+    margin: 80px auto 0;
+    display: flex;
+    justify-content: center;
+  }
+  .footer-art {
+    display: block;
+    width: 100%;
+    mix-blend-mode: multiply;
+    filter: contrast(1.2) brightness(1.05) sepia(0.15);
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, black 40%, transparent 72%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, black 40%, transparent 72%);
+  }
+  .footer-art-wrap.revealed .footer-art {
+    opacity: 0.55;
+  }
+  .footer-art-halo {
+    position: absolute;
+    inset: -30px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(160, 120, 40, 0.12), transparent 65%);
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+  }
+  .footer-art-wrap.revealed .footer-art-halo {
+    animation: haloReveal 3s ease-out forwards;
+  }
+  @keyframes haloReveal {
+    0%   { opacity: 0; transform: scale(0.85); }
+    30%  { opacity: 1; transform: scale(1.05); }
+    60%  { opacity: 0.6; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.1); }
+  }
+  @media (max-width: 580px) {
+    .footer-art-wrap { width: 220px; margin-top: 50px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .footer-art-halo { display: none; }
+    .footer-art-wrap.revealed .footer-art { opacity: 0.45; }
+  }
   .footer {
     text-align: center;
-    padding: 20px;
+    padding: 10px 20px 30px;
     font-size: 10px;
-    color: #bbb;
+    color: #b4a98f;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+
+  /* ---------- Section illustrations ---------- */
+  .tl-illo {
+    position: absolute;
+    right: -10px;
+    top: 10px;
+    width: 140px;
+    height: 140px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 1.2s ease 0.4s;
+    animation: illoFloat 14s ease-in-out infinite;
+  }
+  .tl-node.visible .tl-illo {
+    opacity: 0.09;
+  }
+  .tl-illo svg {
+    width: 100%;
+    height: 100%;
+  }
+  @keyframes illoFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33%  { transform: translateY(-5px) rotate(1.5deg); }
+    66%  { transform: translateY(3px) rotate(-1deg); }
+  }
+  @media (max-width: 580px) {
+    .tl-illo { width: 90px; height: 90px; right: -5px; top: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tl-illo { animation: none !important; }
+  }
+
+  /* ---------- Deer spirits ---------- */
+  .deer-field {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    overflow: hidden;
+  }
+  .deer-spirit {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .deer-spirit svg {
+    display: block;
+  }
+  @keyframes deerFall {
+    0%   { top: -60px; opacity: 0; }
+    3%   { opacity: var(--deer-op); }
+    90%  { opacity: var(--deer-op); }
+    100% { top: calc(100vh + 60px); opacity: 0; }
+  }
+  .deer-spirit-inner {
+    animation: deerSpin var(--spin-dur) linear infinite;
+  }
+  @keyframes deerSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(var(--spin-dir)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .deer-field { display: none; }
   }
 </style>
 </head>
@@ -647,70 +917,42 @@
 <div id="chop-nav"></div>
 <script src="/js/chop-nav.js"></script>
 
-<div class="ticker">
-  <div class="ticker-track">
-    <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="ticker-item hi">NEW ON OBSERVABLE — The medium is the problem · March 25</a>
-    <span class="ticker-sep">·</span>
-    <a href="/home/radio/" class="ticker-item">RADIO ARCHIVE RESTORED — 74 episodes on Internet Archive</a>
-    <span class="ticker-sep">·</span>
-    <a href="/home/shades/" class="ticker-item">SHADES NEWS — live on iOS</a>
-    <span class="ticker-sep">·</span>
-    <a href="/home/observable/" class="ticker-item">OBSERVABLE — co-CEO with Mike Bostock</a>
-    <span class="ticker-sep">·</span>
-    <span class="ticker-item hi">EST. 2006 — BUSHWICK, BROOKLYN</span>
-    <span class="ticker-sep">·</span>
-    <a href="https://observablehq.com/blog/the-medium-is-the-problem" class="ticker-item hi">NEW ON OBSERVABLE — The medium is the problem · March 25</a>
-    <span class="ticker-sep">·</span>
-    <a href="/home/radio/" class="ticker-item">RADIO ARCHIVE RESTORED — 74 episodes on Internet Archive</a>
-    <span class="ticker-sep">·</span>
-    <a href="/home/shades/" class="ticker-item">SHADES NEWS — live on iOS</a>
-    <span class="ticker-sep">·</span>
-    <a href="/home/observable/" class="ticker-item">OBSERVABLE — co-CEO with Mike Bostock</a>
-    <span class="ticker-sep">·</span>
-    <span class="ticker-item hi">EST. 2006 — BUSHWICK, BROOKLYN</span>
-    <span class="ticker-sep">·</span>
-  </div>
-</div>
 
 <div class="main">
 
   <img src="/assets/deer.jpg" alt="" class="portrait">
 
   <h1>Julio Avalos</h1>
-  <div class="tagline">a modern guy</div>
+  <div class="tagline">a modern adult</div>
 
   <div class="divider"></div>
 
   <table class="links-table">
-    <tr><td>Wikipedia</td><td><a href="https://en.wikipedia.org/wiki/Julio_Avalos">Julio Avalos</a></td></tr>
-    <tr><td>LinkedIn</td><td><a href="https://www.linkedin.com/in/julio-avalos-who/">julio-avalos-who</a></td></tr>
-    <tr><td>GitHub</td><td><a href="https://github.com/hoolio">hoolio</a></td></tr>
-    <tr><td>Observable</td><td><a href="https://observablehq.com">observablehq.com</a></td></tr>
-    <tr><td>Email</td><td><a href="mailto:chopradio@gmail.com">chopradio@gmail.com</a></td></tr>
+    <tr><td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12.09 13.12c-.15-.15-.15-.4 0-.55l6.38-6.38a.39.39 0 0 1 .55.55l-6.38 6.38c-.15.15-.4.15-.55 0zm-1.72 1.72c-.15-.15-.15-.4 0-.55l6.38-6.38a.39.39 0 0 1 .55.55l-6.38 6.38c-.15.15-.4.15-.55 0zM5.5 18.5l1.27-4.45 3.18 3.18L5.5 18.5zm2.1-5.28L4.42 10l4.82-4.83L12.46 8.4l-4.86 4.82zm5.68-5.63L10.06 4.4 12.17 2.3a2.74 2.74 0 0 1 3.87 0l-.76.76.76-.76a2.74 2.74 0 0 1 0 3.87l-2.76 2.42zM3.31 11.07l3.18 3.18-1.2 1.19L2.11 12.3l1.2-1.23z"/></svg>Wikipedia</td><td><a href="https://en.wikipedia.org/wiki/Julio_Avalos">Julio Avalos</a></td></tr>
+    <tr><td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>LinkedIn</td><td><a href="https://www.linkedin.com/in/julio-avalos-who/">julio-avalos-who</a></td></tr>
+    <tr><td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>GitHub</td><td><a href="https://github.com/hoolio">hoolio</a></td></tr>
+    <tr><td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="2.5"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" opacity=".3"/><path d="M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm0 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>Observable</td><td><a href="https://observablehq.com">observablehq.com</a></td></tr>
+    <tr>
+      <td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M19 5v14H5V5h14m0-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>Recent</td>
+      <td><a href="https://observablehq.com/blog/the-medium-is-the-problem">The medium is the problem</a> (March 2025)</td>
+    </tr>
     <tr class="works-row">
-      <td>Works</td>
+      <td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>Works</td>
       <td>
-        <button class="works-toggle" id="worksToggle" aria-expanded="false" aria-controls="worksPanel">
-          selected projects and writings <span class="chev" aria-hidden="true">▾</span>
-        </button>
+        <a href="#timeline" class="works-link">selected projects and writings</a>
       </td>
     </tr>
+    <tr><td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>Message</td><td><form class="contact-form" id="contactForm"><input class="contact-input" id="contactMsg" type="text" placeholder="say hello" maxlength="500" autocomplete="off"><button class="contact-send" type="submit">Send</button></form><span class="contact-sent" id="contactSent">sent</span></td></tr>
   </table>
 
 </div>
 
-<section class="works" id="worksPanel" aria-hidden="true">
-  <div class="works-inner">
-    <div class="works-tabs" role="tablist">
-      <button class="works-tab active" role="tab" data-tab="work">Work</button>
-      <button class="works-tab" role="tab" data-tab="writings">Writings</button>
-      <button class="works-tab" role="tab" data-tab="interviews">Interviews</button>
-      <button class="works-tab" role="tab" data-tab="sounds">Sounds</button>
-    </div>
-    <div class="works-grid" id="worksGrid"></div>
-  </div>
-</section>
+<section class="timeline" id="timeline"></section>
 
+<div class="footer-art-wrap" id="footerArt">
+  <div class="footer-art-halo"></div>
+  <img src="/assets/angel.png" alt="" class="footer-art">
+</div>
 <div class="footer">
   Choplogic Radio &middot; Est. 2006
 </div>
@@ -743,29 +985,36 @@
   const ART = {
     hedcut: `
       <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="hc-bw" x="0" y="0">
-            <feColorMatrix type="matrix" values="0.299 0.587 0.114 0 0
-                                                  0.299 0.587 0.114 0 0
-                                                  0.299 0.587 0.114 0 0
-                                                  0 0 0 1 0"/>
-            <feComponentTransfer>
-              <feFuncR type="discrete" tableValues="0 0.25 0.55 0.85 1"/>
-              <feFuncG type="discrete" tableValues="0 0.25 0.55 0.85 1"/>
-              <feFuncB type="discrete" tableValues="0 0.25 0.55 0.85 1"/>
-            </feComponentTransfer>
-          </filter>
-          <pattern id="hc-dots" patternUnits="userSpaceOnUse" width="3.5" height="3.5">
-            <circle cx="1.75" cy="1.75" r="0.65" fill="#1a1714"/>
-          </pattern>
-        </defs>
-        <rect width="200" height="250" fill="#f3ede1"/>
-        <g style="mix-blend-mode:multiply">
-          <image href="/assets/deer.jpg" x="20" y="22" width="160" height="180" filter="url(#hc-bw)" preserveAspectRatio="xMidYMid slice"/>
-          <rect x="20" y="22" width="160" height="180" fill="url(#hc-dots)" opacity="0.55"/>
+        <rect width="200" height="250" fill="#f5f0e6"/>
+        <!-- WSJ masthead style -->
+        <text x="100" y="22" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="10" font-style="italic" fill="#1a1714" opacity="0.7">The Wall Street Journal</text>
+        <line x1="20" y1="28" x2="180" y2="28" stroke="#1a1714" stroke-width="0.6" opacity="0.3"/>
+        <line x1="20" y1="30" x2="180" y2="30" stroke="#1a1714" stroke-width="0.3" opacity="0.2"/>
+        <!-- headline -->
+        <text x="20" y="50" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">GitHub Legal Chief</text>
+        <text x="20" y="63" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">Warns on Privacy</text>
+        <text x="20" y="76" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">and Data Security</text>
+        <!-- byline -->
+        <text x="20" y="92" font-family="Garamond, Georgia, serif" font-size="6" fill="#5a534a" letter-spacing="0.5">By Kim S. Nash</text>
+        <text x="20" y="100" font-family="Garamond, Georgia, serif" font-size="5" fill="#8a8070">Pro Cybersecurity · March 5, 2019</text>
+        <!-- body text -->
+        <g fill="#3a342c" font-family="Garamond, Georgia, serif" font-size="4.5" opacity="0.65">
+          <text x="20" y="116">Julio Avalos, general counsel of GitHub</text>
+          <text x="20" y="123">Inc., said the U.S. abdication of leadership</text>
+          <text x="20" y="130">in data privacy and security regulation is</text>
+          <text x="20" y="137">forcing companies to look to other countries</text>
+          <text x="20" y="144">to figure out where international tech policy</text>
+          <text x="20" y="151">is actually headed. The warning comes as</text>
+          <text x="20" y="158">companies increasingly struggle with a</text>
+          <text x="20" y="165">patchwork of state and international rules.</text>
+          <text x="20" y="176">"We are in a world where the rules are</text>
+          <text x="20" y="183">being written elsewhere," Mr. Avalos said</text>
+          <text x="20" y="190">in an interview. He pointed to the European</text>
+          <text x="20" y="197">Union's General Data Protection Regulation</text>
+          <text x="20" y="204">as an example of the regulatory leadership</text>
+          <text x="20" y="211">vacuum that American tech companies now</text>
         </g>
-        <line x1="20" y1="216" x2="180" y2="216" stroke="#1a1714" stroke-width="0.8"/>
-        <text x="100" y="234" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="11" font-style="italic" fill="#1a1714">Wall Street Journal</text>
+        <text x="100" y="240" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="6" fill="#a89c80">WSJ Pro Cybersecurity</text>
       </svg>
     `,
     hypergrowth: `
@@ -820,41 +1069,87 @@
     `,
     psyart_page: `
       <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
-        <rect width="200" height="250" fill="#f3ede1"/>
-        <rect x="12" y="12" width="176" height="226" fill="none" stroke="#1a1714" stroke-width="0.6" opacity="0.45"/>
-        <rect x="16" y="16" width="168" height="218" fill="none" stroke="#1a1714" stroke-width="0.3" opacity="0.35"/>
-        <text x="100" y="36" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="9" font-style="italic" fill="#5a534a">PsyArt</text>
-        <line x1="68" y1="44" x2="132" y2="44" stroke="#1a1714" stroke-width="0.4" opacity="0.5"/>
-        <text x="100" y="64" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="14" fill="#6a1e1a">❦</text>
-        <text x="100" y="92" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="14" fill="#1a1714">The Unfinished</text>
-        <text x="100" y="108" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="14" fill="#1a1714">Self</text>
-        <text x="100" y="128" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="9" font-style="italic" fill="#3a342c">Richard's gender deformity in</text>
-        <text x="100" y="140" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="9" font-style="italic" fill="#3a342c">3 Henry VI and Richard III</text>
-        <line x1="84" y1="160" x2="116" y2="160" stroke="#1a1714" stroke-width="0.5" opacity="0.5"/>
-        <text x="100" y="178" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="9" font-style="italic" fill="#5a534a">by</text>
-        <text x="100" y="194" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">Julio C. Avalos, Jr.</text>
-        <line x1="50" y1="212" x2="150" y2="212" stroke="#1a1714" stroke-width="0.4" opacity="0.45"/>
-        <text x="100" y="224" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="6.5" letter-spacing="2" fill="#a89c80">PEER REVIEWED</text>
+        <rect width="200" height="250" fill="#f5f0e6"/>
+        <rect x="0" y="0" width="200" height="20" fill="#2a2520"/>
+        <text x="14" y="14" font-family="Garamond, Georgia, serif" font-size="8.5" font-style="italic" fill="#d4cab2">PsyArt</text>
+        <text x="186" y="14" text-anchor="end" font-family="Garamond, Georgia, serif" font-size="6.5" fill="#8a8070">An Online Journal</text>
+        <text x="14" y="40" font-family="Garamond, Georgia, serif" font-size="12" font-weight="bold" fill="#1a1714">The Unfinished Self</text>
+        <text x="14" y="53" font-family="Garamond, Georgia, serif" font-size="7.5" font-style="italic" fill="#3a342c">Richard's gender deformity in 3 Henry VI and Richard III</text>
+        <line x1="14" y1="60" x2="72" y2="60" stroke="#1a1714" stroke-width="0.3" opacity="0.25"/>
+        <text x="14" y="70" font-family="Garamond, Georgia, serif" font-size="7" fill="#5a534a">Julio C. Avalos, Jr.</text>
+        <g fill="#5a534a" font-family="Garamond, Georgia, serif" font-size="4.2" opacity="0.7">
+          <text x="14" y="88">Shakespeare constructs Richard's deformity not as a</text>
+          <text x="14" y="94.5">medical condition but as a psychic wound—a rupture in</text>
+          <text x="14" y="101">the field of gender that produces, rather than merely</text>
+          <text x="14" y="107.5">reflects, his radical alienation from the social order. The</text>
+          <text x="14" y="114">body that cannot be loved becomes the body that refuses</text>
+          <text x="14" y="120.5">to be made by other people's gaze. This paper argues</text>
+          <text x="14" y="127">that Richard's self-fashioning represents a profound act</text>
+          <text x="14" y="133.5">of resistance against the normative frameworks of desire</text>
+          <text x="108" y="88">and identification that structure the Henriad. Reading</text>
+          <text x="108" y="94.5">Richard's soliloquies through the lens of Lacanian</text>
+          <text x="108" y="101">psychoanalysis and contemporary gender theory, I</text>
+          <text x="108" y="107.5">trace how deformity operates as a signifier of sexual</text>
+          <text x="108" y="114">indeterminacy—neither fully masculine nor feminine,</text>
+          <text x="108" y="120.5">but occupying the space of what Judith Butler calls</text>
+          <text x="108" y="127">"gender trouble." The crooked body becomes the site</text>
+          <text x="108" y="133.5">of a subjectivity that cannot be recuperated by the</text>
+        </g>
+        <g fill="#5a534a" font-family="Garamond, Georgia, serif" font-size="4.2" opacity="0.5">
+          <text x="14" y="148">and desire that governs the world of the play. Far from</text>
+          <text x="14" y="154.5">being a simple villain, Richard emerges as a figure who</text>
+          <text x="14" y="161">exposes the contingency of the very categories—beauty,</text>
+          <text x="14" y="167.5">virtue, legitimacy—that are used to exclude him. His</text>
+          <text x="14" y="174">soliloquies do not merely announce his intentions; they</text>
+          <text x="14" y="180.5">perform a kind of psychic surgery, dismantling the</text>
+          <text x="108" y="148">symbolic order from within. What we witness in the</text>
+          <text x="108" y="154.5">movement from 3 Henry VI to Richard III is not a</text>
+          <text x="108" y="161">progression toward evil but a deepening of a crisis in</text>
+          <text x="108" y="167.5">self-representation—one in which the deformed body</text>
+          <text x="108" y="174">becomes both the instrument and the object of an</text>
+          <text x="108" y="180.5">impossible desire for wholeness and recognition.</text>
+        </g>
+        <line x1="14" y1="194" x2="55" y2="194" stroke="#1a1714" stroke-width="0.3" opacity="0.2"/>
+        <text x="14" y="202" font-family="Garamond, Georgia, serif" font-size="3.5" fill="#8a8070" opacity="0.6">1. See Garber, "Coming of Age in Shakespeare" (1981) and Adelman,</text>
+        <text x="14" y="208" font-family="Garamond, Georgia, serif" font-size="3.5" fill="#8a8070" opacity="0.6">"Suffocating Mothers" (1992) for related readings of the maternal body.</text>
+        <text x="100" y="240" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="7" fill="#a89c80">1</text>
       </svg>
     `,
     imago_page: `
       <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
-        <rect width="200" height="250" fill="#f3ede1"/>
-        <rect x="12" y="12" width="176" height="226" fill="none" stroke="#1a1714" stroke-width="0.6" opacity="0.45"/>
-        <rect x="16" y="16" width="168" height="218" fill="none" stroke="#1a1714" stroke-width="0.3" opacity="0.35"/>
-        <text x="100" y="36" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="9" font-style="italic" fill="#5a534a">American Imago</text>
-        <line x1="58" y1="44" x2="142" y2="44" stroke="#1a1714" stroke-width="0.4" opacity="0.5"/>
-        <text x="100" y="62" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="14" fill="#6a1e1a">❦</text>
-        <text x="100" y="84" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">"An Agony of</text>
-        <text x="100" y="98" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">Pleasurable</text>
-        <text x="100" y="112" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">Suffering"</text>
-        <text x="100" y="132" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="8" font-style="italic" fill="#3a342c">Masochism &amp; maternal</text>
-        <text x="100" y="143" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="8" font-style="italic" fill="#3a342c">deprivation in Mark Twain</text>
-        <line x1="84" y1="160" x2="116" y2="160" stroke="#1a1714" stroke-width="0.5" opacity="0.5"/>
-        <text x="100" y="178" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="9" font-style="italic" fill="#5a534a">by</text>
-        <text x="100" y="194" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">Julio C. Avalos, Jr.</text>
-        <line x1="34" y1="212" x2="166" y2="212" stroke="#1a1714" stroke-width="0.4" opacity="0.45"/>
-        <text x="100" y="224" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="6.5" letter-spacing="1.6" fill="#a89c80">62.1 · SPRING 2005 · pp. 35–58</text>
+        <rect width="200" height="250" fill="#f5f0e6"/>
+        <text x="14" y="15" font-family="Garamond, Georgia, serif" font-size="7.5" font-style="italic" fill="#5a534a">American Imago</text>
+        <text x="186" y="15" text-anchor="end" font-family="Garamond, Georgia, serif" font-size="6" fill="#8a8070">62.1 · Spring 2005</text>
+        <line x1="14" y1="20" x2="186" y2="20" stroke="#1a1714" stroke-width="0.4" opacity="0.2"/>
+        <text x="14" y="40" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">"An Agony of Pleasurable</text>
+        <text x="14" y="53" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">Suffering"</text>
+        <text x="14" y="66" font-family="Garamond, Georgia, serif" font-size="7" font-style="italic" fill="#3a342c">Masochism and Maternal Deprivation in Mark Twain</text>
+        <line x1="14" y1="73" x2="65" y2="73" stroke="#1a1714" stroke-width="0.3" opacity="0.2"/>
+        <text x="14" y="83" font-family="Garamond, Georgia, serif" font-size="6.5" fill="#5a534a">JULIO C. AVALOS, JR.</text>
+        <g fill="#5a534a" font-family="Garamond, Georgia, serif" font-size="4.2" opacity="0.7">
+          <text x="28" y="100">The masochistic scenes that pervade Twain's fiction—</text>
+          <text x="14" y="106.5">from Tom Sawyer's theatrical suffering to Huck's</text>
+          <text x="14" y="113">endurance of Pap's violence—are not incidental to</text>
+          <text x="14" y="119.5">his art but constitutive of it. This essay traces the</text>
+          <text x="14" y="126">pervasiveness of masochistic fantasy in Twain's writing</text>
+          <text x="14" y="132.5">back to the deprivations he suffered at the hands of</text>
+          <text x="14" y="139">his mother, Jane Clemens, and to the unconscious fears</text>
+          <text x="14" y="145.5">of passivity and effeminization those deprivations</text>
+          <text x="14" y="152">produced. Drawing on object-relations theory and the</text>
+          <text x="14" y="158.5">work of Jessica Benjamin on intersubjective recognition,</text>
+        </g>
+        <g fill="#5a534a" font-family="Garamond, Georgia, serif" font-size="4.2" opacity="0.5">
+          <text x="14" y="168">I argue that Twain's compulsive return to scenes of</text>
+          <text x="14" y="174.5">punishment and humiliation represents not a simple</text>
+          <text x="14" y="181">repetition of childhood trauma but a complex attempt</text>
+          <text x="14" y="187.5">to master it—to transform, through narrative, the</text>
+          <text x="14" y="194">helplessness of the deprived child into the sovereignty</text>
+          <text x="14" y="200.5">of the authorial voice. The "agony of pleasurable</text>
+          <text x="14" y="207">suffering" that Twain describes in his autobiography</text>
+          <text x="14" y="213.5">becomes a figure for the paradox at the heart of his</text>
+          <text x="14" y="220">creative process itself: the writer who can only produce</text>
+        </g>
+        <text x="100" y="240" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="7" fill="#a89c80">35</text>
       </svg>
     `,
     scales: `
@@ -877,168 +1172,234 @@
     `,
   };
 
-  // -------- Works data --------
-  // To swap a placeholder for a real image: set `image: '/assets/works/foo.jpg'`.
-  // Items can be single or carousels (array of slides).
-  const WORKS = {
-    sounds: [
-      {
-        kicker: 'Pirate Radio · 2006–2012',
-        title: 'Choplogic Radio',
-        sub: 'Brooklyn',
-        link: '/home/radio/',
-        linkLabel: 'Enter the archive →',
-        caption: 'Choplogic Radio (referred to lovingly as “chopradio”) was a pirate radio show that I hosted from 2006 through 2012. It originally broadcast out of Office Ops, a mixed-use loft space in Bushwick that I lived in with other artists during the early days of the neighborhood\'s pioneer migration.',
-        slides: [
-          { image: '/assets/deer.jpg', alt: 'Choplogic Radio' },
-          { placeholder: { kicker: 'Office Ops · Bushwick', title: 'Loft Years', meta: '2006 – 2009' } },
-          { placeholder: { kicker: 'Late Era', title: 'The Final Broadcasts', meta: '2010 – 2012' } },
-        ],
-      },
-    ],
-    writings: [
-      {
-        kicker: 'PsyArt Journal · Peer-reviewed',
-        title: 'The Unfinished Self',
-        sub: 'Shakespeare · Richard III',
-        art: 'psyart_page',
-        link: 'https://psyartjournal.com/article/show/c_avalos_jr-the_unfinished_self_richards_gender_defo',
-        linkLabel: 'Read on PsyArt →',
-        caption: 'A peer-reviewed paper I wrote for PsyArt — one of the leading journals for the psychological study of the arts — examining the relationship between physical deformity and sexual identity in Shakespeare\'s Richard III and 3 Henry VI. The reading takes Richard\'s self-fashioning as a refusal to be made by other people\'s gaze.',
-      },
-      {
-        kicker: 'American Imago 62.1 · Spring 2005',
-        title: '"An Agony of Pleasurable Suffering"',
-        sub: 'Masochism and Maternal Deprivation in Mark Twain',
-        art: 'imago_page',
-        link: 'https://muse.jhu.edu/article/181889',
-        linkLabel: 'Read on Project MUSE →',
-        caption: 'A peer-reviewed essay published in American Imago — the journal of psychoanalytic literary criticism founded by Sigmund Freud in 1939, the year of his death. The piece traces the pervasiveness of masochistic scenes and themes in Twain\'s writing back to the deprivations he suffered at the hands of his mother, Jane Clemens, and to the unconscious fears of passivity and effeminization those deprivations produced. American Imago 62.1, pp. 35–58.',
-      },
-    ],
-    interviews: [
-      {
-        kicker: 'Wall Street Journal · Pro Cybersecurity',
-        title: 'GitHub Legal Chief on Privacy & Power',
-        sub: 'Press',
-        art: 'hedcut',
-        link: 'https://www.wsj.com/articles/github-legal-chief-warns-companies-about-u-s-reluctance-to-regulate-data-privacy-and-security-1551787503',
-        linkLabel: 'Read on WSJ →',
-        caption: 'A WSJ Pro Cybersecurity profile during my time as GitHub\'s General Counsel. I argued that the "abdication of American leadership" in data privacy and security regulation was forcing companies to look to other countries to figure out where international tech policy was actually headed. The piece is part of a longer Journal arc on the role I played helping shape, in their words, "the social phase of the digital era."',
-      },
-      {
-        kicker: 'CNBC · Squawk Box',
-        title: 'On Hypergrowth',
-        sub: 'Video interview',
-        image: '/assets/works/cnbc-hypergrowth.jpg',
-        link: 'https://www.cnbc.com/video/2017/02/28/githubs-avalos-on-the-software-development-revolution.html',
-        linkLabel: 'Watch on CNBC →',
-        caption: 'A long-form sit-down with CNBC during the GitHub years on the software development "revolution" — what was actually happening underneath the open-source explosion, why every company was becoming a software company, and what it does to a company (and to the people inside one) when you grow from a few dozen to a few thousand in a couple of years.',
-      },
-      {
-        kicker: 'MSNBC · Broadcast',
-        title: 'MSNBC On-Air',
-        sub: 'Broadcast television',
-        art: 'onair',
-        link: '#',
-        linkLabel: 'Add canonical clip →',
-        caption: 'On-air appearance discussing technology, regulation, and the developer economy. (Send the canonical clip URL — and the date, if you remember — and I\'ll wire it in.)',
-      },
-      {
-        kicker: 'The Millennial Reset · Aug 2023',
-        title: '"What Version of \'Truth\'..."',
-        sub: 'Podcast',
-        art: 'waveform',
-        link: 'https://podcasts.apple.com/us/podcast/the-millennial-reset-everyday-millennials-redefining/id1679817093',
-        linkLabel: 'Listen on Apple Podcasts →',
-        caption: 'A 27-minute conversation on The Millennial Reset, recorded in August 2023, on Shades and the broader news ecosystem — perception and verification, the difference between information and understanding, and how a younger generation is rebuilding its relationship with the news.',
-      },
-    ],
-    work: [
-      {
-        kicker: 'Orrick, Herrington & Sutcliffe',
-        title: 'Orrick',
-        sub: 'IP Litigation · Managing Associate',
-        logo: '/assets/works/logos/orrick.svg',
-        logoMeta: 'IP Litigation',
-        link: 'https://www.orrick.com',
-        linkLabel: 'orrick.com →',
-        caption: 'I started out at Orrick, Herrington & Sutcliffe practicing intellectual-property litigation — the kind of work the firm has been known for since the 19th century. Among other matters, I represented early Facebook and Mark Zuckerberg through the company\'s formative years, including the litigation that became the basis for the 2010 Aaron Sorkin film "The Social Network." I also represented Apple and LinkedIn during their early days, working on issues at the digital frontier — IP, online privacy, cyber governance, and the question of what citizenship looks like in a world that\'s mostly software. The Recorder named me Legal Innovator of the Year in 2014.',
-      },
-      {
-        kicker: 'Yelp · Corporate Counsel',
-        title: 'Yelp',
-        sub: 'Corporate Counsel',
-        logo: '/assets/works/logos/yelp.svg',
-        logoMeta: 'Corporate Counsel',
-        link: 'https://www.yelp.com',
-        linkLabel: 'yelp.com →',
-        caption: 'I worked at Yelp as Corporate Counsel and rounded out my legal skillset by doing a little bit of everything other than the litigation I\'d been known for. I joined when the company was still private and got to work on the S-1 and the subsequent IPO from the inside.',
-      },
-      {
-        kicker: 'GitHub · December 2012 – September 2018',
-        title: 'GitHub',
-        sub: 'Chief Business / Strategy / Ops & General Counsel',
-        logo: '/assets/works/logos/github.svg',
-        logoMeta: 'COO · 2012–2018',
-        link: 'https://github.com',
-        linkLabel: 'github.com →',
-        caption: 'I joined GitHub in December 2012 as Chief Business, Strategy & Operations Officer and General Counsel, and served on the board. Across six years I helped run the company through its hyper-growth — overseeing legal, policy, people, strategic partnerships, marketing, and communications, and walking the platform from a few hundred employees through one of the most consequential acquisitions in software history. Along the way I rebuilt GitHub\'s legal practice on top of GitHub itself: lawyers writing in Markdown, opening pull requests, shipping policy the way the rest of the company shipped product. GC Magazine named me the top in-house technology attorney in the country in 2015.',
-      },
-      {
-        kicker: 'Shades · 2021 – 2025',
-        title: 'Shades Media',
-        sub: 'Co-founder',
-        logo: '/assets/works/logos/shades.svg',
-        logoMeta: 'Co-founder · 2021–2025',
-        link: 'https://web.archive.org/web/2025/https://www.shadesnews.com/',
-        linkLabel: 'shadesnews.com (archive) →',
-        caption: 'Shades was a mobile news application I co-founded with Sonali Maitra in 2021 — built for a Generation Z audience that wanted news which surfaced its own perspective rather than pretending not to have one, and that treated discernment as the actual job of a reader. We spent four years growing the app, building the editorial voice, and rethinking the relationship between people and the news they consume. The company wound down in 2025.',
-      },
-      {
-        kicker: 'Observable · current',
-        title: 'Observable',
-        sub: 'Co-CEO & Board Member',
-        logo: '/assets/works/logos/observable.svg',
-        logoMeta: 'Co-CEO · current',
-        link: 'https://observablehq.com',
-        linkLabel: 'observablehq.com →',
-        caption: 'Currently Co-CEO of Observable, the platform for collaborative data analysis and visualization, founded by the creator of D3.js. We\'re building the place where people who think in data actually want to work — notebooks, charts, and live computation that feel less like software and more like an instrument.',
-      },
-    ],
-  };
+  // -------- Timeline data --------
+  const TIMELINE = [
+    {
+      year: '~2001–2005',
+      label: 'Education',
+      narrative: 'I went to the University of Florida on an academic scholarship. I studied English with a focus in literary theory and got a minor in Philosophy — ancient philosophy, ontology, and the philosophy of language. I graduated at the top of my class and moved back to New York that fall to study law at Columbia, where I was a Harlan Fiske Stone Scholar. I spent my clinic years on juvenile rights and pro bono work with the Legal Aid Society. I won the Jane Murphy Prize for clinical advocacy. I also published two peer-reviewed papers in psychoanalytic literary criticism — on Shakespeare and Mark Twain — in journals founded by Freud.',
+      items: [
+        {
+          kicker: 'PsyArt Journal · Peer-reviewed',
+          title: '\u201cThe Unfinished Self\u201d',
+          sub: 'Richard\u2019s gender deformity in 3 Henry VI and Richard III',
+          art: 'psyart_page',
+          link: 'https://psyartjournal.com/article/show/c_avalos_jr-the_unfinished_self_richards_gender_defo',
+          linkLabel: 'Read on PsyArt →',
+          caption: 'A peer-reviewed paper I wrote for PsyArt — one of the leading journals for the psychological study of the arts — examining the relationship between physical deformity and sexual identity in Shakespeare\'s Richard III and 3 Henry VI. The reading takes Richard\'s self-fashioning as a refusal to be made by other people\'s gaze.',
+        },
+        {
+          kicker: 'American Imago 62.1 · Spring 2005',
+          title: '\u201cAn Agony of Pleasurable Suffering\u201d',
+          sub: 'Masochism and maternal deprivation in Mark Twain',
+          art: 'imago_page',
+          link: 'https://muse.jhu.edu/article/181889',
+          linkLabel: 'Read on Project MUSE →',
+          caption: 'A peer-reviewed essay published in American Imago — the journal of psychoanalytic literary criticism founded by Sigmund Freud in 1939, the year of his death. The piece traces the pervasiveness of masochistic scenes and themes in Twain\'s writing back to the deprivations he suffered at the hands of his mother, Jane Clemens, and to the unconscious fears of passivity and effeminization those deprivations produced. American Imago 62.1, pp. 35\u201358.',
+        },
+      ],
+    },
+    {
+      year: '2006–2010',
+      label: 'Orrick',
+      narrative: 'My first job out of law school was at Orrick, Herrington & Sutcliffe, doing IP litigation. It made my career. I represented early Facebook and Mark Zuckerberg in the litigation that became the basis for Aaron Sorkin\u2019s <em>The Social Network</em> — the Rashida Jones character was based on me and the other junior associates. I also worked with Apple and LinkedIn in their early days. The work was at the frontier: IP, privacy, cyber governance. The work was at the frontier: IP, privacy, cyber governance.',
+      items: [
+        {
+          kicker: 'Orrick, Herrington & Sutcliffe',
+          title: 'Orrick',
+          sub: 'IP Litigation \u00b7 Managing Associate',
+          logo: '/assets/works/logos/orrick.svg',
+          logoMeta: 'IP Litigation',
+          link: 'https://www.orrick.com',
+          linkLabel: 'orrick.com \u2192',
+          caption: 'I started out at Orrick, Herrington & Sutcliffe practicing intellectual-property litigation. Among other matters, I represented early Facebook and Mark Zuckerberg through the company\'s formative years, including the litigation that became the basis for the 2010 Aaron Sorkin film “The Social Network.” The Rashida Jones character was based on me and the other junior associates on the case. I also represented Apple and LinkedIn during their early days.',
+        },
+      ],
+    },
+    {
+      year: '2006–2012',
+      label: 'Choplogic Radio',
+      narrative: 'Around the same time, from a loft in Bushwick called Office Ops, I started hosting a pirate radio show. Choplogic Radio ran from 2006 to 2012 — 74 episodes, mostly late at night, for whoever happened to be listening. I started a yoga practice in 2007 that stuck. I trained and got certified as a registered teacher at Laughing Lotus. Good teachers change your life.',
+      items: [
+        {
+          kicker: 'Pirate Radio \u00b7 2006\u20132012',
+          title: 'Choplogic Radio',
+          sub: 'Brooklyn',
+          link: '/home/radio/',
+          linkLabel: 'Enter the archive \u2192',
+          caption: 'Choplogic Radio (referred to lovingly as \u201cchopradio\u201d) was a pirate radio show that I hosted from 2006 through 2012. It originally broadcast out of Office Ops, a mixed-use loft space in Bushwick that I lived in with other artists during the early days of the neighborhood\'s pioneer migration.',
+          slides: [
+            { image: '/assets/deer.jpg', alt: 'Choplogic Radio' },
+            { placeholder: { kicker: 'Office Ops \u00b7 Bushwick', title: 'Loft Years', meta: '2006 \u2013 2009' } },
+            { placeholder: { kicker: 'Late Era', title: 'The Final Broadcasts', meta: '2010 \u2013 2012' } },
+          ],
+        },
+      ],
+    },
+    {
+      year: '2010–2012',
+      label: 'Yelp',
+      narrative: 'I left firm life in 2010 and went to Yelp to round out the other side — corporate work, governance, the machinery of taking a company public. I joined while it was still private and worked on the S-1 and IPO from the inside. ',
+      items: [
+        {
+          kicker: 'Yelp \u00b7 Corporate Counsel',
+          title: 'Yelp',
+          sub: 'Corporate Counsel',
+          logo: '/assets/works/logos/yelp.svg',
+          logoMeta: 'Corporate Counsel',
+          link: 'https://www.yelp.com',
+          linkLabel: 'yelp.com \u2192',
+          caption: 'I worked at Yelp as Corporate Counsel and rounded out my legal skillset by doing a little bit of everything other than the litigation I\'d been known for. I joined when the company was still private and got to work on the S-1 and the subsequent IPO from the inside.',
+        },
+      ],
+    },
+    {
+      year: '2012–2018',
+      label: 'GitHub',
+      narrative: 'I met the GitHub founders in the summer of 2012. The company was still bootstrapped, pre-Series A. I joined that December as Chief Business & Strategy Officer and General Counsel, starting more or less contemporaneously with the A itself. Over six years we went from a small team to the Microsoft acquisition. I ran legal, policy, people, partnerships, marketing, and comms — and rebuilt the legal practice on top of GitHub itself: lawyers writing in Markdown, opening pull requests, shipping policy the way everyone else shipped code. ',
+      items: [
+        {
+          kicker: 'GitHub \u00b7 December 2012 \u2013 September 2018',
+          title: 'GitHub',
+          sub: 'Chief Business / Strategy / Ops & General Counsel',
+          logo: '/assets/works/logos/github.svg',
+          logoMeta: 'COO \u00b7 2012\u20132018',
+          link: 'https://github.com',
+          linkLabel: 'github.com \u2192',
+          caption: 'I met the founders in the summer of 2012, when GitHub was still bootstrapped and pre-Series A. I joined that December as Chief Business, Strategy & Operations Officer and General Counsel, starting contemporaneously with the Series A, and served on the board. Across six years I helped run the company through its hyper-growth — overseeing legal, policy, people, strategic partnerships, marketing, and communications, and walking the platform from a small team through one of the most consequential acquisitions in software history.',
+        },
+        {
+          kicker: 'Wall Street Journal \u00b7 Pro Cybersecurity',
+          title: 'GitHub Legal Chief on Privacy & Power',
+          sub: 'Press',
+          art: 'hedcut',
+          link: 'https://www.wsj.com/articles/github-legal-chief-warns-companies-about-u-s-reluctance-to-regulate-data-privacy-and-security-1551787503',
+          linkLabel: 'Read on WSJ \u2192',
+          caption: 'A WSJ Pro Cybersecurity profile during my time as GitHub\'s General Counsel. I argued that the \u201cabdication of American leadership\u201d in data privacy and security regulation was forcing companies to look to other countries to figure out where international tech policy was actually headed. The piece is part of a longer Journal arc on the role I played helping shape, in their words, \u201cthe social phase of the digital era.\u201d',
+        },
+        {
+          kicker: 'CNBC \u00b7 Squawk Box',
+          title: 'On Hypergrowth',
+          sub: 'Video interview',
+          art: 'hypergrowth',
+          link: 'https://www.cnbc.com/video/2017/02/28/githubs-avalos-on-the-software-development-revolution.html',
+          linkLabel: 'Watch on CNBC \u2192',
+          caption: 'A long-form sit-down with CNBC during the GitHub years on the software development \u201crevolution\u201d — what was actually happening underneath the open-source explosion, why every company was becoming a software company, and what it does to a company (and to the people inside one) when you grow from a few dozen to a few thousand in a couple of years.',
+        },
+        {
+          kicker: 'CNBC \u00b7 Tech Check \u00b7 2018',
+          title: 'GitHub\u2019s Strategy',
+          sub: 'Broadcast television',
+          image: '/assets/works/cnbc-hypergrowth.jpg',
+          link: '#',
+          linkLabel: '',
+          caption: 'Live on CNBC Tech Check discussing GitHub\u2019s strategy, the open-source ecosystem, and the future of software development.',
+        },
+        {
+          kicker: 'GitHub Universe \u00b7 2018',
+          title: 'GitHub Universe Keynote',
+          sub: 'Conference keynote',
+          art: 'hypergrowth',
+          link: '#',
+          linkLabel: '',
+          caption: 'Keynote address at GitHub Universe 2018, GitHub\u2019s flagship annual conference.',
+        },
+      ],
+    },
+    {
+      year: '2018–2020',
+      label: 'Madrid',
+      narrative: 'After GitHub, we moved to Madrid — my wife Sonali and our family. I speak native Spanish and had always wanted to live there. We stayed through the pandemic, which turned out to be the right place for that particular stretch of time. I gave a talk at Stanford\u2019s CodeX FutureLaw conference called \u201cLawyers Are Over! Long Live Lawyers!\u201d and otherwise spent those years thinking. We moved back to Marin in 2020.',
+      items: [
+        {
+          kicker: 'Stanford CodeX \u00b7 FutureLaw 2019',
+          title: 'Lawyers Are Over! Long Live Lawyers!',
+          sub: 'Conference talk',
+          art: 'scales',
+          link: 'https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/',
+          linkLabel: 'Stanford CodeX \u2192',
+          caption: 'A talk at Stanford\u2019s CodeX FutureLaw conference on the transformation of legal practice — how technology is reshaping what it means to be a lawyer, and why that\u2019s both overdue and terrifying.',
+        },
+      ],
+    },
+    {
+      year: '2018–present',
+      label: 'Merico',
+      narrative: 'I\u2019ve sat on the board at Merico since 2018 — a developer analytics company out of Beijing. They measure code contributions and developer productivity. ',
+      items: [],
+    },
+    {
+      year: '2021–2025',
+      label: 'Shades Media',
+      narrative: 'Shades was a mobile news app I co-founded with Sonali. We built it for a generation that wanted news to surface its own perspective rather than pretend not to have one. Jeff Grimes was our third co-founder. Metalab designed it. We launched on iOS in 2024. I learned how to build a company from nothing — how to go from an idea to an App Store listing, how to assemble a team worth assembling. The company wound down in 2025. I\u2019d do it again.',
+      items: [
+        {
+          kicker: 'Shades \u00b7 2021\u20132025',
+          title: 'Shades Media',
+          sub: 'Co-founder',
+          image: '/assets/works/shades-logotype.png',
+          link: 'https://web.archive.org/web/2025/https://www.shadesnews.com/',
+          linkLabel: 'shadesnews.com (archive) \u2192',
+          caption: 'Shades was a mobile news application I co-founded with my wife Sonali Maitra in 2021 — built for a Generation Z audience that wanted news which surfaced its own perspective rather than pretending not to have one. We spent four years growing the app, building the editorial voice, and rethinking the relationship between people and the news they consume.',
+        },
+        {
+          kicker: 'The Millennial Reset \u00b7 Aug 2023',
+          title: '\u201cWhat Version of Truth...\u201d',
+          sub: 'Podcast',
+          art: 'waveform',
+          link: 'https://open.spotify.com/show/0dKb1fEIgyzmg7ahrd2nGs',
+          linkLabel: 'Listen on Spotify \u2192',
+          caption: 'A 27-minute conversation on The Millennial Reset, recorded in August 2023, on Shades and the broader news ecosystem — perception and verification, the difference between information and understanding, and how a younger generation is rebuilding its relationship with the news.',
+        },
+        {
+          kicker: 'True Builders \u00b7 2023',
+          title: 'Breaking Boundaries',
+          sub: 'Podcast',
+          art: 'waveform',
+          link: 'https://podcasts.apple.com/us/podcast/breaking-boundaries-githubs-approach-to-organizational/id1677828595?i=1000623194684',
+          linkLabel: 'Listen on Apple Podcasts \u2192',
+          caption: 'A conversation on True Builders about breaking boundaries — GitHub\u2019s approach to organizational culture, building Shades, and the path from law to technology leadership.',
+        },
+        {
+          kicker: 'Life Self Mastery \u00b7 2023',
+          title: 'From Law to Tech Startups',
+          sub: 'Podcast',
+          art: 'waveform',
+          link: 'https://open.spotify.com/show/3G514tA5EuZ8Py9ofTXj8T',
+          linkLabel: 'Listen on Spotify \u2192',
+          caption: 'A podcast conversation on Life Self Mastery covering the full arc — from Facebook and GitHub to Shades News and the leap from law into building companies.',
+        },
+        {
+          kicker: 'Partner Grow \u00b7 2024',
+          title: 'The Future of Media',
+          sub: 'Podcast',
+          art: 'waveform',
+          link: 'https://partnergrow.substack.com/p/julio-avalos-from-shades-news-on',
+          linkLabel: 'Read on Substack \u2192',
+          caption: 'A conversation with Partner Grow about Shades News and the future of media — how news consumption is changing, what younger audiences actually want, and the business of building a media startup.',
+        },
+      ],
+    },
+    {
+      year: 'Now',
+      label: 'Observable',
+      narrative: 'Now I\u2019m at Observable, the data visualization platform founded by the creator of D3.js. We\u2019re building the place where people who think in data actually want to work.<br><br>I started learning Japanese in 2025. I\u2019m also working through a long <a href="/home/history/reading/">reading project in American history</a> — roughly chronological, book by book.',
+      items: [
+        {
+          kicker: 'Observable \u00b7 current',
+          title: 'Observable',
+          sub: 'Co-CEO & Board Member',
+          logo: '/assets/works/logos/observable.svg',
+          logoMeta: 'Co-CEO \u00b7 current',
+          link: 'https://observablehq.com',
+          linkLabel: 'observablehq.com \u2192',
+          caption: 'Co-CEO of Observable, the platform for collaborative data analysis and visualization, founded by the creator of D3.js.',
+        },
+      ],
+    },
+  ];
 
-  // -------- Toggle gallery --------
-  const toggle = document.getElementById('worksToggle');
-  const panel = document.getElementById('worksPanel');
-  toggle.addEventListener('click', () => {
-    const open = panel.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    panel.setAttribute('aria-hidden', open ? 'false' : 'true');
-    if (open) {
-      setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
-    }
-  });
-
-  // -------- Render grid --------
-  const grid = document.getElementById('worksGrid');
-  function renderTab(name) {
-    const items = WORKS[name] || [];
-    grid.innerHTML = items.map((item, i) => {
-      const isLogo = !!item.logo;
-      const thumbInner = isLogo ? renderLogoThumb(item) : renderThumb(item);
-      const thumbClass = isLogo ? 'work-thumb logo-thumb' : 'work-thumb';
-      return `
-        <button class="work-card" data-tab="${name}" data-index="${i}" aria-label="${item.title}">
-          <div class="${thumbClass}">${thumbInner}</div>
-          <div class="work-meta">
-            <span class="wm-title">${item.title}</span>
-            <span class="wm-sub">${item.sub || ''}</span>
-          </div>
-        </button>
-      `;
-    }).join('');
-  }
+  // -------- Render helpers --------
   function renderThumb(item) {
     const first = (item.slides && item.slides[0]) || item;
     if (first.image) {
@@ -1065,32 +1426,60 @@
     `;
   }
 
-  // tab switching
-  function activateTab(name) {
-    const btn = document.querySelector(`.works-tab[data-tab="${name}"]`);
-    if (!btn) return false;
-    document.querySelectorAll('.works-tab').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderTab(name);
-    return true;
-  }
-  document.querySelectorAll('.works-tab').forEach(btn => {
-    btn.addEventListener('click', () => activateTab(btn.dataset.tab));
-  });
-  activateTab('work');
+  // -------- Render timeline --------
+  const tlEl = document.getElementById('timeline');
+  tlEl.innerHTML = TIMELINE.map((node, ni) => {
+    const cardsHtml = (node.items || []).map((item, ii) => {
+      const isLogo = !!item.logo;
+      const thumbInner = isLogo ? renderLogoThumb(item) : renderThumb(item);
+      const thumbClass = isLogo ? 'work-thumb logo-thumb' : 'work-thumb';
+      return `
+        <button class="work-card" data-node="${ni}" data-index="${ii}" aria-label="${item.title}">
+          <div class="${thumbClass}">${thumbInner}</div>
+          <div class="work-meta">
+            <span class="wm-title">${item.title}</span>
+            <span class="wm-sub">${item.sub || ''}</span>
+          </div>
+        </button>
+      `;
+    }).join('');
+    return `
+      <div class="tl-node">
+        <div class="tl-pip"></div>
+        <div class="tl-year">${node.year}</div>
+        <h2 class="tl-label">${node.label}</h2>
+        <div class="tl-narrative">${node.narrative}</div>
+        ${cardsHtml ? `<div class="tl-cards">${cardsHtml}</div>` : ''}
+      </div>
+    `;
+  }).join('');
 
-  // -------- Hash routing (open works panel + activate tab) --------
-  const VALID_HASH = ['sounds', 'writings', 'interviews', 'work'];
+  // Scroll-triggered entrance
+  const tlObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        tlObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  tlEl.querySelectorAll('.tl-node').forEach(n => tlObserver.observe(n));
+
+  // Smooth scroll for works link
+  const worksLink = document.querySelector('.works-link');
+  if (worksLink) {
+    worksLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      tlEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', '#timeline');
+    });
+  }
+
+  // Hash routing
   function applyHash() {
-    const name = (location.hash || '').replace('#', '');
-    if (!VALID_HASH.includes(name)) return;
-    if (!panel.classList.contains('open')) {
-      panel.classList.add('open');
-      toggle.setAttribute('aria-expanded', 'true');
-      panel.setAttribute('aria-hidden', 'false');
+    if (location.hash === '#timeline') {
+      setTimeout(() => tlEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
     }
-    activateTab(name);
-    setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
   }
   window.addEventListener('hashchange', applyHash);
   applyHash();
@@ -1121,6 +1510,8 @@
     } else {
       modalLink.removeAttribute('target');
     }
+    // Hide link if empty
+    modalLink.style.display = (item.linkLabel && item.link && item.link !== '#') ? '' : 'none';
     renderSlide();
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1179,12 +1570,12 @@
     renderSlide();
   }
 
-  grid.addEventListener('click', (e) => {
+  tlEl.addEventListener('click', (e) => {
     const card = e.target.closest('.work-card');
     if (!card) return;
-    const tab = card.dataset.tab;
-    const idx = parseInt(card.dataset.index, 10);
-    const item = WORKS[tab][idx];
+    const ni = parseInt(card.dataset.node, 10);
+    const ii = parseInt(card.dataset.index, 10);
+    const item = TIMELINE[ni]?.items?.[ii];
     if (item) openModal(item);
   });
 
@@ -1197,6 +1588,326 @@
     if (e.key === 'Escape') closeModal();
     if (e.key === 'ArrowLeft') step(-1);
     if (e.key === 'ArrowRight') step(1);
+  });
+
+  // -------- Section illustrations (hand-drawn background art) --------
+  const ILLOS = {
+    'Education': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- open book -->
+      <path d="M60 85 Q40 78 18 82 L18 38 Q40 34 60 42"/>
+      <path d="M60 85 Q80 78 102 82 L102 38 Q80 34 60 42"/>
+      <path d="M60 42 L60 85"/>
+      <!-- pages -->
+      <path d="M30 45 L52 50" opacity="0.4"/><path d="M30 52 L50 56" opacity="0.4"/>
+      <path d="M30 59 L48 62" opacity="0.4"/><path d="M70 50 L90 45" opacity="0.4"/>
+      <path d="M72 56 L90 52" opacity="0.4"/><path d="M74 62 L90 59" opacity="0.4"/>
+      <!-- greek column above book -->
+      <rect x="52" y="10" width="16" height="28" rx="1" opacity="0.3"/>
+      <path d="M50 10 L70 10" opacity="0.4"/><path d="M50 38 L70 38" opacity="0.4"/>
+      <path d="M56 14 L56 34" opacity="0.15"/><path d="M60 14 L60 34" opacity="0.15"/>
+      <path d="M64 14 L64 34" opacity="0.15"/>
+    </svg>`,
+    'Orrick': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- film reel / Social Network nod -->
+      <circle cx="60" cy="50" r="32" opacity="0.3"/>
+      <circle cx="60" cy="50" r="12"/>
+      <circle cx="60" cy="50" r="3" fill="currentColor" opacity="0.3"/>
+      <!-- sprocket holes -->
+      <circle cx="60" cy="22" r="3"/><circle cx="60" cy="78" r="3"/>
+      <circle cx="32" cy="50" r="3"/><circle cx="88" cy="50" r="3"/>
+      <circle cx="40" cy="28" r="2.5" opacity="0.6"/><circle cx="80" cy="28" r="2.5" opacity="0.6"/>
+      <circle cx="40" cy="72" r="2.5" opacity="0.6"/><circle cx="80" cy="72" r="2.5" opacity="0.6"/>
+      <!-- gavel below -->
+      <path d="M42 95 L78 95" stroke-width="1.5"/>
+      <path d="M56 95 L56 88 L64 88 L64 95" stroke-width="1.3"/>
+      <path d="M52 88 L68 88" stroke-width="1.5"/>
+    </svg>`,
+    'Choplogic Radio': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- old radio -->
+      <rect x="24" y="40" width="72" height="52" rx="6"/>
+      <circle cx="52" cy="62" r="14"/>
+      <circle cx="52" cy="62" r="8" opacity="0.4"/>
+      <circle cx="52" cy="62" r="2" fill="currentColor" opacity="0.3"/>
+      <!-- dial -->
+      <rect x="76" y="52" width="12" height="12" rx="6"/>
+      <rect x="76" y="72" width="12" height="6" rx="2" opacity="0.4"/>
+      <!-- antenna -->
+      <path d="M44 40 L32 14"/>
+      <path d="M76 40 L88 18"/>
+      <!-- waves -->
+      <path d="M28 20 Q32 16 36 20" opacity="0.3"/>
+      <path d="M24 24 Q32 14 40 24" opacity="0.2"/>
+      <!-- speaker grille -->
+      <path d="M38 80 L66 80" opacity="0.2"/>
+      <path d="M40 84 L64 84" opacity="0.15"/>
+      <path d="M42 88 L62 88" opacity="0.1"/>
+    </svg>`,
+    'Yelp': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- IPO bell / stock ticker -->
+      <path d="M36 30 L84 30" stroke-width="1.5"/>
+      <path d="M60 30 L60 18"/>
+      <path d="M50 18 Q60 10 70 18"/>
+      <!-- bell shape -->
+      <path d="M38 30 Q38 65 30 78 L90 78 Q82 65 82 30"/>
+      <path d="M55 78 Q60 86 65 78" opacity="0.5"/>
+      <!-- ticker tape -->
+      <path d="M20 98 Q35 92 50 98 Q65 104 80 98 Q95 92 110 98" opacity="0.3"/>
+      <path d="M15 105 Q30 99 45 105 Q60 111 75 105 Q90 99 105 105" opacity="0.2"/>
+    </svg>`,
+    'GitHub': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- git branch diagram -->
+      <circle cx="35" cy="20" r="5"/><circle cx="35" cy="55" r="5"/>
+      <circle cx="35" cy="90" r="5"/><circle cx="80" cy="55" r="5"/>
+      <path d="M35 25 L35 50"/>
+      <path d="M35 60 L35 85"/>
+      <path d="M40 55 L75 55"/>
+      <!-- branch -->
+      <path d="M35 35 Q45 35 55 40 Q70 48 75 55" opacity="0.5"/>
+      <!-- merge -->
+      <path d="M75 55 Q70 62 55 68 Q45 72 35 75" opacity="0.5"/>
+      <!-- code brackets -->
+      <path d="M15 45 L8 55 L15 65" opacity="0.25" stroke-width="1.5"/>
+      <path d="M105 45 L112 55 L105 65" opacity="0.25" stroke-width="1.5"/>
+    </svg>`,
+    'Madrid': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- sun -->
+      <circle cx="60" cy="45" r="16"/>
+      <path d="M60 22 L60 16"/><path d="M60 68 L60 74"/>
+      <path d="M37 45 L31 45"/><path d="M83 45 L89 45"/>
+      <path d="M44 29 L40 25"/><path d="M76 61 L80 65"/>
+      <path d="M76 29 L80 25"/><path d="M44 61 L40 65"/>
+      <!-- arches (Madrid architecture) -->
+      <path d="M20 95 Q20 78 35 78 Q50 78 50 95" opacity="0.4"/>
+      <path d="M50 95 Q50 78 65 78 Q80 78 80 95" opacity="0.4"/>
+      <path d="M80 95 Q80 78 95 78 Q110 78 110 95" opacity="0.3"/>
+      <path d="M15 95 L115 95" opacity="0.3"/>
+    </svg>`,
+    'Merico': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- analytics / bar chart -->
+      <path d="M20 95 L100 95" opacity="0.4"/>
+      <path d="M20 95 L20 20" opacity="0.4"/>
+      <rect x="30" y="55" width="10" height="40" rx="1" opacity="0.3"/>
+      <rect x="48" y="38" width="10" height="57" rx="1" opacity="0.4"/>
+      <rect x="66" y="48" width="10" height="47" rx="1" opacity="0.3"/>
+      <rect x="84" y="28" width="10" height="67" rx="1" opacity="0.5"/>
+      <!-- trend line -->
+      <path d="M25 70 Q45 52 60 58 Q78 65 95 25" stroke-width="1.4" opacity="0.4"/>
+      <circle cx="95" cy="25" r="3" opacity="0.4"/>
+    </svg>`,
+    'Shades Media': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- eye -->
+      <path d="M12 60 Q36 28 60 28 Q84 28 108 60" stroke-width="1.4"/>
+      <path d="M12 60 Q36 92 60 92 Q84 92 108 60" stroke-width="1.4"/>
+      <circle cx="60" cy="60" r="16"/>
+      <circle cx="60" cy="60" r="7" fill="currentColor" opacity="0.15"/>
+      <circle cx="60" cy="60" r="3" fill="currentColor" opacity="0.2"/>
+      <!-- light reflection -->
+      <circle cx="54" cy="54" r="2.5" fill="currentColor" opacity="0.12"/>
+      <!-- lashes / rays -->
+      <path d="M60 28 L60 18" opacity="0.25"/>
+      <path d="M40 32 L35 24" opacity="0.2"/>
+      <path d="M80 32 L85 24" opacity="0.2"/>
+    </svg>`,
+    'Observable': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- notebook / data viz -->
+      <circle cx="60" cy="55" r="30" opacity="0.2"/>
+      <circle cx="60" cy="55" r="20" opacity="0.3"/>
+      <circle cx="60" cy="55" r="10" opacity="0.4"/>
+      <circle cx="60" cy="55" r="3" fill="currentColor" opacity="0.2"/>
+      <!-- orbiting dots -->
+      <circle cx="60" cy="25" r="2.5" fill="currentColor" opacity="0.3"/>
+      <circle cx="88" cy="42" r="2" fill="currentColor" opacity="0.25"/>
+      <circle cx="88" cy="68" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="32" cy="42" r="2" fill="currentColor" opacity="0.25"/>
+      <circle cx="32" cy="68" r="1.5" fill="currentColor" opacity="0.2"/>
+      <!-- axis lines -->
+      <path d="M20 100 L100 100" opacity="0.15"/>
+      <path d="M20 100 L20 90" opacity="0.15"/>
+      <path d="M25 98 L35 92 L50 95 L65 86 L80 88 L95 78" opacity="0.25"/>
+    </svg>`,
+  };
+
+  // Inject illustrations into timeline nodes
+  tlEl.querySelectorAll('.tl-node').forEach((node, i) => {
+    const label = node.querySelector('.tl-label')?.textContent;
+    const svg = ILLOS[label];
+    if (!svg) return;
+    const illo = document.createElement('div');
+    illo.className = 'tl-illo';
+    // Vary the animation timing
+    illo.style.animationDuration = (12 + (i * 2.3)) + 's';
+    illo.style.animationDelay = (i * 0.7) + 's';
+    illo.style.color = '#6a1e1a';
+    illo.innerHTML = svg;
+    node.appendChild(illo);
+  });
+
+  // -------- Deer spirits (stick-and-poke figures) --------
+  const DEER_POSES = [
+    // Pose 1: arms wide, robes flowing — the classic deer.jpg pose
+    `<svg viewBox="0 0 64 88" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="currentColor" stroke-width="1.3">
+        <!-- antlers -->
+        <path d="M26 22 Q24 16 20 10 Q18 7 16 4"/>
+        <path d="M20 10 Q18 12 15 10"/>
+        <path d="M24 16 Q21 15 19 13"/>
+        <path d="M38 22 Q40 16 44 10 Q46 7 48 4"/>
+        <path d="M44 10 Q46 12 49 10"/>
+        <path d="M40 16 Q43 15 45 13"/>
+        <!-- head -->
+        <ellipse cx="32" cy="27" rx="7" ry="6.5"/>
+        <circle cx="29" cy="25.5" r="0.8" fill="currentColor"/>
+        <circle cx="35" cy="25.5" r="0.8" fill="currentColor"/>
+        <path d="M30 29.5 Q32 31 34 29.5"/>
+        <!-- neck -->
+        <path d="M32 33 L32 38"/>
+        <!-- body -->
+        <path d="M32 38 Q31.5 48 32 56"/>
+        <!-- arms wide — flowing sleeves -->
+        <path d="M32 42 Q26 40 18 36 Q14 34 10 35"/>
+        <path d="M18 36 Q16 40 13 42"/>
+        <path d="M18 36 Q17 38 15 39"/>
+        <path d="M32 42 Q38 40 46 36 Q50 34 54 35"/>
+        <path d="M46 36 Q48 40 51 42"/>
+        <path d="M46 36 Q47 38 49 39"/>
+        <!-- robe lines -->
+        <path d="M28 44 Q24 52 20 62"/>
+        <path d="M36 44 Q40 52 44 62"/>
+        <path d="M25 50 Q32 54 39 50" opacity="0.5"/>
+        <!-- legs -->
+        <path d="M32 56 Q28 66 24 76"/>
+        <path d="M32 56 Q36 66 40 76"/>
+        <!-- feet -->
+        <path d="M24 76 Q22 78 20 78"/>
+        <path d="M40 76 Q42 78 44 78"/>
+      </g>
+    </svg>`,
+    // Pose 2: one arm up, dancing
+    `<svg viewBox="0 0 56 84" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="currentColor" stroke-width="1.3">
+        <!-- antlers (smaller) -->
+        <path d="M22 20 Q20 14 18 9 Q17 6 15 4"/>
+        <path d="M20 14 Q18 13 16 12"/>
+        <path d="M34 20 Q36 14 38 9 Q39 6 41 4"/>
+        <path d="M36 14 Q38 13 40 12"/>
+        <!-- head tilted -->
+        <ellipse cx="28" cy="24" rx="6.5" ry="6"/>
+        <circle cx="25.5" cy="22.5" r="0.7" fill="currentColor"/>
+        <circle cx="30.5" cy="22.5" r="0.7" fill="currentColor"/>
+        <path d="M26 26 Q28 27.5 30 26"/>
+        <!-- body -->
+        <path d="M28 30 Q28 40 28 52"/>
+        <!-- arm up! -->
+        <path d="M28 38 Q22 34 16 28 Q13 24 11 20"/>
+        <path d="M28 38 Q34 36 40 38 Q44 40 46 42"/>
+        <!-- robe suggestion -->
+        <path d="M24 42 Q22 50 18 60"/>
+        <path d="M32 42 Q34 50 38 60"/>
+        <!-- legs — one kicked -->
+        <path d="M28 52 Q24 62 22 72"/>
+        <path d="M28 52 Q34 58 40 64"/>
+        <path d="M22 72 Q20 74 19 74"/>
+        <path d="M40 64 Q42 65 43 64"/>
+      </g>
+    </svg>`,
+    // Pose 3: running / striding
+    `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="currentColor" stroke-width="1.3">
+        <!-- antlers -->
+        <path d="M24 18 Q22 12 19 7"/>
+        <path d="M22 12 Q20 11 18 10"/>
+        <path d="M36 18 Q38 12 41 7"/>
+        <path d="M38 12 Q40 11 42 10"/>
+        <!-- head -->
+        <ellipse cx="30" cy="22" rx="6" ry="5.5"/>
+        <circle cx="27.5" cy="20.5" r="0.7" fill="currentColor"/>
+        <circle cx="32.5" cy="20.5" r="0.7" fill="currentColor"/>
+        <!-- body leaning forward -->
+        <path d="M30 27 Q32 38 34 48"/>
+        <!-- arms swinging -->
+        <path d="M31 34 Q24 30 18 32"/>
+        <path d="M31 34 Q38 30 44 26"/>
+        <!-- robe flutter -->
+        <path d="M28 40 Q24 48 20 56" opacity="0.6"/>
+        <path d="M36 40 Q38 48 42 54" opacity="0.6"/>
+        <!-- legs striding -->
+        <path d="M34 48 Q28 58 22 68"/>
+        <path d="M34 48 Q40 56 46 62"/>
+        <path d="M22 68 Q20 70 18 70"/>
+        <path d="M46 62 Q48 63 49 62"/>
+      </g>
+    </svg>`,
+  ];
+
+  // Deer spirit particle field — they drift across the whole page
+  const deerField = document.createElement('div');
+  deerField.className = 'deer-field';
+  document.body.appendChild(deerField);
+
+  function spawnDeer() {
+    const spirit = document.createElement('div');
+    spirit.className = 'deer-spirit';
+    const size = 28 + Math.random() * 20; // 28–48px
+    const pose = DEER_POSES[Math.floor(Math.random() * DEER_POSES.length)];
+    const x = 5 + Math.random() * 90; // 5–95vw
+    const fallDur = 30 + Math.random() * 40; // 30–70s — slow, leisurely
+    const spinDur = 12 + Math.random() * 20; // 12–32s full rotation
+    const spinDir = Math.random() > 0.5 ? '360deg' : '-360deg';
+    const color = Math.random() > 0.4 ? '#1a1714' : '#6a1e1a';
+    const opacity = 0.15 + Math.random() * 0.12; // 0.15–0.27
+    const delay = Math.random() * -fallDur; // stagger across the cycle
+
+    spirit.innerHTML = `<div class="deer-spirit-inner" style="--spin-dur:${spinDur}s;--spin-dir:${spinDir}">${pose}</div>`;
+    spirit.style.cssText = `
+      left: ${x}vw;
+      width: ${size}px;
+      color: ${color};
+      --deer-op: ${opacity};
+      animation: deerFall ${fallDur}s linear ${delay}s infinite;
+    `;
+    deerField.appendChild(spirit);
+  }
+
+  // Few and far between — just enough to be delightful
+  const deerCount = window.innerWidth < 580 ? 4 : 7;
+  for (let i = 0; i < deerCount; i++) spawnDeer();
+
+  // -------- Footer art reveal --------
+  const footerArt = document.getElementById('footerArt');
+  if (footerArt) {
+    const footerObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          footerArt.classList.add('revealed');
+          footerObs.unobserve(footerArt);
+        }
+      });
+    }, { threshold: 0.3 });
+    footerObs.observe(footerArt);
+  }
+
+  // -------- Contact form --------
+  const contactForm = document.getElementById('contactForm');
+  const contactMsg = document.getElementById('contactMsg');
+  const contactSent = document.getElementById('contactSent');
+  // Lightly obfuscated to keep out of plain-text scrapers
+  const _u = ['chopradio', 'gmail.com'].join('@');
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const msg = contactMsg.value.trim();
+    if (!msg) { contactMsg.focus(); return; }
+    const subj = encodeURIComponent('Homepage inquiry — chopradio.com');
+    const body = encodeURIComponent(msg + '\n\n— Sent from chopradio.com');
+    window.location.href = `mailto:${_u}?subject=${subj}&body=${body}`;
+    // Show confirmation
+    contactForm.style.display = 'none';
+    contactSent.style.display = 'inline';
+    haptic('medium');
+    setTimeout(() => {
+      contactForm.style.display = '';
+      contactSent.style.display = 'none';
+      contactMsg.value = '';
+    }, 4000);
   });
 })();
 </script>

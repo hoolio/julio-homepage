@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>American History — A Reading Project — Choplogic Radio</title>
+<style>
+  html {
+    background:
+      radial-gradient(ellipse 1400px 900px at 50% 0%, rgba(196, 125, 40, 0.055), transparent 70%),
+      radial-gradient(ellipse 1100px 700px at 80% 40%, rgba(160, 120, 40, 0.04), transparent 65%),
+      #f9f6f0;
+    background-attachment: fixed;
+  }
+  body {
+    background: transparent;
+    color: #1a1714;
+    font-family: calibri, arial, geneva, helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 100;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+  a { color: #333; }
+  a:hover { color: #800000; }
+
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  .back {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: #aaa;
+    text-decoration: none;
+    margin-bottom: 40px;
+    transition: color 0.2s;
+  }
+  .back:hover { color: #6a1e1a; }
+
+  h1 {
+    font-family: Garamond, Georgia, serif;
+    font-size: 36px;
+    font-weight: normal;
+    letter-spacing: 0.02em;
+    margin: 0 0 12px 0;
+  }
+
+  .subtitle {
+    font-family: Garamond, Georgia, serif;
+    font-size: 17px;
+    font-style: italic;
+    color: #888;
+    margin-bottom: 40px;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  .intro {
+    font-family: Garamond, Georgia, serif;
+    font-size: 16.5px;
+    line-height: 1.7;
+    color: #3a342c;
+    margin-bottom: 48px;
+    max-width: 520px;
+  }
+
+  .era {
+    margin-bottom: 48px;
+  }
+  .era-label {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #6a1e1a;
+    margin-bottom: 6px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(106, 30, 26, 0.15);
+  }
+  .era-title {
+    font-family: Garamond, Georgia, serif;
+    font-size: 20px;
+    font-weight: normal;
+    margin: 12px 0 16px;
+    color: #1a1714;
+  }
+
+  .book {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .book:last-child { border-bottom: none; }
+  .book-title {
+    font-family: Garamond, Georgia, serif;
+    font-size: 15px;
+    font-style: italic;
+    color: #1a1714;
+  }
+  .book-author {
+    font-size: 13px;
+    color: #666;
+    margin-top: 2px;
+  }
+  .book-note {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .placeholder-note {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: #aaa;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 40px;
+    padding: 16px 0;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 10px;
+    color: #bbb;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    margin-top: 40px;
+  }
+
+  @media (max-width: 580px) {
+    .wrap { padding: 40px 18px 60px; }
+    h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <a href="/" class="back">&larr; Choplogic Radio</a>
+
+  <h1>American History</h1>
+  <div class="subtitle">A reading project, more or less in chronological order.</div>
+
+  <div class="intro">
+    I've been working through the history of the United States, book by book, roughly following the chronology. Some of these I picked up on eBay or Amazon over the years; others came from recommendations, rabbit holes, or pure curiosity. This is the running bibliography.
+  </div>
+
+  <!-- ====== Eras and books ====== -->
+  <!-- Add books in chronological-era order. Copy a .book block to add entries. -->
+
+  <div class="era">
+    <div class="era-label">Pre-Colonial &amp; Contact</div>
+    <div class="book">
+      <div class="book-title">1491: New Revelations of the Americas Before Columbus</div>
+      <div class="book-author">Charles C. Mann</div>
+    </div>
+    <div class="book">
+      <div class="book-title">A Voyage Long and Strange</div>
+      <div class="book-author">Tony Horwitz</div>
+    </div>
+  </div>
+
+  <div class="era">
+    <div class="era-label">Colonial Period</div>
+    <div class="book">
+      <div class="book-title">American Colonies: The Settling of North America</div>
+      <div class="book-author">Alan Taylor</div>
+    </div>
+  </div>
+
+  <div class="era">
+    <div class="era-label">Revolution &amp; Founding</div>
+    <div class="book">
+      <div class="book-title">American Creation</div>
+      <div class="book-author">Joseph J. Ellis</div>
+    </div>
+  </div>
+
+  <div class="era">
+    <div class="era-label">Civil War &amp; Reconstruction</div>
+    <div class="book">
+      <div class="book-title">Battle Cry of Freedom</div>
+      <div class="book-author">James M. McPherson</div>
+    </div>
+  </div>
+
+  <div class="era">
+    <div class="era-label">20th Century</div>
+    <div class="book">
+      <div class="book-title">(Add your books here)</div>
+      <div class="book-author"></div>
+    </div>
+  </div>
+
+  <div class="placeholder-note">
+    This bibliography is a work in progress. Books are added as I read them.
+  </div>
+
+</div>
+
+<div class="footer">
+  Choplogic Radio &middot; Est. 2006
+</div>
+
+<div id="chop-nav"></div>
+<script src="/js/chop-nav.js"></script>
+<script src="/js/chop-radio-player.js"></script>
+</body>
+</html>

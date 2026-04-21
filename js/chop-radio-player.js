@@ -232,7 +232,7 @@
     const numEl = document.getElementById('cr-num');
     const progEl = document.getElementById('cr-progress');
 
-    let muted = sessionStorage.getItem(MUTE_KEY) === 'yes';
+    let muted = sessionStorage.getItem(MUTE_KEY) !== 'no';
     let idx = parseInt(sessionStorage.getItem(IDX_KEY) || '0', 10) % TRACKS.length;
     let savedTime = parseFloat(sessionStorage.getItem(TIME_KEY) || '0');
 
@@ -302,10 +302,11 @@
 
     document.getElementById('cr-close').addEventListener('click', () => setMuted(true));
 
-    // Init
-    container.classList.toggle('muted', muted);
+    // Init — always start paused; user must press play
+    muted = true;
+    sessionStorage.setItem(MUTE_KEY, 'yes');
+    container.classList.add('muted');
     load(idx, savedTime);
-    if (!muted) play();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
