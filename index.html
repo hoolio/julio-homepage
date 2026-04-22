@@ -1209,36 +1209,28 @@
     `,
   };
 
-  // -------- Timeline data --------
-  const TIMELINE = [
+  // -------- Timeline data (reverse chronological) --------
+  void [
     {
-      year: '1999–2006',
-      label: 'Education',
-      narrative: 'I went to the University of Florida on an academic scholarship. I studied English with a focus in literary theory and got a minor in Philosophy — ancient philosophy, ontology, and the philosophy of language. I graduated at the top of my class and moved back to New York that fall to study law at Columbia, where I was a Harlan Fiske Stone Scholar. I was especially active in hands-on, clinical work, specializing in juvenile rights. I spent years working with the Juvenile Rights Division of the Legal Aid Society, representing children in the foster care system and fighting for their right to safer, happier homes and lives. As a result of my pro bono work, I was awarded the Janes Marks Murphy Prize for Excellence in Clinical Advocacy at Columbia. During this time, I also published two peer-reviewed papers in psychoanalytic literary criticism — on Shakespeare and Mark Twain.',
+      year: 'Now',
+      label: 'Observable',
+      narrative: 'I\u2019m at Observable, the data visualization platform founded by the creator of D3.js. We\u2019re building the place where people who think in data actually want to work.<br><br>I started learning Japanese in 2025. I\u2019m also working through a long <a href="/home/history/reading/">reading project in American history</a> — roughly chronological, book by book.',
       items: [
         {
-          kicker: 'PsyArt Journal · Peer-reviewed',
-          title: '\u201cThe Unfinished Self\u201d',
-          sub: 'Richard\u2019s gender deformity in 3 Henry VI and Richard III',
-          art: 'psyart_page',
-          link: 'https://psyartjournal.com/article/show/c_avalos_jr-the_unfinished_self_richards_gender_defo',
-          linkLabel: 'Read on PsyArt →',
-          caption: 'A peer-reviewed paper I wrote for PsyArt — the journal founded by Norman Holland, who I studied under at Florida. It examines the relationship between physical deformity and sexual identity in Shakespeare\'s Richard III and 3 Henry VI. The reading takes Richard\'s self-fashioning as a refusal to be made by other people\'s gaze.',
-        },
-        {
-          kicker: 'American Imago 62.1 · Spring 2005',
-          title: '\u201cAn Agony of Pleasurable Suffering\u201d',
-          sub: 'Masochism and maternal deprivation in Mark Twain',
-          art: 'imago_page',
-          link: 'https://muse.jhu.edu/article/181889',
-          linkLabel: 'Read on Project MUSE →',
-          caption: 'A peer-reviewed essay published in American Imago — the journal of psychoanalytic literary criticism founded by Sigmund Freud in 1939 at Johns Hopkins, the year of his death. The piece traces the pervasiveness of masochistic scenes and themes in Twain\'s writing back to the deprivations he suffered at the hands of his mother, Jane Clemens, and to the unconscious fears of passivity and effeminization those deprivations produced. American Imago 62.1, pp. 35\u201358.',
+          kicker: 'Observable \u00b7 current',
+          title: 'Observable',
+          sub: 'Co-CEO & Board Member',
+          logo: '/assets/works/logos/observable.svg',
+          logoMeta: 'Co-CEO \u00b7 current',
+          link: 'https://observablehq.com',
+          linkLabel: 'observablehq.com \u2192',
+          caption: 'Co-CEO of Observable, the platform for collaborative data analysis and visualization, founded by the creator of D3.js.',
         },
       ],
     },
     {
-      year: '2006–2010',
-      label: 'Orrick',
+      year: '2021–2025',
+      label: 'Shades Media',
       narrative: 'My first job out of law school was at Orrick, Herrington & Sutcliffe, doing IP litigation. It made my career. I represented early Facebook and Mark Zuckerberg in the litigation that became the basis for Aaron Sorkin\u2019s <em>The Social Network</em> — the Rashida Jones character was based on me and the other junior associates. I also worked with Apple and LinkedIn in their early days. The work was at the frontier: IP, privacy, cyber governance.',
       items: [
         {
@@ -1432,6 +1424,88 @@
           linkLabel: 'observablehq.com \u2192',
           caption: 'Co-CEO of Observable, the platform for collaborative data analysis and visualization, founded by the creator of D3.js.',
         },
+      ],
+    },
+  ];
+
+  const TIMELINE = [
+    {
+      year: 'Now',
+      label: 'Observable',
+      narrative: 'I\u2019m at Observable, the data visualization platform founded by the creator of D3.js. We\u2019re building the place where people who think in data actually want to work.<br><br>I started learning Japanese in 2025. I\u2019m also working through a long <a href="/home/history/reading/">reading project in American history</a> \u2014 roughly chronological, book by book.',
+      items: [
+        { kicker: 'Observable \u00b7 current', title: 'Observable', sub: 'Co-CEO & Board Member', logo: '/assets/works/logos/observable.svg', logoMeta: 'Co-CEO \u00b7 current', link: 'https://observablehq.com', linkLabel: 'observablehq.com \u2192', caption: 'Co-CEO of Observable, the platform for collaborative data analysis and visualization, founded by the creator of D3.js.' },
+      ],
+    },
+    {
+      year: '2021\u20132025',
+      label: 'Shades Media',
+      narrative: 'Shades was a mobile news app I co-founded with Sonali. We built it for a generation that wanted news to surface its own perspective rather than pretend not to have one. Jeff Grimes was our third co-founder. Metalab designed it. We launched on iOS in 2024. I learned how to build a company from nothing \u2014 how to go from an idea to an App Store listing, how to assemble a team worth assembling. The company wound down in 2025. I\u2019d do it again.',
+      items: [
+        { kicker: 'Shades \u00b7 2021\u20132025', title: 'Shades Media', sub: 'Co-founder', image: '/assets/works/shades-logotype.png', link: 'https://web.archive.org/web/2025/https://www.shadesnews.com/', linkLabel: 'shadesnews.com (archive) \u2192', caption: 'Shades was a mobile news application I co-founded with my wife Sonali Maitra in 2021 \u2014 built for a Generation Z audience that wanted news which surfaced its own perspective rather than pretending not to have one.' },
+        { kicker: 'The Millennial Reset \u00b7 Aug 2023', title: '\u201cWhat Version of Truth...\u201d', sub: 'Podcast', art: 'waveform', link: 'https://open.spotify.com/show/0dKb1fEIgyzmg7ahrd2nGs', linkLabel: 'Listen on Spotify \u2192', caption: 'A 27-minute conversation on The Millennial Reset, recorded in August 2023, on Shades and the broader news ecosystem.' },
+        { kicker: 'True Builders \u00b7 2023', title: 'Breaking Boundaries', sub: 'Podcast', art: 'waveform', link: 'https://podcasts.apple.com/us/podcast/breaking-boundaries-githubs-approach-to-organizational/id1677828595?i=1000623194684', linkLabel: 'Listen on Apple Podcasts \u2192', caption: 'A conversation on True Builders about GitHub\u2019s approach to organizational culture, building Shades, and the path from law to technology leadership.' },
+        { kicker: 'Life Self Mastery \u00b7 2023', title: 'From Law to Tech Startups', sub: 'Podcast', art: 'waveform', link: 'https://open.spotify.com/show/3G514tA5EuZ8Py9ofTXj8T', linkLabel: 'Listen on Spotify \u2192', caption: 'A podcast conversation covering the full arc \u2014 from Facebook and GitHub to Shades News and the leap from law into building companies.' },
+        { kicker: 'Partner Grow \u00b7 2024', title: 'The Future of Media', sub: 'Podcast', art: 'waveform', link: 'https://partnergrow.substack.com/p/julio-avalos-from-shades-news-on', linkLabel: 'Read on Substack \u2192', caption: 'A conversation about Shades News and the future of media \u2014 how news consumption is changing and the business of building a media startup.' },
+      ],
+    },
+    {
+      year: '2018\u2013present',
+      label: 'Merico',
+      narrative: 'I\u2019ve sat on the board at Merico since 2018 \u2014 a developer analytics company out of Beijing. They measure code contributions and developer productivity.',
+      items: [],
+    },
+    {
+      year: '2018\u20132020',
+      label: 'Madrid \ud83c\uddea\ud83c\uddf8',
+      narrative: 'We moved to Madrid \u2014 my wife Sonali and our family. I speak native Spanish and had always wanted to live there. We stayed through the pandemic, which turned out to be the right place for that particular stretch of time. I gave a talk at Stanford\u2019s CodeX FutureLaw conference called \u201cLawyers Are Over! Long Live Lawyers!\u201d and otherwise spent those years with my family and thinking about the world and my next move in it. We moved back to Marin in 2020.',
+      items: [
+        { kicker: 'Stanford CodeX \u00b7 FutureLaw 2019', title: 'Lawyers Are Over! Long Live Lawyers!', sub: 'Conference talk', art: 'scales', link: 'https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/', linkLabel: 'Stanford CodeX \u2192', caption: 'A talk at Stanford\u2019s CodeX FutureLaw conference on the transformation of legal practice.' },
+      ],
+    },
+    {
+      year: '2012\u20132018',
+      label: 'GitHub',
+      narrative: 'I met the GitHub founders in the summer of 2012. The company was still bootstrapped, pre-Series A. I joined that December as Chief Business & Strategy Officer and General Counsel, starting more or less contemporaneously with the A itself. Over six years we went from a small team to the Microsoft acquisition. I ran legal, policy, people, partnerships, marketing, and comms \u2014 and rebuilt the legal practice on top of GitHub itself: lawyers writing in Markdown, opening pull requests, shipping policy the way everyone else shipped code.',
+      items: [
+        { kicker: 'GitHub \u00b7 December 2012 \u2013 September 2018', title: 'GitHub', sub: 'Chief Business / Strategy / Ops & General Counsel', logo: '/assets/works/logos/github.svg', logoMeta: 'COO \u00b7 2012\u20132018', link: 'https://github.com', linkLabel: 'github.com \u2192', caption: 'I met the founders in the summer of 2012, when GitHub was still bootstrapped and pre-Series A. I joined that December and served on the board. Across six years I helped run the company through its hyper-growth.' },
+        { kicker: 'Wall Street Journal \u00b7 Pro Cybersecurity', title: 'GitHub Legal Chief on Privacy & Power', sub: 'Wall Street Journal (2019)', art: 'hedcut', link: 'https://www.wsj.com/articles/github-legal-chief-warns-companies-about-u-s-reluctance-to-regulate-data-privacy-and-security-1551787503', linkLabel: 'Read on WSJ \u2192', caption: 'A WSJ Pro Cybersecurity profile during my time as GitHub\u2019s General Counsel.' },
+        { kicker: 'SaaStr Annual \u00b7 2018', title: 'Successfully Managing the Hyper-Growth Stage', sub: 'SaaStr Annual (2018)', art: 'hypergrowth', link: 'https://www.youtube.com/watch?v=LqgzQkde6Ok', linkLabel: 'Watch on YouTube \u2192', caption: 'A talk at SaaStr Annual 2018 on managing the hyper-growth stage.' },
+        { kicker: 'CNBC \u00b7 Tech Check \u00b7 2018', title: 'GitHub\u2019s Strategy', sub: 'CNBC (2018)', image: '/assets/works/cnbc-hypergrowth.jpg', link: '#', linkLabel: '', caption: 'Live on CNBC Tech Check discussing GitHub\u2019s strategy, the open-source ecosystem, and the future of software development.' },
+        { kicker: 'GitHub Universe \u00b7 2018', title: 'GitHub Universe Keynote', sub: 'Conference keynote', art: 'hypergrowth', link: '#', linkLabel: '', caption: 'Keynote address at GitHub Universe 2018, GitHub\u2019s flagship annual conference.' },
+      ],
+    },
+    {
+      year: '2010\u20132012',
+      label: 'Yelp',
+      narrative: 'Before GitHub, I was at Yelp as Corporate Counsel \u2014 rounding out the other side of my legal training. Corporate work, governance, the machinery of taking a company public. I joined while it was still private and worked on the S-1 and IPO from the inside.',
+      items: [
+        { kicker: 'Yelp \u00b7 Corporate Counsel', title: 'Yelp', sub: 'Corporate Counsel', logo: '/assets/works/logos/yelp.svg', logoMeta: 'Corporate Counsel', link: 'https://www.yelp.com', linkLabel: 'yelp.com \u2192', caption: 'I worked at Yelp as Corporate Counsel. I joined when the company was still private and got to work on the S-1 and the subsequent IPO from the inside.' },
+      ],
+    },
+    {
+      year: '2006\u20132010',
+      label: 'Orrick',
+      narrative: 'My first job out of law school was at Orrick, Herrington & Sutcliffe, doing IP litigation. It made my career. I represented early Facebook and Mark Zuckerberg in the litigation that became the basis for Aaron Sorkin\u2019s <em>The Social Network</em> \u2014 the Rashida Jones character was based on me and the other junior associates. I also worked with Apple and LinkedIn in their early days. The work was at the frontier: IP, privacy, cyber governance.',
+      items: [
+        { kicker: 'Orrick, Herrington & Sutcliffe', title: 'Orrick', sub: 'IP Litigation \u00b7 Managing Associate', logo: '/assets/works/logos/orrick.svg', logoMeta: 'IP Litigation', link: 'https://www.orrick.com', linkLabel: 'orrick.com \u2192', caption: 'I started out at Orrick practicing intellectual-property litigation. I represented early Facebook and Mark Zuckerberg, Apple, and LinkedIn during their early days.' },
+      ],
+    },
+    {
+      year: '2006\u20132012',
+      label: 'Choplogic Radio',
+      narrative: 'During my Orrick years, from a loft in Bushwick called Office Ops, I hosted a pirate radio show. Choplogic Radio ran from 2006 to 2012 \u2014 74 episodes, mostly late at night, for whoever happened to be listening. I started a yoga practice in 2007 that stuck. I trained and got certified as a registered teacher at Laughing Lotus. Good teachers change your life.',
+      items: [
+        { kicker: 'Pirate Radio \u00b7 2006\u20132012', title: 'Choplogic Radio', sub: 'Brooklyn', link: '/home/radio/', linkLabel: 'Enter the archive \u2192', caption: 'Choplogic Radio was a pirate radio show that I hosted from 2006 through 2012. It originally broadcast out of Office Ops, a mixed-use loft space in Bushwick.', slides: [ { image: '/assets/deer.jpg', alt: 'Choplogic Radio' }, { placeholder: { kicker: 'Office Ops \u00b7 Bushwick', title: 'Loft Years', meta: '2006 \u2013 2009' } }, { placeholder: { kicker: 'Late Era', title: 'The Final Broadcasts', meta: '2010 \u2013 2012' } } ] },
+      ],
+    },
+    {
+      year: '1999\u20132006',
+      label: 'Education',
+      narrative: 'I went to the University of Florida on an academic scholarship. I studied English with a focus in literary theory and got a minor in Philosophy \u2014 ancient philosophy, ontology, and the philosophy of language. I graduated at the top of my class and moved back to New York that fall to study law at Columbia, where I was a Harlan Fiske Stone Scholar. I was especially active in hands-on, clinical work, specializing in juvenile rights. I spent years working with the Juvenile Rights Division of the Legal Aid Society, representing children in the foster care system and fighting for their right to safer, happier homes and lives. As a result of my pro bono work, I was awarded the Janes Marks Murphy Prize for Excellence in Clinical Advocacy at Columbia. During this time, I also published two peer-reviewed papers in psychoanalytic literary criticism \u2014 on Shakespeare and Mark Twain.',
+      items: [
+        { kicker: 'PsyArt Journal \u00b7 Peer-reviewed', title: '\u201cThe Unfinished Self\u201d', sub: 'Richard\u2019s gender deformity in 3 Henry VI and Richard III', art: 'psyart_page', link: 'https://psyartjournal.com/article/show/c_avalos_jr-the_unfinished_self_richards_gender_defo', linkLabel: 'Read on PsyArt \u2192', caption: 'A peer-reviewed paper I wrote for PsyArt \u2014 the journal founded by Norman Holland, who I studied under at Florida. It examines the relationship between physical deformity and sexual identity in Shakespeare\u2019s Richard III and 3 Henry VI.' },
+        { kicker: 'American Imago 62.1 \u00b7 Spring 2005', title: '\u201cAn Agony of Pleasurable Suffering\u201d', sub: 'Masochism and maternal deprivation in Mark Twain', art: 'imago_page', link: 'https://muse.jhu.edu/article/181889', linkLabel: 'Read on Project MUSE \u2192', caption: 'A peer-reviewed essay published in American Imago \u2014 the journal of psychoanalytic literary criticism founded by Sigmund Freud in 1939 at Johns Hopkins, the year of his death. American Imago 62.1, pp. 35\u201358.' },
       ],
     },
   ];
