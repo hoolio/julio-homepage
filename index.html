@@ -1251,6 +1251,75 @@
     100% { opacity: 0;    transform: translate(-50%, -50%) scale(0.35); }
   }
 
+  /* Inline footnote — dotted-underline word with a parchment tooltip on
+     hover/focus.  Used for in-narrative annotations like the PsyArt note. */
+  .tl-narrative .footnote {
+    position: relative;
+    color: #6a1e1a;
+    border-bottom: 1px dotted rgba(106, 30, 26, 0.5);
+    cursor: help;
+    transition: color 0.3s ease, border-color 0.3s ease;
+    outline: none;
+  }
+  .tl-narrative .footnote:hover,
+  .tl-narrative .footnote:focus-visible {
+    color: #800000;
+    border-bottom-color: #800000;
+  }
+  .tl-narrative .footnote-pop {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    width: max(280px, min(360px, 80vw));
+    background: #fdfaf2;
+    border: 1px solid rgba(106, 30, 26, 0.18);
+    box-shadow: 0 10px 30px rgba(40, 30, 20, 0.18),
+                0 2px 6px rgba(40, 30, 20, 0.06);
+    padding: 14px 16px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 13.5px;
+    line-height: 1.55;
+    letter-spacing: 0.005em;
+    color: #3a342c;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 50;
+    transition: opacity 0.3s ease,
+                transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0s linear 0.3s;
+  }
+  .tl-narrative .footnote:hover .footnote-pop,
+  .tl-narrative .footnote:focus-visible .footnote-pop {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    transition: opacity 0.3s ease,
+                transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0s linear 0s;
+  }
+  .tl-narrative .footnote-pop::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    width: 0; height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #fdfaf2;
+    filter: drop-shadow(0 1px 0 rgba(106, 30, 26, 0.18));
+  }
+  @media (max-width: 580px) {
+    .tl-narrative .footnote-pop {
+      width: 240px;
+      font-size: 12.5px;
+      padding: 12px 14px;
+    }
+  }
+
   /* (15) Reduced-motion — kill all the new keyframes.  (Existing rules
           cover the timeline + halo + deer fields already.) */
   @media (prefers-reduced-motion: reduce) {
@@ -1660,7 +1729,7 @@
     {
       year: '1999–2006',
       label: 'Education',
-      narrative: 'I went to the University of Florida on an academic scholarship. I studied English with a focus in literary theory and got a minor in Philosophy — ancient philosophy, ontology, and the philosophy of language. I graduated at the top of my class and moved back to New York that fall to study law at Columbia, where I was a Harlan Fiske Stone Scholar. I was especially active in hands-on, clinical work, specializing in juvenile rights. I spent years working with the Juvenile Rights Division of the Legal Aid Society, representing children in the foster care system and fighting for their right to safer, happier homes and lives. As a result of my pro bono work, I was awarded the Janes Marks Murphy Prize for Excellence in Clinical Advocacy at Columbia. During this time, I also published two peer-reviewed papers in psychoanalytic literary criticism — on Shakespeare and Mark Twain.',
+      narrative: 'I went to the University of Florida on an academic scholarship. I studied English with a focus in literary theory and got a minor in Philosophy — ancient philosophy, ontology, and the philosophy of language. I graduated at the top of my class and moved back to New York that fall to study law at Columbia, where I was a Harlan Fiske Stone Scholar. I was especially active in hands-on, clinical work, specializing in juvenile rights. I spent years working with the Juvenile Rights Division of the Legal Aid Society, representing children in the foster care system and fighting for their right to safer, happier homes and lives. As a result of my pro bono work, I was awarded the Janes Marks Murphy Prize for Excellence in Clinical Advocacy at Columbia. During this time, I also completed a couple of long-form academic articles. The first was a peer-reviewed piece on Shakespeare’s <em>Richard III</em> that appeared in <span class="footnote" tabindex="0" role="note">PsyArt<span class="footnote-pop">PsyArt was founded in the early 1990s by the great MIT and Harvard professor, Norman Holland. Holland was a collaborator and later antagonist of Chomsky at MIT, and one of my foundational undergraduate advisors.</span></span>. The second was a study of Mark Twain and his work that appeared in <em>American Imago</em>, the Johns Hopkins-published journal founded there by Sigmund Freud in 1939.',
       items: [
         {
           kicker: 'PsyArt Journal · Peer-reviewed',
