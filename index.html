@@ -13,6 +13,7 @@
       #f0ebe1;
     background-attachment: fixed;
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
   body {
     background: transparent;
@@ -1065,19 +1066,6 @@
     }
   }
 
-  /* (2) Name — per-letter stagger.  JS wraps each char in <span class="h1-ch"
-         style="--i:N">.  We fade them in with a baseline delay + 40ms per char. */
-  .main h1 .h1-ch {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(14px);
-    animation: h1ChIn 0.7s cubic-bezier(0.22, 1, 0.36, 1)
-               calc(0.55s + var(--i) * 0.04s) forwards;
-  }
-  @keyframes h1ChIn {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
   /* (4) Divider — draws left-to-right after the name lands. */
   .divider {
     width: 0;
@@ -1237,9 +1225,10 @@
   .modal-backdrop > .modal { z-index: 2; }
 
   /* (14) Cursor trail — small oxblood dot, fades out, only over interactive
-          elements (JS gate). */
+          elements (JS gate).  position: fixed so transient dots near the
+          right edge never extend the document scrollWidth on mobile. */
   .cursor-dot {
-    position: absolute;
+    position: fixed;
     width: 5px;
     height: 5px;
     border-radius: 50%;
@@ -1328,7 +1317,6 @@
           cover the timeline + halo + deer fields already.) */
   @media (prefers-reduced-motion: reduce) {
     .portrait,
-    .main h1 .h1-ch,
     .divider,
     .timeline-trigger-stitch::before,
     .footer-tower .arc {
@@ -1459,21 +1447,6 @@
   }
 })();
 
-// (2) Wrap each <h1> character in a span so CSS can stagger the letters in.
-(function() {
-  var h1 = document.querySelector('.main h1');
-  if (!h1) return;
-  var text = h1.textContent;
-  h1.textContent = '';
-  Array.prototype.forEach.call(text, function(ch, i) {
-    var span = document.createElement('span');
-    span.className = 'h1-ch';
-    span.style.setProperty('--i', i);
-    span.textContent = ch === ' ' ? ' ' : ch;
-    h1.appendChild(span);
-  });
-})();
-
 // (14) Cursor trail — small oxblood dot fading out, only over interactive
 // elements.  Skipped on touch and reduced-motion.
 (function() {
@@ -1488,8 +1461,8 @@
     last = now;
     var dot = document.createElement('div');
     dot.className = 'cursor-dot';
-    dot.style.left = e.pageX + 'px';
-    dot.style.top = e.pageY + 'px';
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
     document.body.appendChild(dot);
     setTimeout(function() { dot.remove(); }, 800);
   }, { passive: true });
@@ -1739,7 +1712,7 @@
     {
       year: '2006–2010',
       label: 'Orrick',
-      narrative: 'My first job out of law school was at Orrick, Herrington & Sutcliffe, doing IP litigation. It made my career. I was recruited by Neil Chatterjee to represent early Facebook and Mark Zuckerberg in a case brought by his Harvard roommates, who claimed that he’d ripped off their idea for a website. The case was the basis for Aaron Sorkin\u2019s <em>The Social Network</em> — the Rashida Jones character was based on me and the other junior associates. I also worked with Apple and LinkedIn in their early days. The work was at the frontier: IP, privacy, cyber governance.',
+      narrative: 'My first job out of law school was at Orrick, Herrington & Sutcliffe, doing IP litigation. I started in New York in 2006. It made my career. In late 2007 I moved to the Bay Area, where I was recruited by Neil Chatterjee to represent early Facebook and Mark Zuckerberg in a case brought by his Harvard roommates, who claimed that he’d ripped off their idea for a website. The case was the basis for Aaron Sorkin\u2019s <em>The Social Network</em> — the Rashida Jones character was based on me and the other junior associates. I also worked with Apple and LinkedIn in their early days. The work was at the frontier: IP, privacy, cyber governance.',
       items: [
         {
           kicker: 'Orrick, Herrington & Sutcliffe',
@@ -1757,7 +1730,7 @@
     {
       year: '2006–2012',
       label: 'Choplogic Radio',
-      narrative: 'Around the same time, from a loft in Bushwick called Office Ops, I started hosting a pirate radio show. Choplogic Radio ran from 2006 to 2012 — 74 episodes, mostly late at night, for whoever happened to be listening. I started a yoga practice in 2007 that stuck. I trained and got certified as a registered teacher at Laughing Lotus. Good teachers change your life.',
+      narrative: 'During my New York years, from a loft in Bushwick called Office Ops, I started hosting a pirate radio show. Choplogic Radio launched in 2006 and kept running for six years even after I moved out west — 74 episodes in all, mostly late at night, for whoever happened to be listening. I started a yoga practice in 2007 that stuck. I trained and got certified as a registered teacher at Laughing Lotus. Good teachers change your life.',
       items: [
         {
           kicker: 'Pirate Radio \u00b7 2006\u20132012',
@@ -1847,93 +1820,28 @@
       ],
     },
     {
-      year: '2018–2020',
-      label: 'Madrid 🇪🇸',
-      narrative: 'After GitHub, we moved to Madrid — my wife Sonali and our family. I speak native Spanish and had always wanted to live there. We stayed through the pandemic, which turned out to be the right place for that particular stretch of time. I gave a talk at Stanford\u2019s CodeX FutureLaw conference called \u201cLawyers Are Over! Long Live Lawyers!\u201d and otherwise spent those years with my family and thinking about the world and my next move in it. We moved back to Marin in 2020.',
+      year: '2018–now',
+      label: 'Building',
+      narrative: 'After GitHub, my wife Sonali Maitra and I founded Shades, a mobile news app for a Generation Z audience that wanted news to surface its own perspective rather than pretend not to have one. We launched on iOS in 2024 with our co-founder Jeff Grimes; Metalab designed it. The company wound down in 2025. I learned how to build a company from nothing — how to get from an idea to an App Store listing — and I’d do it again.<br><br>In parallel, I’ve served on the board of Merico since 2018 — a developer-analytics company out of Beijing measuring code contributions and developer productivity at scale.<br><br>Today I’m at Observable, as Co-CEO alongside Mike Bostock. Observable is the platform for collaborative data analysis and visualization. It is not an AI company. It’s the place where people who think in data actually want to work, and the home of much of the most serious data work being published on the web. Mike is the creator of D3.js, the open-source library that powers the modern web’s data graphics. Before Observable he spent years on the New York Times’ graphics desk, where he helped build the visual-journalism infrastructure that now defines the form. Work done on Observable today reaches some of the most ambitious data teams on the planet — at Fortune 500s, research labs, governments, and newsrooms — and the platform sits at the center of how the world’s most consequential datasets get analyzed, shared, and reasoned about.<br><br>What I work on now lives at the harder edges of where data, software, and AI are headed — state, persistence, provenance, reproducibility. The things notebooks have always understood, and that no other interface for working with data has really cracked. I’m hard at work on this in 2026, and I’ll be at it well beyond.',
       items: [
         {
-          kicker: 'Stanford CodeX \u00b7 FutureLaw 2019',
-          title: 'Lawyers Are Over! Long Live Lawyers!',
-          sub: 'Conference talk',
-          art: 'scales',
-          link: 'https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/',
-          linkLabel: 'Stanford CodeX \u2192',
-          caption: 'A talk at Stanford\u2019s CodeX FutureLaw conference on the transformation of legal practice — how technology is reshaping what it means to be a lawyer, and why that\u2019s both overdue and terrifying.',
-        },
-      ],
-    },
-    {
-      year: '2018–present',
-      label: 'Merico',
-      narrative: 'I\u2019ve sat on the board at Merico since 2018 — a developer analytics company out of Beijing. They measure code contributions and developer productivity. ',
-      items: [],
-    },
-    {
-      year: '2021–2025',
-      label: 'Shades Media',
-      narrative: 'Shades was a mobile news app I co-founded with Sonali. We built it for a generation that wanted news to surface its own perspective rather than pretend not to have one. Jeff Grimes was our third co-founder. Metalab designed it. We launched on iOS in 2024. I learned how to build a company from nothing — how to go from an idea to an App Store listing, how to assemble a team worth assembling. The company wound down in 2025. I\u2019d do it again.',
-      items: [
-        {
-          kicker: 'Shades \u00b7 2021\u20132025',
+          kicker: 'Shades · 2021–2025',
           title: 'Shades Media',
           sub: 'Co-founder',
           image: '/assets/works/shades-logotype.png',
           link: 'https://web.archive.org/web/2025/https://www.shadesnews.com/',
-          linkLabel: 'shadesnews.com (archive) \u2192',
+          linkLabel: 'shadesnews.com (archive) →',
           caption: 'Shades was a mobile news application I co-founded with my wife Sonali Maitra in 2021 — built for a Generation Z audience that wanted news which surfaced its own perspective rather than pretending not to have one. We spent four years growing the app, building the editorial voice, and rethinking the relationship between people and the news they consume.',
         },
         {
-          kicker: 'The Millennial Reset \u00b7 Aug 2023',
-          title: '\u201cWhat Version of Truth...\u201d',
-          sub: 'Podcast',
-          art: 'waveform',
-          link: 'https://open.spotify.com/show/0dKb1fEIgyzmg7ahrd2nGs',
-          linkLabel: 'Listen on Spotify \u2192',
-          caption: 'A 27-minute conversation on The Millennial Reset, recorded in August 2023, on Shades and the broader news ecosystem — perception and verification, the difference between information and understanding, and how a younger generation is rebuilding its relationship with the news.',
-        },
-        {
-          kicker: 'True Builders \u00b7 2023',
-          title: 'Breaking Boundaries',
-          sub: 'Podcast',
-          art: 'waveform',
-          link: 'https://podcasts.apple.com/us/podcast/breaking-boundaries-githubs-approach-to-organizational/id1677828595?i=1000623194684',
-          linkLabel: 'Listen on Apple Podcasts \u2192',
-          caption: 'A conversation on True Builders about breaking boundaries — GitHub\u2019s approach to organizational culture, building Shades, and the path from law to technology leadership.',
-        },
-        {
-          kicker: 'Life Self Mastery \u00b7 2023',
-          title: 'From Law to Tech Startups',
-          sub: 'Podcast',
-          art: 'waveform',
-          link: 'https://open.spotify.com/show/3G514tA5EuZ8Py9ofTXj8T',
-          linkLabel: 'Listen on Spotify \u2192',
-          caption: 'A podcast conversation on Life Self Mastery covering the full arc — from Facebook and GitHub to Shades News and the leap from law into building companies.',
-        },
-        {
-          kicker: 'Partner Grow \u00b7 2024',
-          title: 'The Future of Media',
-          sub: 'Podcast',
-          art: 'waveform',
-          link: 'https://partnergrow.substack.com/p/julio-avalos-from-shades-news-on',
-          linkLabel: 'Read on Substack \u2192',
-          caption: 'A conversation with Partner Grow about Shades News and the future of media — how news consumption is changing, what younger audiences actually want, and the business of building a media startup.',
-        },
-      ],
-    },
-    {
-      year: 'Now',
-      label: 'Observable',
-      narrative: 'Now I\u2019m at Observable, the data visualization platform founded by the creator of D3.js. We\u2019re building the place where people who think in data actually want to work.<br><br>I started learning Japanese in 2025. I\u2019m also working through a long <a href="/home/history/reading/">reading project in American history</a> — roughly chronological, book by book.',
-      items: [
-        {
-          kicker: 'Observable \u00b7 current',
+          kicker: 'Observable · current',
           title: 'Observable',
           sub: 'Co-CEO & Board Member',
           logo: '/assets/works/logos/observable.svg',
           logoColor: '#F26322',
-          logoMeta: 'Co-CEO \u00b7 current',
+          logoMeta: 'Co-CEO · current',
           link: 'https://observablehq.com',
-          linkLabel: 'observablehq.com \u2192',
+          linkLabel: 'observablehq.com →',
           caption: 'Co-CEO of Observable, the platform for collaborative data analysis and visualization, founded by the creator of D3.js.',
         },
       ],
