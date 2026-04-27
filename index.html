@@ -577,16 +577,20 @@
   .work-thumb .logo-mark {
     width: 60%;
     height: 50%;
-    background-color: #2c2620;
+    background-color: #2c2620; /* fallback when no logoColor is set */
     -webkit-mask-position: center;
             mask-position: center;
     -webkit-mask-repeat: no-repeat;
             mask-repeat: no-repeat;
     -webkit-mask-size: contain;
             mask-size: contain;
-    transition: background-color 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.4s ease;
   }
-  .work-card:hover .logo-mark { background-color: #6a1e1a; }
+  .work-card:hover .logo-mark {
+    transform: scale(1.06);
+    filter: brightness(1.08) saturate(1.15);
+  }
   .work-thumb .logo-meta {
     margin-top: 18px;
     font-size: 9px;
@@ -1729,7 +1733,7 @@
     {
       year: '1999–2006',
       label: 'Education',
-      narrative: 'I went to the University of Florida on an academic scholarship. I studied English with a focus in literary theory and got a minor in Philosophy — ancient philosophy, ontology, and the philosophy of language. I graduated at the top of my class and moved back to New York that fall to study law at Columbia, where I was a Harlan Fiske Stone Scholar. I was especially active in hands-on, clinical work, specializing in juvenile rights. I spent years working with the Juvenile Rights Division of the Legal Aid Society, representing children in the foster care system and fighting for their right to safer, happier homes and lives. As a result of my pro bono work, I was awarded the Janes Marks Murphy Prize for Excellence in Clinical Advocacy at Columbia. During this time, I also completed a couple of long-form academic articles. The first was a peer-reviewed piece on Shakespeare’s <em>Richard III</em> that appeared in <span class="footnote" tabindex="0" role="note">PsyArt<span class="footnote-pop">PsyArt was founded in the early 1990s by the great MIT and Harvard professor, Norman Holland. Holland was a collaborator and later antagonist of Chomsky at MIT, and one of my foundational undergraduate advisors.</span></span>. The second was a study of Mark Twain and his work that appeared in <em>American Imago</em>, the Johns Hopkins-published journal founded there by Sigmund Freud in 1939.',
+      narrative: 'I went to the University of Florida on an academic scholarship. I studied English with a focus in literary theory and got a minor in Philosophy — ancient philosophy, ontology, and the philosophy of language. I graduated at the top of my class and moved back to New York that fall to study law at Columbia, where I was a Harlan Fiske Stone Scholar. I was especially active in hands-on, clinical work, specializing in juvenile rights. I spent years working with the Juvenile Rights Division of the Legal Aid Society, representing children in the foster care system. As a result of my pro bono work, I was awarded the Janes Marks Murphy Prize for Excellence in Clinical Advocacy at Columbia. During this time, I also completed a couple of long-form academic articles. The first was a peer-reviewed piece on Shakespeare’s <em>Richard III</em> that appeared in <span class="footnote" tabindex="0" role="note">PsyArt<span class="footnote-pop">PsyArt was founded in the early 1990s by the great MIT and Harvard professor, Norman Holland. Holland was a collaborator and later antagonist of Chomsky at MIT, and one of my foundational undergraduate advisors.</span></span>. The second was a study of Mark Twain and his work that appeared in <em>American Imago</em>, the Johns Hopkins-published journal founded there by Sigmund Freud in 1939.',
       items: [
         {
           kicker: 'PsyArt Journal · Peer-reviewed',
@@ -1761,6 +1765,7 @@
           title: 'Orrick',
           sub: 'IP Litigation \u00b7 Managing Associate',
           logo: '/assets/works/logos/orrick.svg',
+          logoColor: '#5A7837',
           logoMeta: 'IP Litigation',
           link: 'https://www.orrick.com',
           linkLabel: 'orrick.com \u2192',
@@ -1798,6 +1803,7 @@
           title: 'Yelp',
           sub: 'Corporate Counsel',
           logo: '/assets/works/logos/yelp.svg',
+          logoColor: '#D32323',
           logoMeta: 'Corporate Counsel',
           link: 'https://www.yelp.com',
           linkLabel: 'yelp.com \u2192',
@@ -1815,6 +1821,7 @@
           title: 'GitHub',
           sub: 'Chief Business / Strategy / Ops & General Counsel',
           logo: '/assets/works/logos/github.svg',
+          logoColor: '#24292F',
           logoMeta: 'COO \u00b7 2012\u20132018',
           link: 'https://github.com',
           linkLabel: 'github.com \u2192',
@@ -1942,6 +1949,7 @@
           title: 'Observable',
           sub: 'Co-CEO & Board Member',
           logo: '/assets/works/logos/observable.svg',
+          logoColor: '#F26322',
           logoMeta: 'Co-CEO \u00b7 current',
           link: 'https://observablehq.com',
           linkLabel: 'observablehq.com \u2192',
@@ -1971,9 +1979,12 @@
     `;
   }
   function renderLogoThumb(item) {
-    const mask = `-webkit-mask-image:url('${item.logo}');mask-image:url('${item.logo}');`;
+    const color = item.logoColor || '#2c2620';
+    const style =
+      `-webkit-mask-image:url('${item.logo}');mask-image:url('${item.logo}');` +
+      `background-color:${color};`;
     return `
-      <div class="logo-mark" style="${mask}"></div>
+      <div class="logo-mark" style="${style}"></div>
       ${item.logoMeta ? `<div class="logo-meta">${item.logoMeta}</div>` : ''}
     `;
   }
@@ -2111,8 +2122,9 @@
       } else if (item.logo && slide === item) {
         node = document.createElement('div');
         node.className = 'placeholder modal-logo';
+        const color = item.logoColor || '#6a1e1a';
         node.innerHTML = `
-          <div class="logo-mark" style="-webkit-mask-image:url('${item.logo}');mask-image:url('${item.logo}');"></div>
+          <div class="logo-mark" style="-webkit-mask-image:url('${item.logo}');mask-image:url('${item.logo}');background-color:${color};"></div>
           ${item.kicker ? `<div class="ph-kicker" style="margin-top:22px">${item.kicker}</div>` : ''}
         `;
       } else {
