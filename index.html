@@ -254,27 +254,10 @@
     transition: background-color 0.4s ease, transform 0.4s ease;
   }
   .timeline-btn:hover .tb-pip { background: currentColor; }
-  .timeline-btn .tb-caret {
-    display: inline-block;
-    font-size: 12px;
-    transform: translateY(1px);
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .timeline-btn[aria-expanded="true"] .tb-caret {
-    transform: translateY(1px) rotate(180deg);
-  }
   .timeline-btn[aria-expanded="true"] .tb-pip {
     background: currentColor;
     transform: scale(1.15);
   }
-  .timeline-trigger-meta {
-    margin-top: 18px;
-    color: rgba(26, 23, 20, 0.45);
-    font: italic 14px/1.4 Georgia, 'Times New Roman', serif;
-    letter-spacing: 0.02em;
-    transition: opacity 0.4s ease;
-  }
-  .timeline-btn[aria-expanded="true"] ~ .timeline-trigger-meta { opacity: 0.35; }
   /* Hint stitch — short dotted segment under the button suggesting the timeline spine below */
   .timeline-trigger-stitch {
     width: 1px;
@@ -1330,9 +1313,8 @@
   <button type="button" class="timeline-btn" id="timelineBtn" aria-expanded="false" aria-controls="timeline">
     <span class="tb-pip" aria-hidden="true"></span>
     <span class="tb-label">CV</span>
-    <span class="tb-caret" aria-hidden="true">▾</span>
+    <span class="tb-pip" aria-hidden="true"></span>
   </button>
-  <div class="timeline-trigger-meta">a longer story</div>
   <div class="timeline-trigger-stitch" aria-hidden="true"></div>
 </div>
 
