@@ -13,7 +13,6 @@
       #f0ebe1;
     background-attachment: fixed;
     scroll-behavior: smooth;
-    overflow-x: hidden;
   }
   body {
     background: transparent;
@@ -456,6 +455,7 @@
     max-width: 540px;
     margin-bottom: 22px;
     letter-spacing: 0.005em;
+    overflow-wrap: break-word;
   }
   .tl-narrative em {
     font-style: italic;
@@ -1259,11 +1259,15 @@
     color: #800000;
     border-bottom-color: #800000;
   }
+  /* display:none when hidden so the wide popup never contributes to
+     document scrollWidth on mobile.  Entrance is a CSS keyframe so the
+     fade-in still feels nice when the user hovers/focuses. */
   .tl-narrative .footnote-pop {
+    display: none;
     position: absolute;
     bottom: calc(100% + 12px);
     left: 50%;
-    transform: translateX(-50%) translateY(6px);
+    transform: translateX(-50%);
     width: max(280px, min(360px, 80vw));
     background: #fdfaf2;
     border: 1px solid rgba(106, 30, 26, 0.18);
@@ -1277,21 +1281,16 @@
     letter-spacing: 0.005em;
     color: #3a342c;
     pointer-events: none;
-    opacity: 0;
-    visibility: hidden;
     z-index: 50;
-    transition: opacity 0.3s ease,
-                transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-                visibility 0s linear 0.3s;
   }
   .tl-narrative .footnote:hover .footnote-pop,
   .tl-narrative .footnote:focus-visible .footnote-pop {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-    transition: opacity 0.3s ease,
-                transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-                visibility 0s linear 0s;
+    display: block;
+    animation: footnoteIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes footnoteIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
   }
   .tl-narrative .footnote-pop::after {
     content: '';
