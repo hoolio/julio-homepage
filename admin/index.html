@@ -231,11 +231,28 @@ function sha256_js(ascii) {
   return r;
 }
 
+// 30-day cookie alongside localStorage so the unlock survives Safari's
+// ITP, profile sync, and routine cache clearing.  Once the real backend
+// is in, this gets replaced by an HMAC-signed httpOnly session cookie.
+function setUnlockedCookie() {
+  const days = 30;
+  const exp = new Date(Date.now() + days * 86400 * 1000).toUTCString();
+  document.cookie = `${UNLOCKED}=yes; expires=${exp}; path=/; SameSite=Lax`;
+}
+function clearUnlockedCookie() {
+  document.cookie = `${UNLOCKED}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax`;
+}
+function isUnlocked() {
+  if (localStorage.getItem(UNLOCKED) === 'yes') return true;
+  return document.cookie.split(';').some(c => c.trim().startsWith(UNLOCKED + '=yes'));
+}
+
 async function unlock(ev) {
   ev.preventDefault();
   const pw = document.getElementById('lock-pw').value;
   if (await sha256(pw) === HASH) {
     localStorage.setItem(UNLOCKED, 'yes');
+    setUnlockedCookie();
     document.getElementById('lock').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     init();
@@ -248,10 +265,15 @@ async function unlock(ev) {
 
 function lockSession() {
   localStorage.removeItem(UNLOCKED);
+  clearUnlockedCookie();
   location.reload();
 }
 
-if (localStorage.getItem(UNLOCKED) === 'yes') {
+if (isUnlocked()) {
+  // Refresh the cookie expiry whenever the page is loaded, so as long as
+  // you visit /admin once a month it stays unlocked.
+  localStorage.setItem(UNLOCKED, 'yes');
+  setUnlockedCookie();
   document.getElementById('lock').style.display = 'none';
   document.getElementById('app').style.display = 'block';
   init();
