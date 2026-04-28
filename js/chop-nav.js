@@ -171,8 +171,13 @@
   function render() {
     const host = document.getElementById('chop-nav');
     if (!host) return;
+    // On the radio archive itself the brand mark points home; everywhere
+    // else it links to the archive.
+    const onRadio = /^\/home\/radio\/?($|\?|#)/.test(window.location.pathname);
+    const brandHref = onRadio ? '/' : '/home/radio/';
+    const brandLabel = onRadio ? 'julio avalos — home' : 'chopradio — archive';
     host.innerHTML = `
-      <a class="cn-brand" href="/home/radio/" aria-label="chopradio — archive">
+      <a class="cn-brand" href="${brandHref}" aria-label="${brandLabel}">
         ${COLOPHON}
         <span>chop<span class="wm-italic">radio</span></span>
       </a>
