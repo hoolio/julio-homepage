@@ -202,12 +202,11 @@
     color: #6a1e1a;
     text-decoration: none;
     border-bottom: 1px solid rgba(106, 30, 26, 0.35);
-    transition: border-color 0.3s ease, color 0.3s ease, letter-spacing 0.3s ease;
+    transition: border-color 0.3s ease, color 0.3s ease;
   }
   .works-link:hover {
     color: #800000;
     border-color: #800000;
-    letter-spacing: 0.01em;
   }
 
   /* ---------- Timeline trigger (button) ---------- */
@@ -1077,8 +1076,10 @@
     to { width: 28px; }
   }
 
-  /* (5) Links table rows — subtle warm wash on hover, tiny shift on the
-         label cell to reinforce "row is alive". */
+  /* (5) Links table rows — warm wash on hover, label color shift only.
+         Avoid any property that triggers layout (padding, width, letter-
+         spacing): a layout-changing hover reads as row-by-row jitter as
+         the cursor crosses rows. */
   .links-table tr {
     transition: background-color 0.35s ease;
   }
@@ -1086,11 +1087,9 @@
     background-color: rgba(106, 30, 26, 0.025);
   }
   .links-table tr td:first-child {
-    transition: padding-left 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-                color 0.35s ease;
+    transition: color 0.35s ease;
   }
   .links-table tr:hover td:first-child {
-    padding-left: 4px;
     color: #a08060;
   }
 
