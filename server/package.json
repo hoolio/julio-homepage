@@ -1,0 +1,18 @@
+{
+  "name": "choplogic-analytics",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Bespoke OSS analytics for chopradio.com — Node + better-sqlite3.",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs",
+    "init-db": "sqlite3 analytics.db < schema.sql"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.5.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
