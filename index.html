@@ -2074,6 +2074,31 @@
     if (item) openModal(item);
   });
 
+  // "The medium is the problem" — inline preview modal so the Recent
+  // featured piece doesn't bounce people off the page.  Observable's
+  // CSP blocks iframe embedding (frame-ancestors 'none'), so this is
+  // a curated rich preview with an escape hatch to read on Observable.
+  document.querySelectorAll('a[href*="medium-is-the-problem"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      // Honor cmd/ctrl/shift-click and middle-click — let those open
+      // the real link in a new tab as the user expects.
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      openModal({
+        kicker: 'Observable · Blog · March 2025',
+        title: 'The medium is the problem',
+        caption: 'AI code generation produces more code faster, but widens the comprehension gap — the solution isn’t better generation, it’s restoring the “write, run, inspect” loop at machine speed.',
+        link: 'https://observablehq.com/blog/the-medium-is-the-problem',
+        linkLabel: 'Read on Observable →',
+        placeholder: {
+          kicker: 'Observable · Blog',
+          title: 'The medium is the problem',
+          meta: 'March 2025',
+        },
+      });
+    });
+  });
+
   modalClose.addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
   modalPrev.addEventListener('click', (e) => { e.stopPropagation(); step(-1); });
