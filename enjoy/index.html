@@ -5,136 +5,168 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enjoy the Box! — Julio Avalos</title>
   <meta name="description" content="A theoretical reconstruction of the AI transition and operating framework for evaluating future value in AI.">
-  <link rel="stylesheet" href="/css/style.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap');
+
+    :root {
+      --paper: #fbf7f0;
+      --paper-edge: #f3ede0;
+      --ink: #1a1813;
+      --ink-soft: #3a352c;
+      --ink-faint: #6b6354;
+      --rule: #d9d2c2;
+      --accent: #8b3a2a;
+      --accent-hover: #6e2c1f;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 18px; -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Source Serif 4', Georgia, 'Iowan Old Style', serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    ::selection { background: #f4dca0; color: var(--ink); }
+
     .reader {
-      max-width: 720px;
+      max-width: 680px;
       margin: 0 auto;
-      padding: 4rem 1.5rem 6rem;
+      padding: 3.5rem 1.5rem 6rem;
     }
     .reader-back {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--text-tertiary);
-      margin-bottom: 2.5rem;
+      color: var(--ink-faint);
+      margin-bottom: 3rem;
       display: inline-block;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
     }
-    .reader-back:hover { color: var(--gold); }
-    .prose {
-      font-family: var(--serif);
-      font-size: 1.125rem;
-      line-height: 1.75;
-      color: var(--text);
-    }
+    .reader-back:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+    .prose { font-size: 1.0625rem; }
     .prose h1 {
-      font-family: var(--serif);
       font-size: 2.25rem;
       line-height: 1.2;
       font-weight: 700;
-      color: var(--text);
-      margin: 0 0 2rem;
-      letter-spacing: -0.01em;
+      margin: 0 0 2.5rem;
+      letter-spacing: -0.015em;
     }
     .prose h2 {
-      font-family: var(--serif);
-      font-size: 1.6rem;
+      font-size: 1.55rem;
       line-height: 1.3;
-      font-weight: 600;
-      color: var(--text);
-      margin: 3rem 0 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border);
+      font-weight: 700;
+      margin: 3.25rem 0 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      letter-spacing: -0.01em;
     }
     .prose h3 {
-      font-family: var(--serif);
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 600;
-      color: var(--text);
-      margin: 2.25rem 0 0.75rem;
+      margin: 2.25rem 0 0.5rem;
+      letter-spacing: -0.005em;
     }
     .prose h4 {
-      font-family: var(--sans);
-      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--gold);
+      letter-spacing: 0.08em;
+      color: var(--ink-soft);
       margin: 2rem 0 0.5rem;
     }
-    .prose p { margin: 0 0 1.25rem; }
-    .prose a { color: var(--gold); border-bottom: 1px solid var(--border-hover); }
-    .prose a:hover { color: var(--gold-bright); border-bottom-color: var(--gold); }
-    .prose strong { color: var(--text); font-weight: 600; }
-    .prose em { color: var(--text); }
+    .prose p { margin: 0 0 1.1rem; }
+    .prose a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid #d4b8a8;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .prose a:hover { color: var(--accent-hover); border-bottom-color: var(--accent); }
+    .prose strong { font-weight: 700; color: var(--ink); }
+    .prose em { font-style: italic; }
     .prose blockquote {
-      border-left: 2px solid var(--gold-dim);
+      border-left: 3px solid var(--rule);
       padding-left: 1.25rem;
       margin: 1.5rem 0;
-      color: var(--text-secondary);
+      color: var(--ink-soft);
       font-style: italic;
     }
     .prose ul, .prose ol { margin: 0 0 1.25rem 1.5rem; }
-    .prose li { margin-bottom: 0.5rem; }
+    .prose li { margin-bottom: 0.4rem; }
     .prose hr {
       border: none;
-      border-top: 1px solid var(--border);
-      margin: 2.5rem 0;
+      border-top: 1px solid var(--rule);
+      margin: 2.5rem auto;
+      width: 60%;
     }
     .prose code {
-      font-family: var(--mono);
-      font-size: 0.9em;
-      background: var(--bg-surface);
-      padding: 0.15em 0.4em;
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      font-size: 0.88em;
+      background: var(--paper-edge);
+      padding: 0.12em 0.35em;
       border-radius: 3px;
-      color: var(--text);
     }
     .prose pre {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
+      background: var(--paper-edge);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
       padding: 1rem 1.25rem;
       overflow-x: auto;
       margin: 1.5rem 0;
       font-size: 0.9rem;
-      line-height: 1.5;
+      line-height: 1.55;
     }
-    .prose pre code {
-      background: none;
-      padding: 0;
-      border-radius: 0;
-    }
+    .prose pre code { background: none; padding: 0; }
     .prose table {
       width: 100%;
       border-collapse: collapse;
       margin: 1.75rem 0;
-      font-family: var(--sans);
-      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
       display: block;
       overflow-x: auto;
     }
     .prose th, .prose td {
-      border: 1px solid var(--border);
-      padding: 0.6rem 0.85rem;
+      border: 1px solid var(--rule);
+      padding: 0.55rem 0.8rem;
       text-align: left;
       vertical-align: top;
     }
-    .prose th {
-      background: var(--bg-surface);
-      color: var(--gold);
-      font-weight: 600;
-    }
-    .prose img { max-width: 100%; height: auto; border-radius: var(--radius-sm); }
+    .prose th { background: var(--paper-edge); font-weight: 600; }
+    .prose img { max-width: 100%; height: auto; border-radius: 4px; }
+
     .reader-loading {
-      font-family: var(--mono);
-      color: var(--text-tertiary);
+      font-family: 'Inter', sans-serif;
+      color: var(--ink-faint);
       font-size: 0.85rem;
     }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #1d1a14;
+        --paper-edge: #262219;
+        --ink: #ece4d2;
+        --ink-soft: #c5bba4;
+        --ink-faint: #8a806c;
+        --rule: #3a3428;
+        --accent: #d49266;
+        --accent-hover: #e6a87c;
+      }
+      .prose a { border-bottom-color: #6b4a35; }
+    }
+
     @media (max-width: 640px) {
+      html { font-size: 17px; }
       .reader { padding: 2.5rem 1.25rem 4rem; }
-      .prose { font-size: 1.05rem; }
-      .prose h1 { font-size: 1.75rem; }
+      .prose h1 { font-size: 1.85rem; }
       .prose h2 { font-size: 1.35rem; }
     }
   </style>

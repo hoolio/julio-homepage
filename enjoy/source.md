@@ -145,53 +145,11 @@ It is analytically clarifying to set the three transitions side-by-side. The
 lineage from craft to system to commodity is the same in all three; what differs
 is the layer of human capability being abstracted.
 
-Transition
-
-Period
-
-What is industrialized
-
-Characteristic input
-
-Characteristic infrastructure
-
-Characteristic commodity
-
-**First**
-
-c. 1760–1850
-
-Physical force
-
-Coal, water, steam
-
-Mills, foundries, railways
-
-Pig iron, textiles, kilowatts
-
-**Second**
-
-c. 1940–2010
-
-Symbol manipulation
-
-Silicon, bandwidth
-
-Mainframes, internet, cloud
-
-CPU cycles, packets, storage
-
-**Third**
-
-c. 2017–
-
-Cognitive judgment
-
-GPUs, training data
-
-Foundation labs, agent fabric
-
-Tokens, inferences, decisions
+| Transition | Period | What is industrialized | Characteristic input | Characteristic infrastructure | Characteristic commodity |
+| --- | --- | --- | --- | --- | --- |
+| **First** | c. 1760–1850 | Physical force | Coal, water, steam | Mills, foundries, railways | Pig iron, textiles, kilowatts |
+| **Second** | c. 1940–2010 | Symbol manipulation | Silicon, bandwidth | Mainframes, internet, cloud | CPU cycles, packets, storage |
+| **Third** | c. 2017– | Cognitive judgment | GPUs, training data | Foundation labs, agent fabric | Tokens, inferences, decisions |
 
 Several observations follow from this periodization. These aren’t unique to me
 or this paper, though they do compound in novel ways once combined.
@@ -290,7 +248,7 @@ the most aggressive vertical applications of AI are presently emerging.[^1]
 [^1]: Michael Polanyi, at least, was unambiguously not a Marxist, which is worth
 noting given the tongue-in-cheek title of this paper.
 
-### 5. Commodification: From Marx to the API
+### 5. Commodification: From Marx to the API (or, from craft to cruft)
 
 **Commodification** describes the process by which a previously embedded,
 particular, qualitatively distinctive activity becomes a fungible, exchangeable
@@ -621,29 +579,13 @@ dependency on novel or discretionary spend.
 
 Each factor is scored on a 1–5 scale, with the following interpretive anchors:
 
-Score
-
-Meaning
-
-1
-
-Factor is absent or actively negative
-
-2
-
-Factor is weakly present; mostly aspirational
-
-3
-
-Factor is credibly present; competitive with peers
-
-4
-
-Factor is a structural strength; differentiated
-
-5
-
-Factor is a category-defining moat
+| Score | Meaning |
+| --- | --- |
+| 1 | Factor is absent or actively negative |
+| 2 | Factor is weakly present; mostly aspirational |
+| 3 | Factor is credibly present; competitive with peers |
+| 4 | Factor is a structural strength; differentiated |
+| 5 | Factor is a category-defining moat |
 
 The aggregate score (sum across seven factors, max 35) is interpretable as a
 single number, but the *shape* of the score matters more than the magnitude. A
