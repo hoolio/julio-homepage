@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enjoy the Box! — Julio Avalos</title>
+  <meta name="description" content="A theoretical reconstruction of the AI transition and operating framework for evaluating future value in AI.">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .reader {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 6rem;
+    }
+    .reader-back {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 2.5rem;
+      display: inline-block;
+    }
+    .reader-back:hover { color: var(--gold); }
+    .prose {
+      font-family: var(--serif);
+      font-size: 1.125rem;
+      line-height: 1.75;
+      color: var(--text);
+    }
+    .prose h1 {
+      font-family: var(--serif);
+      font-size: 2.25rem;
+      line-height: 1.2;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 2rem;
+      letter-spacing: -0.01em;
+    }
+    .prose h2 {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      line-height: 1.3;
+      font-weight: 600;
+      color: var(--text);
+      margin: 3rem 0 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .prose h3 {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 2.25rem 0 0.75rem;
+    }
+    .prose h4 {
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gold);
+      margin: 2rem 0 0.5rem;
+    }
+    .prose p { margin: 0 0 1.25rem; }
+    .prose a { color: var(--gold); border-bottom: 1px solid var(--border-hover); }
+    .prose a:hover { color: var(--gold-bright); border-bottom-color: var(--gold); }
+    .prose strong { color: var(--text); font-weight: 600; }
+    .prose em { color: var(--text); }
+    .prose blockquote {
+      border-left: 2px solid var(--gold-dim);
+      padding-left: 1.25rem;
+      margin: 1.5rem 0;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+    .prose ul, .prose ol { margin: 0 0 1.25rem 1.5rem; }
+    .prose li { margin-bottom: 0.5rem; }
+    .prose hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+    .prose code {
+      font-family: var(--mono);
+      font-size: 0.9em;
+      background: var(--bg-surface);
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      color: var(--text);
+    }
+    .prose pre {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .prose pre code {
+      background: none;
+      padding: 0;
+      border-radius: 0;
+    }
+    .prose table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.75rem 0;
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      display: block;
+      overflow-x: auto;
+    }
+    .prose th, .prose td {
+      border: 1px solid var(--border);
+      padding: 0.6rem 0.85rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    .prose th {
+      background: var(--bg-surface);
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .prose img { max-width: 100%; height: auto; border-radius: var(--radius-sm); }
+    .reader-loading {
+      font-family: var(--mono);
+      color: var(--text-tertiary);
+      font-size: 0.85rem;
+    }
+    @media (max-width: 640px) {
+      .reader { padding: 2.5rem 1.25rem 4rem; }
+      .prose { font-size: 1.05rem; }
+      .prose h1 { font-size: 1.75rem; }
+      .prose h2 { font-size: 1.35rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="reader">
+    <a href="/" class="reader-back">← julio avalos</a>
+    <article class="prose" id="content">
+      <p class="reader-loading">Loading…</p>
+    </article>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    (async () => {
+      try {
+        const res = await fetch('source.md');
+        const md = await res.text();
+        marked.setOptions({ gfm: true, breaks: false });
+        document.getElementById('content').innerHTML = marked.parse(md);
+        const h1 = document.querySelector('#content h1');
+        if (h1) document.title = h1.textContent + ' — Julio Avalos';
+      } catch (e) {
+        document.getElementById('content').innerHTML =
+          '<p>Could not load the document. <a href="source.md">View source</a>.</p>';
+      }
+    })();
+  </script>
+</body>
+</html>
