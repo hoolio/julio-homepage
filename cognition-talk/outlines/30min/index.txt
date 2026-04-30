@@ -1,0 +1,465 @@
+1:"$Sreact.fragment"
+2:I[2619,["619","static/chunks/619-ba102abea3e3d0e4.js","24","static/chunks/app/outlines/page-50a74f1476a1ffa8.js"],""]
+3:I[9766,[],""]
+4:I[8924,[],""]
+6:I[4431,[],"OutletBoundary"]
+8:I[5278,[],"AsyncMetadataOutlet"]
+a:I[4431,[],"ViewportBoundary"]
+c:I[4431,[],"MetadataBoundary"]
+d:"$Sreact.suspense"
+f:I[7150,[],""]
+:HL["/cognition-talk/_next/static/css/5b24b9c19631ba92.css","style"]
+0:{"P":null,"b":"D4oNxQ0pyHMh2MGWG82wT","p":"/cognition-talk","c":["","outlines","30min",""],"i":false,"f":[[["",{"children":["outlines",{"children":[["slug","30min","d"],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/cognition-talk/_next/static/css/5b24b9c19631ba92.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","html",null,{"lang":"en","children":["$","body",null,{"children":[["$","header",null,{"className":"site-header","children":["$","nav",null,{"className":"site-nav","children":[["$","$L2",null,{"href":"/","className":"brand","children":"Cognition Talk"}],["$","div",null,{"className":"links","children":[["$","$L2",null,{"href":"/memo/","children":"Memo"}],["$","$L2",null,{"href":"/critical-memo/","children":"Critical"}],["$","$L2",null,{"href":"/outlines/","children":"Outlines"}],["$","$L2",null,{"href":"/slides/","children":"Slides"}],["$","$L2",null,{"href":"/speaker-notes/","children":"Notes"}],["$","$L2",null,{"href":"/playground/","children":"Playground"}]]}]]}]}],["$","main",null,{"className":"site-main","children":["$","$L3",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","footer",null,{"className":"site-footer","children":["$","p",null,{"children":["Source: ",["$","a",null,{"href":"https://github.com/hoolio/cognition-talk","children":"github.com/hoolio/cognition-talk"}]]}]}]]}]}]]}],{"children":["outlines",["$","$1","c",{"children":[null,["$","$L3",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["slug","30min","d"],["$","$1","c",{"children":[null,["$","$L3",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":["__PAGE__",["$","$1","c",{"children":["$L5",null,["$","$L6",null,{"children":["$L7",["$","$L8",null,{"promise":"$@9"}]]}]]}],{},null,false]},null,false]},null,false]},null,false],["$","$1","h",{"children":[null,[["$","$La",null,{"children":"$Lb"}],null],["$","$Lc",null,{"children":["$","div",null,{"hidden":true,"children":["$","$d",null,{"fallback":null,"children":"$Le"}]}]}]]}],false]],"m":"$undefined","G":["$f",[]],"s":false,"S":true}
+b:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+7:null
+9:{"metadata":[["$","title","0",{"children":"The Industrialization of Cognition"}],["$","meta","1",{"name":"description","content":"Memo, outlines, and talk materials."}]],"error":null,"digest":"$undefined"}
+e:"$9:metadata"
+10:T5a14,<h1 id="the-industrialization-of-cognition--30-minute-talk-outline"><a href="#the-industrialization-of-cognition--30-minute-talk-outline">The Industrialization of Cognition — 30-Minute Talk Outline</a></h1>
+<p><strong>Audience:</strong> Sequoia / Thrive partners' meeting (Alfred Lin and selected partners)
+<strong>Format:</strong> ~25 min talk + 5 min Q&#x26;A
+<strong>Slide count:</strong> 14 slides (target ~2 min/slide; Q&#x26;A absorbs slack)
+<strong>Throughline:</strong> The pin factory restated for cognition → triadic structure → seven-factor matrix → applied across categories, verticals, and the combined Sequoia+Thrive book → white space.</p>
+<hr>
+<h2 id="pacing-map"><a href="#pacing-map">Pacing map</a></h2>
+<table>
+<thead>
+<tr>
+<th>Block</th>
+<th>Slides</th>
+<th>Time</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Opening hook</td>
+<td>1</td>
+<td>2 min</td>
+<td>Earn the philosophical register; promise the payoff</td>
+</tr>
+<tr>
+<td>Part I — The Frame</td>
+<td>2–4</td>
+<td>6 min</td>
+<td>Three transitions, triadic structure, chain</td>
+</tr>
+<tr>
+<td>Part II — The Heuristic</td>
+<td>5–6</td>
+<td>5 min</td>
+<td>The seven-factor matrix, the reformulated thesis</td>
+</tr>
+<tr>
+<td>Part III — Application</td>
+<td>7–11</td>
+<td>10 min</td>
+<td>Categories, verticals, Sequoia book, Thrive book, buzz screen</td>
+</tr>
+<tr>
+<td>Part IV — Conviction</td>
+<td>12–14</td>
+<td>5 min</td>
+<td>Hot takes, white space, close</td>
+</tr>
+<tr>
+<td>Q&#x26;A</td>
+<td>—</td>
+<td>5 min</td>
+<td>Reserve for the trust-layer / runtime discussion</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="slide-1--opening-smiths-pin-factory-restated"><a href="#slide-1--opening-smiths-pin-factory-restated">Slide 1 — Opening: "Smith's pin factory, restated"</a></h2>
+<ul>
+<li><strong>One-line hook:</strong> <em>"In 1776 Adam Smith made a parable out of pins. It wasn't about productivity. It was about what happens when expert judgment becomes a property of the system instead of the artisan."</em></li>
+<li><strong>Bullets on slide:</strong>
+<ul>
+<li>The pin factory was an epistemological claim, not an efficiency one</li>
+<li>The factory knew how to make pins; no individual worker did</li>
+<li>250 years later, this is happening to cognitive work</li>
+</ul>
+</li>
+<li><strong>Talk track:</strong>
+<ul>
+<li>Set the register: this is not "AI is going to be big." It's a structural claim about which industrial revolution we're in.</li>
+<li>Promise: a heuristic, a matrix, then the map.</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Stark text slide. Optional: an 18th-century engraving of a pin factory, low contrast, behind the text.</li>
+<li><strong>Time:</strong> 2 min</li>
+</ul>
+<hr>
+<h2 id="slide-2--three-industrial-transitions"><a href="#slide-2--three-industrial-transitions">Slide 2 — Three Industrial Transitions</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"Three transitions. Same arc. Different layer of human capability."</em></li>
+<li><strong>Slide content:</strong> A 3-row table.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Transition</th>
+<th>What is industrialized</th>
+<th>Characteristic infrastructure</th>
+<th>Characteristic commodity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>First (1760–1850)</td>
+<td>Muscular force</td>
+<td>Mills, foundries, railways</td>
+<td>Pig iron, kilowatts</td>
+</tr>
+<tr>
+<td>Second (1940–2010)</td>
+<td>Symbol manipulation</td>
+<td>Mainframes, internet, cloud</td>
+<td>CPU cycles, packets</td>
+</tr>
+<tr>
+<td>Third (2017– )</td>
+<td><strong>Cognitive judgment</strong></td>
+<td>Foundation labs, agent fabric</td>
+<td><strong>Tokens, inferences, decisions</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Talk track key lines:</strong>
+<ul>
+<li>"Each transition's commodity is the prior transition's craft."</li>
+<li>"The blacksmith's craft became the foundry's commodity. The bookkeeper's craft became the spreadsheet's commodity. The associate attorney's craft is becoming the foundation model's commodity."</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Clean three-row table. Highlight row three.</li>
+<li><strong>Time:</strong> 2 min</li>
+</ul>
+<hr>
+<h2 id="slide-3--the-triadic-structure"><a href="#slide-3--the-triadic-structure">Slide 3 — The Triadic Structure</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"Every industrial transition runs on three forces. They are running on cognition right now."</em></li>
+<li><strong>Slide content:</strong> Three concept boxes:
+<ul>
+<li><strong>Specialization</strong> — Smith → Durkheim → Braverman. Decomposes expert work into discrete operations. Currently: junior associate, junior physician, junior analyst.</li>
+<li><strong>Commodification</strong> — Marx → Polanyi. Renders operations into fungible market inputs. Currently: per-token inference, metered cognition, fab-economic foundation labs.</li>
+<li><strong>Black-boxing</strong> — Latour → Pasquale → Burrell. Encapsulates capability behind interfaces that hide complexity. Currently: foundation models, by structural design, not engineering accident.</li>
+</ul>
+</li>
+<li><strong>Talk track key lines:</strong>
+<ul>
+<li>"The black box is not a bug. It's the condition of the system being usable. The factory was a black box too."</li>
+<li>"But every black box that produces consequential outputs creates a market for inspection."</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Three vertical boxes side-by-side. Each with one philosopher's name and one current-cycle example.</li>
+<li><strong>Time:</strong> 2 min</li>
+</ul>
+<hr>
+<h2 id="slide-4--the-chain"><a href="#slide-4--the-chain">Slide 4 — The Chain</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"This is the trajectory. The interesting question is where, along it, durable value accrues."</em></li>
+<li><strong>Slide content:</strong> A single horizontal arrow chain:</li>
+</ul>
+<blockquote>
+<p>tacit expert judgment → codified procedure → model-mediated workflow → system of record / system of action → commoditized output</p>
+</blockquote>
+<ul>
+<li>Underneath, three highlighted positions of capture:
+<ol>
+<li><strong>System layer</strong> (codification → workflow): the OS-position of the third transition</li>
+<li><strong>Trust layer</strong> (workflow → consequential deployment): the apparatus that wraps the black box</li>
+<li><strong>Vertical layer</strong> (workflow → professional domain): institutional integration in regulated work</li>
+</ol>
+</li>
+<li><strong>Talk track key lines:</strong>
+<ul>
+<li>"Don't ask who uses AI. Everyone will. Ask who owns the layer where scarce expertise becomes reusable infrastructure."</li>
+<li>"Three positions are structurally privileged. The matrix on the next slide is how we score them."</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> One horizontal arrow with five labels. Three callouts above the arrow showing the privileged capture positions.</li>
+<li><strong>Time:</strong> 2 min</li>
+</ul>
+<hr>
+<h2 id="slide-5--the-seven-factor-matrix"><a href="#slide-5--the-seven-factor-matrix">Slide 5 — The Seven-Factor Matrix</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"Seven factors. Each maps to one element of the triadic structure. Each company gets a 1–5 score."</em></li>
+<li><strong>Slide content:</strong> Two columns.
+<ul>
+<li>Left: the seven factors with one-line definitions:
+<ol>
+<li><strong>Cognitive Externalization</strong> — encodes expert work into systems</li>
+<li><strong>Workflow Ownership</strong> — sits inside recurring work, not one-off</li>
+<li><strong>Epistemic Trust / Auditability</strong> — inspectable, citable, traceable</li>
+<li><strong>System-of-Action</strong> — executes, doesn't just recommend</li>
+<li><strong>Data / Feedback Loop</strong> — usage compounds advantage</li>
+<li><strong>Commoditization Resistance</strong> — hard for the labs to crush</li>
+<li><strong>Budget Gravity</strong> — attaches to large existing spend</li>
+</ol>
+</li>
+<li>Right: a small radar chart (or a horizontal bar chart) of an exemplar (Harvey or Sierra) showing the seven scores.</li>
+</ul>
+</li>
+<li><strong>Talk track key lines:</strong>
+<ul>
+<li>"Aggregate score matters. The shape matters more."</li>
+<li>"A 28 with 5s on workflow and budget but a 2 on commoditization resistance is a different investment than a 28 with 5s on resistance and budget."</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Two-column. The exemplar radar chart is the visual anchor.</li>
+<li><strong>Time:</strong> 3 min</li>
+</ul>
+<hr>
+<h2 id="slide-6--the-reformulated-heuristic"><a href="#slide-6--the-reformulated-heuristic">Slide 6 — The Reformulated Heuristic</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"The matrix collapses to one sentence."</em></li>
+<li><strong>Slide content:</strong> Block-quote on the slide:</li>
+</ul>
+<blockquote>
+<p>The strongest AI investment is in a firm that <strong>captures an expensive cognitive workflow</strong>, <strong>embeds itself in the system of record or system of action</strong>, <strong>compounds through proprietary feedback</strong>, and <strong>preserves enough epistemic trust</strong> that regulated or fiduciary institutions can rely on it.</p>
+<p>The weakest is a thin presentation layer over a generic model.</p>
+<p>The strongest wedge is <strong>industrialized cognition with inspectability</strong>.</p>
+</blockquote>
+<ul>
+<li>Below: three pathways in declining cycle attractiveness:
+<ol>
+<li>Own the system layer</li>
+<li>Preserve interpretability and control</li>
+<li>Verticalize cognition</li>
+</ol>
+</li>
+<li>Avoid: undifferentiated wrappers around frontier models on generic knowledge work.</li>
+<li><strong>Talk track:</strong>
+<ul>
+<li>This is the slide to slow down on. Read the three highlighted phrases out loud.</li>
+<li>"Industrialized cognition with inspectability" is the line that lands.</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Mostly text. Bold the three highlighted phrases in the quote.</li>
+<li><strong>Time:</strong> 2 min</li>
+</ul>
+<hr>
+<h2 id="slide-7--the-categorical-map"><a href="#slide-7--the-categorical-map">Slide 7 — The Categorical Map</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"Eight categories. Scored on the matrix. Two clear winners, two clear traps, four contested."</em></li>
+<li><strong>Slide content:</strong> Eight rows, each with a one-line definition and a "matrix posture" tag.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Matrix posture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. Foundation labs</td>
+<td>Fab economics: high externalization, weak workflow, frontier-only commoditization resistance</td>
+</tr>
+<tr>
+<td>B. AI infrastructure</td>
+<td>Picks-and-shovels; strong if real supply constraint, weak if cloud-resale</td>
+</tr>
+<tr>
+<td>C. Agent infrastructure</td>
+<td>High system-of-action; absorption risk from labs/browsers</td>
+</tr>
+<tr>
+<td><strong>D. Vertical expert systems</strong></td>
+<td><strong>Highest uniform matrix scores. Best near-term category.</strong></td>
+</tr>
+<tr>
+<td><strong>E. Coding / software creation</strong></td>
+<td><strong>Highest capture; variable defensibility. Crowded but enormous.</strong></td>
+</tr>
+<tr>
+<td>F. Creative media</td>
+<td>Explosive demand; brutal commoditization unless workflow-owning</td>
+</tr>
+<tr>
+<td>G. Scientific discovery</td>
+<td>Long-cycle, structurally privileged, bimodal outcomes</td>
+</tr>
+<tr>
+<td>H. CX / sales / GTM agents</td>
+<td>Cleanest end-to-end agent deployment in commercial workflows</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Talk track key lines:</strong>
+<ul>
+<li>"Best near-term commercial category is vertical expert systems. Largest decadal upside is scientific discovery."</li>
+<li>"Avoid the middle of foundation labs and the middle of creative media."</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Eight-row table. Bold rows D and E.</li>
+<li><strong>Time:</strong> 2 min</li>
+</ul>
+<hr>
+<h2 id="slide-8--vertical-decomposition"><a href="#slide-8--vertical-decomposition">Slide 8 — Vertical Decomposition</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"Categories are the technology axis. Verticals are the demand axis. The matrix scores highest at the intersections below."</em></li>
+<li><strong>Slide content:</strong> Ranked list of nine verticals with one-line attractiveness reads:
+<ol>
+<li>Legal services — $350B+, regulated, document-intensive</li>
+<li>Healthcare admin / clinical — largest budget, most regulated</li>
+<li>Software development — largest discretionary technical budget, fastest feedback</li>
+<li>Customer experience — direct FTE replacement, measurable in weeks</li>
+<li>Financial research and analysis — defensible once integrated</li>
+<li>Scientific R&#x26;D — long-cycle, highest decadal upside</li>
+<li>Enterprise knowledge — workflow-or-die; platform overhang risk</li>
+<li>Creative / brand production — high demand, high commoditization</li>
+<li>Robotics / embodied — long bet of the cycle</li>
+</ol>
+</li>
+<li><strong>Talk track key line:</strong>
+<ul>
+<li>"The cycle-relevant ordering puts vertical-expert and coding at the top. The decadal-relevant ordering promotes scientific discovery and embodied AI considerably. That's a different memo."</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Ranked list with budget gravity column on the right.</li>
+<li><strong>Time:</strong> 2 min</li>
+</ul>
+<hr>
+<h2 id="slide-9--sequoia-ai-book-with-the-lin-attributed-shape"><a href="#slide-9--sequoia-ai-book-with-the-lin-attributed-shape">Slide 9 — Sequoia AI Book (with the Lin-attributed shape)</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"Sequoia is heavy on workflow-vertical. Lin's pattern compounds it."</em></li>
+<li><strong>Slide content:</strong> Three columns.
+<ul>
+<li><strong>Foundation / infrastructure:</strong> OpenAI, xAI, Together AI, Hugging Face, Reka, LangChain</li>
+<li><strong>Vertical and workflow (Lin-shaped):</strong> Harvey, Glean, Hebbia, Sierra, Decagon, Notion</li>
+<li><strong>Coding and prosumer:</strong> Anysphere/Cursor, Cognition, Zapier (as agent rail)</li>
+</ul>
+</li>
+<li>Below: the Lin pattern note: <em>"Category-defining workflow infrastructure attached to large, durable budgets — the §11 heuristic restated as a partner-level investing pattern."</em></li>
+<li><strong>Talk track key lines:</strong>
+<ul>
+<li>"The Lin shape isn't 'AI.' It's category-defining workflow software at scale, applied to the new substrate. Harvey is the cleanest expression. Sierra is the second."</li>
+<li>"The book's matrix-skew: high on workflow ownership, high on budget gravity, variable on commoditization resistance."</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Three-column logo grid. Bold the four anchors (Harvey, Sierra, Glean, Cursor).</li>
+<li><strong>Time:</strong> 2 min</li>
+</ul>
+<hr>
+<h2 id="slide-10--thrive-ai-book"><a href="#slide-10--thrive-ai-book">Slide 10 — Thrive AI Book</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"Thrive is heavy on the foundation layer and the prosumer surface."</em></li>
+<li><strong>Slide content:</strong> Three columns.
+<ul>
+<li><strong>Foundation:</strong> OpenAI (anchor), Anthropic, Mistral</li>
+<li><strong>Prosumer / coding:</strong> Anysphere/Cursor, Lovable, Perplexity</li>
+<li><strong>Vertical / infrastructure:</strong> Hippocratic AI, Ambience, Mercor, Replicate</li>
+</ul>
+</li>
+<li>Below: <em>"Structurally complementary to Sequoia. Combined view gives near-comprehensive coverage of the §11 heuristic."</em></li>
+<li><strong>Talk track key lines:</strong>
+<ul>
+<li>"OpenAI exposure alone is a meaningful share of expected cycle value capture."</li>
+<li>"The under-allocated layer in <em>both</em> books is the trust apparatus. That's the white space."</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Three-column logo grid; OpenAI logo enlarged as the anchor.</li>
+<li><strong>Time:</strong> 2 min</li>
+</ul>
+<hr>
+<h2 id="slide-11--the-buzz-ranked-universe-snapshot"><a href="#slide-11--the-buzz-ranked-universe-snapshot">Slide 11 — The Buzz-Ranked Universe (Snapshot)</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"~180 firms in the working universe. The matrix produces a short list."</em></li>
+<li><strong>Slide content:</strong> Compressed visual — eleven stacked rows, one per category, with a sparse logo strip per row showing the top 3–5 firms in each category in current-importance order.</li>
+<li>The point of the slide is <em>visual density</em>, not legibility of every name. The audience should feel the shape of the universe and trust that the matrix narrows it.</li>
+<li>Below: a short-list call-out showing the matrix-derived top picks across categories: <strong>Harvey, Sierra, Cursor, Cognition, Abridge, Hippocratic, Lila Sciences, Patronus AI, Parallel.</strong></li>
+<li><strong>Talk track key line:</strong>
+<ul>
+<li>"The screen has 180 names. The matrix returns nine."</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Logo wall with a clear short-list call-out box.</li>
+<li><strong>Time:</strong> 2 min</li>
+</ul>
+<hr>
+<h2 id="slide-12--hot-takes-highlighted-five"><a href="#slide-12--hot-takes-highlighted-five">Slide 12 — Hot Takes (Highlighted Five)</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"Five contested positions held with conviction."</em></li>
+<li><strong>Slide content:</strong> Five short statements, no elaboration on slide:
+<ol>
+<li><strong>Foundation-lab winners are already chosen.</strong> The middle of the pack will not survive the next training cycle.</li>
+<li><strong>"Agent platform" as a stand-alone category will compress.</strong> Defensible agent-infra is cross-platform and policy-governed: payments, identity, eval, audit.</li>
+<li><strong>Coding will not consolidate to one winner.</strong> IDE-native, autonomous-task, AI-prototyping, and lab-native are different products. Each produces a category-defining firm.</li>
+<li><strong>The trust layer is the most undervalued category in the cycle.</strong> Observability/eval/audit firms are priced as developer tools. They should be priced as financial-services software.</li>
+<li><strong>The black-box critique is permanent, not temporary.</strong> Treat regulatory posture as permanent market structure, not transient burden.</li>
+</ol>
+</li>
+<li><strong>Talk track:</strong>
+<ul>
+<li>Hit each in 30 seconds. Don't elaborate; let them spark Q&#x26;A.</li>
+<li>The fourth take is the bridge to the next slide.</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Five numbered statements, generous spacing, large typography.</li>
+<li><strong>Time:</strong> 3 min</li>
+</ul>
+<hr>
+<h2 id="slide-13--the-white-space-an-inspectable-runtime-for-cognitive-work"><a href="#slide-13--the-white-space-an-inspectable-runtime-for-cognitive-work">Slide 13 — The White Space: An Inspectable Runtime for Cognitive Work</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"This is the position the combined Sequoia+Thrive book is missing. The matrix scores it 32–34 out of 35."</em></li>
+<li><strong>Slide content:</strong> Define the inspectable runtime by five properties:
+<ol>
+<li>Agents reason, execute, and write to systems of record from inside it</li>
+<li>Intermediate state is <strong>visible and reproducible</strong> — chain of inference, tools called, data fetched, assumptions made</li>
+<li>Outputs are <strong>durable artifacts</strong> — versionable, citable, provenance-attached — not chat logs</li>
+<li><strong>Cross-platform, policy-governed</strong> — not owned by any single foundation lab or hyperscaler</li>
+<li>The black box at the model layer remains a black box. The workflow around it is <strong>glass.</strong></li>
+</ol>
+</li>
+<li>Below: <em>Successor category to the data-science notebook, the BI dashboard, and the developer IDE. Each prior cognitive surface produced category-defining firms.</em></li>
+<li><strong>Talk track key lines:</strong>
+<ul>
+<li>"Inspection is the product, not a feature."</li>
+<li>"Cross-platform posture is structurally hard for foundation labs to match. That's the moat."</li>
+<li>"This is the §11 heuristic at its strongest expression that isn't already saturated with capital."</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Five-property block. Optional: a stylized "glass workflow / opaque core" diagram showing inspection wrapping the model.</li>
+<li><strong>Time:</strong> 3 min</li>
+</ul>
+<hr>
+<h2 id="slide-14--close"><a href="#slide-14--close">Slide 14 — Close</a></h2>
+<ul>
+<li><strong>One-line:</strong> <em>"The question and the answer."</em></li>
+<li><strong>Slide content:</strong> Two-line slide:
+<ul>
+<li><strong>The question:</strong> <em>Who owns the layer where formerly scarce expertise becomes reusable infrastructure — and does that ownership preserve the inspection that institutions require?</em></li>
+<li><strong>The answer:</strong> <em>The matrix prices it. The white space answers it.</em></li>
+</ul>
+</li>
+<li><strong>Talk track:</strong>
+<ul>
+<li>End on the matrix and the runtime. Stop talking.</li>
+<li>Don't summarize. The audience has the deck.</li>
+</ul>
+</li>
+<li><strong>Visual:</strong> Stark. Question on top. Answer below. End slide.</li>
+<li><strong>Time:</strong> 1 min, then take questions.</li>
+</ul>
+<hr>
+<h2 id="talk-track-tips"><a href="#talk-track-tips">Talk-Track Tips</a></h2>
+<ul>
+<li><strong>Two memorable phrases to repeat:</strong> <em>"industrialized cognition with inspectability"</em> and <em>"the workflow around it is glass."</em> Use each three times.</li>
+<li><strong>The pin factory bookend:</strong> open with it on Slide 1, callback on Slide 13 ("the inspectable runtime is the pin factory's foreman — the one who <em>can</em> account for the production.").</li>
+<li><strong>Where to slow down:</strong> Slides 4, 6, and 13. These are the load-bearing slides. Don't rush.</li>
+<li><strong>Where to compress if running long:</strong> Slide 8 (verticals) can compress to 60 seconds. Slide 11 (screen) is the most cuttable; the visual carries it.</li>
+<li><strong>Q&#x26;A bait:</strong> end Slide 12 (hot takes) with a deliberate pause. Take 4 will draw the partner question; have the trust-layer cap-table arbitrage ready.</li>
+<li><strong>Audience tells:</strong> if Lin asks about Harvey or Sierra specifically, anchor your answer in workflow ownership and budget gravity (his pattern). If a Thrive partner asks about consumer AI, route through Hot Take 7 from the memo (consumer AI is structurally harder; the relational/social primitive is the white space).</li>
+</ul>
+<hr>
+<h2 id="what-to-bring-as-appendix-slides"><a href="#what-to-bring-as-appendix-slides">What to bring as appendix slides</a></h2>
+<ul>
+<li>The Sequoia + Thrive overlap matrix (one slide showing where the two books co-invest vs. complement)</li>
+<li>The cap-table arbitrage on the trust layer (Patronus, Galileo, Braintrust, Langfuse with current valuations and matrix scores)</li>
+<li>The vertical leader-board with the matrix score for each named company</li>
+<li>The robotics / scientific-discovery long-bet appendix (one slide each)</li>
+</ul>
+<p>These should not be in the main deck. Keep them in reserve for Q&#x26;A.</p>5:["$","article",null,{"className":"prose","children":["$","div",null,{"dangerouslySetInnerHTML":{"__html":"$10"}}]}]
