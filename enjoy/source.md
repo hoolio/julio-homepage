@@ -11,7 +11,7 @@ Earlier this month, I was lucky to have attended Sequoia Capital’s AI Ascent
 conference. Talks and presentations were given by many of the most interesting
 founders and operators working in AI today.
 
-As a non-engineer in the tech industry, I’ve always looked for opportunities to
+As a non-engineer in the tech industry, I’ve looked for opportunities to
 leverage my interests and skills to bring a new perspective to bear on an old or
 new challenge. This has been true even when the nature of the task was seemingly
 high Engineering or otherwise framed as “technical,” and therefore presumed to
