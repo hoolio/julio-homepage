@@ -13,15 +13,11 @@ founders and operators working in AI today.
 
 As a non-engineer in the tech industry, I’ve looked for opportunities to
 leverage my interests and skills to bring a new perspective to bear on an old or
-new challenge. This has been true even when the nature of the task was seemingly
-high Engineering or otherwise framed as “technical,” and therefore presumed to
-be outside the layperson’s ambit.
+new challenge. And as I reflected on my conversations at AI Ascent, I was
+struck by how many of them seemed to hinge on topics and subject matter that
+did not immediately read as technical.
 
-As I reflected on my conversations at AI Ascent, I was struck by how many of
-them seemed to hinge on topics and subject matter that did not immediately read
-as “technical.”
-
-Many thematically paralleled discussions that I’ve been having at work. For
+Many thematically paralleled discussions that I’d been having at work. For
 instance, at a recent Observable All Hands, an engineer discussed his work
 writing evals and skills for AI use. He kept using phrases like “stochastic” or
 “non-deterministic” to describe the new challenges posed by a machine whose
@@ -30,7 +26,7 @@ had made to his prompts, how the system seemed to prefer the use of this or that
 word over some traditional engineering nomenclature, or how even the emotional
 tone of a prompt would impact its success.
 
-What I heard being described sounded less like linear engineering and more like
+What I heard being described sounded less like engineering and more like
 the work of a product marketer or political strategist, struggling to find
 language that would best engage, convince, and activate his audience. My
 suggestion was that he spend less time that week with this “technical” team and
@@ -883,7 +879,7 @@ present-cycle attractiveness:
     Truewind. Constrained by the slow procurement cycles of large financial
     institutions but highly defensible once integrated.
 
-6.  **Scientific R&D.** Long-cycle but structurally privileged: see §12G.
+6.  **Scientific R&D.** Long-cycle but structurally privileged: see Section 12G.
 
 7.  **Knowledge work in the enterprise (search, retrieval, productivity).**
     Glean, Notion AI, Sana, Moveworks, Writer, Dust. The danger is the platform
@@ -892,7 +888,7 @@ present-cycle attractiveness:
     search-with-chat.
 
 8.  **Creative and brand production.** High demand, high commoditization risk
-    (see §12F).
+    (see Section 12F).
 
 9.  **Robotics and embodied intelligence.** Figure AI, Physical Intelligence,
     Skild AI, Apptronik, 1X, Wayve, Waabi, Applied Intuition, Anduril, Shield
