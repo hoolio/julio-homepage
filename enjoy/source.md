@@ -77,8 +77,8 @@ now underway — industrializes cognition.
 
 Each transition follows a predictable arc from craft to profession to industrial
 system to commodity. Each transition is also mediated by three concurrent
-processes: (i) **specialization **(the decomposition of expert work into
-discrete operations); (ii) **commodification **(the rendering of those
+processes: (i) **specialization** (the decomposition of expert work into
+discrete operations); (ii) **commodification** (the rendering of those
 operations into fungible market inputs); and (iii) **black-boxing** (the
 encapsulation of internal complexity behind operational interfaces).
 
@@ -243,10 +243,7 @@ the residual is smaller than mid-twentieth-century philosophy of science
 assumed. This has direct economic consequences: domains that were thought to be
 insulated from automation by virtue of their tacit-knowledge intensity
 (medicine, law, design, scientific intuition) are precisely the domains where
-the most aggressive vertical applications of AI are presently emerging.[^1]
-
-[^1]: Michael Polanyi, at least, was unambiguously not a Marxist, which is worth
-noting given the tongue-in-cheek title of this paper.
+the most aggressive vertical applications of AI are presently emerging.
 
 ### 5. Commodification: From Marx to the API (or, from craft to cruft)
 
