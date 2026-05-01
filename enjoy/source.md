@@ -1,14 +1,8 @@
-# A Marxist Guide to Getting Rich in AI
-
-## A Theoretical Reconstruction of the AI Transition and Operating Framework for Evaluating Future Value in AI
-
 *May 1, 2026*
 
- 
+# A Marxist Guide to Getting Rich in AI: A Theoretical Reconstruction of the AI Transition and Operating Framework for Evaluating Future Value in AI
 
 ### 1. Introduction
-
- 
 
 Earlier this month, I was lucky to have attended Sequoia Capital’s AI Ascent
 conference. Talks and presentations were given by many of the most interesting
@@ -56,12 +50,8 @@ domains, and finally company-by-company, beginning with Sequoia portfolio
 companies, proceeding to Thrive Capital's positions, and closing with a few hot
 takes and observations about today's buzziest companies and technologies.
 
- 
-
 Part I — Theoretical Foundations
 --------------------------------
-
- 
 
 ### 1. Abstract
 
@@ -87,8 +77,6 @@ further argue that this acting-upon-judgment generates a distinctive set of
 investment heuristics. The essay closes by deriving those heuristics,
 formalizing them as a factor matrix, and then applying that matrix to the
 contemporary venture-financed AI landscape.
-
- 
 
 ### 2. Introduction: The Industrialization of Cognition
 
@@ -389,8 +377,6 @@ tacit expert judgment → codified operational procedure → model-mediated work
 
 [turn into flow chart?]
 
- 
-
 The artisan sits at the left of this chain. Here, we should imagine the senior
 partner who has read every relevant case in her practice area, the senior
 physician who has seen every relevant presentation in his subspecialty, or the
@@ -482,8 +468,6 @@ These three concepts — externalization, workflow ownership, and budget gravity
 together with the structural analysis above, generate the seven-factor matrix to
 which we next turn.
 
- 
-
 Part II — From Theory to Heuristic: The Factor Matrix
 -----------------------------------------------------
 
@@ -493,20 +477,12 @@ governed by specialization, commodification, and black-boxing. This is all well
 and good, but very academic. And I am not academic. I am business operator. So,
 here in Part II, I seek to operationalize the theory from Part I.
 
- 
-
 The seven factors below are the variables by which a given firm can be scored
 against the structural model.
 
- 
-
 ### The Seven Factors
 
- 
-
 **Factor 1 — Cognitive Externalization.**
-
- 
 
 We begin at the heart of my thesis. The operative question: *Does the product
 encode expert work into repeatable systems?*
@@ -571,7 +547,6 @@ High scores indicate easy paths to revenue scale through professional-services
 budgets, IT budgets, or category-specific operating budgets. Low scores indicate
 dependency on novel or discretionary spend.  
 
-
 ### Scoring Rubric
 
 Each factor is scored on a 1–5 scale, with the following interpretive anchors:
@@ -591,22 +566,16 @@ commoditization resistance is a fundamentally different investment from a 28
 with 5s on commoditization resistance and budget gravity but a 2 on
 system-of-action potential.
 
- 
-
 ### The Investor's Reformulation
 
 For simplicity (too late?), the seven-factor matrix may be collapsed into a
 single working heuristic:
-
- 
 
 **A strong AI investment captures an expensive cognitive workflow, gets embedded
 into the system of record or the system of action of the institution that runs
 that workflow, compounds through proprietary feedback, and carries enough
 epistemic trust that regulated or fiduciary buyers can adopt it without
 exposure.**
-
- 
 
 A weak AI investment is the inverse: a generic presentation layer wrapped around
 a frontier model, producing outputs that are substitutable across vendors and
@@ -641,19 +610,13 @@ A pathway worth flagging negatively: the company whose pitch is "GPT for
 institutional integration. These firms are exposed on every axis of the matrix
 at once and have no obvious path to a defensible position.
 
- 
-
 Part III — Application to Existing Investments
 ----------------------------------------------
-
- 
 
 This final section of the paper seeks to apply my framework to existing
 investments.
 
 I begin by organizing the technology landscape into eight common categories:
-
- 
 
 1.  Foundation Model Labs
 
@@ -670,8 +633,6 @@ I begin by organizing the technology landscape into eight common categories:
 7.  Scientific discovery, bio, agro, material sciences
 
 8.  Customer services, sales, and GTM agents
-
- 
 
 #### A. Foundation Model Labs
 
