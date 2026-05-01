@@ -1,6 +1,6 @@
 *May 1, 2026*
 
-# A Marxist Guide to Getting Rich in AI: A Theoretical Reconstruction of the AI Transition and Operating Framework for Evaluating Future Value in AI
+# A Marxist Guide to Getting Rich in AI: A Theoretical Reconstruction of the AI Transition and Operating Framework for Evaluating Future Value in <span class="redacted">AI</span> the Space
 
 ### 1. Introduction
 
