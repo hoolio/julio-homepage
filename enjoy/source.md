@@ -101,13 +101,14 @@ distinct specialized tasks (drawing out the wire, straightening it, cutting it,
 sharpening its point, etc.), a few workers, each focused on a narrow step, could
 collectively produce tens of thousands of pins per day.
 
-His point, often read as a homily about productivity or division of labor, I
-take instead as  epistemological: the value of a pin had decoupled from the
-knowledge of any one pin-maker. What had once been a unified craft — the expert
-judgment of a single artisan, applied across over a dozen distinct operations
-that were required to make a pin — had been redistributed across a system. No
-worker in the factory could make a pin alone. The factory, considered as an
-object, knew how to make pins; the workers, considered as individuals, did not.
+His point is often read as a homily about productivity or division of labor.
+For purposes of this paper, I take it instead as epistemological: the value of
+a pin had been decoupled from the knowledge of any one pin-maker. What had once
+been a unified craft — the expert judgment of a single artisan, applied across
+over a dozen distinct operations that were required to make a pin — had been
+redistributed across a system. No worker in the factory could make a pin alone.
+The factory, considered as an object, knew how to make pins. The workers,
+considered as individuals, did not.
 
 This decoupling between a system's capability and any individual contributor's
 expertise is the recurring motif of industrial revolutions. The steam engine
@@ -156,10 +157,10 @@ or this paper, though they do compound in novel ways once combined.
 
 The most important of them is that **each transition's commodity is the prior
 transition's craft.** The blacksmith was a respected artisan in 1750. By 1880,
-his work had been absorbed into the foundry and his role had narrowed to
-operating part of someone else's process. Likewise, the bookkeeper of 1920 was a
-skilled professional whose practice had been built up over decades of formal
-training. By 1990, most of what a bookkeeper did had become a ten-line macro
+his work had been absorbed into the foundry and his role had been narrowed to
+operating a single part of someone else's process. Likewise, the bookkeeper of
+1920 was a skilled professional whose practice had been built up over years of
+formal training. By 1990, most of what a bookkeeper did had become a ten-line macro
 inside an Excel sheet maintained by a junior staffer.
 
 We are now watching the same compression happen to the associate attorney, the
