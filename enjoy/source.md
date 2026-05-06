@@ -513,6 +513,8 @@ target context or else wraps the black box in a way that does.  Low scores
 indicate exposure to regulatory, fiduciary, or reputational shutoff. This factor
 is, as argued in Section 6, a permanent rather than transient source of value.
 
+<div class="trail-off">
+
 **Factor 4 — System-of-Action Potential.**
 
 *Can the product execute, not just recommend?*
@@ -526,89 +528,6 @@ then takes the action.
 
 *Does usage improve the product or create proprietary training data?*
 
-High scores indicate compounding moat — the product gets better with use in ways
-competitors cannot easily replicate. Low scores indicate the product's quality
-is bounded by the underlying foundation model's quality.
+</div>
 
-**Factor 6 — Commoditization Resistance.**
-
-*Is the product structurally hard for OpenAI, Anthropic, Microsoft, or Google to
-compress?*
-
-High scores indicate distribution, regulation, data, integration, or
-institutional moats that are not within easy reach of the platform layer. Low
-scores indicate the product is a feature, not a company.
-
-**Factor 7 — Budget Gravity.**
-
-*Does the product attach to large, durable, existing budget categories?*
-
-High scores indicate easy paths to revenue scale through professional-services
-budgets, IT budgets, or category-specific operating budgets. Low scores indicate
-dependency on novel or discretionary spend.  
-
-### Scoring Rubric
-
-Each factor is scored on a 1–5 scale, with the following interpretive anchors:
-
-| Score | Meaning |
-| --- | --- |
-| 1 | Factor is absent or actively negative |
-| 2 | Factor is weakly present; mostly aspirational |
-| 3 | Factor is credibly present; competitive with peers |
-| 4 | Factor is a structural strength; differentiated |
-| 5 | Factor is a category-defining moat |
-
-The aggregate score (sum across seven factors, max 35) is interpretable as a
-single number, but the *shape* of the score matters more than the magnitude. A
-28 with 5s on workflow ownership, externalization, and budget gravity but a 2 on
-commoditization resistance is a fundamentally different investment from a 28
-with 5s on commoditization resistance and budget gravity but a 2 on
-system-of-action potential.
-
-### The Investor's Reformulation
-
-For simplicity (too late?), the seven-factor matrix may be collapsed into a
-single working heuristic:
-
-**A strong AI investment captures an expensive cognitive workflow, gets embedded
-into the system of record or the system of action of the institution that runs
-that workflow, compounds through proprietary feedback, and carries enough
-epistemic trust that regulated or fiduciary buyers can adopt it without
-exposure.**
-
-A weak AI investment is the inverse: a generic presentation layer wrapped around
-a frontier model, producing outputs that are substitutable across vendors and
-that decay in unit economics every time the underlying model layer cuts pricing.
-Most of the casualty list of the prior cycle's AI cohort fits this description,
-and most of the casualty list of the present cycle will too.
-
-Practically, the heuristic resolves into a small number of structural pathways.
-The most attractive in the present cycle is owning the system layer — the
-runtime, fabric, or workbench inside which cognition gets composed into useful
-work. This is the OS-position of the third transition, and a firm that occupies
-it inherits the leverage that Microsoft and AWS inherited in the second.
-
-The second pathway, and the one I think is most undervalued at this moment, is
-owning the trust apparatus that wraps the black box: observability, evaluation,
-audit, citation, governance, and policy enforcement around cognitive systems.
-The argument for this pathway runs through Section 6 — the opacity of foundation
-models is permanent, the buyers of consequential applications have no choice but
-to procure inspection separately, and the firms that supply that inspection have
-been mispriced as developer-tools companies when they should be priced as
-financial-services software companies.
-
-The third pathway is vertical. Find a professional domain in which judgment is
-expensive, regulated, and workflow-bound; build the cognitive system that owns
-that domain end-to-end; capture the institutional integration that makes the
-position hard to replicate. The vertical winners in legal, healthcare, customer
-experience, and clinical workflow are the present cycle's clearest expressions
-of this pathway.
-
-A pathway worth flagging negatively: the company whose pitch is "GPT for
-[profession]" without a serious answer to workflow ownership, audit posture, or
-institutional integration. These firms are exposed on every axis of the matrix
-at once and have no obvious path to a defensible position.
-
-
-*Part III — applying the matrix to specific firms and verticals — is in progress, ETA June 2026.*
+<p class="trail-end">The remaining four factors — and Part III, applying the matrix company-by-company across the AI landscape — are still being written. Full version expected June 2026.</p>
