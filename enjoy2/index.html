@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enjoy the Box! — Julio Avalos</title>
+  <meta name="description" content="A theoretical reconstruction of the AI transition and operating framework for evaluating future value in AI.">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap');
+
+    :root {
+      --paper: #fbf7f0;
+      --paper-edge: #f3ede0;
+      --ink: #1a1813;
+      --ink-soft: #3a352c;
+      --ink-faint: #6b6354;
+      --rule: #d9d2c2;
+      --accent: #8b3a2a;
+      --accent-hover: #6e2c1f;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 18px; -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Source Serif 4', Georgia, 'Iowan Old Style', serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    ::selection { background: #f4dca0; color: var(--ink); }
+
+    .reader {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 6rem;
+    }
+    .reader-back {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 3rem;
+      display: inline-block;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .reader-back:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+    .prose { font-size: 1.0625rem; }
+    .prose > p:first-child {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      font-style: normal;
+      margin: 0 0 0.75rem;
+    }
+    .prose > p:first-child em { font-style: normal; }
+    .prose h1 {
+      font-size: 2.25rem;
+      line-height: 1.25;
+      font-weight: 700;
+      margin: 0 0 2.5rem;
+      letter-spacing: -0.015em;
+    }
+    .prose h2 {
+      font-size: 1.55rem;
+      line-height: 1.3;
+      font-weight: 700;
+      margin: 2.5rem 0 1rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--rule);
+      letter-spacing: -0.01em;
+    }
+    .prose h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 1.75rem 0 0.5rem;
+      letter-spacing: -0.005em;
+    }
+    .prose h3:first-of-type { margin-top: 0.5rem; }
+    .prose h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-soft);
+      margin: 1.5rem 0 0.5rem;
+    }
+    .prose p { margin: 0 0 1.1rem; }
+    .prose a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid #d4b8a8;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .prose a:hover { color: var(--accent-hover); border-bottom-color: var(--accent); }
+    .prose strong { font-weight: 700; color: var(--ink); }
+    .prose em { font-style: italic; }
+    .prose blockquote {
+      border-left: 3px solid var(--rule);
+      padding-left: 1.25rem;
+      margin: 1.5rem 0;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+    .prose ul, .prose ol { margin: 0 0 1.25rem 1.5rem; }
+    .prose li { margin-bottom: 0.4rem; }
+    .prose hr {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 2.5rem auto;
+      width: 60%;
+    }
+    .prose code {
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      font-size: 0.88em;
+      background: var(--paper-edge);
+      padding: 0.12em 0.35em;
+      border-radius: 3px;
+    }
+    .prose pre {
+      background: var(--paper-edge);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+    .prose pre code { background: none; padding: 0; }
+    .prose table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.75rem 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      display: block;
+      overflow-x: auto;
+    }
+    .prose th, .prose td {
+      border: 1px solid var(--rule);
+      padding: 0.55rem 0.8rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    .prose th { background: var(--paper-edge); font-weight: 600; }
+    .prose img { max-width: 100%; height: auto; border-radius: 4px; }
+
+    .reader-loading {
+      font-family: 'Inter', sans-serif;
+      color: var(--ink-faint);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 640px) {
+      html { font-size: 17px; }
+      .reader { padding: 2.5rem 1.25rem 4rem; }
+      .prose h1 { font-size: 1.85rem; }
+      .prose h2 { font-size: 1.35rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="reader">
+    <article class="prose" id="content">
+      <p class="reader-loading">Loading…</p>
+    </article>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    (async () => {
+      try {
+        const res = await fetch('source.md');
+        const md = await res.text();
+        marked.setOptions({ gfm: true, breaks: false });
+        document.getElementById('content').innerHTML = marked.parse(md);
+        const h1 = document.querySelector('#content h1');
+        if (h1) document.title = h1.textContent + ' — Julio Avalos';
+      } catch (e) {
+        document.getElementById('content').innerHTML =
+          '<p>Could not load the document. <a href="source.md">View source</a>.</p>';
+      }
+    })();
+  </script>
+</body>
+</html>

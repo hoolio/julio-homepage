@@ -610,5 +610,257 @@ A pathway worth flagging negatively: the company whose pitch is "GPT for
 institutional integration. These firms are exposed on every axis of the matrix
 at once and have no obvious path to a defensible position.
 
+Part III — Application to Existing Investments
+----------------------------------------------
 
-*Part III — applying the matrix to specific firms and verticals — is in progress, ETA June 2026.*
+This final section of the paper seeks to apply my framework to existing
+investments.
+
+I begin by organizing the technology landscape into eight common categories:
+
+1.  Foundation Model Labs
+
+2.  AI Infrastructure
+
+3.  Agent Infrastructure
+
+4.  Vertical Expert Systems (Legal, Health, Finance)
+
+5.  Coding and software creation
+
+6.  Creative production and media
+
+7.  Scientific discovery, bio, agro, material sciences
+
+8.  Customer services, sales, and GTM agents
+
+#### A. Foundation Model Labs
+
+*The new industrial foundries of cognition.* These firms encode general
+reasoning capacity and sell it as infrastructure. The economic structure is
+fab-like: very high fixed costs, fast-declining marginal cost, quality-tiered
+pricing, and capacity constraints determining short-run rents. The category
+includes OpenAI, Anthropic, xAI, Mistral, Cohere, DeepSeek, Reka, Reflection AI,
+Thinking Machines, Poolside, Magic, Adept, AI21 Labs, Inflection, Character.AI,
+Aleph Alpha, Stability AI, Black Forest Labs, Midjourney, and Runway (the last
+two and Black Forest Labs being modality-specific frontier labs in image and
+video).
+
+*Matrix read.* Externalization 5, workflow ownership 3, trust 2–3,
+system-of-action 3, feedback loop 5, commoditization resistance 5 at the
+frontier and 2 below it, budget gravity 5. The bifurcation between frontier and
+sub-frontier labs is structural rather than transitory: only frontier labs have
+the capital to fund the next generation of training, and only the next
+generation of training will sustain their economic structure.
+
+*VC read.* These are Bell Labs plus electric utilities plus Zeiss. Massive value
+capture is plausible but capital intensity is brutal and the winners-take-most
+dynamic is severe. Generally, I believe that that venture capital should
+position itself at the frontiers and avoid the middle layers.
+
+#### B. AI Infrastructure: Inference, Compute, Data Plane
+
+*The picks-and-shovels of cognitive industrialization.* This category profits
+from the industrialization of cognition without needing to own end-user
+judgment. It includes inference providers (Together AI, Fireworks AI, Baseten,
+Replicate, Modal), compute clouds (CoreWeave, Lambda, Crusoe, Foundry, RunPod),
+specialized hardware (Groq, Cerebras, Celestial AI, TensorWave, Modular,
+SambaNova, Tenstorrent), data infrastructure (Vast Data, Weka, Pinecone,
+Weaviate, Qdrant, Chroma, Turbopuffer), data labeling and human evaluation
+(Scale AI, Surge, Mercor, Invisible Technologies, Snorkel AI, Turing), and the
+model-distribution and developer hub layer (Hugging Face).
+
+*Matrix read.* Externalization 3, workflow ownership 3, trust 2,
+system-of-action 2, feedback loop 3, commoditization resistance 3–5 depending on
+whether the firm has a real hardware, supply, or latency moat, budget gravity 5.
+The category bifurcates between firms with structural supply constraints (Groq,
+Cerebras, CoreWeave during the GPU shortage) and firms that risk becoming
+margin-compressed cloud resellers.
+
+*VC read.* Excellent if the firm has a real constraint to monetize. Dangerous if
+the firm is a thin layer between commodifying compute and a customer that will
+eventually buy direct.
+
+#### C. Agent Infrastructure: Browsers, Web Agents, Orchestration
+
+*The execution layer for cognitive labor.* This is where reasoning becomes
+action over external systems. The category includes web-and-browser
+infrastructure for agents (Parallel, Browserbase, Tavily, Exa, MultiOn, Lindy,
+Adept), orchestration frameworks (LangChain, LlamaIndex, Dust, CrewAI, Vellum,
+Humanloop), evaluation and observability for agentic systems (Langfuse,
+Braintrust, Galileo, Patronus AI, Arize, WhyLabs), workflow automation that has
+pivoted toward agent execution (Zapier, Gumloop, Relevance AI), and the emerging
+agent-payments and trust rails.
+
+*Matrix read.* Externalization 4, workflow ownership 4, trust 3,
+system-of-action 5, feedback loop 4, commoditization resistance 3–4, budget
+gravity 4. The category's risk is absorption — by browsers (OS-level agentic
+capabilities), by foundation labs (built-in agent loops), and by hyperscalers
+(managed agent runtimes). The opportunity is becoming the Visa network or the
+Lambda runtime of agentic work — the layer that no single platform can absorb
+because it is multi-tenant, cross-cloud, and policy-governed.
+
+*VC read.* High-conviction, high-variance category. The matrix favors firms that
+own a piece of the agent stack that is *not* a commodity — payments, identity,
+browser context, evaluation, audit — over firms that are SDK-thin orchestration
+layers on top of foundation models.
+
+#### D. Vertical Expert Systems: Legal, Health, Finance
+
+*The cleanest expression of the thesis.* These firms take expensive professional
+judgment and make it workflow-native. Legal: Harvey, EvenUp, Eudia, Legora,
+Robin AI, Spellbook, Norm AI, Casetext / CoCounsel (now Thomson Reuters),
+Ironclad, Lexion, Klarity, Lawhive, Paxton AI, Supio, Alexi, DraftWise, Crosby,
+Eve Legal. Healthcare: Abridge, Ambience Healthcare, Hippocratic AI,
+OpenEvidence, Tennr, Nabla, Suki, Corti, Freed, Regard, Commure, Innovaccer,
+Tempus, Owkin, Viz.ai, PathAI, Qventus, Aidoc, Rad AI, SmarterDx. Finance /
+accounting / tax: Hebbia, AlphaSense, FiscalNote, Pylon, Numeric, Klarity,
+Basis, Truewind. Field operations and skilled trades: Tennr, Eilla, Field AI,
+blue-collar agents — an emerging set.
+
+*Matrix read.* Externalization 5, workflow ownership 5, trust 4 if the product
+takes the regulatory commitment seriously, system-of-action 4, feedback loop 4,
+commoditization resistance 4, budget gravity 5. This is the category with the
+most uniformly high scores in the matrix.
+
+*VC read.* Best near-term commercial category. The winners will not be "ChatGPT
+for lawyers,” but systems that own documents, workflows, approvals, liability
+boundaries, and institutional memory. The moat is institutional integration and
+regulatory positioning, not model quality.
+
+#### E. Coding and Software Creation
+
+*The most obvious craft-to-system transition.* Software development was one of
+the last high-status artisanal knowledge crafts; it is being industrialized in
+real time. The category includes AI-native IDEs (Cursor / Anysphere, Windsurf /
+Codeium, Replit, Lovable, Bolt / StackBlitz), autonomous engineering agents
+(Cognition / Devin, Factory, Augment, Magic, Poolside), incumbent assistants
+(GitHub Copilot, JetBrains AI, Tabnine, Sourcegraph Cody, Continue, Supermaven),
+the code-review and PR layer (CodeRabbit, Graphite, Greptile), and
+developer-workflow surfaces (Warp, Zed AI).
+
+*Matrix read.* Externalization 5, workflow ownership 5, trust 3,
+system-of-action 5, feedback loop 5, commoditization resistance 3–5, budget
+gravity 5. The category is uniformly high on capture, variable on defensibility.
+
+*VC read.* Enormous and crowded. The enduring wedge is not code generation; it
+is owning the developer workbench, repository context, runtime, testing loop,
+deployment path, and organizational memory. Every developer-tools company that
+has won a generational position has done so by becoming the place developers
+spend their day, not by being the best at one task. Cursor's ascent in 2025 is
+the clearest demonstration; whether Cognition's autonomous-agent thesis or
+Cursor's IDE-native thesis prevails is the most important architectural debate
+in the category.
+
+#### F. Creative Production and Media
+
+*The industrialization of creative craft.* Voice, video, image, editing, music,
+and brand content are being remade. The category includes Runway, Luma, Pika,
+Black Forest Labs, Midjourney, Ideogram, Krea, Leonardo, Scenario, Photoroom,
+Captions, HeyGen, Synthesia, Descript, Suno, Udio, ElevenLabs, Fal, Tavus,
+Higgsfield, and the brand-content tooling (Typeface, Jasper, Writer, Copy.ai,
+Tome, Gamma).
+
+*Matrix read.* Externalization 4, workflow ownership 3, trust 2,
+system-of-action 3, feedback loop 4, commoditization resistance 2–4, budget
+gravity 4.
+
+*VC read.* Explosive demand, brutal commoditization risk. The structural fork is
+between firms that own a workflow (Runway, Synthesia, ElevenLabs in their
+respective verticals) and firms that own a model (Black Forest Labs, Suno) — the
+latter face the same fab-economics as foundation labs but in narrower
+modalities. Avoid the middle: thin generators with no workflow and no
+proprietary model.
+
+#### G. Scientific Discovery, Bio, Materials
+
+*AI applied to frontier epistemic production, not productivity.* This category
+collapses the loop between hypothesis, simulation, experiment, and
+commercialization. Examples: Lila Sciences, Periodic Labs, Insilico Medicine,
+SandboxAQ, Isomorphic Labs, Recursion, Xaira, Genesis Therapeutics,
+EvolutionaryScale, Cradle, CuspAI, Chai Discovery, Nabla Bio, Valence Labs,
+Atomwise, Deep Genomics, Generate:Biomedicines, Terray, TetraScience, Benchling,
+Schrödinger.
+
+*Matrix read.* Externalization 5, workflow ownership 4, trust 5,
+system-of-action 4, feedback loop 5, commoditization resistance 5, budget
+gravity 5.
+
+*VC read.* Potentially enormous, but long-cycle. The best companies do not sell
+"AI to pharma"; they *are* pharma companies (or materials companies) with
+AI-native discovery pipelines. The investable distinction is between *tool* and
+*platform-with-asset* — the former is sold to pharma at single-digit multiples
+on services revenue, the latter accumulates royalty streams and equity in
+clinical assets.
+
+#### H. Customer Service, Sales, and GTM Agents
+
+*The most aggressive end-to-end commercial deployment of AI agents.* Examples:
+Sierra, Decagon, Parloa, Ada, Forethought, Cresta, Kore.ai, Uniphore, PolyAI,
+Qualified, Regie.ai, Clay, 11x, Artisan, Attention, ElevenLabs (agents product),
+Gong, Clari, Outreach, Salesloft. Adjacent: enterprise-knowledge surfaces that
+increasingly take action — Glean, Hebbia, Moveworks, Sana, Dust.
+
+*Matrix read.* Externalization 5 in CX, 3–4 in sales, workflow ownership 5 in
+CX, 3 in outbound, trust 3, system-of-action 5 in CX, feedback loop 5,
+commoditization resistance 4 if the firm has incumbent integrations, budget
+gravity 5.
+
+*VC read.* CX is the tightest fit to the thesis: the workflow is well-defined,
+the budget is large, the unit economics replace human FTE cost
+dollar-for-dollar, and the ROI is measurable in weeks. Outbound sales is a
+lower-conviction subsegment because the product's externality is borne by the
+recipient, not the buyer; deliverability and trust dynamics will eventually
+constrain the category. The CX winners are emerging clearly (Sierra, Decagon,
+Parloa); the outbound category will see consolidation.
+
+### 13. Vertical Decomposition
+
+Categories are the technology axis; verticals are the demand axis. The matrix is
+most usefully applied at the intersection of a category and a vertical. The
+verticals where the matrix scores are highest, in declining order of
+present-cycle attractiveness:
+
+1.  **Legal services.** High budget gravity (\$350B+ globally), regulated
+    workflows, document-intensive, fiduciary trust requirements. Vertical
+    winners (Harvey, EvenUp, Norm AI, Eudia, Robin AI, Legora) score 30+ on the
+    seven-factor matrix.
+
+2.  **Healthcare administration and clinical workflow.** The largest budget
+    category in the developed world, the most regulated, the most
+    workflow-bound. Winners: Abridge, Ambience, Hippocratic AI, OpenEvidence,
+    Tennr, Commure, Innovaccer.
+
+3.  **Software development.** Largest discretionary technical budget,
+    well-instrumented, fast feedback loop. Winners: Cursor / Anysphere,
+    Cognition, Replit, Windsurf / Codeium, Lovable, Magic, Poolside.
+
+4.  **Customer experience / contact centers.** Direct FTE replacement,
+    measurable ROI, large budget. Winners: Sierra, Decagon, Parloa, Ada, Cresta,
+    PolyAI.
+
+5.  **Financial services research and analysis.** Hebbia, AlphaSense, Numeric,
+    Truewind. Constrained by the slow procurement cycles of large financial
+    institutions but highly defensible once integrated.
+
+6.  **Scientific R&D.** Long-cycle but structurally privileged: see Section 12G.
+
+7.  **Knowledge work in the enterprise (search, retrieval, productivity).**
+    Glean, Notion AI, Sana, Moveworks, Writer, Dust. The danger is the platform
+    overhang from Microsoft Copilot and Google's equivalent; the winners will be
+    those who become workflow infrastructure rather than enterprise
+    search-with-chat.
+
+8.  **Creative and brand production.** High demand, high commoditization risk
+    (see Section 12F).
+
+9.  **Robotics and embodied intelligence.** Figure AI, Physical Intelligence,
+    Skild AI, Apptronik, 1X, Wayve, Waabi, Applied Intuition, Anduril, Shield
+    AI, Gecko Robotics. Long-cycle, capital-intensive, with the highest variance
+    distribution of any category.
+
+The ordering above is the *cycle-relevant* ordering. The decadal ordering (i.e.,
+where the largest absolute value will accrue) likely promotes scientific R&D and
+embodied intelligence considerably. That may be taken up in a later work.
+
+### 14. The Open Layer: Why It Demands Its Own Treatment
