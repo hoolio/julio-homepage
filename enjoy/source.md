@@ -1,4 +1,4 @@
-*May 1, 2026*
+*Draft · May 6, 2026*
 
 # A Marxist Guide to Getting Rich in AI: A Theoretical Reconstruction of the AI Transition and Operating Framework for Evaluating Future Value in the Space
 
