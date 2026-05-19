@@ -115,7 +115,16 @@ Specialization, commodification, and black-boxing are the axes along which the A
 
 For our purposes, the arc, when applied to cognition, runs as follows:
 
-tacit expert judgment → codified operational procedure → model-mediated workflow → system of record / system of action → commoditized output
+<figure class="chain" role="img" aria-label="The arc applied to cognition: tacit expert judgment, codified operational procedure, model-mediated workflow, system of record or system of action, commoditized output">
+  <p class="chain-eyebrow">From craft to commodity</p>
+  <ol class="chain-list">
+    <li><span class="chain-num">01</span><span class="chain-label">tacit expert judgment</span></li>
+    <li><span class="chain-num">02</span><span class="chain-label">codified operational procedure</span></li>
+    <li><span class="chain-num">03</span><span class="chain-label">model-mediated workflow</span></li>
+    <li><span class="chain-num">04</span><span class="chain-label">system of record / system of action</span></li>
+    <li><span class="chain-num">05</span><span class="chain-label">commoditized output</span></li>
+  </ol>
+</figure>
 
 The artisan sits at the left of this chain — the senior partner who has read every relevant case in her practice area, the senior physician who has seen every presentation in his subspecialty, the senior engineer who has debugged every failure mode in her stack. The commodity sits at the right: the lawyer's draft motion, the differential diagnosis, the pull request — available on demand at marginal costs that approach the cost of inference. Whoever owns the work done between those two poles captures the value from everything downstream.
 
