@@ -21,7 +21,7 @@ The following essay was inspired by these recent thoughts and discussions.
 
 I am among those who believe that the line between humanities and hard sciences is blurring at an accelerating rate, and that the interplay between the two will be more important in the coming era than ever before. Not only important; I think that knowledge in philosophy, poetry, psychology, music and many of the so-called "arts and letters" will be a necessary component to not only understanding, but building and thriving in the AI age.
 
-Moreover, as a company CEO and operator who has led and grown businesses and product-led organizations from seed stage to hypergrowth to multinational, multi-billion-dollar scale, I am on the search for practical frameworks and heuristics that help me and my peers to make better decisions when it comes to AI — not simply theoretically interesting but ultimately testable hypotheses.
+Moreover, as a company CEO and operator who has led and grown businesses and product-led organizations from seed stage to hypergrowth to multinational, multi-billion-dollar scale, I am on the search for practical frameworks and heuristics that help me and my peers make better decisions when it comes to AI — not simply theoretically interesting but ultimately testable hypotheses.
 
 The essay is structured in four parts.
 
