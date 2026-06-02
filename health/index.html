@@ -1374,29 +1374,44 @@ ${recentDigest(14) || '(none yet)'}
 Today is ${today}.
 TODAY SO FAR (running totals): ${todaySoFar}
 
-Each turn, decide if the message is a LOG (data to record) or a QUESTION / conversation. Use the chat history for follow-ups.
+Decide if the message is a LOG (data to record) or a QUESTION / conversation, then call the record tool with your result.
 - Screenshots may be attached (one or more) — read values from ALL of them and combine.
-- LOGGING IS SERIAL/REAL-TIME: Julio logs items through the day. When he logs more, ADD to TODAY SO FAR and return the CUMULATIVE day totals (sum calories/protein/carbs/fat). Carry forward weight/hrv/rhr/sleep unless updated. The reply names what was added and the running total.
-- When a food has a standard definition above, use those exact macros; compute net carbs; only count what is reported (subtract removed/uneaten parts).
-- Answer questions from the recent entries above. Be terse: no preamble, no restating the question, no headings, no emoji. Max 2 short sentences.
-- Include a chart ONLY when it adds insight, using fields the app stores: hrv, rhr, sleep, weight, calories, protein. type "line" (1 field), "multiline" (2), or "bars" (1). Do NOT invent numbers.
-
-Output ONLY a JSON object — nothing before or after it:
-{"mode":"log"|"answer","entry":{"date":"${today}","note":"short","hrv":num|null,"rhr":num|null,"sleep":num|null,"weight":num|null,"calories":num|null,"protein":num|null,"carbs":num|null,"fat":num|null,"activity":true|false,"strong":true|false}|null,"reply":"terse reply or one-line log confirmation","chart":null|{"type":"line"|"multiline"|"bars","fields":["hrv"],"window":num|null,"title":""}}
-Sleep in hours (6h 40m -> 6.67). Log mode: cumulative day entry + one-line reply, chart null. Answer mode: reply + optional chart, entry null.`;
+- SERIAL/REAL-TIME: Julio logs through the day; when he logs more, ADD to TODAY SO FAR and return the CUMULATIVE day totals (sum calories/protein/carbs/fat). Carry forward weight/hrv/rhr/sleep unless this message updates them. The reply names what was added and the running total.
+- Use standard food definitions for macros; compute net carbs; only count what is reported (subtract removed/uneaten parts).
+- Be terse: no preamble, no restating the question, no headings, no emoji. Max 2 short sentences.
+- Add a chart only when it adds insight, using stored fields: hrv, rhr, sleep, weight, calories, protein. Never invent numbers.
+Sleep in hours (e.g. 6h 40m -> 6.67).`;
+  const tool={
+    name:'record',
+    description:'Record the result of this turn: a logged day entry and/or a coach reply, with an optional chart.',
+    input_schema:{ type:'object', properties:{
+      mode:{ type:'string', enum:['log','answer'] },
+      reply:{ type:'string', description:'terse reply (answer), or a one-line confirmation (log)' },
+      entry:{ type:['object','null'], description:'cumulative day entry for log mode, else null', properties:{
+        date:{type:'string'}, note:{type:'string'},
+        hrv:{type:['number','null']}, rhr:{type:['number','null']}, sleep:{type:['number','null']},
+        weight:{type:['number','null']}, calories:{type:['number','null']}, protein:{type:['number','null']},
+        carbs:{type:['number','null']}, fat:{type:['number','null']},
+        activity:{type:'boolean'}, strong:{type:'boolean'} } },
+      chart:{ type:['object','null'], description:'optional chart spec', properties:{
+        type:{type:'string', enum:['line','multiline','bars']},
+        fields:{type:'array', items:{type:'string'}},
+        window:{type:['number','null']}, title:{type:'string'} } }
+    }, required:['mode','reply'] }
+  };
   const userContent=[];
   for(const ph of (photos||[])){ const m=(ph.match(/data:(.*?);/)||[]); userContent.push({type:'image',source:{type:'base64',media_type:m[1]||'image/png',data:ph.split(',')[1]}}); }
   userContent.push({type:'text', text: text || '(screenshots only — read and log them)'});
   const messages=coachHistory.concat([{role:'user', content:userContent}]);
-  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1100,system,messages})});
+  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1200,system,messages,tools:[tool],tool_choice:{type:'tool',name:'record'}})});
   if(!r.ok){ const er=await r.json().catch(()=>({})); throw new Error(er.error?.message || ('API '+r.status)); }
   const data=await r.json();
-  const raw=data.content.map(b=>b.text||'').join('').replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
-  const tryP=t=>{ try{ return JSON.parse(t); }catch(_){ return undefined; } };
-  let out=tryP(raw);
-  if(out===undefined){ const i=raw.indexOf('{'), j=raw.lastIndexOf('}'); if(i>=0&&j>i) out=tryP(raw.slice(i,j+1)); }
-  if(out===undefined) throw new Error('Could not read that as data — try rephrasing, or remove the screenshot and type the numbers.');
-  return out;
+  const tu=(data.content||[]).find(b=>b.type==='tool_use');
+  if(tu && tu.input) return tu.input;
+  const raw=(data.content||[]).map(b=>b.text||'').join('').replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
+  try{ return JSON.parse(raw); }catch(_){ const i=raw.indexOf('{'), j=raw.lastIndexOf('}'); if(i>=0&&j>i){ try{ return JSON.parse(raw.slice(i,j+1)); }catch(__){} } }
+  console.error('[coach] unexpected response', data);
+  throw new Error('The model did not return a result — please try again.');
 }
 
 // COACH CHARTS (d3 templates over real entries)
