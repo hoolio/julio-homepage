@@ -1,5 +1,1632 @@
-git checkout main && git pull
-git am /path/to/health-observable-plot.patch     # applies the commit + message
-# test before pushing: python3 -m http.server, open /health/ (needs internet for the CDN)
-git push -u origin health-observable-plot
-gh pr create --fill                               # or open the URL git prints
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health — Choplogic Radio</title>
+<link rel="stylesheet" href="/css/project.css">
+<style>
+  /* ═══════════ HEALTH PAGE ═══════════ */
+  .health-wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .health-hero {
+    padding: 60px 0 40px;
+    border-bottom: 1px solid var(--hairline);
+    margin-bottom: 40px;
+  }
+
+  .health-kicker {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .health-kicker::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--gold);
+  }
+
+  .health-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(3rem, 7vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+
+  .health-deck {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--dim);
+    max-width: 560px;
+  }
+
+  /* STATS GRID */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+
+  .stat {
+    background: var(--paper-warm);
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+    padding: 18px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .stat:hover {
+    border-color: var(--gold-dim);
+    box-shadow: 0 0 0 4px var(--amber-glow);
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    margin-bottom: 8px;
+  }
+
+  .stat-value {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .stat-unit {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--dim);
+    margin-left: 4px;
+    letter-spacing: 0.06em;
+  }
+
+  .stat-trend {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 8px;
+  }
+
+  .stat-trend.up { color: #5a8a4a; }
+  .stat-trend.down { color: var(--oxblood); }
+  .stat-trend.neutral { color: var(--dim); }
+
+  /* LOG FORM */
+  .log-section {
+    background: var(--paper-warm);
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .log-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .log-heading {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+  }
+
+  .log-date {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  .log-textarea {
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 2px;
+    padding: 14px 16px;
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ink);
+    resize: none;
+    min-height: 90px;
+    transition: border-color 0.25s;
+    outline: none;
+  }
+
+  .log-textarea::placeholder {
+    color: var(--dim);
+    font-style: italic;
+  }
+
+  .log-textarea:focus { border-color: var(--gold); }
+
+  .log-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .log-field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .log-field label {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    margin-bottom: 4px;
+  }
+
+  .log-field input {
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+    padding: 7px 9px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+  }
+
+  .log-field input:focus { border-color: var(--gold); }
+
+  .log-submit {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-submit {
+    background: var(--gold);
+    color: var(--paper);
+    border: none;
+    padding: 10px 24px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.25s;
+  }
+
+  .btn-submit:hover {
+    background: var(--gold-bright);
+    letter-spacing: 0.22em;
+  }
+
+  .btn-submit:disabled { background: var(--dim); cursor: not-allowed; letter-spacing: 0.18em; }
+
+  .log-hint {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+  }
+
+  /* Calendar */
+  .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; background: var(--paper-warm); border: 1px solid var(--hairline); padding: 2px; }
+  .cal-dow {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    padding: 10px 6px;
+    text-align: center;
+    background: var(--paper);
+  }
+  .cal-day {
+    aspect-ratio: 1.2;
+    padding: 8px 10px;
+    background: var(--paper);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    transition: background 0.2s;
+    position: relative;
+    text-align: left;
+    font-family: inherit;
+  }
+  .cal-day:hover { background: var(--amber-glow); }
+  .cal-day.empty { cursor: default; background: transparent; opacity: 0.2; }
+  .cal-day.empty:hover { background: transparent; }
+  .cal-day.today { background: rgba(196, 125, 40, 0.08); }
+  .cal-day.has-entry { background: var(--paper); }
+  .cal-day-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.04em;
+  }
+  .cal-day.today .cal-day-num { color: var(--gold); font-weight: 500; }
+  .cal-day.has-entry .cal-day-num { color: var(--ink); }
+  .cal-day-dots { display: flex; gap: 2px; margin-top: 6px; flex-wrap: wrap; }
+  .cal-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); }
+  .cal-dot.strong { background: var(--oxblood); }
+  .cal-preview {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 10px;
+    color: var(--dim);
+    line-height: 1.3;
+    margin-top: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    width: 100%;
+  }
+  .cal-nav {
+    background: none;
+    border: 1px solid var(--hairline);
+    color: var(--dim);
+    width: 24px; height: 24px;
+    font-family: var(--mono);
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .cal-nav:hover { color: var(--gold); border-color: var(--gold-dim); }
+
+  /* Entry modal */
+  .entry-modal { display: none; position: fixed; inset: 0; background: rgba(26, 20, 16, 0.5); backdrop-filter: blur(4px); z-index: 200; align-items: flex-start; justify-content: center; padding: 80px 20px 40px; }
+  .entry-modal.active { display: flex; }
+  .entry-modal-card { background: var(--paper); border: 1px solid var(--hairline-strong); border-radius: 2px; padding: 24px 28px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px -20px rgba(26,20,16,0.3); }
+  .entry-modal-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--hairline); }
+  .entry-modal-head span { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; color: var(--ink); }
+  .entry-modal-close { background: none; border: none; color: var(--dim); font-size: 20px; cursor: pointer; line-height: 1; padding: 0 4px; }
+  .entry-modal-close:hover { color: var(--oxblood); }
+
+  /* Photo drop */
+  .photo-row { display: flex; gap: 12px; margin-top: 12px; align-items: stretch; }
+  .photo-drop {
+    flex: 1;
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px;
+    border: 1px dashed var(--hairline-strong);
+    background: var(--paper);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .photo-drop:hover { border-color: var(--gold); background: var(--amber-glow); }
+  .photo-drop.dragover { border-color: var(--gold); background: var(--amber-glow); border-style: solid; }
+
+  .photo-drop-icon {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--hairline-strong);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--dim); flex-shrink: 0;
+    transition: all 0.25s;
+  }
+  .photo-drop:hover .photo-drop-icon { border-color: var(--gold); color: var(--gold); }
+
+  .photo-drop-text {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+  }
+
+  .photo-preview { position: relative; width: 70px; height: 70px; flex-shrink: 0; }
+  .photo-preview img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; border: 1px solid var(--hairline); }
+  .photo-remove {
+    position: absolute; top: -6px; right: -6px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    border: none; font-size: 13px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Spinner */
+  .spinner-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid var(--hairline-strong);
+    border-top-color: var(--gold);
+    display: inline-block;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Parse preview */
+  .parse-preview {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: var(--well);
+    color: #ede8df;
+    border-radius: 2px;
+    font-family: var(--mono);
+  }
+  .parse-preview-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .parse-preview pre {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.7;
+    color: rgba(237, 232, 223, 0.85);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .btn-confirm, .btn-cancel {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .btn-confirm { background: var(--gold); color: var(--well); }
+  .btn-confirm:hover { background: var(--gold-bright); }
+  .btn-cancel { background: transparent; color: rgba(237,232,223,0.5); }
+  .btn-cancel:hover { color: var(--paper); }
+
+  /* API key link */
+  .api-key-link {
+    background: none; border: none; padding: 0;
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    cursor: pointer;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+    width: 100%;
+    text-align: left;
+  }
+  .api-key-link:hover { color: var(--gold); }
+
+  /* SECTION HEADERS */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .section-head h2 {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+  }
+
+  .section-head .meta {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* CHARTS */
+  .chart-block {
+    background: var(--well);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .chart-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='nh'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23nh)'/%3E%3C/svg%3E");
+    z-index: 1;
+  }
+
+  .chart-block svg, .chart-block canvas {
+    display: block;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+
+  .chart-title {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    z-index: 3;
+  }
+
+  .chart-legend {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: rgba(237, 232, 223, 0.4);
+    z-index: 3;
+  }
+
+  /* HEATMAP CELLS */
+  .heatmap-grid {
+    padding: 52px 20px 20px;
+  }
+
+  /* ENTRIES LIST */
+  .entries {
+    margin-top: 20px;
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .entry:first-child { border-top: 1px solid var(--hairline); }
+
+  .entry.today {
+    background: linear-gradient(90deg, rgba(196, 125, 40, 0.06), transparent 70%);
+    padding-left: 14px;
+    margin-left: -14px;
+  }
+
+  .today-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 8.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: rgba(196, 125, 40, 0.18);
+    color: var(--gold);
+    margin-top: 6px;
+  }
+  .today-badge.yest { background: rgba(26, 23, 20, 0.06); color: var(--dim); }
+
+  .entry-date {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    padding-top: 4px;
+  }
+
+  .entry-date .dow {
+    display: block;
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+
+  .entry-body p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--dim);
+    margin-bottom: 10px;
+  }
+
+  .entry-metrics {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+  }
+
+  .entry-metrics span { white-space: nowrap; }
+  .entry-metrics .v { color: var(--ink); font-weight: 500; }
+
+  /* LOCK SCREEN */
+  .lock-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+
+  .lock-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
+  .lock-card {
+    max-width: 340px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .lock-card h1 {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .lock-card p {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--dim);
+    margin-bottom: 24px;
+  }
+
+  .lock-card input {
+    width: 100%;
+    background: var(--paper-warm);
+    border: 1px solid var(--hairline-strong);
+    border-radius: 2px;
+    padding: 12px 14px;
+    font-family: var(--mono);
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    outline: none;
+  }
+
+  .lock-card input:focus { border-color: var(--gold); }
+
+  .lock-card button {
+    width: 100%;
+    margin-top: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .lock-card button:hover { background: var(--gold); }
+
+  .lock-error {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--oxblood);
+    margin-top: 10px;
+    min-height: 12px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .stats-row { grid-template-columns: repeat(3, 1fr); }
+    .log-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .health-wrap { padding: 0 20px 60px; }
+    .health-title { font-size: 2.6rem; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .log-grid { grid-template-columns: repeat(2, 1fr); }
+    .entry { grid-template-columns: 70px 1fr; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div class="lock-overlay" id="lock">
+  <div class="lock-card">
+    <h1>Health</h1>
+    <p>Private. Password to enter.</p>
+    <form id="lock-form" onsubmit="return unlock(event)">
+      <input type="password" id="lock-pw" placeholder="••••••••" autocomplete="current-password" autofocus>
+      <button type="submit">Unlock</button>
+    </form>
+    <div class="lock-error" id="lock-error"></div>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+
+<div id="chop-nav"></div>
+<script src="/js/chop-nav.js"></script>
+
+<div class="health-wrap">
+
+  <header class="health-hero">
+    <div class="health-kicker">
+      <span>Private · Private</span>
+    </div>
+    <h1 class="health-title">Health</h1>
+    <p class="health-deck">Body composition, recovery, and output. Tracking what matters, logged daily.</p>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats-row" id="stats"></div>
+
+  <!-- LOG TODAY -->
+  <section class="log-section">
+    <div class="log-header">
+      <div class="log-heading">Log Today <span id="today-status" style="font-weight:400;text-transform:none;letter-spacing:0.06em;margin-left:6px"></span></div>
+      <div class="log-date" id="today-date"></div>
+    </div>
+    <textarea
+      class="log-textarea"
+      id="log-text"
+      rows="4"
+      placeholder="Slept 6h 40m. HRV 125, RHR 47. Yoga 60, Tonal upper body (10,432 lb). Salmon + greens for lunch. ~1,800 kcal, 210g protein. Felt strong in session."></textarea>
+
+    <div class="photo-row">
+      <label class="photo-drop" id="photo-drop">
+        <input type="file" id="photo-input" accept="image/*" style="display:none">
+        <span class="photo-drop-icon">+</span>
+        <span class="photo-drop-text">Drop screenshot (Eight Sleep, Tonal, Whoop...) or click</span>
+      </label>
+      <div class="photo-preview" id="photo-preview" style="display:none">
+        <img id="photo-preview-img">
+        <button type="button" class="photo-remove" onclick="removePhoto()">&times;</button>
+      </div>
+    </div>
+
+    <div class="log-submit">
+      <button class="btn-submit" id="btn-save" onclick="saveEntry()">Parse &amp; Save</button>
+      <span class="spinner-dot" id="save-spinner" style="display:none"></span>
+      <span class="log-hint">Claude reads your text + photo. Extracts structure. Never leaves this device without your API key.</span>
+    </div>
+
+    <!-- Parsed preview -->
+    <div class="parse-preview" id="parse-preview" style="display:none">
+      <div class="parse-preview-label">Parsed</div>
+      <pre id="parse-preview-body"></pre>
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <button class="btn-confirm" onclick="confirmSave()">Confirm &amp; Save</button>
+        <button class="btn-cancel" onclick="cancelParse()">Discard</button>
+      </div>
+    </div>
+
+    <button class="api-key-link" onclick="setApiKey()" id="api-key-status">Set API Key</button>
+  </section>
+
+  <!-- ACTIVITY HEATMAP -->
+  <section style="margin-bottom:40px">
+    <div class="section-head">
+      <h2>Consistency</h2>
+      <span class="meta">Last 12 weeks</span>
+    </div>
+    <div class="chart-block">
+      <div class="chart-title">ACTIVITY HEATMAP</div>
+      <div class="chart-legend">□ none · ▪ logged · ■ strong day</div>
+      <div class="heatmap-grid">
+        <svg id="heatmap" viewBox="0 0 780 140" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- HRV CHART -->
+  <section style="margin-bottom:40px">
+    <div class="section-head">
+      <h2>Recovery</h2>
+      <span class="meta">HRV · RHR · Sleep</span>
+    </div>
+    <div class="chart-block" style="min-height:280px">
+      <div class="chart-title">HRV TIMELINE</div>
+      <div class="chart-legend" id="hrv-legend"></div>
+      <div id="hrv-chart" class="plot-host"></div>
+    </div>
+  </section>
+
+  <!-- SLEEP / CALORIES DUAL -->
+  <section style="margin-bottom:40px">
+    <div class="section-head">
+      <h2>Fuel &amp; Rest</h2>
+      <span class="meta">Calories · Protein · Sleep</span>
+    </div>
+    <div class="chart-block" style="min-height:260px">
+      <div class="chart-title">INTAKE &amp; RECOVERY</div>
+      <div class="chart-legend">● kcal · ● protein · — sleep</div>
+      <div id="dual-chart" class="plot-host"></div>
+    </div>
+  </section>
+
+  <!-- CALENDAR -->
+  <section style="margin-bottom:30px">
+    <div class="section-head">
+      <h2>Calendar</h2>
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="cal-nav" onclick="calMonth(-1)">←</button>
+        <span class="meta" id="cal-label">—</span>
+        <button class="cal-nav" onclick="calMonth(1)">→</button>
+      </div>
+    </div>
+    <div class="calendar-grid" id="calendar"></div>
+  </section>
+
+  <!-- ENTRIES -->
+  <section>
+    <div class="section-head">
+      <h2>Log History</h2>
+      <span class="meta" id="entry-count">— entries</span>
+    </div>
+    <div class="entries" id="entries"></div>
+  </section>
+
+  <!-- Entry detail modal -->
+  <div class="entry-modal" id="entry-modal" onclick="if(event.target===this) closeModal()">
+    <div class="entry-modal-card">
+      <div class="entry-modal-head">
+        <span id="modal-date"></span>
+        <button class="entry-modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="proj-foot">
+  <span>Choplogic Radio · Est. 2006</span>
+  <div style="display:flex;gap:16px;align-items:center">
+    <a href="#" onclick="exportData();return false">Export</a>
+    <a href="#" onclick="importData();return false">Import</a>
+    <a href="#" onclick="diagnosticInfo();return false">Diagnostic</a>
+    <a href="#" onclick="lockSession();return false">Lock</a>
+  </div>
+</footer>
+
+</div>
+
+<script src="/js/chop-auth.js"></script>
+<script>
+// ═══════════ LOCK / UNLOCK (health-specific password) ═══════════
+const HEALTH_HASH = '77e9d03d2fa3fa2f24c1a02710b3566e337340e1ced5217bf863d8ea37f4658f'; // "log123"
+const HEALTH_KEY = 'health_unlocked';
+
+async function sha256(str) {
+  // Prefer native Web Crypto (HTTPS / localhost)
+  if (window.crypto && window.crypto.subtle) {
+    try {
+      const buf = new TextEncoder().encode(str);
+      const hash = await window.crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    } catch (e) { /* fall through to JS impl */ }
+  }
+  return sha256_js(str);
+}
+// Pure-JS SHA-256 fallback (used on non-secure contexts like LAN HTTP from mobile)
+function sha256_js(ascii) {
+  function rightRotate(n, x) { return ((x >>> n) | (x << (32 - n))) >>> 0; }
+  const mathPow = Math.pow, maxWord = mathPow(2, 32);
+  let result = '';
+  const words = []; const asciiBitLength = ascii.length * 8;
+  let hash = sha256_js.h = sha256_js.h || [];
+  const k = sha256_js.k = sha256_js.k || [];
+  let primeCounter = k.length;
+  const isComposite = {};
+  for (let candidate = 2; primeCounter < 64; candidate++) {
+    if (!isComposite[candidate]) {
+      for (let i = 0; i < 313; i += candidate) isComposite[i] = candidate;
+      hash[primeCounter] = (mathPow(candidate, .5) * maxWord) | 0;
+      k[primeCounter++] = (mathPow(candidate, 1/3) * maxWord) | 0;
+    }
+  }
+  ascii += '\x80';
+  while (ascii.length % 64 - 56) ascii += '\x00';
+  for (let i = 0; i < ascii.length; i++) {
+    const j = ascii.charCodeAt(i);
+    if (j >> 8) return '';
+    words[i >> 2] |= j << ((3 - i) % 4) * 8;
+  }
+  words[words.length] = ((asciiBitLength / maxWord) | 0);
+  words[words.length] = (asciiBitLength);
+  for (let j = 0; j < words.length;) {
+    const w = words.slice(j, j += 16);
+    const oldHash = hash;
+    hash = hash.slice(0, 8);
+    for (let i = 0; i < 64; i++) {
+      const w15 = w[i - 15], w2 = w[i - 2];
+      const a = hash[0], e = hash[4];
+      const temp1 = hash[7]
+        + (rightRotate(6, e) ^ rightRotate(11, e) ^ rightRotate(25, e))
+        + ((e & hash[5]) ^ ((~e) & hash[6]))
+        + k[i]
+        + (w[i] = (i < 16) ? w[i] : (w[i - 16]
+          + (rightRotate(7, w15) ^ rightRotate(18, w15) ^ (w15 >>> 3))
+          + w[i - 7]
+          + (rightRotate(17, w2) ^ rightRotate(19, w2) ^ (w2 >>> 10))
+        ) | 0);
+      const temp2 = (rightRotate(2, a) ^ rightRotate(13, a) ^ rightRotate(22, a))
+        + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+      hash = [(temp1 + temp2) | 0].concat(hash);
+      hash[4] = (hash[4] + temp1) | 0;
+    }
+    for (let i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+  }
+  for (let i = 0; i < 8; i++) {
+    for (let j = 3; j + 1; j--) {
+      const b = (hash[i] >> (j * 8)) & 255;
+      result += ((b < 16) ? '0' : '') + b.toString(16);
+    }
+  }
+  return result;
+}
+
+async function unlock(ev) {
+  ev.preventDefault();
+  const pw = document.getElementById('lock-pw').value;
+  const hash = await sha256(pw);
+  if (hash === HEALTH_HASH) {
+    localStorage.setItem(HEALTH_KEY, 'yes');
+    document.getElementById('lock').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    init();
+  } else {
+    document.getElementById('lock-error').textContent = 'Wrong password.';
+    document.getElementById('lock-pw').value = '';
+  }
+  return false;
+}
+
+function lockSession() {
+  localStorage.removeItem(HEALTH_KEY);
+  location.reload();
+}
+
+// ═══════════ DATA ═══════════
+const STORAGE_KEY = 'health_entries';
+let entries = [];
+let calViewMonth = new Date();
+
+if (localStorage.getItem(HEALTH_KEY) === 'yes') {
+  document.getElementById('lock').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  init();
+}
+
+function loadEntries() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw && !raw.startsWith('enc:')) {
+      entries = JSON.parse(raw);
+    }
+  } catch(e) { entries = []; }
+
+  // Seed if empty
+  if (entries.length === 0) seedData();
+}
+
+function saveEntries() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); } catch(e) {}
+}
+
+function seedData() {
+  entries = [
+    {
+      date:'2026-03-13', hrv:171, rhr:43, sleep:7.3, calories:1365, protein:176, strong:true,
+      note:"Sleep peak — HRV 171. Multiple PRs.",
+      activity: ["Peloton — 20 min, ~150 kcal", "Pull-ups — 20 total (15 wide-grip + 5 behind-the-neck)", "Pushups — 50 (25 standard + 25 wide)", "Vinyasa yoga — 60 min, ~280 kcal", "Tonal Ultimate Back Wkt 10: bench press 5 sets max 100 lb + front raise — 5,718 lb, 12 kJ, 16:14", "Tonal core: pullover crunch / lateral bridge row / half-kneeling lift / rotational lift — 3,941 lb, Power/Strength PRs"],
+      food: ["Brisket filling (no tortilla/guacamole) — 200 kcal, 27g P", "Aloha bar — 240 kcal, 14g P", "Chicken tender ~1/2 cup — 115 kcal, 22g P", "Spaghetti w/ marinara — 270 kcal, 9g P, 54g C", "Norse Code 2 scoops — 240 kcal, 50g P", "Chicken breast skinless 180g — 300 kcal, 54g P"]
+    },
+    {
+      date:'2026-03-12', hrv:null, rhr:null, sleep:null, calories:819, protein:84, strong:true,
+      note:"Under-fueled. Perbacco SF networking dinner (no alcohol).",
+      activity: ["20 pull-ups (slow wide-grip military)", "Tonal legs — 43:03, 8,008 lb — RDL/glute bridge/rack squat/curtsy lunge, Strength PR", "Sauna — 15 min", "Vinyasa yoga — 60 min", "Peloton Z2 — 30 min"],
+      food: ["Trifecta Sweet Garlic Pork (noodles left) — 330 kcal, 26g P", "Perbacco SF dinner: olives, arancini, veal carpaccio, fennel salad, halibut, clams, shrimp — ~489 kcal, 58g P"]
+    },
+    {
+      date:'2026-03-11', hrv:125, rhr:47, sleep:4.75, calories:1815, protein:243, strong:true,
+      note:"Worked late ~1am. Total Tonal 13,183 lb.",
+      activity: ["Vinyasa yoga — 60 min, ~280 kcal", "Tonal #1: bent-over row/face pull/Y-pull — 7,983 lb, PRs", "Peloton low Z2 — 30 min, ~220 kcal", "Tonal #2: lat pulldown/face curl — 5,200 lb, 13.3 kJ, 11:02, PRs", "Pull-ups — 10", "Sauna — 15 min"],
+      food: ["Cortado", "Morning shake — 320 kcal, 56g P", "Aloha bar — 220 kcal, 14g P", "Aloha mini — 110 kcal, 7g P", "Trifecta Korean chicken (~90%) — 355 kcal, 28g P", "NFGY 167g — 93 kcal, 15g P", "Biena chickpeas 1 tbsp — 35 kcal", "Norse Code 2 scoops — 240 kcal, 50g P", "Mussels drained 69g — 111 kcal, 13g P", "Late protein shake 2 scoops — 260 kcal, 56g P"]
+    },
+    {
+      date:'2026-03-10', hrv:183, rhr:43, sleep:6.4, calories:1590, protein:168, strong:true,
+      note:"HRV 183 peak recovery. Multiple PRs on Tonal back workout.",
+      activity: ["Peloton Z1 — 15 min, ~70 kcal", "Vinyasa yoga — 60 min, ~280 kcal", "Pushups — 100, ~35 kcal", "Tonal Ultimate Back Wkt 8: lat pulldown / straight-arm pulldown / half-kneeling pull / X-pulldown — 11,636 lb, ~35.9 kJ, Strength/Power/Volume PRs"],
+      food: ["Morning shake — 320 kcal, 56g P", "Norse Code 2 scoops — 220 kcal, 50g P", "Trifecta Dijon Pork (1/3 veg) — 425 kcal, 31g P, 30g F", "Fish. Sausalito: crab roll — 500 kcal, 30g P", "Fries (partial, 15–17) — 45 kcal", "Scrimshaw pilsner 6 oz — 75 kcal", "Pickle spear — 5 kcal"]
+    },
+    {
+      date:'2026-03-09', hrv:null, rhr:null, sleep:null, calories:1513, protein:176, strong:true,
+      note:"Very aggressive deficit (~1,250–1,450 kcal). Multiple PRs.",
+      activity: ["Vinyasa yoga — 45 min, ~220 kcal", "Peloton Z1 — 30 min, ~150 kcal", "Tonal — 39:42, 16,291 lb, 47.8 kJ — deadlift/biceps/RDL/straight-arm pull/lateral bridge row/rotational chop, multiple Power/Volume PRs, ~173 kcal", "Pushups — 25"],
+      food: ["Mandarin — 40 kcal", "Norse Code 1 scoop — 110 kcal, 25g P", "Coffee", "Trifecta Dijon Pork (1/3 veg) — 400 kcal, 26g P", "Chicken tender 25g — 40 kcal", "Chicken breast 100g — 165 kcal, 31g P", "Chicken tender 15g — 25 kcal", "Roasted beets 60g — 25 kcal", "Aloha mini — 110 kcal, 7g P", "Chicken breast 20g — 33 kcal", "Oatmeal (1/2c oats, 1c water, 1/2c milk) — 230 kcal, 9g P", "Biena chickpeas 2 tbsp — 70 kcal", "Protein 2 scoops — 260 kcal, 56g P"]
+    },
+    {
+      date:'2026-03-08', hrv:122, rhr:48, sleep:5.6, calories:1900, protein:170, strong:true,
+      note:"DST spring forward. Sleep score 73 actual ~7h50m. Strength/Power/Volume PRs.",
+      activity: ["Ashtanga primary series — 60 min, ~320 kcal", "Pushups — 25", "Tonal — 36:55, 9,642 lb, 27.8 kJ — bench press/front raise/half-kneeling press/incline fly/standing lift, Strength/Power/Volume PRs, ~210 kcal", "Sauna — 15 min"],
+      food: ["Ham & cheese croissant 85g — 260 kcal, 10g P", "2 cortados — 60 kcal", "Aloha bar — 220 kcal, 14g P", "Morning shake — 320 kcal, 56g P", "Trifecta Kung Pao Shrimp — 350 kcal, 31g P", "Tru Fru dessert (2 servings) — 180 kcal", "Bahn Mi Ba double chicken salad — 520 kcal, 55g P"]
+    },
+    {
+      date:'2026-03-07', hrv:105, rhr:53, sleep:6.7, calories:1990, protein:211, strong:true,
+      note:"Sleep score 84. Volume PR on Tonal. NY Strip dinner.",
+      activity: ["Tonal lower body — 31:44, 12,881 lb, 99% target — RDL/goblet squat/single-leg RDL/split squat/calf raise, Volume PR, ~225 kcal", "Vinyasa yoga — 60 min, ~285 kcal"],
+      food: ["Morning shake — 320 kcal, 56g P", "Protein shake 2 scoops — 260 kcal, 56g P", "Aloha mini — 110 kcal, 7g P", "Aloha bar — 220 kcal, 14g P", "NY Strip steak 16oz (left ~25% fat) — 580 kcal, 65g P, 36g F", "1/2 glass cabernet — 60 kcal", "Chocolate cake 2 small forkfuls — 90 kcal", "Lamb riblet — 95 kcal, 7g P", "Cream of spinach 1/2 cup — 150 kcal, 12g F", "Potato gratin 40g — 85 kcal"]
+    },
+    {
+      date:'2026-03-06', hrv:null, rhr:null, sleep:null, calories:2105, protein:245, strong:false,
+      note:"Full log Friday. Deficit ~250–350 kcal. Exercise burn ~520 kcal.",
+      activity: ["Vinyasa yoga — 60 min, ~280 kcal", "Tonal — 26:34, 8,081 lb, 21.1 kJ — bent-over rows/face pulls/upright rows/seated rows/single-arm rows, ~200 kcal", "Sauna — 15 min, ~40 kcal"],
+      food: ["Morning shake (TL 2 scoops + collagen/fiber/psyllium/colostrum/banana) — 320 kcal, 56g P", "Trifecta salmon — 300 kcal, 34g P, 20g F", "Aloha bar — 220 kcal, 14g P", "Aloha mini — 110 kcal, 7g P", "Biena chickpeas 2 tbsp — 70 kcal", "Coconut water 16 oz — 100 kcal", "Protein shake 2 scoops — 260 kcal, 56g P", "Cortado — 30 kcal", "Chicken breast salad + vinaigrette — 305 kcal, 52g P", "Duck-fat fries 10 pcs — 90 kcal", "NA beer 3/4 bottle — 60 kcal", "NFGY 196g — 110 kcal, 20g P", "Godiva dark chocolates x2 — 70 kcal"]
+    },
+  ];
+  saveEntries();
+}
+
+// ═══════════ STATS ═══════════
+function renderStats() {
+  const lastN = entries.filter(e => e.hrv || e.sleep).slice(0, 7);
+  const hrvs = lastN.filter(e => e.hrv).map(e => e.hrv);
+  const rhrs = lastN.filter(e => e.rhr).map(e => e.rhr);
+  const sleeps = lastN.filter(e => e.sleep).map(e => e.sleep);
+  const cals = entries.slice(0, 7).filter(e => e.calories).map(e => e.calories);
+
+  const avg = (arr) => arr.length ? (arr.reduce((a,b)=>a+b,0) / arr.length) : null;
+
+  const active7 = entries.slice(0, 7).filter(e => e.activity).length;
+
+  const stats = [
+    { label: 'HRV', value: Math.round(avg(hrvs) || 0), unit: 'ms · 7d', trend: 'up', trendText: '+12 vs prior' },
+    { label: 'RHR', value: Math.round(avg(rhrs) || 0), unit: 'bpm · 7d', trend: 'down', trendText: '−2 bpm' },
+    { label: 'Sleep', value: (avg(sleeps) || 0).toFixed(1), unit: 'hrs · 7d', trend: 'neutral', trendText: 'steady' },
+    { label: 'Calories', value: Math.round(avg(cals) || 0), unit: 'kcal · 7d', trend: 'down', trendText: 'cut phase' },
+    { label: 'Active', value: active7 + '/7', unit: 'days', trend: 'up', trendText: 'consistent' },
+  ];
+
+  const el = document.getElementById('stats');
+  el.innerHTML = stats.map(s => `
+    <div class="stat">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value">${s.value}<span class="stat-unit">${s.unit}</span></div>
+      <div class="stat-trend ${s.trend}">${s.trendText}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════ HEATMAP (GitHub-style) ═══════════
+function renderHeatmap() {
+  const svg = document.getElementById('heatmap');
+  const weeks = 12;
+  const days = weeks * 7;
+  const cellW = 11, cellH = 11, gap = 3;
+
+  // Build date -> strength map
+  const byDate = {};
+  entries.forEach(e => {
+    byDate[e.date] = e.strong ? 2 : (e.activity ? 1 : 0);
+  });
+
+  const today = new Date('2026-03-13T12:00:00');
+  const cells = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    const iso = d.toISOString().slice(0, 10);
+    const strength = byDate[iso] || 0;
+    cells.push({ date: iso, strength, dow: d.getDay() });
+  }
+
+  const totalW = weeks * (cellW + gap);
+  const startX = (780 - totalW) / 2;
+
+  let html = '';
+
+  // Day labels
+  const dayLabels = ['S','M','T','W','T','F','S'];
+  dayLabels.forEach((l, i) => {
+    html += `<text x="${startX - 14}" y="${i * (cellH + gap) + 10}" font-family="IBM Plex Mono, monospace" font-size="8" fill="rgba(237,232,223,0.3)">${l}</text>`;
+  });
+
+  cells.forEach((c, i) => {
+    const week = Math.floor(i / 7);
+    const dow = c.dow;
+    const x = startX + week * (cellW + gap);
+    const y = dow * (cellH + gap);
+    const fill = c.strength === 2 ? '#c4962e' : c.strength === 1 ? 'rgba(196, 125, 40, 0.35)' : 'rgba(237, 232, 223, 0.06)';
+    const stroke = 'rgba(237, 232, 223, 0.08)';
+    html += `<rect x="${x}" y="${y}" width="${cellW}" height="${cellH}" fill="${fill}" stroke="${stroke}" stroke-width="0.5" rx="1"><title>${c.date}</title></rect>`;
+  });
+
+  svg.innerHTML = html;
+}
+
+// ═══════════ HRV CHART ═══════════
+function renderHRVChart() {
+  const el = document.getElementById('hrv-chart');
+  if (!el) return;
+  const data = entries.slice().reverse().filter(e => e.hrv)
+    .map(e => ({ date: new Date(e.date + 'T12:00:00'), label: e.date, hrv: e.hrv }));
+  const leg = document.getElementById('hrv-legend');
+  if (leg) leg.textContent = data.length
+    ? `${data.length} points · avg ${Math.round(data.reduce((s,d)=>s+d.hrv,0)/data.length)}`
+    : '';
+  if (!data.length) { el.replaceChildren(); return; }
+  if (!window.Plot) return; // Plot loads as a module; loader re-renders on ready
+  const Plot = window.Plot;
+  el.replaceChildren(Plot.plot({
+    width: 900, height: 240, marginLeft: 42, marginBottom: 30,
+    style: { background: 'transparent', color: 'rgba(237,232,223,0.6)', fontFamily: '"IBM Plex Mono", monospace', fontSize: '9px' },
+    x: { type: 'utc', label: null, ticks: 4 },
+    y: { label: null, ticks: 4 },
+    marks: [
+      Plot.gridY({ stroke: 'rgba(237,232,223,0.06)' }),
+      Plot.areaY(data, { x: 'date', y: 'hrv', fill: 'rgba(196,125,40,0.10)', curve: 'monotone-x' }),
+      Plot.lineY(data, { x: 'date', y: 'hrv', stroke: '#c4962e', strokeWidth: 1.5, curve: 'monotone-x' }),
+      Plot.dot(data, { x: 'date', y: 'hrv', r: 2.5, fill: '#c4962e' }),
+      Plot.tip(data, Plot.pointerX({ x: 'date', y: 'hrv', fill: '#221508', stroke: '#c9a84c',
+        channels: { Date: 'label', HRV: 'hrv' }, format: { x: false, y: false } })),
+    ],
+  }));
+}
+
+// ═══════════ DUAL CHART (calories + protein + sleep) ═══════════
+function renderDualChart() {
+  const el = document.getElementById('dual-chart');
+  if (!el) return;
+  const data = entries.slice().reverse().filter(e => e.calories)
+    .map(e => ({ date: new Date(e.date + 'T12:00:00'), label: e.date,
+                 calories: e.calories, protein: e.protein || null, sleep: e.sleep || null }));
+  if (!data.length) { el.replaceChildren(); return; }
+  if (!window.Plot) return;
+  const Plot = window.Plot;
+  const CALMAX = 2500;
+  el.replaceChildren(Plot.plot({
+    width: 900, height: 220, marginLeft: 42, marginRight: 42, marginBottom: 30,
+    style: { background: 'transparent', color: 'rgba(237,232,223,0.6)', fontFamily: '"IBM Plex Mono", monospace', fontSize: '9px' },
+    x: { type: 'band', label: null, tickFormat: (d) => d.toISOString().slice(5, 10), ticks: 4 },
+    y: { label: null, domain: [0, CALMAX], ticks: 4 },
+    marks: [
+      Plot.gridY({ stroke: 'rgba(237,232,223,0.06)' }),
+      Plot.barY(data, { x: 'date', y: 'calories', fill: 'rgba(196,125,40,0.55)', rx: 1,
+        channels: { Date: 'label', kcal: 'calories' }, tip: { format: { x: false, y: false } } }),
+      Plot.line(data.filter(d => d.protein), { x: 'date', y: (d) => d.protein * 6,
+        stroke: 'rgba(160,69,53,0.9)', strokeWidth: 1.5, marker: 'circle',
+        channels: { Date: 'label', protein_g: 'protein' }, tip: { format: { x: false, y: false } } }),
+      Plot.line(data.filter(d => d.sleep), { x: 'date', y: (d) => d.sleep * (CALMAX / 10),
+        stroke: 'rgba(237,232,223,0.5)', strokeWidth: 1.2, strokeDasharray: '3,3',
+        channels: { Date: 'label', sleep_h: 'sleep' }, tip: { format: { x: false, y: false } } }),
+    ],
+  }));
+}
+
+// ═══════════ ENTRIES ═══════════
+function renderEntries() {
+  const el = document.getElementById('entries');
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const yesterdayStr = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+
+  const sorted = entries.slice().sort((a,b) => b.date.localeCompare(a.date));
+  el.innerHTML = sorted.map(e => {
+    const d = new Date(e.date + 'T12:00:00');
+    const dow = d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
+    const day = d.getDate();
+    const mon = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+
+    const metrics = [];
+    if (e.hrv) metrics.push(`<span>HRV <span class="v">${e.hrv}</span></span>`);
+    if (e.rhr) metrics.push(`<span>RHR <span class="v">${e.rhr}</span></span>`);
+    if (e.sleep) metrics.push(`<span>SLEEP <span class="v">${e.sleep}h</span></span>`);
+    if (e.calories) metrics.push(`<span>KCAL <span class="v">${e.calories}</span></span>`);
+    if (e.protein) metrics.push(`<span>PROT <span class="v">${e.protein}g</span></span>`);
+
+    let badge = '';
+    let extraClass = '';
+    if (e.date === todayStr) { badge = '<span class="today-badge">Today</span>'; extraClass = ' today'; }
+    else if (e.date === yesterdayStr) { badge = '<span class="today-badge yest">Yesterday</span>'; }
+
+    return `<div class="entry${extraClass}" onclick="openModal('${e.date}')" style="cursor:pointer">
+      <div class="entry-date"><span class="dow">${dow}</span>${mon} ${day}${badge}</div>
+      <div class="entry-body">
+        <p>${e.note || ''}</p>
+        <div class="entry-metrics">${metrics.join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('entry-count').textContent = `${entries.length} entries`;
+
+  // Show a hint in the form header if today already has an entry
+  const hasToday = entries.some(e => e.date === todayStr);
+  const hdr = document.getElementById('today-status');
+  if (hdr) {
+    hdr.textContent = hasToday ? '· already logged · saving will replace' : '';
+    hdr.style.color = hasToday ? 'var(--oxblood)' : 'var(--dim)';
+  }
+}
+
+// ═══════════ SAVE ENTRY ═══════════
+// ═══════════ PHOTO HANDLING ═══════════
+let uploadedPhoto = null;
+
+function initPhotoDrop() {
+  const drop = document.getElementById('photo-drop');
+  const input = document.getElementById('photo-input');
+  if (!drop || !input) return;
+
+  drop.addEventListener('click', () => input.click());
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault();
+    drop.classList.remove('dragover');
+    if (e.dataTransfer.files.length) handlePhoto(e.dataTransfer.files[0]);
+  });
+  input.addEventListener('change', e => {
+    if (e.target.files.length) handlePhoto(e.target.files[0]);
+  });
+}
+
+function handlePhoto(file) {
+  const reader = new FileReader();
+  reader.onload = ev => {
+    uploadedPhoto = ev.target.result;
+    document.getElementById('photo-preview-img').src = ev.target.result;
+    document.getElementById('photo-preview').style.display = 'block';
+    document.getElementById('photo-drop').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removePhoto() {
+  uploadedPhoto = null;
+  document.getElementById('photo-preview').style.display = 'none';
+  document.getElementById('photo-drop').style.display = 'flex';
+  document.getElementById('photo-input').value = '';
+}
+
+// ═══════════ API KEY ═══════════
+function setApiKey() {
+  const current = localStorage.getItem('anthropic_key') || '';
+  const key = prompt('Anthropic API key (stored only on this device):', current);
+  if (key !== null) {
+    if (key.trim()) localStorage.setItem('anthropic_key', key.trim());
+    else localStorage.removeItem('anthropic_key');
+    updateApiKeyStatus();
+  }
+}
+
+function updateApiKeyStatus() {
+  const btn = document.getElementById('api-key-status');
+  if (!btn) return;
+  btn.textContent = localStorage.getItem('anthropic_key') ? 'API Key ✓ (click to update)' : 'Set API Key';
+}
+
+// ═══════════ AI PARSE ═══════════
+let pendingEntry = null;
+
+async function saveEntry() {
+  const text = document.getElementById('log-text').value.trim();
+  if (!text && !uploadedPhoto) { alert('Write something or drop a photo.'); return; }
+
+  const apiKey = localStorage.getItem('anthropic_key');
+  if (!apiKey) { alert('Set your Anthropic API key first (link at bottom of form).'); setApiKey(); return; }
+
+  const btn = document.getElementById('btn-save');
+  const spinner = document.getElementById('save-spinner');
+  btn.disabled = true;
+  btn.textContent = 'Parsing...';
+  spinner.style.display = 'inline-block';
+
+  try {
+    const parsed = await parseWithClaude(text, uploadedPhoto, apiKey);
+    pendingEntry = parsed;
+    document.getElementById('parse-preview-body').textContent = JSON.stringify(parsed, null, 2);
+    document.getElementById('parse-preview').style.display = 'block';
+  } catch (err) {
+    alert('Parse failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Parse & Save';
+    spinner.style.display = 'none';
+  }
+}
+
+async function parseWithClaude(text, photoDataUrl, apiKey) {
+  const content = [];
+
+  if (photoDataUrl) {
+    const mediaType = photoDataUrl.match(/data:(.*?);/)[1];
+    const data = photoDataUrl.split(',')[1];
+    content.push({ type: 'image', source: { type: 'base64', media_type: mediaType, data } });
+  }
+
+  const today = new Date().toISOString().slice(0, 10);
+  const prompt = `You are a health log parser. Extract structured data from the text and/or image.
+
+${photoDataUrl ? 'The image is a screenshot of a health tracker (Eight Sleep, Whoop, Oura, Tonal, Apple Health, etc). Read values from it.\n\n' : ''}Text: ${text || '(no text provided, use only the image)'}
+
+Return ONLY a JSON object with this exact shape, no other text, no markdown fences:
+{
+  "date": "${today}",
+  "note": "one-line summary in your own words",
+  "hrv": number or null,
+  "rhr": number or null,
+  "sleep": number (in hours, e.g. 6.67) or null,
+  "weight": number (in pounds) or null,
+  "calories": number or null,
+  "protein": number (grams) or null,
+  "activity": true if any exercise/activity mentioned else false,
+  "strong": true if multiple activities or PRs or strong metrics else false
+}
+
+For sleep, convert "6h 40m" to 6.67, "7h 19m" to 7.32, etc. Return only the JSON.`;
+
+  content.push({ type: 'text', text: prompt });
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 800,
+      messages: [{ role: 'user', content }]
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error?.message || `API ${res.status}`);
+  }
+
+  const data = await res.json();
+  const raw = data.content.map(b => b.text || '').join('');
+  const clean = raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  return JSON.parse(clean);
+}
+
+function confirmSave() {
+  if (!pendingEntry) return;
+  const date = pendingEntry.date || new Date().toISOString().slice(0, 10);
+  entries = entries.filter(e => e.date !== date);
+  entries.unshift(pendingEntry);
+  saveEntries();
+
+  // Clear form
+  document.getElementById('log-text').value = '';
+  removePhoto();
+  document.getElementById('parse-preview').style.display = 'none';
+  pendingEntry = null;
+
+  // Re-render
+  init();
+}
+
+function cancelParse() {
+  pendingEntry = null;
+  document.getElementById('parse-preview').style.display = 'none';
+}
+
+// ═══════════ EXPORT / IMPORT ═══════════
+function exportData() {
+  const data = JSON.stringify(entries, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `health-entries-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const imported = JSON.parse(ev.target.result);
+        if (!Array.isArray(imported)) throw new Error('Not an array');
+        if (confirm(`Import ${imported.length} entries? This will MERGE with existing (same-date entries replaced).`)) {
+          // Merge by date
+          const byDate = {};
+          entries.forEach(e => byDate[e.date] = e);
+          imported.forEach(e => { if (e.date) byDate[e.date] = e; });
+          entries = Object.values(byDate).sort((a,b) => b.date.localeCompare(a.date));
+          saveEntries();
+          init();
+          alert('Imported.');
+        }
+      } catch(err) {
+        alert('Import failed: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+// ═══════════ CALENDAR ═══════════
+// calViewMonth declared above
+
+function calMonth(delta) {
+  calViewMonth.setMonth(calViewMonth.getMonth() + delta);
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const el = document.getElementById('calendar');
+  if (!el) return;
+  const year = calViewMonth.getFullYear();
+  const month = calViewMonth.getMonth();
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('cal-label').textContent = `${monthNames[month]} ${year}`;
+
+  const first = new Date(year, month, 1);
+  const last = new Date(year, month + 1, 0);
+  const startDow = first.getDay(); // 0 = Sunday
+  const daysInMonth = last.getDate();
+  const todayStr = new Date().toISOString().slice(0,10);
+
+  // Index entries by date
+  const byDate = {};
+  entries.forEach(e => { byDate[e.date] = e; });
+
+  let html = '';
+  ['S','M','T','W','T','F','S'].forEach(d => {
+    html += `<div class="cal-dow">${d}</div>`;
+  });
+
+  // Empty cells before month starts
+  for (let i = 0; i < startDow; i++) html += '<div class="cal-day empty"></div>';
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const iso = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const entry = byDate[iso];
+    const isToday = iso === todayStr;
+    const classes = ['cal-day'];
+    if (isToday) classes.push('today');
+    if (entry) classes.push('has-entry');
+
+    let dots = '';
+    let preview = '';
+    if (entry) {
+      const metrics = [entry.hrv, entry.rhr, entry.sleep, entry.calories].filter(x => x != null).length;
+      for (let i = 0; i < Math.min(metrics, 4); i++) {
+        dots += `<span class="cal-dot${entry.strong ? ' strong' : ''}"></span>`;
+      }
+      if (entry.note) preview = `<div class="cal-preview">${entry.note.substring(0, 50)}${entry.note.length > 50 ? '…' : ''}</div>`;
+    }
+
+    html += `<button class="${classes.join(' ')}" onclick="openModal('${iso}')">
+      <span class="cal-day-num">${day}</span>
+      <div class="cal-day-dots">${dots}</div>
+      ${preview}
+    </button>`;
+  }
+
+  el.innerHTML = html;
+}
+
+// Parse a free-text note into activity vs food buckets using heuristics
+function splitNote(note) {
+  if (!note) return { activity: [], food: [], other: [] };
+  const chunks = note.split(/[;.·]|(?:\s—\s)|(?:\sand\s)/i).map(s => s.trim()).filter(Boolean);
+  const activityKeys = /\b(yoga|tonal|peloton|pushups?|pull-?ups?|sauna|run|steps|deadlift|squat|bench|press|row|curl|rdl|sprint|ride|bike|swim|hike|lift|stretch|ashtanga|vinyasa|massage|nordic|box|club)\b/i;
+  const foodKeys = /\b(shake|bar|salmon|chicken|steak|eggs?|protein|oatmeal|yogurt|greek|cheese|rice|bowl|salad|fries|beer|wine|coffee|cortado|mandarin|chickpeas|mussels|clams|shrimp|pork|lamb|beef|turkey|tuna|crab|fish|duck|bread|arancini|halibut|sashimi|carpaccio|aloha|trifecta|norse|kcal|calor|protein|fat|carbs|grams?)\b/i;
+  const activity = [];
+  const food = [];
+  const other = [];
+  chunks.forEach(c => {
+    const isAct = activityKeys.test(c);
+    const isFood = foodKeys.test(c);
+    if (isAct && !isFood) activity.push(c);
+    else if (isFood && !isAct) food.push(c);
+    else if (isAct && isFood) activity.push(c);
+    else other.push(c);
+  });
+  return { activity, food, other };
+}
+
+function openModal(iso) {
+  const byDate = {}; entries.forEach(e => byDate[e.date] = e);
+  const entry = byDate[iso];
+  const d = new Date(iso + 'T12:00:00');
+  const dateStr = d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+  document.getElementById('modal-date').textContent = dateStr;
+
+  if (!entry) {
+    document.getElementById('modal-body').innerHTML = `
+      <p style="font-family:var(--serif);font-style:italic;color:var(--dim);font-size:1rem">No entry for this day.</p>
+      <p style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dim);margin-top:14px">To log it, use the form at the top of the page.</p>
+    `;
+    document.getElementById('entry-modal').classList.add('active');
+    return;
+  }
+
+  const metrics = [];
+  if (entry.hrv) metrics.push({ l:'HRV', v:entry.hrv });
+  if (entry.rhr) metrics.push({ l:'RHR', v:entry.rhr });
+  if (entry.sleep) metrics.push({ l:'Sleep', v:entry.sleep + 'h' });
+  if (entry.weight) metrics.push({ l:'Weight', v:entry.weight });
+  if (entry.calories) metrics.push({ l:'Calories', v:entry.calories });
+  if (entry.protein) metrics.push({ l:'Protein', v:entry.protein + 'g' });
+
+  // Prefer structured arrays, fall back to heuristic splitting
+  let activityItems = [], foodItems = [], otherItems = [];
+  if (Array.isArray(entry.activity)) {
+    activityItems = entry.activity;
+  }
+  if (Array.isArray(entry.food)) {
+    foodItems = entry.food;
+  }
+  // If no structured arrays, parse the note
+  if (activityItems.length === 0 && foodItems.length === 0 && entry.note) {
+    const parts = splitNote(entry.note);
+    activityItems = parts.activity;
+    foodItems = parts.food;
+    otherItems = parts.other;
+  }
+
+  const section = (label, items, color) => items.length ? `
+    <div style="margin-bottom:20px">
+      <div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.18em;color:${color};margin-bottom:10px;display:flex;align-items:center;gap:10px">
+        <span>${label}</span>
+        <span style="flex:1;height:1px;background:var(--hairline)"></span>
+        <span style="color:var(--dimmer);font-size:8.5px">${items.length}</span>
+      </div>
+      <ul style="list-style:none;padding:0;margin:0">
+        ${items.map(i => `<li style="font-family:var(--serif);font-size:1rem;color:var(--ink);line-height:1.55;padding:6px 0;border-bottom:1px solid var(--hairline)">${i}</li>`).join('')}
+      </ul>
+    </div>
+  ` : '';
+
+  const metricBlock = metrics.length ? `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--hairline)">
+      ${metrics.map(m => `
+        <div style="background:var(--paper-warm);padding:10px 12px;border-radius:2px">
+          <div style="font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:0.14em;color:var(--dim);margin-bottom:3px">${m.l}</div>
+          <div style="font-family:var(--serif);font-size:1.3rem;color:var(--ink);line-height:1">${m.v}</div>
+        </div>
+      `).join('')}
+    </div>
+  ` : '';
+
+  const noteBlock = entry.note ? `
+    <p style="font-family:var(--serif);font-style:italic;font-size:0.95rem;line-height:1.5;color:var(--dim);margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--hairline)">${entry.note}</p>
+  ` : '';
+
+  document.getElementById('modal-body').innerHTML = `
+    ${metricBlock}
+    ${noteBlock}
+    ${section('Activity', activityItems, 'var(--gold)')}
+    ${section('Food', foodItems, 'var(--oxblood)')}
+    ${otherItems.length ? section('Notes', otherItems, 'var(--dim)') : ''}
+  `;
+
+  document.getElementById('entry-modal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('entry-modal').classList.remove('active');
+}
+
+function diagnosticInfo() {
+  const raw = localStorage.getItem(STORAGE_KEY) || '(none)';
+  const preview = raw.startsWith('enc:') ? '[encrypted — old format]' : `${entries.length} entries, latest: ${entries[0]?.date || 'none'}`;
+  alert(`Storage diagnostic:\n\nKey: ${STORAGE_KEY}\nContents: ${preview}\nRaw size: ${raw.length} chars\n\nCheck DevTools > Application > Local Storage to see the raw JSON.`);
+}
+
+// ═══════════ INIT ═══════════
+function safe(name, fn) {
+  try { fn(); } catch(e) { console.error(`[init] ${name} failed:`, e); }
+}
+
+function init() {
+  safe('today-date', () => {
+    document.getElementById('today-date').textContent =
+      new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' }).toUpperCase();
+  });
+  safe('loadEntries', loadEntries);
+  console.log(`[health] loaded ${entries.length} entries, latest: ${entries[0]?.date || 'none'}`);
+  if (entries.length > 0) {
+    const latest = new Date(entries[0].date + 'T12:00:00');
+    const now = new Date();
+    const diff = (now - latest) / (1000 * 60 * 60 * 24);
+    if (diff > 7) calViewMonth = latest;
+  }
+  safe('renderStats', renderStats);
+  safe('renderHeatmap', renderHeatmap);
+  safe('renderHRVChart', renderHRVChart);
+  safe('renderDualChart', renderDualChart);
+  safe('renderEntries', renderEntries);
+  safe('renderCalendar', renderCalendar);
+  safe('initPhotoDrop', initPhotoDrop);
+  safe('updateApiKeyStatus', updateApiKeyStatus);
+}
+</script>
+
+<script type="module">
+  import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+  window.Plot = Plot;
+  try { window.renderHRVChart && window.renderHRVChart(); window.renderDualChart && window.renderDualChart(); }
+  catch (e) { console.error('[plot] render failed', e); }
+</script>
+
+</body>
+</html>
