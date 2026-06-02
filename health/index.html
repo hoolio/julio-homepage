@@ -687,6 +687,25 @@
     .log-grid { grid-template-columns: repeat(2, 1fr); }
     .entry { grid-template-columns: 70px 1fr; gap: 16px; }
   }
+
+  /* coach (log + ask, one box) */
+  .coach-log{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+  .cmsg{max-width:92%}
+  .cmsg.user{align-self:flex-end}
+  .cmsg.coach{align-self:flex-start}
+  .cmsg .ctext{display:inline-block;padding:9px 12px;border-radius:11px;font-size:14px;line-height:1.5;white-space:pre-wrap}
+  .cmsg.user .ctext{background:var(--gold);color:var(--paper);border-bottom-right-radius:4px}
+  .cmsg.coach .ctext{background:var(--paper);border:1px solid var(--hairline-strong);border-bottom-left-radius:4px}
+  .cwho{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+  .confirm-card{margin-top:9px;background:var(--paper-warm);border:1px solid var(--hairline);border-radius:8px;padding:9px 11px}
+  .confirm-line{font-family:var(--mono);font-size:11.5px;color:var(--ink);line-height:1.6}
+  .confirm-actions{display:flex;gap:8px;margin-top:8px;align-items:center}
+  .btn-confirm{background:var(--gold);color:var(--paper);border:none;border-radius:7px;padding:6px 14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  .btn-cancel{background:transparent;border:1px solid var(--hairline-strong);color:var(--dim);border-radius:7px;padding:6px 14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  .saved{font-family:var(--mono);font-size:10.5px;color:var(--gold);letter-spacing:.1em}
+  .coach-chart{margin-top:10px;background:var(--paper-warm);border:1px solid var(--hairline);border-radius:8px;padding:8px}
+  .coach-chart svg{display:block;width:100%;height:auto}
+
 </style>
 </head>
 <body>
@@ -747,22 +766,13 @@
     </div>
 
     <div class="log-submit">
-      <button class="btn-submit" id="btn-save" onclick="saveEntry()">Parse &amp; Save</button>
+      <button class="btn-submit" id="btn-send" onclick="coachSend()">Send</button>
       <span class="spinner-dot" id="save-spinner" style="display:none"></span>
-      <span class="log-hint">Claude reads your text + photo. Extracts structure. Never leaves this device without your API key.</span>
     </div>
-
-    <!-- Parsed preview -->
-    <div class="parse-preview" id="parse-preview" style="display:none">
-      <div class="parse-preview-label">Parsed</div>
-      <pre id="parse-preview-body"></pre>
-      <div style="display:flex;gap:10px;margin-top:10px">
-        <button class="btn-confirm" onclick="confirmSave()">Confirm &amp; Save</button>
-        <button class="btn-cancel" onclick="cancelParse()">Discard</button>
-      </div>
-    </div>
+    <div id="coach-log" class="coach-log"></div>
 
     <button class="api-key-link" onclick="setApiKey()" id="api-key-status">Set API Key</button>
+    <button class="api-key-link" onclick="setProfile()" style="margin-left:18px">Edit Goals</button>
   </section>
 
   <!-- ACTIVITY HEATMAP -->
@@ -1122,11 +1132,11 @@ function renderHRVChart() {
   const Plot = window.Plot;
   el.replaceChildren(Plot.plot({
     width: 900, height: 240, marginLeft: 42, marginBottom: 30,
-    style: { background: 'transparent', color: 'rgba(237,232,223,0.6)', fontFamily: '"IBM Plex Mono", monospace', fontSize: '9px' },
+    style: { background: 'transparent', color: 'rgba(26,23,20,0.55)', fontFamily: '"IBM Plex Mono", monospace', fontSize: '9px' },
     x: { type: 'utc', label: null, ticks: 4 },
     y: { label: null, ticks: 4 },
     marks: [
-      Plot.gridY({ stroke: 'rgba(237,232,223,0.06)' }),
+      Plot.gridY({ stroke: 'rgba(26,23,20,0.08)' }),
       Plot.areaY(data, { x: 'date', y: 'hrv', fill: 'rgba(196,125,40,0.10)', curve: 'monotone-x' }),
       Plot.lineY(data, { x: 'date', y: 'hrv', stroke: '#c4962e', strokeWidth: 1.5, curve: 'monotone-x' }),
       Plot.dot(data, { x: 'date', y: 'hrv', r: 2.5, fill: '#c4962e' }),
@@ -1149,11 +1159,11 @@ function renderDualChart() {
   const CALMAX = 2500;
   el.replaceChildren(Plot.plot({
     width: 900, height: 220, marginLeft: 42, marginRight: 42, marginBottom: 30,
-    style: { background: 'transparent', color: 'rgba(237,232,223,0.6)', fontFamily: '"IBM Plex Mono", monospace', fontSize: '9px' },
+    style: { background: 'transparent', color: 'rgba(26,23,20,0.55)', fontFamily: '"IBM Plex Mono", monospace', fontSize: '9px' },
     x: { type: 'band', label: null, tickFormat: (d) => d.toISOString().slice(5, 10), ticks: 4 },
     y: { label: null, domain: [0, CALMAX], ticks: 4 },
     marks: [
-      Plot.gridY({ stroke: 'rgba(237,232,223,0.06)' }),
+      Plot.gridY({ stroke: 'rgba(26,23,20,0.08)' }),
       Plot.barY(data, { x: 'date', y: 'calories', fill: 'rgba(196,125,40,0.55)', rx: 1,
         channels: { Date: 'label', kcal: 'calories' }, tip: { format: { x: false, y: false } } }),
       Plot.line(data.filter(d => d.protein), { x: 'date', y: (d) => d.protein * 6,
@@ -1271,111 +1281,164 @@ function updateApiKeyStatus() {
 // ═══════════ AI PARSE ═══════════
 let pendingEntry = null;
 
-async function saveEntry() {
-  const text = document.getElementById('log-text').value.trim();
-  if (!text && !uploadedPhoto) { alert('Write something or drop a photo.'); return; }
-
-  const apiKey = localStorage.getItem('anthropic_key');
-  if (!apiKey) { alert('Set your Anthropic API key first (link at bottom of form).'); setApiKey(); return; }
-
-  const btn = document.getElementById('btn-save');
-  const spinner = document.getElementById('save-spinner');
-  btn.disabled = true;
-  btn.textContent = 'Parsing...';
-  spinner.style.display = 'inline-block';
-
-  try {
-    const parsed = await parseWithClaude(text, uploadedPhoto, apiKey);
-    pendingEntry = parsed;
-    document.getElementById('parse-preview-body').textContent = JSON.stringify(parsed, null, 2);
-    document.getElementById('parse-preview').style.display = 'block';
-  } catch (err) {
-    alert('Parse failed: ' + err.message);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Parse & Save';
-    spinner.style.display = 'none';
-  }
+// PROFILE / GOALS
+const DEFAULT_PROFILE = `Julio — health profile & goals (authoritative; use for parsing AND coaching).
+ABOUT: ~45 yo, ~157 lb, 5'10", highly active daily. Goal: leaner, visible abs, reduced lower-back fat, strong V-taper; a fuller "Olympic swimmer" look — not just a lower number on the scale.
+PRIORITIES: high protein 150-180 g/day; manage calories for fat loss; controlled flexibility for social/family meals; avoid late-night overeating; improve the visual physique (not just weight); sleep is a top recovery lever.
+STANDARD FOOD DEFINITIONS (use these exact values whenever I mention them):
+- Protein shake (default) = 2 scoops Transparent Labs + 1 scoop Norse Code + fiber/collagen/colostrum + 1/4 banana -> ~390 kcal, 76 g protein, ~5 g fat, ~7 g net carbs.
+- Norse Code (per scoop) = 130 kcal, 20 g protein, 3 g fat, 16 g total carbs, 5 g fiber, 8 g allulose -> NET carbs 3 g/scoop. Always compute net carbs correctly.
+- Greek yogurt, non-fat = 100 g ~ 56 kcal, 9 g protein.
+- Aloha bar ~ 220 kcal, 14 g protein, 9 g fat, ~13 g net carbs.
+LOGGING RULES: only count what I actually report; never invent foods; subtract removed/uneaten portions I mention (skin, sauce, crust, etc.).
+COACHING STYLE: direct, terse, no fluff.`;
+function getProfile(){ return localStorage.getItem('health_profile') || DEFAULT_PROFILE; }
+function setProfile(){
+  const cur=getProfile();
+  const v=prompt('Your goals & food definitions — Claude uses this when logging and coaching. Edit freely:', cur);
+  if(v!==null){ if(v.trim()) localStorage.setItem('health_profile', v.trim()); else localStorage.removeItem('health_profile'); }
 }
 
-async function parseWithClaude(text, photoDataUrl, apiKey) {
-  const content = [];
-
-  if (photoDataUrl) {
-    const mediaType = photoDataUrl.match(/data:(.*?);/)[1];
-    const data = photoDataUrl.split(',')[1];
-    content.push({ type: 'image', source: { type: 'base64', media_type: mediaType, data } });
-  }
-
-  const today = new Date().toISOString().slice(0, 10);
-  const prompt = `You are a health log parser. Extract structured data from the text and/or image.
-
-${photoDataUrl ? 'The image is a screenshot of a health tracker (Eight Sleep, Whoop, Oura, Tonal, Apple Health, etc). Read values from it.\n\n' : ''}Text: ${text || '(no text provided, use only the image)'}
-
-Return ONLY a JSON object with this exact shape, no other text, no markdown fences:
-{
-  "date": "${today}",
-  "note": "one-line summary in your own words",
-  "hrv": number or null,
-  "rhr": number or null,
-  "sleep": number (in hours, e.g. 6.67) or null,
-  "weight": number (in pounds) or null,
-  "calories": number or null,
-  "protein": number (grams) or null,
-  "activity": true if any exercise/activity mentioned else false,
-  "strong": true if multiple activities or PRs or strong metrics else false
+// COACH (one box: log + ask)
+function coachLogEl(){ return document.getElementById('coach-log'); }
+function coachAppend(role, text){
+  const el=coachLogEl(); const d=document.createElement('div'); d.className='cmsg '+role;
+  d.innerHTML = role==='coach' ? '<div class="cwho">Coach</div><div class="ctext"></div>' : '<div class="ctext"></div>';
+  d.querySelector('.ctext').textContent = text;
+  el.appendChild(d); el.scrollTop=el.scrollHeight; return d;
 }
+function recentDigest(n){
+  return (entries||[]).slice(0,n).map(e=>{
+    const p=[]; if(e.weight)p.push('wt '+e.weight); if(e.hrv)p.push('HRV '+e.hrv); if(e.rhr)p.push('RHR '+e.rhr);
+    if(e.sleep)p.push('sleep '+e.sleep+'h'); if(e.calories)p.push(e.calories+'kcal'); if(e.protein)p.push(e.protein+'g P'); if(e.activity)p.push('trained');
+    return e.date+': '+(p.join(', ')||'(logged)');
+  }).join('\n');
+}
+let coachHistory = [];
+async function coachSend(){
+  const ta=document.getElementById('log-text'); const text=(ta?ta.value:'').trim();
+  if(!text && !uploadedPhoto){ alert('Write something or drop a photo.'); return; }
+  const apiKey=localStorage.getItem('anthropic_key');
+  if(!apiKey){ alert('Set your Anthropic API key first (link below).'); setApiKey(); return; }
+  if(text) coachAppend('user', text);
+  const btn=document.getElementById('btn-send'), sp=document.getElementById('save-spinner');
+  if(btn) btn.disabled=true; if(sp) sp.style.display='inline-block';
+  const photo=uploadedPhoto;
+  try{
+    const res=await callCoach(text, photo, apiKey);
+    const reply=(res && res.reply) || '…';
+    if(res && res.mode==='log' && res.entry){
+      pendingEntry=res.entry;
+      const card=coachAppend('coach', reply);
+      renderConfirm(card, res.entry);
+    } else {
+      const card=coachAppend('coach', reply);
+      if(res && res.chart){ try{ renderChartSpec(card, res.chart); }catch(e){ console.error('[viz]',e); } }
+    }
+    coachHistory.push({role:'user', content: text || '(image)'});
+    coachHistory.push({role:'assistant', content: reply});
+    if(coachHistory.length>16) coachHistory=coachHistory.slice(-16);
+    if(ta) ta.value=''; removePhoto();
+  }catch(err){ coachAppend('coach', 'Error: '+err.message); }
+  finally{ if(btn) btn.disabled=false; if(sp) sp.style.display='none'; }
+}
+function renderConfirm(card, entry){
+  const fields=['weight','hrv','rhr','sleep','calories','protein','carbs','fat'];
+  const bits=fields.filter(f=>entry[f]!=null).map(f=>f+' '+entry[f]);
+  const box=document.createElement('div'); box.className='confirm-card';
+  box.innerHTML='<div class="confirm-line">'+(entry.date||'')+(bits.length?' · '+bits.join(' · '):' · (no metrics)')+'</div>'+
+    '<div class="confirm-actions"><button class="btn-confirm">Save</button><button class="btn-cancel">Discard</button></div>';
+  card.appendChild(box);
+  box.querySelector('.btn-confirm').onclick=()=>{ confirmSave(); const a=box.querySelector('.confirm-actions'); if(a) a.innerHTML='<span class="saved">Saved ✓</span>'; };
+  box.querySelector('.btn-cancel').onclick=()=>{ pendingEntry=null; box.remove(); };
+}
+function confirmSave(){
+  if(!pendingEntry) return;
+  const date=pendingEntry.date || new Date().toISOString().slice(0,10);
+  const e=Object.assign({}, pendingEntry); delete e.coach;
+  entries=entries.filter(x=>x.date!==date); entries.unshift(e); saveEntries(); pendingEntry=null;
+  init();
+}
+async function callCoach(text, photoDataUrl, apiKey){
+  const today=new Date().toISOString().slice(0,10);
+  const tEntry=(entries||[]).find(e=>e.date===today);
+  const todaySoFar=tEntry?JSON.stringify({calories:tEntry.calories??null,protein:tEntry.protein??null,carbs:tEntry.carbs??null,fat:tEntry.fat??null,weight:tEntry.weight??null,hrv:tEntry.hrv??null,rhr:tEntry.rhr??null,sleep:tEntry.sleep??null,activity:tEntry.activity||false,note:tEntry.note||''}):'(nothing logged today yet)';
+  const system=`You are Julio's health coach and log parser, in an ongoing chat. Profile, goals, and food definitions below are authoritative.
 
-For sleep, convert "6h 40m" to 6.67, "7h 19m" to 7.32, etc. Return only the JSON.`;
+PROFILE & GOALS:
+${getProfile()}
 
-  content.push({ type: 'text', text: prompt });
+RECENT ENTRIES (most recent first):
+${recentDigest(14) || '(none yet)'}
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 800,
-      messages: [{ role: 'user', content }]
-    })
-  });
+Today is ${today}.
+TODAY SO FAR (running totals): ${todaySoFar}
 
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.error?.message || `API ${res.status}`);
-  }
+Each turn, decide if the user's message is a LOG (data to record) or a QUESTION / conversation. Use the chat history for follow-ups.
+- LOGGING IS SERIAL/REAL-TIME: Julio logs items throughout the day. When he logs more, ADD to TODAY SO FAR and return the CUMULATIVE totals for the whole day (sum calories/protein/carbs/fat). Carry forward weight/hrv/rhr/sleep unless this message updates them. The reply names what was added and gives the running day total (e.g. "Added cortado — day: 530 kcal, 85 g P").
+- When a food has a standard definition above, use those exact macros; compute net carbs; only count what is reported (subtract removed/uneaten parts).
+- Answer questions from the recent entries above. Be terse: no preamble, no restating the question, no headings, no emoji. Max 2 short sentences.
+- Include a chart ONLY when it adds insight, using fields the app stores: hrv, rhr, sleep, weight, calories, protein. type "line" (1 field), "multiline" (2), or "bars" (1). Do NOT invent numbers — the app draws it from stored entries you name by field.
 
-  const data = await res.json();
-  const raw = data.content.map(b => b.text || '').join('');
-  const clean = raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+Reply with ONLY a JSON object (no markdown, no extra text):
+{"mode":"log"|"answer","entry":{"date":"${today}","note":"short","hrv":num|null,"rhr":num|null,"sleep":num|null,"weight":num|null,"calories":num|null,"protein":num|null,"carbs":num|null,"fat":num|null,"activity":true|false,"strong":true|false}|null,"reply":"terse reply or one-line log confirmation","chart":null|{"type":"line"|"multiline"|"bars","fields":["hrv"],"window":num|null,"title":""}}
+Sleep in hours (6h 40m -> 6.67). Log mode: set entry to the cumulative day total (today so far + this item) + a one-line reply naming what was added and the running total; chart null. Answer mode: reply + optional chart, entry null.`;
+  const userContent=[];
+  if(photoDataUrl){ const mt=photoDataUrl.match(/data:(.*?);/)[1]; userContent.push({type:'image',source:{type:'base64',media_type:mt,data:photoDataUrl.split(',')[1]}}); }
+  userContent.push({type:'text', text: text || '(image only)'});
+  const messages=coachHistory.concat([{role:'user', content:userContent}]);
+  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1100,system,messages})});
+  if(!r.ok){ const er=await r.json().catch(()=>({})); throw new Error(er.error?.message || ('API '+r.status)); }
+  const data=await r.json(); const raw=data.content.map(b=>b.text||'').join('');
+  const clean=raw.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
   return JSON.parse(clean);
 }
 
-function confirmSave() {
-  if (!pendingEntry) return;
-  const date = pendingEntry.date || new Date().toISOString().slice(0, 10);
-  entries = entries.filter(e => e.date !== date);
-  entries.unshift(pendingEntry);
-  saveEntries();
-
-  // Clear form
-  document.getElementById('log-text').value = '';
-  removePhoto();
-  document.getElementById('parse-preview').style.display = 'none';
-  pendingEntry = null;
-
-  // Re-render
-  init();
+// COACH CHARTS (d3 templates over real entries)
+function seriesFor(field, windowN){
+  let es=(entries||[]).filter(e=>e[field]!=null).slice().sort((a,b)=>a.date.localeCompare(b.date));
+  if(windowN) es=es.slice(-windowN);
+  return es.map(e=>({date:new Date(e.date+'T12:00:00'), value:+e[field]}));
 }
-
-function cancelParse() {
-  pendingEntry = null;
-  document.getElementById('parse-preview').style.display = 'none';
+function coachAxes(svg,x,y,d3,m,W,H){
+  const ink='rgba(26,23,20,0.55)', hair='rgba(26,23,20,0.10)';
+  svg.append('g').attr('transform','translate(0,'+(H-m.b)+')').call(d3.axisBottom(x).ticks(4).tickSizeOuter(0).tickFormat(d3.utcFormat('%b %d')))
+    .call(g=>{ g.selectAll('text').attr('fill',ink).style('font','9px IBM Plex Mono'); g.selectAll('line,path').attr('stroke',hair); });
+  svg.append('g').attr('transform','translate('+m.l+',0)').call(d3.axisLeft(y).ticks(4).tickSizeOuter(0))
+    .call(g=>{ g.selectAll('text').attr('fill',ink).style('font','9px IBM Plex Mono'); g.selectAll('line,path').attr('stroke',hair); });
+}
+function renderChartSpec(card, spec){
+  if(!window.d3 || !spec) return; const d3=window.d3;
+  const allow=['hrv','rhr','sleep','weight','calories','protein','carbs','fat'];
+  const fields=(spec.fields||[]).filter(f=>allow.includes(f));
+  if(!fields.length) return;
+  const win=spec.window||null;
+  const datasets=fields.map(f=>({field:f,data:seriesFor(f,win)})).filter(d=>d.data.length);
+  if(!datasets.length) return;
+  const host=document.createElement('div'); host.className='coach-chart'; card.appendChild(host);
+  const W=360,H=170,m={t:10,r:12,b:22,l:32};
+  const svg=d3.select(host).append('svg').attr('viewBox','0 0 '+W+' '+H).attr('preserveAspectRatio','xMidYMid meet');
+  const allDates=datasets.flatMap(d=>d.data.map(p=>p.date));
+  const x=d3.scaleUtc().domain(d3.extent(allDates)).range([m.l,W-m.r]);
+  const colors=['#a07828','#7a2e1c','#6b7a3a'];
+  if(spec.type==='bars' && datasets.length===1){
+    const data=datasets[0].data;
+    const y=d3.scaleLinear().domain([0,(d3.max(data,d=>d.value)||1)*1.1]).range([H-m.b,m.t]);
+    const bw=Math.max(2,(W-m.l-m.r)/data.length-2);
+    svg.append('g').selectAll('rect').data(data).join('rect')
+      .attr('x',d=>x(d.date)-bw/2).attr('width',bw).attr('y',d=>y(d.value)).attr('height',d=>y(0)-y(d.value))
+      .attr('fill','#a07828').attr('opacity',0.85).attr('rx',1);
+    coachAxes(svg,x,y,d3,m,W,H);
+  } else {
+    const all=datasets.flatMap(d=>d.data.map(p=>p.value));
+    const y=d3.scaleLinear().domain([d3.min(all)*0.95,d3.max(all)*1.05]).range([H-m.b,m.t]);
+    datasets.forEach((ds,idx)=>{
+      const line=d3.line().x(d=>x(d.date)).y(d=>y(d.value)).curve(d3.curveMonotoneX);
+      svg.append('path').datum(ds.data).attr('fill','none').attr('stroke',colors[idx%colors.length]).attr('stroke-width',1.8).attr('d',line);
+      svg.append('g').selectAll('circle').data(ds.data).join('circle').attr('cx',d=>x(d.date)).attr('cy',d=>y(d.value)).attr('r',2).attr('fill',colors[idx%colors.length]);
+    });
+    coachAxes(svg,x,y,d3,m,W,H);
+  }
 }
 
 // ═══════════ EXPORT / IMPORT ═══════════
@@ -1624,6 +1687,8 @@ function init() {
 <script type="module">
   import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
   window.Plot = Plot;
+  import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+  window.d3 = d3;
   try { window.renderHRVChart && window.renderHRVChart(); window.renderDualChart && window.renderDualChart(); }
   catch (e) { console.error('[plot] render failed', e); }
 </script>
