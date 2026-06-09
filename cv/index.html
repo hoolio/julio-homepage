@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Julio Avalos — CV</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Julio Avalos — Curriculum Vitae. Operating executive; Co-CEO, Observable; fmr. Chief Business, Strategy & Operations Officer and General Counsel, GitHub.">
+<style>
+  /* ---------- Site-matching foundation (mirrors index.html) ---------- */
+  html {
+    background:
+      radial-gradient(ellipse 1400px 900px at 50% 0%, rgba(160, 120, 40, 0.07), transparent 70%),
+      radial-gradient(ellipse 1100px 700px at 80% 40%, rgba(140, 110, 50, 0.05), transparent 65%),
+      #f0ebe1;
+    background-attachment: fixed;
+    scroll-behavior: smooth;
+  }
+  body {
+    background: transparent;
+    color: #1a1714;
+    font-family: calibri, arial, geneva, helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+    mix-blend-mode: multiply;
+  }
+  a { color: #333; }
+  a:hover { color: #800000; }
+
+  /* ---------- Layout ---------- */
+  .cv {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 70px 28px 24px;
+  }
+
+  /* ---------- Header ---------- */
+  .cv-head { margin-bottom: 34px; }
+  .cv-name {
+    font-family: Garamond, Georgia, serif;
+    font-size: 52px;
+    font-weight: normal;
+    letter-spacing: 0.04em;
+    line-height: 1.0;
+    margin: 0 0 14px 0;
+    color: #1a1714;
+  }
+  .cv-tagline {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6a1e1a;
+    margin-bottom: 8px;
+  }
+  .cv-contact {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: #8e8261;
+    margin-bottom: 22px;
+  }
+  .cv-contact a {
+    color: #6a1e1a;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(106, 30, 26, 0.28);
+    transition: border-color 0.25s, color 0.25s;
+  }
+  .cv-contact a:hover { color: #800000; border-color: #800000; }
+  .cv-contact .dot { color: #c4b89a; margin: 0 6px; }
+
+  .cv-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #6a1e1a;
+    text-decoration: none;
+    border: 1px solid rgba(106, 30, 26, 0.32);
+    border-radius: 999px;
+    padding: 9px 20px;
+    transition: background-color 0.35s ease, border-color 0.35s ease, letter-spacing 0.35s ease;
+  }
+  .cv-download:hover {
+    background: rgba(106, 30, 26, 0.05);
+    border-color: rgba(106, 30, 26, 0.6);
+    letter-spacing: 0.21em;
+    color: #800000;
+  }
+  .cv-download svg { width: 13px; height: 13px; }
+
+  .cv-head-rule {
+    height: 1.5px;
+    background: #6a1e1a;
+    opacity: 0.45;
+    margin-top: 26px;
+  }
+
+  /* ---------- Summary ---------- */
+  .cv-summary p {
+    font-family: Garamond, Georgia, serif;
+    font-size: 18.5px;
+    line-height: 1.62;
+    color: #221e19;
+    margin: 0 0 14px 0;
+    letter-spacing: 0.004em;
+  }
+  .cv-summary strong { font-weight: 600; color: #1a1714; }
+  .cv-summary .aim { color: #3a342c; }
+
+  /* ---------- Section labels ---------- */
+  .cv-section {
+    margin-top: 44px;
+  }
+  .js-reveal .cv-section {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+  }
+  .js-reveal .cv-section.visible { opacity: 1; transform: translateY(0); }
+  .cv-label {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #6a1e1a;
+    margin: 0 0 18px 0;
+    padding-bottom: 9px;
+    border-bottom: 1px solid rgba(106, 30, 26, 0.18);
+    font-weight: normal;
+  }
+
+  /* ---------- Highlights ---------- */
+  .cv-highlights { list-style: none; margin: 0; padding: 0; }
+  .cv-highlights li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 13px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #2a2520;
+  }
+  .cv-highlights li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 9px;
+    width: 6px; height: 6px;
+    border: 1.4px solid #6a1e1a;
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+  .cv-highlights strong { color: #1a1714; font-weight: 700; }
+
+  /* ---------- Experience entries ---------- */
+  .cv-entry { margin-bottom: 26px; }
+  .cv-entry-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .cv-company {
+    font-family: Garamond, Georgia, serif;
+    font-size: 22px;
+    color: #1a1714;
+    letter-spacing: 0.01em;
+  }
+  .cv-dates {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: #a89c80;
+    white-space: nowrap;
+  }
+  .cv-role {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6a1e1a;
+    margin: 3px 0 9px 0;
+  }
+  .cv-desc {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #2a2520;
+    margin: 0 0 10px 0;
+  }
+  .cv-desc strong { color: #1a1714; font-weight: 700; }
+  .cv-desc em { font-style: italic; }
+
+  .cv-bullets { list-style: none; margin: 8px 0 0; padding: 0; }
+  .cv-bullets li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 9px;
+    font-size: 14px;
+    line-height: 1.58;
+    color: #2f2a24;
+  }
+  .cv-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 8px;
+    width: 5px; height: 5px;
+    background: #6a1e1a;
+    opacity: 0.55;
+    border-radius: 50%;
+  }
+  .cv-bullets strong { color: #1a1714; font-weight: 700; }
+  .cv-bullets em { font-style: italic; color: #1a1714; }
+
+  .cv-entry + .cv-entry { border-top: 1px solid rgba(26,23,20,0.06); padding-top: 22px; }
+
+  /* compact list sections (awards / boards / education) */
+  .cv-list { list-style: none; margin: 0; padding: 0; }
+  .cv-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 11px;
+    font-size: 14.5px;
+    line-height: 1.58;
+    color: #2a2520;
+  }
+  .cv-list li::before {
+    content: '';
+    position: absolute;
+    left: 2px; top: 8px;
+    width: 5px; height: 5px;
+    background: #6a1e1a;
+    opacity: 0.55;
+    border-radius: 50%;
+  }
+  .cv-list strong { color: #1a1714; font-weight: 700; }
+  .cv-list em { font-style: italic; }
+  .cv-list a {
+    color: #6a1e1a; text-decoration: none;
+    border-bottom: 1px solid rgba(106,30,26,0.3);
+    transition: border-color 0.25s, color 0.25s;
+  }
+  .cv-list a:hover { color: #800000; border-color: #800000; }
+
+  /* ---------- Footer (mirrors index.html) ---------- */
+  .cv-footer {
+    text-align: center;
+    padding: 60px 20px 80px;
+    font-size: 10px;
+    color: #b4a98f;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .footer-tower { display: inline-block; width: 14px; height: 14px; vertical-align: -3px; margin-right: 6px; color: #6a1e1a; opacity: 0.55; }
+  .footer-tower svg { display: block; width: 100%; height: 100%; }
+  .footer-tower .arc { transform-origin: 10px 16px; animation: signalPulse 2.6s ease-in-out infinite; }
+  .footer-tower .arc.a2 { animation-delay: 0.25s; }
+  .footer-tower .arc.a3 { animation-delay: 0.5s; }
+  @keyframes signalPulse { 0%, 70%, 100% { opacity: 0; } 12% { opacity: 1; } 40% { opacity: 0.35; } }
+  .footer-admin {
+    margin-left: 10px; color: rgba(180,169,143,0.55); text-decoration: none;
+    border-bottom: 1px dotted rgba(180,169,143,0.4);
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+  .footer-admin:hover { color: #6a1e1a; border-bottom-color: rgba(106,30,26,0.6); }
+
+  @media (max-width: 580px) {
+    .cv { padding: 46px 20px 20px; }
+    .cv-name { font-size: 38px; }
+    .cv-summary p { font-size: 17px; }
+    .cv-entry-head { gap: 4px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cv-section { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .footer-tower .arc { animation: none !important; opacity: 0.55 !important; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ---------- Print: clean, ink-on-white, no chrome ---------- */
+  @media print {
+    html { background: #fff !important; }
+    body::after, #chop-nav, .cv-download, .cv-footer { display: none !important; }
+    body { color: #000; font-size: 10.5pt; }
+    .cv { max-width: none; padding: 0; margin: 0; }
+    .cv-section { opacity: 1 !important; transform: none !important; page-break-inside: avoid; }
+    .cv-entry, .cv-highlights li, .cv-list li { page-break-inside: avoid; }
+    a { color: #000; }
+    .cv-name { font-size: 30pt; }
+    .cv-tagline, .cv-role, .cv-label { color: #6a1e1a; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Site nav (rendered by the shared site script) -->
+<div id="chop-nav"></div>
+<script src="/js/chop-nav.js"></script>
+
+<main class="cv">
+
+  <header class="cv-head">
+    <h1 class="cv-name">Julio C. Avalos</h1>
+    <div class="cv-tagline">Operating Executive&nbsp;&nbsp;·&nbsp;&nbsp;CEO / President / COO&nbsp;&nbsp;·&nbsp;&nbsp;Board Director</div>
+    <div class="cv-contact">San Francisco Bay Area<span class="dot">·</span><a href="mailto:chopradio@gmail.com">chopradio@gmail.com</a><span class="dot">·</span><a href="https://chopradio.com">chopradio.com</a></div>
+    <a class="cv-download" href="./julio-avalos-cv.pdf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download PDF
+    </a>
+    <div class="cv-head-rule"></div>
+  </header>
+
+  <section class="cv-summary">
+    <p>Systems-oriented operating executive who scales category-defining technology companies at inflection points. I connect product strategy, go-to-market, brand, people, policy, legal structure, and culture into <strong>one operating system for growth</strong>. At <strong>GitHub</strong>, I was the senior operating leader as the company grew from a bootstrapped developer tool into the global platform for software development and a <strong>$7.5B Microsoft acquisition</strong>. My current focus is <strong>AI-native companies</strong> where trust, ecosystem strategy, regulation, and operating discipline determine which products become durable platforms.</p>
+    <p class="aim">I'm looking to run a hypergrowth company as <strong>CEO</strong>, or to partner with an exceptional technical founder as <strong>President / COO</strong>.</p>
+  </section>
+
+  <section class="cv-section">
+    <h2 class="cv-label">Highlights</h2>
+    <ul class="cv-highlights">
+      <li><strong>$7.5B exit.</strong> Took GitHub from bootstrapped startup to a $7.5B acquisition by Microsoft — the richest revenue multiple Microsoft had ever paid — as the senior operating leader across everything but engineering.</li>
+      <li><strong>Zero to ~$300M ARR.</strong> Grew the business from single-digit millions to roughly $200–300M ARR and from 1.7M to 30M+ developers, with expansion across EMEA and APAC.</li>
+      <li><strong>Brand, culture &amp; people.</strong> Built (and at least initially personally oversaw) the marketing, communications, legal, business systems, and people functions — and stewarded the developer-first brand and culture — that made GitHub one of the most loved names in software and a magnet for talent through hypergrowth.</li>
+      <li><strong>At the origin of AI coding.</strong> Set the data-and-automation strategy GitHub built into Actions and Copilot, and presided over the era that produced Atom, Electron, and the founding team of Zed.</li>
+    </ul>
+  </section>
+
+  <section class="cv-section">
+    <h2 class="cv-label">Experience</h2>
+
+    <article class="cv-entry">
+      <div class="cv-entry-head"><span class="cv-company">Observable</span><span class="cv-dates">2019 – Present</span></div>
+      <div class="cv-role">Co-CEO (Jan 2024 – Present)&nbsp;&nbsp;·&nbsp;&nbsp;Board Director (2019 – Present)</div>
+      <p class="cv-desc">A board director since 2019; stepped in to assist founder Mike Bostock — creator of D3.js — in January 2024, bringing operating focus and partnering with him on strategy and operations to lead the company's pivot toward AI for data analysis.</p>
+    </article>
+
+    <article class="cv-entry">
+      <div class="cv-entry-head"><span class="cv-company">Shades</span><span class="cv-dates">2021 – 2025</span></div>
+      <div class="cv-role">Co-Founder</div>
+      <p class="cv-desc">Co-founded a Gen-Z news platform that evolved into an <strong>AI product surfacing multiple perspectives on the issues of the day</strong>. Full zero-to-one founder experience across product, fundraising, brand, and growth, including the strategic realities of competing for attention against platform incumbents.</p>
+    </article>
+
+    <article class="cv-entry">
+      <div class="cv-entry-head"><span class="cv-company">GitHub</span><span class="cv-dates">2012 – 2018</span></div>
+      <div class="cv-role">Chief Business, Strategy &amp; Operations Officer&nbsp;&nbsp;·&nbsp;&nbsp;General Counsel&nbsp;&nbsp;·&nbsp;&nbsp;Board Member</div>
+      <p class="cv-desc">Joined in Q4 2012 as the company's <strong>first General Counsel</strong> — bootstrapped, at the Series A — and became the senior operating executive across the entire business outside of engineering, running legal, policy, people, brand, and partnerships as one connected system and serving on the board through the Microsoft exit.</p>
+      <ul class="cv-bullets">
+        <li><strong>Owned the full non-engineering operating surface</strong> — legal, policy, people, strategic partnerships, marketing, and communications — and served as Chief Business &amp; Strategy Officer through the <strong>Sequoia-led Series B</strong> (Thrive Capital also participating) and the $7.5B Microsoft acquisition.</li>
+        <li><strong>Repositioned the product</strong> from a “social coding tool” into the world's global code repository, and drove the move into enterprise (B2B) <em>without alienating the open-source community</em> that initially adopted us.</li>
+        <li><strong>Set the strategic foundation for GitHub's data-and-automation thesis</strong> — that a platform with a record of every bug and every patch should learn from itself and automate that work — the direction GitHub realized in <strong>Actions</strong> and, ultimately, <strong>Copilot</strong>.</li>
+        <li><strong>Took the company international</strong> (EMEA, APAC), with the majority of users outside the U.S., and was an early, public architect of remote work and open-source business models.</li>
+        <li><strong>Scaled the team from dozens to over a thousand</strong> while protecting a distinctive remote-first culture, and treated <em>brand and developer trust as core strategy</em> — not decoration — building one of GitHub's most durable competitive moats.</li>
+        <li><strong>Built the legal, policy, and GTM functions from zero</strong> and reinvented it as “legal-as-code” — lawyers shipping in Markdown on GitHub itself. Named the <em>top in-house technology lawyer in the U.S.</em> (Legal 500, 2015); inaugural recipient of The Recorder's legal-innovation awards.</li>
+      </ul>
+    </article>
+
+    <article class="cv-entry">
+      <div class="cv-entry-head"><span class="cv-company">Yelp</span><span class="cv-dates">2010 – 2012</span></div>
+      <div class="cv-role">Corporate Counsel</div>
+      <p class="cv-desc">Joined while the company was still private and helped take it public — <strong>S-1 through IPO from the inside</strong>. Crossed deliberately from litigation into corporate, governance, and capital-markets work to round out a complete operating toolkit.</p>
+    </article>
+
+    <article class="cv-entry">
+      <div class="cv-entry-head"><span class="cv-company">Orrick, Herrington &amp; Sutcliffe</span><span class="cv-dates">2006 – 2010</span></div>
+      <div class="cv-role">Managing Associate · IP Litigation</div>
+      <p class="cv-desc">Litigated at the digital frontier as one of the top associate trial lawyers in America, focusing on frontier IP, privacy, and cyber governance. Represented <strong>early-stage Facebook and Mark Zuckerberg</strong> in the matter that became the basis for Aaron Sorkin's <em>The Social Network</em>, and worked with Apple, early LinkedIn, and nearly every early social network.</p>
+    </article>
+  </section>
+
+  <section class="cv-section">
+    <h2 class="cv-label">Awards &amp; Recognition</h2>
+    <ul class="cv-list">
+      <li><strong>Top in-house technology lawyer in the U.S.</strong> — Legal 500 (2015) and GC Powerlist; inaugural recipient, The Recorder legal-innovation awards.</li>
+      <li><strong>HITEC 100</strong> — named one of the 100 Most Influential Hispanic Leaders in Technology by the Hispanic IT Executive Council (2018).</li>
+      <li><strong>40 Gators Under 40</strong> — University of Florida Alumni Association Outstanding Young Alumni Award.</li>
+      <li><strong>Public speaker and writer</strong> on remote culture, open source, and the intersection of technology, policy, and law.</li>
+      <li>Written about in the <em>Wall Street Journal</em> on data-privacy regulation and global tech policy; subject of an independent <a href="https://en.wikipedia.org/wiki/Julio_Avalos">Wikipedia biography</a>.</li>
+    </ul>
+  </section>
+
+  <section class="cv-section">
+    <h2 class="cv-label">Board Memberships</h2>
+    <ul class="cv-list">
+      <li><strong>Merico</strong> (board director, 2018–present) — an AI company specializing in generative code and developer analytics, measuring and accelerating how software gets built.</li>
+    </ul>
+  </section>
+
+  <section class="cv-section">
+    <h2 class="cv-label">Education</h2>
+    <ul class="cv-list">
+      <li><strong>Columbia Law School</strong> — J.D., 2006. Harlan Fiske Stone Scholar; Janes Marks Murphy Prize for Excellence in Clinical Advocacy.</li>
+      <li><strong>University of Florida</strong> — B.A., English (literary theory), minor in Philosophy, 2003. Full academic scholarship; graduated first in class.</li>
+    </ul>
+  </section>
+
+  <section class="cv-section">
+    <h2 class="cv-label">Writing, Interests &amp; Languages</h2>
+    <ul class="cv-list">
+      <li><strong>Recent writing</strong> — <em><a href="https://chopradio.com/enjoy/">A Marxist Guide to Getting Rich in AI: A Theoretical Reconstruction of the AI Transition and Operating Framework for Evaluating Future Value in the Space</a></em> (forthcoming, June 2026).</li>
+      <li><strong>Interests</strong> — daily yoga practice since 2007 (registered teacher through Laughing Lotus); fitness; reading; time with my wife and children; backcountry driving in a 1972 Chevy Blazer.</li>
+      <li><strong>Languages</strong> — native Spanish; conversational French; beginner Japanese.</li>
+    </ul>
+  </section>
+
+</main>
+
+<div class="cv-footer">
+  <span class="footer-tower" aria-hidden="true">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10 5 L6.5 17 M10 5 L13.5 17 M7.6 13 L12.4 13 M10 5 L10 3.5"/>
+      <path class="arc a1" d="M7.5 6.2 Q5.8 8 7.5 9.8"/>
+      <path class="arc a2" d="M5.8 4.4 Q2.6 8 5.8 11.6"/>
+      <path class="arc a3" d="M4.1 2.6 Q-0.5 8 4.1 13.4"/>
+      <path class="arc a1" d="M12.5 6.2 Q14.2 8 12.5 9.8"/>
+      <path class="arc a2" d="M14.2 4.4 Q17.4 8 14.2 11.6"/>
+      <path class="arc a3" d="M15.9 2.6 Q20.5 8 15.9 13.4"/>
+    </svg>
+  </span>
+  Choplogic Radio · Est. 2006
+  <a href="/admin/" class="footer-admin" aria-label="Admin">·&nbsp;admin</a>
+</div>
+
+<script>
+  // Gentle scroll reveal, consistent with the homepage's section entrances.
+  // Progressive enhancement: content is fully visible without JS; we only
+  // opt into the hidden-then-reveal animation when JS runs and motion is allowed.
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.documentElement.classList.add('js-reveal');
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.cv-section').forEach(function (s) { obs.observe(s); });
+  })();
+</script>
+
+<!-- Site-wide radio player (shared script) -->
+<script src="/js/chop-radio-player.js"></script>
+</body>
+</html>
