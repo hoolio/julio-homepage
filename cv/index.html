@@ -185,6 +185,26 @@
     color: #1a1714;
     letter-spacing: 0.005em;
   }
+  .cv-company-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cv-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    color: #6a1e1a;
+    opacity: 0.88;
+    flex-shrink: 0;
+  }
+  .cv-logo svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
   .cv-dates {
     font-family: 'IBM Plex Mono', ui-monospace, monospace;
     font-size: 10.5px;
@@ -320,7 +340,7 @@
   <header class="cv-head">
     <h1 class="cv-name">Julio C. Avalos</h1>
     <div class="cv-tagline">Operating Executive&nbsp;&nbsp;·&nbsp;&nbsp;CEO / President / COO&nbsp;&nbsp;·&nbsp;&nbsp;Board Director</div>
-    <div class="cv-contact">San Francisco Bay Area<span class="dot">·</span><a href="mailto:chopradio@gmail.com">chopradio@gmail.com</a><span class="dot">·</span><a href="https://chopradio.com">chopradio.com</a></div>
+    <div class="cv-contact">San Francisco Bay Area<span class="dot">·</span><a href="mailto:j.avalos@gmail.com">j.avalos@gmail.com</a><span class="dot">·</span><a href="https://chopradio.com">chopradio.com</a></div>
     <a class="cv-download" href="./julio-avalos-cv.pdf">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Download PDF
@@ -347,19 +367,19 @@
     <h2 class="cv-label">Experience</h2>
 
     <article class="cv-entry">
-      <div class="cv-entry-head"><span class="cv-company">Observable</span><span class="cv-dates">2019 – Present</span></div>
+      <div class="cv-entry-head"><span class="cv-company-wrap"><span class="cv-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="12" rx="10" ry="7" fill="none" stroke="currentColor" stroke-width="1.6"/><ellipse cx="12" cy="12" rx="5.5" ry="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="1.8"/></svg></span><span class="cv-company">Observable</span></span><span class="cv-dates">2019 – Present</span></div>
       <div class="cv-role">Co-CEO (Jan 2024 – Present)&nbsp;&nbsp;·&nbsp;&nbsp;Board Director (2019 – Present)</div>
       <p class="cv-desc">A board director since 2019; stepped in to assist founder Mike Bostock — creator of D3.js — in January 2024, bringing operating focus and partnering with him on strategy and operations to lead the company's pivot toward AI for data analysis.</p>
     </article>
 
     <article class="cv-entry">
-      <div class="cv-entry-head"><span class="cv-company">Shades</span><span class="cv-dates">2021 – 2025</span></div>
+      <div class="cv-entry-head"><span class="cv-company-wrap"><span class="cv-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="8" width="9" height="7" rx="2"/><rect x="13" y="8" width="9" height="7" rx="2"/><rect x="10.5" y="10.5" width="3" height="1.4" rx="0.5"/></svg></span><span class="cv-company">Shades</span></span><span class="cv-dates">2021 – 2025</span></div>
       <div class="cv-role">Co-Founder</div>
       <p class="cv-desc">Co-founded a Gen-Z news platform that evolved into an <strong>AI product surfacing multiple perspectives on the issues of the day</strong>. Full zero-to-one founder experience across product, fundraising, brand, and growth, including the strategic realities of competing for attention against platform incumbents.</p>
     </article>
 
     <article class="cv-entry">
-      <div class="cv-entry-head"><span class="cv-company">GitHub</span><span class="cv-dates">2012 – 2018</span></div>
+      <div class="cv-entry-head"><span class="cv-company-wrap"><span class="cv-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg></span><span class="cv-company">GitHub</span></span><span class="cv-dates">2012 – 2018</span></div>
       <div class="cv-role">Chief Business, Strategy &amp; Operations Officer&nbsp;&nbsp;·&nbsp;&nbsp;General Counsel&nbsp;&nbsp;·&nbsp;&nbsp;Board Member</div>
       <p class="cv-desc">Joined in Q4 2012 as the company's <strong>first General Counsel</strong> — bootstrapped, at the Series A — and became the senior operating executive across the entire business outside of engineering, running legal, policy, people, brand, and partnerships as one connected system and serving on the board through the Microsoft exit.</p>
       <ul class="cv-bullets">
@@ -373,13 +393,13 @@
     </article>
 
     <article class="cv-entry">
-      <div class="cv-entry-head"><span class="cv-company">Yelp</span><span class="cv-dates">2010 – 2012</span></div>
+      <div class="cv-entry-head"><span class="cv-company-wrap"><span class="cv-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.6 3.2c.5-.3 1.2-.1 1.4.5l.1 6.7c0 .8-.9 1.3-1.6.9L5.6 8.5c-.6-.4-.6-1.3 0-1.7l5-3.6zm2.6 11.1l4.5 1.7c.7.3.8 1.3.2 1.7l-4.5 2.8c-.7.4-1.6 0-1.6-.8v-4c0-.7.7-1.2 1.4-1.4zm1-3.6l3.5-2.6c.5-.4 1.2-.2 1.5.4l1 1.9c.3.6 0 1.3-.6 1.5L15 13.1c-.8.3-1.5-.6-1-1.3l.2-.1zm-3.7 4.7l-.8 4.2c-.1.7-.9 1-1.5.5l-3.4-3.1c-.5-.5-.4-1.4.3-1.6l4.1-1.1c.7-.2 1.4.4 1.3 1.1zm-5.1-5.6l4.1.7c.7.1 1 .9.6 1.5l-2.4 3.4c-.4.6-1.3.5-1.6-.1l-1.5-3.5c-.3-.7.1-1.6.8-1.6v-.4z"/></svg></span><span class="cv-company">Yelp</span></span><span class="cv-dates">2010 – 2012</span></div>
       <div class="cv-role">Corporate Counsel</div>
       <p class="cv-desc">Joined while the company was still private and helped take it public — <strong>S-1 through IPO from the inside</strong>. Crossed deliberately from litigation into corporate, governance, and capital-markets work to round out a complete operating toolkit.</p>
     </article>
 
     <article class="cv-entry">
-      <div class="cv-entry-head"><span class="cv-company">Orrick, Herrington &amp; Sutcliffe</span><span class="cv-dates">2006 – 2010</span></div>
+      <div class="cv-entry-head"><span class="cv-company-wrap"><span class="cv-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4h18v2H3V4zm0 14h18v2H3v-2zM5.5 6h2v12h-2V6zm5.5 0h2v12h-2V6zm5.5 0h2v12h-2V6z"/></svg></span><span class="cv-company">Orrick, Herrington &amp; Sutcliffe</span></span><span class="cv-dates">2006 – 2010</span></div>
       <div class="cv-role">Managing Associate · IP Litigation</div>
       <p class="cv-desc">Litigated at the digital frontier as one of the top associate trial lawyers in America, focusing on frontier IP, privacy, and cyber governance. Represented <strong>early-stage Facebook and Mark Zuckerberg</strong> in the matter that became the basis for Aaron Sorkin's <em>The Social Network</em>, and worked with Apple, early LinkedIn, and nearly every early social network.</p>
     </article>
