@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+<title>Julio Avalos — Choplogic Radio</title>
 <meta charset="UTF-8">
-<title>Julio Avalos — CV</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Julio Avalos — Curriculum Vitae. Operating executive; Co-CEO, Observable; fmr. Chief Business, Strategy & Operations Officer and General Counsel, GitHub.">
+<meta name="description" content="Julio Avalos — writer, broadcaster, host of Choplogic Radio. Est. 2006.">
 <style>
-  /* ---------- Site-matching foundation (mirrors index.html) ---------- */
   html {
     background:
       radial-gradient(ellipse 1400px 900px at 50% 0%, rgba(160, 120, 40, 0.07), transparent 70%),
@@ -21,13 +20,14 @@
     font-family: calibri, arial, geneva, helvetica, sans-serif;
     margin: 0;
     padding: 0;
-    font-size: 15px;
-    line-height: 1.62;
+    font-size: 14px;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
   }
+
   body::after {
     content: '';
     position: fixed;
@@ -39,413 +39,2411 @@
     background-size: 220px 220px;
     mix-blend-mode: multiply;
   }
+
   a { color: #333; }
   a:hover { color: #800000; }
 
-  /* ---------- Layout ---------- */
-  .cv {
-    max-width: 760px;
+  .main {
+    max-width: 640px;
     margin: 0 auto;
-    padding: 70px 28px 24px;
+    padding: 80px 20px 30px;
+    text-align: center;
   }
 
-  /* ---------- Header ---------- */
-  .cv-head { margin-bottom: 34px; }
-  .cv-name {
+  .portrait {
+    width: 200px;
+    height: auto;
+    margin-bottom: 40px;
+    filter: contrast(1.05) brightness(1.02);
+    mix-blend-mode: multiply;
+    transition: filter 0.5s ease, transform 0.5s ease;
+  }
+  .portrait:hover {
+    filter: contrast(1.08) brightness(1.04);
+    transform: scale(1.015);
+  }
+
+  h1 {
     font-family: Garamond, Georgia, serif;
-    font-size: 52px;
+    font-size: 46px;
     font-weight: normal;
-    letter-spacing: 0.04em;
-    line-height: 1.0;
-    margin: 0 0 14px 0;
+    letter-spacing: 0.06em;
+    margin: 0 0 10px 0;
     color: #1a1714;
+    text-transform: lowercase;
   }
-  .cv-tagline {
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #6a1e1a;
-    margin-bottom: 8px;
-  }
-  .cv-contact {
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: #8e8261;
-    margin-bottom: 22px;
-  }
-  .cv-contact a {
-    color: #6a1e1a;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(106, 30, 26, 0.28);
-    transition: border-color 0.25s, color 0.25s;
-  }
-  .cv-contact a:hover { color: #800000; border-color: #800000; }
-  .cv-contact .dot { color: #c4b89a; margin: 0 6px; }
 
-  .cv-download {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
+  .tagline {
     font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 10.5px;
+    font-size: 11px;
+    font-style: normal;
+    color: #8e8261;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #6a1e1a;
-    text-decoration: none;
-    border: 1px solid rgba(106, 30, 26, 0.32);
-    border-radius: 999px;
-    padding: 9px 20px;
-    transition: background-color 0.35s ease, border-color 0.35s ease, letter-spacing 0.35s ease;
+    margin-bottom: 50px;
+    line-height: 1.6;
   }
-  .cv-download:hover {
-    background: rgba(106, 30, 26, 0.05);
-    border-color: rgba(106, 30, 26, 0.6);
-    letter-spacing: 0.21em;
-    color: #800000;
-  }
-  .cv-download svg { width: 13px; height: 13px; }
 
-  .cv-head-rule {
+  .divider {
+    width: 28px;
     height: 1.5px;
     background: #6a1e1a;
-    opacity: 0.45;
-    margin-top: 26px;
+    margin: 0 auto 40px;
+    opacity: 0.4;
   }
 
-  /* ---------- Summary ---------- */
-  .cv-summary p {
+  .links-table {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto 50px;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .links-table td {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
     font-family: Garamond, Georgia, serif;
-    font-size: 18.5px;
-    line-height: 1.62;
-    color: #221e19;
-    margin: 0 0 14px 0;
-    letter-spacing: 0.004em;
+    font-size: 19px;
   }
-  .cv-summary strong { font-weight: 600; color: #1a1714; }
-  .cv-summary .aim { color: #3a342c; }
 
-  /* ---------- Section labels ---------- */
-  .cv-section {
-    margin-top: 44px;
-  }
-  .js-reveal .cv-section {
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
-  }
-  .js-reveal .cv-section.visible { opacity: 1; transform: translateY(0); }
-  .cv-label {
+  .links-table td:first-child {
+    width: 130px;
+    color: #b4a98f;
     font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 11px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    vertical-align: top;
+    padding-top: 17px;
+  }
+  .links-table .link-ico {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    vertical-align: -2px;
+    margin-right: 6px;
+    opacity: 0.35;
+    transition: opacity 0.3s;
+  }
+  tr:hover .link-ico { opacity: 0.6; }
+
+  .links-table a {
+    color: #0a0807;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(106, 30, 26, 0.32);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .links-table a:hover {
+    border-color: #800000;
+    color: #800000;
+  }
+  .links-table td:not(:first-child) { color: #0a0807; }
+
+  /* Inline contact form */
+  .contact-form {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+  }
+  .contact-input {
+    flex: 1;
+    font: inherit;
+    font-size: 16px;
+    color: #1a1714;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 4px 0;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .contact-input::placeholder {
+    color: #bbb;
+    font-style: italic;
+  }
+  .contact-input:focus {
+    border-color: #6a1e1a;
+  }
+  .contact-send {
+    background: none;
+    border: 1px solid rgba(0,0,0,0.12);
+    color: #aaa;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 5px 10px;
+    margin-left: 8px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    flex-shrink: 0;
+  }
+  .contact-send:hover {
+    color: #6a1e1a;
+    border-color: rgba(106, 30, 26, 0.4);
+    background: rgba(106, 30, 26, 0.03);
+  }
+  .contact-send:active {
+    transform: scale(0.96);
+  }
+  .contact-sent {
+    font-size: 13px;
+    color: #6a1e1a;
+    font-style: italic;
+    display: none;
+  }
+
+  .links-table .works-row td { border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .works-link {
+    font-size: 19px;
+    color: #6a1e1a;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(106, 30, 26, 0.35);
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+  .works-link:hover {
+    color: #800000;
+    border-color: #800000;
+  }
+
+  /* ---------- Timeline trigger (button) ---------- */
+  .timeline-trigger {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 12px 20px 0;
+    text-align: center;
+    position: relative;
+  }
+  .timeline-btn {
+    --tb-ink: #6a1e1a;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: transparent;
+    color: var(--tb-ink);
+    border: 1px solid rgba(106, 30, 26, 0.3);
+    border-radius: 999px;
+    padding: 14px 30px;
+    font: 400 13px/1 'Inter', system-ui, sans-serif;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #6a1e1a;
-    margin: 0 0 18px 0;
-    padding-bottom: 9px;
-    border-bottom: 1px solid rgba(106, 30, 26, 0.18);
-    font-weight: normal;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.4s ease,
+                border-color 0.4s ease,
+                letter-spacing 0.4s ease,
+                color 0.4s ease,
+                transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .timeline-btn:hover {
+    background: rgba(106, 30, 26, 0.04);
+    border-color: rgba(106, 30, 26, 0.6);
+    letter-spacing: 0.26em;
+  }
+  .timeline-btn:focus-visible {
+    outline: 2px solid rgba(106, 30, 26, 0.6);
+    outline-offset: 4px;
+  }
+  .timeline-btn .tb-pip {
+    width: 7px; height: 7px;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.4s ease, transform 0.4s ease;
+  }
+  .timeline-btn:hover .tb-pip { background: currentColor; }
+  .timeline-btn[aria-expanded="true"] .tb-pip {
+    background: currentColor;
+    transform: scale(1.15);
+  }
+  /* Hint stitch — short dotted segment under the button suggesting the timeline spine below */
+  .timeline-trigger-stitch {
+    width: 1px;
+    height: 0;
+    margin: 26px auto 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      #6a1e1a 4px,
+      #6a1e1a 12px,
+      transparent 14px,
+      transparent 18px
+    );
+    opacity: 0;
+    transition: height 0.5s ease, opacity 0.5s ease;
+  }
+  .timeline-btn[aria-expanded="true"] ~ .timeline-trigger-stitch {
+    height: 36px;
+    opacity: 0.35;
+  }
+  /* Invite pulse — only when collapsed and after a short delay */
+  @keyframes tb-invite {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(106, 30, 26, 0); }
+    50%      { box-shadow: 0 0 0 12px rgba(106, 30, 26, 0.04); }
+  }
+  .timeline-btn:not([aria-expanded="true"]) {
+    animation: tb-invite 3.6s ease-in-out 1.2s infinite;
+  }
+  .timeline-btn:hover { animation: none; }
+
+  /* ---------- Timeline collapse wrapper ---------- */
+  .timeline-collapse {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.6s ease 0.05s;
+  }
+  .timeline-collapse > .timeline {
+    min-height: 0;
+    overflow: hidden;
+  }
+  .timeline-collapse.expanded {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  .timeline-collapse.expanded > .timeline { overflow: visible; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-btn { animation: none !important; transition: none; }
+    .timeline-collapse { transition: opacity 0.2s ease; }
   }
 
-  /* ---------- Highlights ---------- */
-  .cv-highlights { list-style: none; margin: 0; padding: 0; }
-  .cv-highlights li {
+  /* ---------- Timeline ---------- */
+  .timeline {
+    max-width: 760px;
+    margin: 0 auto 60px;
+    padding: 60px 20px 20px;
     position: relative;
-    padding-left: 22px;
-    margin-bottom: 13px;
-    font-size: 15px;
-    line-height: 1.6;
-    color: #2a2520;
   }
-  .cv-highlights li::before {
+  .timeline::before {
     content: '';
     position: absolute;
-    left: 2px;
-    top: 9px;
-    width: 6px; height: 6px;
-    border: 1.4px solid #6a1e1a;
-    border-radius: 50%;
-    opacity: 0.6;
+    left: 44px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      #6a1e1a 4px,
+      #6a1e1a 18px,
+      transparent 20px,
+      transparent 24px,
+      #6a1e1a 26px,
+      #6a1e1a 50px,
+      transparent 52px
+    );
+    opacity: 0.3;
+    mask-image: linear-gradient(to bottom, transparent, black 80px, black calc(100% - 80px), transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 80px, black calc(100% - 80px), transparent);
   }
-  .cv-highlights strong { color: #1a1714; font-weight: 700; }
+  .timeline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 3px,
+      rgba(26, 23, 20, 0.012) 3px,
+      rgba(26, 23, 20, 0.012) 4px
+    );
+  }
 
-  /* ---------- Experience entries ---------- */
-  .cv-entry { margin-bottom: 26px; }
-  .cv-entry-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
-    flex-wrap: wrap;
+  /* --- Node entrance --- */
+  .tl-node {
+    position: relative;
+    padding-left: 76px;
+    padding-bottom: 72px;
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .cv-company {
+  .tl-node.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Stagger children — cascade in one by one */
+  .tl-node .tl-year {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease 0.08s, transform 0.6s ease 0.08s;
+  }
+  .tl-node .tl-label {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease 0.16s, transform 0.6s ease 0.16s;
+  }
+  .tl-node .tl-narrative {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.7s ease 0.28s, transform 0.7s ease 0.28s;
+  }
+  .tl-node .tl-cards {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease 0.42s, transform 0.7s ease 0.42s;
+  }
+  .tl-node.visible .tl-year,
+  .tl-node.visible .tl-label,
+  .tl-node.visible .tl-narrative,
+  .tl-node.visible .tl-cards {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* --- Pip --- */
+  .tl-pip {
+    position: absolute;
+    left: 40px;
+    top: 8px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: none;
+    border: 1.5px solid #6a1e1a;
+    z-index: 1;
+    transform: scale(0);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+    opacity: 0;
+  }
+  .tl-node.visible .tl-pip {
+    transform: scale(1);
+    opacity: 0.6;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s,
+                opacity 0.4s ease 0.15s;
+  }
+
+  .tl-year {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: #6a1e1a;
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+  .tl-label {
     font-family: Garamond, Georgia, serif;
-    font-size: 22px;
+    font-size: 28px;
+    font-weight: normal;
+    font-style: italic;
     color: #1a1714;
     letter-spacing: 0.01em;
+    margin: 0 0 14px 0;
+    position: relative;
   }
-  .cv-dates {
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 10.5px;
-    letter-spacing: 0.1em;
-    color: #a89c80;
-    white-space: nowrap;
+  .tl-label::after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: #6a1e1a;
+    margin-top: 10px;
+    opacity: 0.35;
   }
-  .cv-role {
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 10.5px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+  .tl-narrative {
+    font-family: Garamond, Georgia, serif;
+    font-size: 17.5px;
+    line-height: 1.7;
+    color: #2a2520;
+    max-width: 540px;
+    margin-bottom: 22px;
+    letter-spacing: 0.005em;
+    overflow-wrap: break-word;
+  }
+  .tl-narrative em {
+    font-style: italic;
+    color: #1a1714;
+  }
+  .tl-narrative a {
     color: #6a1e1a;
-    margin: 3px 0 9px 0;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(106, 30, 26, 0.25);
+    transition: border-color 0.3s, color 0.3s;
   }
-  .cv-desc {
-    font-size: 14.5px;
-    line-height: 1.6;
-    color: #2a2520;
-    margin: 0 0 10px 0;
-  }
-  .cv-desc strong { color: #1a1714; font-weight: 700; }
-  .cv-desc em { font-style: italic; }
+  .tl-narrative a:hover { border-color: #6a1e1a; color: #800000; }
 
-  .cv-bullets { list-style: none; margin: 8px 0 0; padding: 0; }
-  .cv-bullets li {
+  .tl-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    max-width: 480px;
+    gap: 24px 18px;
+    margin-top: 12px;
+  }
+  .tl-cards .work-card {
+    width: 100%;
+  }
+
+  .work-card {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .work-thumb {
     position: relative;
-    padding-left: 20px;
-    margin-bottom: 9px;
-    font-size: 14px;
-    line-height: 1.58;
-    color: #2f2a24;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: #ece6da;
+    overflow: hidden;
+    border: none;
+    outline: 1px solid rgba(26, 23, 20, 0.1);
+    outline-offset: -1px;
+    transition: transform 0.25s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    transform-origin: center;
   }
-  .cv-bullets li::before {
-    content: '';
+  .work-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: contrast(1.04) brightness(1.01);
+    mix-blend-mode: multiply;
+  }
+  .work-thumb .placeholder {
     position: absolute;
-    left: 2px;
-    top: 8px;
-    width: 5px; height: 5px;
-    background: #6a1e1a;
-    opacity: 0.55;
-    border-radius: 50%;
-  }
-  .cv-bullets strong { color: #1a1714; font-weight: 700; }
-  .cv-bullets em { font-style: italic; color: #1a1714; }
-
-  .cv-entry + .cv-entry { border-top: 1px solid rgba(26,23,20,0.06); padding-top: 22px; }
-
-  /* compact list sections (awards / boards / education) */
-  .cv-list { list-style: none; margin: 0; padding: 0; }
-  .cv-list li {
-    position: relative;
-    padding-left: 20px;
-    margin-bottom: 11px;
-    font-size: 14.5px;
-    line-height: 1.58;
-    color: #2a2520;
-  }
-  .cv-list li::before {
-    content: '';
-    position: absolute;
-    left: 2px; top: 8px;
-    width: 5px; height: 5px;
-    background: #6a1e1a;
-    opacity: 0.55;
-    border-radius: 50%;
-  }
-  .cv-list strong { color: #1a1714; font-weight: 700; }
-  .cv-list em { font-style: italic; }
-  .cv-list a {
-    color: #6a1e1a; text-decoration: none;
-    border-bottom: 1px solid rgba(106,30,26,0.3);
-    transition: border-color 0.25s, color 0.25s;
-  }
-  .cv-list a:hover { color: #800000; border-color: #800000; }
-
-  /* ---------- Footer (mirrors index.html) ---------- */
-  .cv-footer {
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
     text-align: center;
-    padding: 60px 20px 80px;
+    background:
+      radial-gradient(ellipse at top, rgba(196,125,40,0.08), transparent 70%),
+      #f3ede1;
+  }
+  .work-thumb .placeholder .ph-kicker {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #b4a98f;
+    margin-bottom: 10px;
+  }
+  .work-thumb .placeholder .ph-title {
+    font-family: Garamond, Georgia, serif;
+    font-size: 17px;
+    line-height: 1.25;
+    color: #3a342c;
+  }
+  .work-thumb .placeholder .ph-rule {
+    width: 24px;
+    height: 1px;
+    background: #c9bfa8;
+    margin: 12px 0;
+  }
+  .work-thumb .placeholder .ph-meta {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #a89c80;
+  }
+
+  /* SVG art card variant — Interviews/Writings */
+  .work-thumb .art-thumb {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+  .work-thumb .art-thumb svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* logo card variant for Work tab */
+  .work-thumb.logo-thumb {
+    background:
+      radial-gradient(ellipse at top, rgba(196,125,40,0.06), transparent 70%),
+      #f3ede1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .work-thumb .logo-mark {
+    width: 60%;
+    height: 50%;
+    background-color: #2c2620; /* fallback when no logoColor is set */
+    -webkit-mask-position: center;
+            mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+            mask-size: contain;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.4s ease;
+  }
+  .work-card:hover .logo-mark {
+    transform: scale(1.06);
+    filter: brightness(1.08) saturate(1.15);
+  }
+  .work-thumb .logo-meta {
+    margin-top: 18px;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #a89c80;
+    text-align: center;
+  }
+
+  /* Card hover — layered shadows, smooth lift */
+  .work-card {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .work-card:hover {
+    transform: translateY(-3px);
+  }
+  .work-card:active {
+    transform: translateY(0) scale(0.98);
+    transition-duration: 0.1s;
+  }
+  .work-thumb {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.3s ease;
+    box-shadow:
+      0 1px 2px rgba(26, 23, 20, 0.06),
+      0 2px 6px rgba(26, 23, 20, 0.04);
+  }
+  .work-card:hover .work-thumb {
+    box-shadow:
+      0 0 0 1px rgba(106, 30, 26, 0.18),
+      0 4px 12px rgba(106, 30, 26, 0.12),
+      0 12px 32px rgba(106, 30, 26, 0.16),
+      0 20px 48px rgba(106, 30, 26, 0.08);
+    filter: brightness(1.03) contrast(1.02);
+  }
+  .work-card:focus-visible .work-thumb {
+    outline: 2px solid #6a1e1a;
+    outline-offset: 3px;
+  }
+
+  .work-meta {
+    text-align: center;
+    line-height: 1.4;
+    transition: opacity 0.3s ease;
+  }
+  .work-card:hover .work-meta { opacity: 0.85; }
+  .work-meta .wm-title {
+    font-family: Garamond, Georgia, serif;
+    font-size: 13.5px;
+    font-style: italic;
+    color: #3a342c;
+    display: block;
+  }
+  .work-meta .wm-sub {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: #b4a98f;
+    margin-top: 3px;
+    display: block;
+  }
+
+  /* ---------- Modal / lightbox ---------- */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 17, 14, 0);
+    -webkit-backdrop-filter: blur(0px);
+            backdrop-filter: blur(0px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.45s ease,
+      background-color 0.45s ease,
+      backdrop-filter 0.45s ease,
+      -webkit-backdrop-filter 0.45s ease,
+      visibility 0s linear 0.45s;
+  }
+  .modal-backdrop.open {
+    opacity: 1;
+    visibility: visible;
+    background: rgba(20, 17, 14, 0.78);
+    -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+    transition:
+      opacity 0.45s ease,
+      background-color 0.45s ease,
+      backdrop-filter 0.45s ease,
+      -webkit-backdrop-filter 0.45s ease,
+      visibility 0s linear 0s;
+  }
+  .modal {
+    background: #f9f6f0;
+    max-width: 880px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 30px 90px rgba(0,0,0,0.55), 0 8px 24px rgba(0,0,0,0.25);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(28px) scale(0.97);
+    transition:
+      opacity 0.45s ease,
+      transform 0.55s cubic-bezier(0.18, 1, 0.32, 1);
+  }
+  .modal-backdrop.open .modal {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .modal-backdrop, .modal-backdrop .modal {
+      transition: opacity 0.15s ease, visibility 0s linear 0.15s;
+      transform: none !important;
+    }
+    .modal-backdrop.open { transition: opacity 0.15s ease; }
+    .tl-node, .tl-node .tl-year, .tl-node .tl-label,
+    .tl-node .tl-narrative, .tl-node .tl-cards, .tl-pip {
+      transition: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+  .modal-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: 0;
+    color: #1a1714;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px 10px;
+    z-index: 2;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  .modal-close:hover { opacity: 1; }
+
+  .modal-image-wrap {
+    position: relative;
+    background: #1a1714;
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .modal-image-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .modal-image-wrap .placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+    background:
+      radial-gradient(ellipse at top, rgba(196,125,40,0.10), transparent 70%),
+      #f3ede1;
+    color: #3a342c;
+  }
+  .modal-image-wrap .placeholder .ph-kicker {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #b4a98f;
+    margin-bottom: 16px;
+  }
+  .modal-image-wrap .placeholder .ph-title {
+    font-family: Garamond, Georgia, serif;
+    font-size: 32px;
+    line-height: 1.2;
+    max-width: 600px;
+  }
+  .modal-image-wrap .placeholder .ph-rule {
+    width: 36px;
+    height: 1px;
+    background: #c9bfa8;
+    margin: 18px 0;
+  }
+  .modal-image-wrap .placeholder .ph-meta {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #a89c80;
+  }
+  .modal-image-wrap .modal-logo .logo-mark {
+    width: 200px;
+    height: 200px;
+    background-color: #6a1e1a;
+    -webkit-mask-position: center;
+            mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+            mask-size: contain;
+  }
+  .modal-image-wrap.art-mode {
+    background: #f3ede1;
+    aspect-ratio: 4 / 3;
+  }
+  .modal-image-wrap .modal-art {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-image-wrap .modal-art svg {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(249, 246, 240, 0.85);
+    border: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    color: #1a1714;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .modal-nav:hover { background: #fff; }
+  .modal-nav.prev { left: 14px; }
+  .modal-nav.next { right: 14px; }
+  .modal-nav[hidden] { display: none; }
+
+  .modal-body {
+    padding: 28px 36px 32px;
+  }
+  .modal-kicker {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 8px;
+  }
+  .modal-title {
+    font-family: Garamond, Georgia, serif;
+    font-size: 26px;
+    font-weight: normal;
+    margin: 0 0 14px 0;
+    color: #1a1714;
+    letter-spacing: 0.02em;
+  }
+  .modal-caption {
+    font-size: 14px;
+    line-height: 1.65;
+    color: #3a342c;
+    margin-bottom: 20px;
+  }
+  .modal-link {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #6a1e1a;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(106,30,26,0.4);
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+  .modal-link:hover { border-color: #6a1e1a; }
+  .modal-counter {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #c0b8a8;
+    margin-top: 18px;
+  }
+
+  @media (max-width: 580px) {
+    .main { padding: 50px 18px 40px; }
+    h1 { font-size: 30px; }
+    .timeline { padding: 40px 10px 10px; }
+    .timeline::before { left: 24px; }
+    .tl-node { padding-left: 52px; }
+    .tl-pip { left: 18px; }
+    .tl-label { font-size: 22px; }
+    .tl-narrative { font-size: 15.5px; }
+    .tl-cards { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 16px 10px; }
+    .modal-body { padding: 22px 22px 28px; }
+    .modal-title { font-size: 22px; }
+  }
+
+  .footer-art-wrap {
+    position: relative;
+    max-width: 520px;
+    margin: 80px auto 20px;
+    padding: 50px;
+  }
+  .footer-art {
+    display: block;
+    width: 100%;
+    mix-blend-mode: multiply;
+    filter: contrast(1.15) brightness(1.1) sepia(0.2) saturate(0.7);
+    opacity: 0;
+    transform: scale(0.97);
+    transition: opacity 2s ease, transform 2s ease;
+    mask-image:
+      radial-gradient(ellipse 70% 65% at 50% 45%, black 10%, transparent 55%);
+    -webkit-mask-image:
+      radial-gradient(ellipse 70% 65% at 50% 45%, black 10%, transparent 55%);
+  }
+  .footer-art-wrap.revealed .footer-art {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+  .footer-art-halo {
+    position: absolute;
+    inset: -80px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(ellipse at 50% 45%,
+      rgba(196, 155, 60, 0.25) 0%,
+      rgba(196, 155, 60, 0.10) 40%,
+      transparent 70%);
+  }
+  .footer-art-wrap.revealed .footer-art-halo {
+    animation: haloReveal 5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+  }
+  @keyframes haloReveal {
+    0%   { opacity: 0; transform: scale(0.6); }
+    20%  { opacity: 1; transform: scale(1.15); }
+    40%  { opacity: 0.85; transform: scale(1.05); }
+    65%  { opacity: 0.4; transform: scale(1.1); }
+    100% { opacity: 0; transform: scale(1.25); }
+  }
+  /* Hover brings the glow back */
+  .footer-art-wrap:hover .footer-art-halo {
+    opacity: 0.6;
+    transform: scale(1.08);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .footer-art-wrap:not(:hover) .footer-art-halo {
+    transition: opacity 1.5s ease, transform 1.5s ease;
+  }
+  .footer-art-wrap:hover .footer-art {
+    opacity: 0.85;
+    filter: contrast(1.2) brightness(1.0) sepia(0.08) saturate(0.9);
+    transition: opacity 0.8s ease, filter 0.8s ease;
+  }
+  @media (max-width: 580px) {
+    .footer-art-wrap { max-width: 260px; margin-top: 50px; padding: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .footer-art-halo { display: none; }
+    .footer-art-wrap.revealed .footer-art { opacity: 0.5; transform: none; }
+  }
+  .footer {
+    text-align: center;
+    padding: 10px 20px 80px;
     font-size: 10px;
     color: #b4a98f;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
-  .footer-tower { display: inline-block; width: 14px; height: 14px; vertical-align: -3px; margin-right: 6px; color: #6a1e1a; opacity: 0.55; }
-  .footer-tower svg { display: block; width: 100%; height: 100%; }
-  .footer-tower .arc { transform-origin: 10px 16px; animation: signalPulse 2.6s ease-in-out infinite; }
-  .footer-tower .arc.a2 { animation-delay: 0.25s; }
-  .footer-tower .arc.a3 { animation-delay: 0.5s; }
-  @keyframes signalPulse { 0%, 70%, 100% { opacity: 0; } 12% { opacity: 1; } 40% { opacity: 0.35; } }
   .footer-admin {
-    margin-left: 10px; color: rgba(180,169,143,0.55); text-decoration: none;
-    border-bottom: 1px dotted rgba(180,169,143,0.4);
+    margin-left: 10px;
+    color: rgba(180, 169, 143, 0.55);
+    text-decoration: none;
+    border-bottom: 1px dotted rgba(180, 169, 143, 0.4);
     transition: color 0.3s ease, border-color 0.3s ease;
   }
-  .footer-admin:hover { color: #6a1e1a; border-bottom-color: rgba(106,30,26,0.6); }
+  .footer-admin:hover {
+    color: #6a1e1a;
+    border-bottom-color: rgba(106, 30, 26, 0.6);
+  }
 
+  /* ---------- Section illustrations ---------- */
+  .tl-illo {
+    position: absolute;
+    right: -10px;
+    top: 10px;
+    width: 140px;
+    height: 140px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 1.2s ease 0.4s;
+    animation: illoFloat 14s ease-in-out infinite;
+  }
+  .tl-node.visible .tl-illo {
+    opacity: 0.09;
+  }
+  .tl-illo svg {
+    width: 100%;
+    height: 100%;
+  }
+  @keyframes illoFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33%  { transform: translateY(-5px) rotate(1.5deg); }
+    66%  { transform: translateY(3px) rotate(-1deg); }
+  }
   @media (max-width: 580px) {
-    .cv { padding: 46px 20px 20px; }
-    .cv-name { font-size: 38px; }
-    .cv-summary p { font-size: 17px; }
-    .cv-entry-head { gap: 4px; }
+    .tl-illo { width: 90px; height: 90px; right: -5px; top: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cv-section { opacity: 1 !important; transform: none !important; transition: none !important; }
-    .footer-tower .arc { animation: none !important; opacity: 0.55 !important; }
-    html { scroll-behavior: auto; }
+    .tl-illo { animation: none !important; }
   }
 
-  /* ---------- Print: clean, ink-on-white, no chrome ---------- */
-  @media print {
-    html { background: #fff !important; }
-    body::after, #chop-nav, .cv-download, .cv-footer { display: none !important; }
-    body { color: #000; font-size: 10.5pt; }
-    .cv { max-width: none; padding: 0; margin: 0; }
-    .cv-section { opacity: 1 !important; transform: none !important; page-break-inside: avoid; }
-    .cv-entry, .cv-highlights li, .cv-list li { page-break-inside: avoid; }
-    a { color: #000; }
-    .cv-name { font-size: 30pt; }
-    .cv-tagline, .cv-role, .cv-label { color: #6a1e1a; }
+  /* ---------- Deer spirits ---------- */
+  .deer-field {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    overflow: hidden;
+  }
+  .deer-spirit {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .deer-spirit svg {
+    display: block;
+  }
+  @keyframes deerFall {
+    0%   { top: -60px; opacity: 0; }
+    3%   { opacity: var(--deer-op); }
+    90%  { opacity: var(--deer-op); }
+    100% { top: calc(100vh + 60px); opacity: 0; }
+  }
+  .deer-spirit-inner {
+    animation: deerSpin var(--spin-dur) linear infinite;
+  }
+  @keyframes deerSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(var(--spin-dir)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .deer-field { display: none; }
+  }
+
+  /* ============================================================
+     ✦  Polish pass — intro reveals, hover lifts, micro-anims
+     ============================================================ */
+
+  /* (1) Portrait — slow fade-in with blur defocus on first paint.
+         Hover transitions (already defined above) still apply once the
+         entrance animation settles thanks to fill-mode: both. */
+  .portrait {
+    animation: portraitReveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  }
+  @keyframes portraitReveal {
+    0%   {
+      opacity: 0;
+      filter: contrast(1.05) brightness(1.02) blur(10px);
+      transform: scale(0.96);
+    }
+    100% {
+      opacity: 1;
+      filter: contrast(1.05) brightness(1.02) blur(0);
+      transform: scale(1);
+    }
+  }
+
+  /* (4) Divider — draws left-to-right after the name lands. */
+  .divider {
+    width: 0;
+    animation: dividerDraw 0.85s cubic-bezier(0.22, 1, 0.36, 1) 1.05s forwards;
+  }
+  @keyframes dividerDraw {
+    to { width: 28px; }
+  }
+
+  /* (5) Links table rows — warm wash on hover, label color shift only.
+         Avoid any property that triggers layout (padding, width, letter-
+         spacing): a layout-changing hover reads as row-by-row jitter as
+         the cursor crosses rows. */
+  .links-table tr {
+    transition: background-color 0.35s ease;
+  }
+  .links-table tr:hover {
+    background-color: rgba(106, 30, 26, 0.025);
+  }
+  .links-table tr td:first-child {
+    transition: color 0.35s ease;
+  }
+  .links-table tr:hover td:first-child {
+    color: #a08060;
+  }
+
+  /* (6) Icon micro-anim — gentle counter-rotate + scale on row hover. */
+  .links-table .link-ico {
+    transition: opacity 0.35s ease,
+                transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: 50% 50%;
+  }
+  .links-table tr:hover .link-ico {
+    opacity: 0.7;
+    transform: rotate(-8deg) scale(1.18);
+  }
+
+  /* (7) Message form — input grows on focus, sent confirmation slides in. */
+  .contact-input {
+    transition: border-color 0.35s ease,
+                padding 0.35s ease,
+                border-bottom-width 0.35s ease;
+  }
+  .contact-input::placeholder {
+    transition: opacity 0.35s ease;
+  }
+  .contact-input:focus {
+    padding-bottom: 7px;
+    border-bottom-width: 1.5px;
+  }
+  .contact-input:focus::placeholder { opacity: 0.45; }
+
+  /* contact-sent toggled via .shown class (JS sets the class instead of
+     inline display).  Slides in from a 14px offset with a fade. */
+  .contact-sent {
+    display: inline-block !important;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-14px);
+    transition: opacity 0.45s ease,
+                transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0s linear 0.5s;
+  }
+  .contact-sent.shown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    transition: opacity 0.45s ease,
+                transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0s linear 0s;
+  }
+  .contact-form.hidden { display: none; }
+
+  /* (8) Button pip → spine handoff.  When the button expands, a small pip
+         falls down the dotted stitch hint and dissolves. */
+  .timeline-trigger-stitch {
+    position: relative;
+  }
+  .timeline-trigger-stitch::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -6px;
+    width: 7px;
+    height: 7px;
+    margin-left: -3.5px;
+    border: 1.5px solid #6a1e1a;
+    border-radius: 50%;
+    background: transparent;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .timeline-btn[aria-expanded="true"] ~ .timeline-trigger-stitch::before {
+    animation: pipFall 0.95s cubic-bezier(0.22, 1, 0.36, 1) 0.18s forwards;
+  }
+  @keyframes pipFall {
+    0%   { top: -22px; opacity: 0; transform: scale(0.4); }
+    25%  { opacity: 1; transform: scale(1.15); }
+    100% { top: 36px; opacity: 0; transform: scale(0.55); background: #6a1e1a; }
+  }
+
+  /* (10) Halo — chain a slow breathing animation after the initial reveal so
+          the angel's glow feels alive instead of one-and-done. */
+  .footer-art-wrap.revealed .footer-art-halo {
+    animation:
+      haloReveal 5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards,
+      haloBreath 7s ease-in-out 6s infinite;
+  }
+  @keyframes haloBreath {
+    0%, 100% { opacity: 0.16; transform: scale(1.0); }
+    50%      { opacity: 0.32; transform: scale(1.08); }
+  }
+
+  /* (11) Footer radio tower — three pulsing arcs on each side of the mast. */
+  .footer-tower {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    vertical-align: -3px;
+    margin-right: 6px;
+    color: #6a1e1a;
+    opacity: 0.55;
+  }
+  .footer-tower svg { display: block; width: 100%; height: 100%; }
+  .footer-tower .arc {
+    transform-origin: 10px 16px;
+    animation: signalPulse 2.6s ease-in-out infinite;
+  }
+  .footer-tower .arc.a2 { animation-delay: 0.25s; }
+  .footer-tower .arc.a3 { animation-delay: 0.5s; }
+  @keyframes signalPulse {
+    0%, 70%, 100% { opacity: 0; }
+    12%           { opacity: 1; }
+    40%           { opacity: 0.35; }
+  }
+
+  /* (12 / 13) Modal — crossfade between slides, plus a faint film-grain
+                overlay on the dimmed backdrop. */
+  .modal-image-wrap > img,
+  .modal-image-wrap > .placeholder,
+  .modal-image-wrap > .modal-logo,
+  .modal-image-wrap > .modal-art {
+    transition: opacity 0.22s ease;
+  }
+  .modal-backdrop::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.7 0'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+    transition: opacity 0.5s ease;
+  }
+  .modal-backdrop.open::after { opacity: 0.07; }
+  .modal-backdrop > .modal { z-index: 2; }
+
+  /* (14) Cursor trail — small oxblood dot, fades out, only over interactive
+          elements (JS gate).  position: fixed so transient dots near the
+          right edge never extend the document scrollWidth on mobile. */
+  .cursor-dot {
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #6a1e1a;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    animation: cursorDot 0.75s ease forwards;
+    will-change: opacity, transform;
+  }
+  @keyframes cursorDot {
+    0%   { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0;    transform: translate(-50%, -50%) scale(0.35); }
+  }
+
+  /* Inline footnote — dotted-underline word with a parchment tooltip on
+     hover/focus.  Used for in-narrative annotations like the PsyArt note. */
+  .tl-narrative .footnote {
+    position: relative;
+    color: #6a1e1a;
+    border-bottom: 1px dotted rgba(106, 30, 26, 0.5);
+    cursor: help;
+    transition: color 0.3s ease, border-color 0.3s ease;
+    outline: none;
+  }
+  .tl-narrative .footnote:hover,
+  .tl-narrative .footnote:focus-visible {
+    color: #800000;
+    border-bottom-color: #800000;
+  }
+  /* display:none when hidden so the wide popup never contributes to
+     document scrollWidth on mobile.  Entrance is a CSS keyframe so the
+     fade-in still feels nice when the user hovers/focuses. */
+  .tl-narrative .footnote-pop {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: max(280px, min(360px, 80vw));
+    background: #fdfaf2;
+    border: 1px solid rgba(106, 30, 26, 0.18);
+    box-shadow: 0 10px 30px rgba(40, 30, 20, 0.18),
+                0 2px 6px rgba(40, 30, 20, 0.06);
+    padding: 14px 16px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 13.5px;
+    line-height: 1.55;
+    letter-spacing: 0.005em;
+    color: #3a342c;
+    pointer-events: none;
+    z-index: 50;
+  }
+  .tl-narrative .footnote:hover .footnote-pop,
+  .tl-narrative .footnote:focus-visible .footnote-pop {
+    display: block;
+    animation: footnoteIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes footnoteIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+  .tl-narrative .footnote-pop::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    width: 0; height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #fdfaf2;
+    filter: drop-shadow(0 1px 0 rgba(106, 30, 26, 0.18));
+  }
+  @media (max-width: 580px) {
+    .tl-narrative .footnote-pop {
+      width: 240px;
+      font-size: 12.5px;
+      padding: 12px 14px;
+    }
+  }
+
+  /* (15) Reduced-motion — kill all the new keyframes.  (Existing rules
+          cover the timeline + halo + deer fields already.) */
+  @media (prefers-reduced-motion: reduce) {
+    .portrait,
+    .divider,
+    .timeline-trigger-stitch::before,
+    .footer-tower .arc {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .portrait { filter: contrast(1.05) brightness(1.02) !important; }
+    .divider { width: 28px !important; }
+    .footer-tower .arc { opacity: 0.55 !important; }
+    .cursor-dot { display: none !important; }
+    .modal-image-wrap > img,
+    .modal-image-wrap > .placeholder,
+    .modal-image-wrap > .modal-logo,
+    .modal-image-wrap > .modal-art { transition: none !important; }
   }
 </style>
 </head>
 <body>
 
-<!-- Site nav (rendered by the shared site script) -->
 <div id="chop-nav"></div>
 <script src="/js/chop-nav.js"></script>
 
-<main class="cv">
 
-  <header class="cv-head">
-    <h1 class="cv-name">Julio C. Avalos</h1>
-    <div class="cv-tagline">Operating Executive&nbsp;&nbsp;·&nbsp;&nbsp;CEO / President / COO&nbsp;&nbsp;·&nbsp;&nbsp;Board Director</div>
-    <div class="cv-contact">San Francisco Bay Area<span class="dot">·</span><a href="mailto:chopradio@gmail.com">chopradio@gmail.com</a><span class="dot">·</span><a href="https://chopradio.com">chopradio.com</a></div>
-    <a class="cv-download" href="./julio-avalos-cv.pdf">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Download PDF
-    </a>
-    <div class="cv-head-rule"></div>
-  </header>
+<div class="main">
 
-  <section class="cv-summary">
-    <p>Systems-oriented operating executive who scales category-defining technology companies at inflection points. I connect product strategy, go-to-market, brand, people, policy, legal structure, and culture into <strong>one operating system for growth</strong>. At <strong>GitHub</strong>, I was the senior operating leader as the company grew from a bootstrapped developer tool into the global platform for software development and a <strong>$7.5B Microsoft acquisition</strong>. My current focus is <strong>AI-native companies</strong> where trust, ecosystem strategy, regulation, and operating discipline determine which products become durable platforms.</p>
-    <p class="aim">I'm looking to run a hypergrowth company as <strong>CEO</strong>, or to partner with an exceptional technical founder as <strong>President / COO</strong>.</p>
-  </section>
+  <img src="/assets/deer.jpg" alt="" class="portrait">
 
-  <section class="cv-section">
-    <h2 class="cv-label">Highlights</h2>
-    <ul class="cv-highlights">
-      <li><strong>$7.5B exit.</strong> Took GitHub from bootstrapped startup to a $7.5B acquisition by Microsoft — the richest revenue multiple Microsoft had ever paid — as the senior operating leader across everything but engineering.</li>
-      <li><strong>Zero to ~$300M ARR.</strong> Grew the business from single-digit millions to roughly $200–300M ARR and from 1.7M to 30M+ developers, with expansion across EMEA and APAC.</li>
-      <li><strong>Brand, culture &amp; people.</strong> Built (and at least initially personally oversaw) the marketing, communications, legal, business systems, and people functions — and stewarded the developer-first brand and culture — that made GitHub one of the most loved names in software and a magnet for talent through hypergrowth.</li>
-      <li><strong>At the origin of AI coding.</strong> Set the data-and-automation strategy GitHub built into Actions and Copilot, and presided over the era that produced Atom, Electron, and the founding team of Zed.</li>
-    </ul>
-  </section>
+  <h1>Julio Avalos</h1>
+  <div class="tagline">co-ceo, observable; fmr. coo, github</div>
 
-  <section class="cv-section">
-    <h2 class="cv-label">Experience</h2>
+  <div class="divider"></div>
 
-    <article class="cv-entry">
-      <div class="cv-entry-head"><span class="cv-company">Observable</span><span class="cv-dates">2019 – Present</span></div>
-      <div class="cv-role">Co-CEO (Jan 2024 – Present)&nbsp;&nbsp;·&nbsp;&nbsp;Board Director (2019 – Present)</div>
-      <p class="cv-desc">A board director since 2019; stepped in to assist founder Mike Bostock — creator of D3.js — in January 2024, bringing operating focus and partnering with him on strategy and operations to lead the company's pivot toward AI for data analysis.</p>
-    </article>
+  <table class="links-table">
+    <tr><td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12.09 13.12c-.15-.15-.15-.4 0-.55l6.38-6.38a.39.39 0 0 1 .55.55l-6.38 6.38c-.15.15-.4.15-.55 0zm-1.72 1.72c-.15-.15-.15-.4 0-.55l6.38-6.38a.39.39 0 0 1 .55.55l-6.38 6.38c-.15.15-.4.15-.55 0zM5.5 18.5l1.27-4.45 3.18 3.18L5.5 18.5zm2.1-5.28L4.42 10l4.82-4.83L12.46 8.4l-4.86 4.82zm5.68-5.63L10.06 4.4 12.17 2.3a2.74 2.74 0 0 1 3.87 0l-.76.76.76-.76a2.74 2.74 0 0 1 0 3.87l-2.76 2.42zM3.31 11.07l3.18 3.18-1.2 1.19L2.11 12.3l1.2-1.23z"/></svg>Wikipedia</td><td><a href="https://en.wikipedia.org/wiki/Julio_Avalos">Julio Avalos</a></td></tr>
+    <tr><td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>GitHub</td><td><a href="https://github.com/hoolio">@hoolio</a></td></tr>
+    <tr><td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="2.5"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" opacity=".3"/><path d="M12 6a6 6 0 1 0 0 12 6 6 0 0 0 0-12zm0 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>Observable</td><td><a href="https://observablehq.com/@iii-iii?tab=notebooks">@iii-iii</a></td></tr>
+    <tr><td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>LinkedIn</td><td><a href="https://www.linkedin.com/in/julio-avalos-who/">julio-avalos-who</a></td></tr>
+    <tr>
+      <td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M19 5v14H5V5h14m0-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>Recent</td>
+      <td>Draft: <a href="/enjoy/">A Marxist's Guide to Getting Rich in AI</a> (June 2026)</td>
+    </tr>
+    <tr class="works-row">
+      <td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>Works</td>
+      <td>
+        <a href="#timeline" class="works-link">selected projects and writings</a>
+      </td>
+    </tr>
+    <tr><td><svg class="link-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>Message</td><td><form class="contact-form" id="contactForm"><input class="contact-input" id="contactMsg" type="text" placeholder="say hello" maxlength="500" autocomplete="off"><button class="contact-send" type="submit">Send</button></form><span class="contact-sent" id="contactSent">sent</span></td></tr>
+  </table>
 
-    <article class="cv-entry">
-      <div class="cv-entry-head"><span class="cv-company">Shades</span><span class="cv-dates">2021 – 2025</span></div>
-      <div class="cv-role">Co-Founder</div>
-      <p class="cv-desc">Co-founded a Gen-Z news platform that evolved into an <strong>AI product surfacing multiple perspectives on the issues of the day</strong>. Full zero-to-one founder experience across product, fundraising, brand, and growth, including the strategic realities of competing for attention against platform incumbents.</p>
-    </article>
+</div>
 
-    <article class="cv-entry">
-      <div class="cv-entry-head"><span class="cv-company">GitHub</span><span class="cv-dates">2012 – 2018</span></div>
-      <div class="cv-role">Chief Business, Strategy &amp; Operations Officer&nbsp;&nbsp;·&nbsp;&nbsp;General Counsel&nbsp;&nbsp;·&nbsp;&nbsp;Board Member</div>
-      <p class="cv-desc">Joined in Q4 2012 as the company's <strong>first General Counsel</strong> — bootstrapped, at the Series A — and became the senior operating executive across the entire business outside of engineering, running legal, policy, people, brand, and partnerships as one connected system and serving on the board through the Microsoft exit.</p>
-      <ul class="cv-bullets">
-        <li><strong>Owned the full non-engineering operating surface</strong> — legal, policy, people, strategic partnerships, marketing, and communications — and served as Chief Business &amp; Strategy Officer through the <strong>Sequoia-led Series B</strong> (Thrive Capital also participating) and the $7.5B Microsoft acquisition.</li>
-        <li><strong>Repositioned the product</strong> from a “social coding tool” into the world's global code repository, and drove the move into enterprise (B2B) <em>without alienating the open-source community</em> that initially adopted us.</li>
-        <li><strong>Set the strategic foundation for GitHub's data-and-automation thesis</strong> — that a platform with a record of every bug and every patch should learn from itself and automate that work — the direction GitHub realized in <strong>Actions</strong> and, ultimately, <strong>Copilot</strong>.</li>
-        <li><strong>Took the company international</strong> (EMEA, APAC), with the majority of users outside the U.S., and was an early, public architect of remote work and open-source business models.</li>
-        <li><strong>Scaled the team from dozens to over a thousand</strong> while protecting a distinctive remote-first culture, and treated <em>brand and developer trust as core strategy</em> — not decoration — building one of GitHub's most durable competitive moats.</li>
-        <li><strong>Built the legal, policy, and GTM functions from zero</strong> and reinvented it as “legal-as-code” — lawyers shipping in Markdown on GitHub itself. Named the <em>top in-house technology lawyer in the U.S.</em> (Legal 500, 2015); inaugural recipient of The Recorder's legal-innovation awards.</li>
-      </ul>
-    </article>
+<div class="timeline-trigger" id="timelineTrigger">
+  <button type="button" class="timeline-btn" id="timelineBtn" aria-expanded="false" aria-controls="timeline">
+    <span class="tb-pip" aria-hidden="true"></span>
+    <span class="tb-label">CV</span>
+    <span class="tb-pip" aria-hidden="true"></span>
+  </button>
+  <div class="timeline-trigger-stitch" aria-hidden="true"></div>
+</div>
 
-    <article class="cv-entry">
-      <div class="cv-entry-head"><span class="cv-company">Yelp</span><span class="cv-dates">2010 – 2012</span></div>
-      <div class="cv-role">Corporate Counsel</div>
-      <p class="cv-desc">Joined while the company was still private and helped take it public — <strong>S-1 through IPO from the inside</strong>. Crossed deliberately from litigation into corporate, governance, and capital-markets work to round out a complete operating toolkit.</p>
-    </article>
+<div class="timeline-collapse" id="timelineCollapse">
+  <section class="timeline" id="timeline"></section>
+</div>
 
-    <article class="cv-entry">
-      <div class="cv-entry-head"><span class="cv-company">Orrick, Herrington &amp; Sutcliffe</span><span class="cv-dates">2006 – 2010</span></div>
-      <div class="cv-role">Managing Associate · IP Litigation</div>
-      <p class="cv-desc">Litigated at the digital frontier as one of the top associate trial lawyers in America, focusing on frontier IP, privacy, and cyber governance. Represented <strong>early-stage Facebook and Mark Zuckerberg</strong> in the matter that became the basis for Aaron Sorkin's <em>The Social Network</em>, and worked with Apple, early LinkedIn, and nearly every early social network.</p>
-    </article>
-  </section>
+<div class="footer-art-wrap" id="footerArt">
+  <div class="footer-art-halo"></div>
+  <img src="/assets/angel.png" alt="" class="footer-art">
+</div>
+<script>
+(function() {
+  var el = document.getElementById('footerArt');
+  if (!el) return;
+  var obs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      el.classList.add('revealed');
+      obs.disconnect();
+    }
+  }, { threshold: 0 });
+  obs.observe(el);
+})();
 
-  <section class="cv-section">
-    <h2 class="cv-label">Awards &amp; Recognition</h2>
-    <ul class="cv-list">
-      <li><strong>Top in-house technology lawyer in the U.S.</strong> — Legal 500 (2015) and GC Powerlist; inaugural recipient, The Recorder legal-innovation awards.</li>
-      <li><strong>HITEC 100</strong> — named one of the 100 Most Influential Hispanic Leaders in Technology by the Hispanic IT Executive Council (2018).</li>
-      <li><strong>40 Gators Under 40</strong> — University of Florida Alumni Association Outstanding Young Alumni Award.</li>
-      <li><strong>Public speaker and writer</strong> on remote culture, open source, and the intersection of technology, policy, and law.</li>
-      <li>Written about in the <em>Wall Street Journal</em> on data-privacy regulation and global tech policy; subject of an independent <a href="https://en.wikipedia.org/wiki/Julio_Avalos">Wikipedia biography</a>.</li>
-    </ul>
-  </section>
+// Timeline trigger — collapse/expand
+(function() {
+  var btn = document.getElementById('timelineBtn');
+  var wrap = document.getElementById('timelineCollapse');
+  var trigger = document.getElementById('timelineTrigger');
+  if (!btn || !wrap || !trigger) return;
 
-  <section class="cv-section">
-    <h2 class="cv-label">Board Memberships</h2>
-    <ul class="cv-list">
-      <li><strong>Merico</strong> (board director, 2018–present) — an AI company specializing in generative code and developer analytics, measuring and accelerating how software gets built.</li>
-    </ul>
-  </section>
+  function open(scrollAfter) {
+    if (wrap.classList.contains('expanded')) return;
+    wrap.classList.add('expanded');
+    btn.setAttribute('aria-expanded', 'true');
+    if (scrollAfter !== false) {
+      // Wait for the height transition to settle, then nudge first node into view
+      setTimeout(function() {
+        var firstNode = wrap.querySelector('.tl-node');
+        if (firstNode) firstNode.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 380);
+    }
+  }
+  function close() {
+    if (!wrap.classList.contains('expanded')) return;
+    wrap.classList.remove('expanded');
+    btn.setAttribute('aria-expanded', 'false');
+    trigger.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 
-  <section class="cv-section">
-    <h2 class="cv-label">Education</h2>
-    <ul class="cv-list">
-      <li><strong>Columbia Law School</strong> — J.D., 2006. Harlan Fiske Stone Scholar; Janes Marks Murphy Prize for Excellence in Clinical Advocacy.</li>
-      <li><strong>University of Florida</strong> — B.A., English (literary theory), minor in Philosophy, 2003. Full academic scholarship; graduated first in class.</li>
-    </ul>
-  </section>
+  btn.addEventListener('click', function() {
+    if (wrap.classList.contains('expanded')) close();
+    else open(true);
+  });
 
-</main>
+  // Anchor links to #timeline (e.g. the "selected projects and writings" row)
+  // should scroll to the trigger and open it.
+  document.querySelectorAll('a[href="#timeline"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      trigger.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function() { open(false); }, 450);
+    });
+  });
 
-<div class="cv-footer">
+  // If page is loaded with #timeline in the URL, auto-open after scroll settles
+  if (window.location.hash === '#timeline') {
+    setTimeout(function() { open(false); }, 250);
+  }
+})();
+
+// (14) Cursor trail — small oxblood dot fading out, only over interactive
+// elements.  Skipped on touch and reduced-motion.
+(function() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia('(hover: none)').matches) return;
+  var sel = 'a, button, .work-card, .tl-pip, [role="button"], .timeline-btn, .contact-input';
+  var last = 0;
+  document.addEventListener('mousemove', function(e) {
+    if (!e.target.closest(sel)) return;
+    var now = performance.now();
+    if (now - last < 55) return;
+    last = now;
+    var dot = document.createElement('div');
+    dot.className = 'cursor-dot';
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+    document.body.appendChild(dot);
+    setTimeout(function() { dot.remove(); }, 800);
+  }, { passive: true });
+})();
+</script>
+<div class="footer">
   <span class="footer-tower" aria-hidden="true">
     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Tower mast (triangle + crossbar + tip antenna) -->
       <path d="M10 5 L6.5 17 M10 5 L13.5 17 M7.6 13 L12.4 13 M10 5 L10 3.5"/>
+      <!-- Left signal arcs -->
       <path class="arc a1" d="M7.5 6.2 Q5.8 8 7.5 9.8"/>
       <path class="arc a2" d="M5.8 4.4 Q2.6 8 5.8 11.6"/>
       <path class="arc a3" d="M4.1 2.6 Q-0.5 8 4.1 13.4"/>
+      <!-- Right signal arcs -->
       <path class="arc a1" d="M12.5 6.2 Q14.2 8 12.5 9.8"/>
       <path class="arc a2" d="M14.2 4.4 Q17.4 8 14.2 11.6"/>
       <path class="arc a3" d="M15.9 2.6 Q20.5 8 15.9 13.4"/>
     </svg>
   </span>
-  Choplogic Radio · Est. 2006
+  Choplogic Radio &middot; Est. 2006
   <a href="/admin/" class="footer-admin" aria-label="Admin">·&nbsp;admin</a>
 </div>
 
+<!-- Modal -->
+<div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal" role="document">
+    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    <div class="modal-image-wrap" id="modalImageWrap">
+      <button class="modal-nav prev" id="modalPrev" aria-label="Previous">‹</button>
+      <button class="modal-nav next" id="modalNext" aria-label="Next">›</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-kicker" id="modalKicker"></div>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-caption" id="modalCaption"></p>
+      <a class="modal-link" id="modalLink" href="#" target="_blank" rel="noopener">Visit →</a>
+      <div class="modal-counter" id="modalCounter"></div>
+    </div>
+  </div>
+</div>
+
 <script>
-  // Gentle scroll reveal, consistent with the homepage's section entrances.
-  // Progressive enhancement: content is fully visible without JS; we only
-  // opt into the hidden-then-reveal animation when JS runs and motion is allowed.
-  (function () {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    document.documentElement.classList.add('js-reveal');
-    var obs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+(function () {
+  'use strict';
+
+  // -------- SVG art library --------
+  // Each entry is a self-contained SVG with paper background, oxblood accents.
+  // viewBox 200x250 (4:5) for thumbnails; scales to fill modal letterboxed.
+  const ART = {
+    hedcut: `
+      <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="250" fill="#f5f0e6"/>
+        <!-- WSJ masthead style -->
+        <text x="100" y="22" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="10" font-style="italic" fill="#1a1714" opacity="0.7">The Wall Street Journal</text>
+        <line x1="20" y1="28" x2="180" y2="28" stroke="#1a1714" stroke-width="0.6" opacity="0.3"/>
+        <line x1="20" y1="30" x2="180" y2="30" stroke="#1a1714" stroke-width="0.3" opacity="0.2"/>
+        <!-- headline -->
+        <text x="20" y="50" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">GitHub Legal Chief</text>
+        <text x="20" y="63" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">Warns on Privacy</text>
+        <text x="20" y="76" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">and Data Security</text>
+        <!-- byline -->
+        <text x="20" y="92" font-family="Garamond, Georgia, serif" font-size="6" fill="#5a534a" letter-spacing="0.5">By Kim S. Nash</text>
+        <text x="20" y="100" font-family="Garamond, Georgia, serif" font-size="5" fill="#8a8070">Pro Cybersecurity · March 5, 2019</text>
+        <!-- body text -->
+        <g fill="#3a342c" font-family="Garamond, Georgia, serif" font-size="4.5" opacity="0.65">
+          <text x="20" y="116">Julio Avalos, general counsel of GitHub</text>
+          <text x="20" y="123">Inc., said the U.S. abdication of leadership</text>
+          <text x="20" y="130">in data privacy and security regulation is</text>
+          <text x="20" y="137">forcing companies to look to other countries</text>
+          <text x="20" y="144">to figure out where international tech policy</text>
+          <text x="20" y="151">is actually headed. The warning comes as</text>
+          <text x="20" y="158">companies increasingly struggle with a</text>
+          <text x="20" y="165">patchwork of state and international rules.</text>
+          <text x="20" y="176">"We are in a world where the rules are</text>
+          <text x="20" y="183">being written elsewhere," Mr. Avalos said</text>
+          <text x="20" y="190">in an interview. He pointed to the European</text>
+          <text x="20" y="197">Union's General Data Protection Regulation</text>
+          <text x="20" y="204">as an example of the regulatory leadership</text>
+          <text x="20" y="211">vacuum that American tech companies now</text>
+        </g>
+        <text x="100" y="240" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="6" fill="#a89c80">WSJ Pro Cybersecurity</text>
+      </svg>
+    `,
+    hypergrowth: `
+      <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="250" fill="#f3ede1"/>
+        <g stroke="#d4cab2" stroke-width="0.6">
+          <line x1="28" y1="200" x2="180" y2="200"/>
+          <line x1="28" y1="60" x2="28" y2="200"/>
+          <line x1="28" y1="160" x2="180" y2="160" stroke-dasharray="2,3"/>
+          <line x1="28" y1="120" x2="180" y2="120" stroke-dasharray="2,3"/>
+          <line x1="28" y1="80"  x2="180" y2="80"  stroke-dasharray="2,3"/>
+        </g>
+        <path d="M 30 196 Q 65 192 92 178 T 138 128 Q 158 96 175 50"
+              fill="none" stroke="#6a1e1a" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="175" cy="50" r="3.6" fill="#6a1e1a"/>
+        <circle cx="175" cy="50" r="7" fill="none" stroke="#6a1e1a" stroke-width="0.9" opacity="0.4"/>
+        <text x="28" y="225" font-family="IBM Plex Sans, sans-serif" font-size="9" letter-spacing="2" fill="#a89c80">↗ HYPERGROWTH</text>
+      </svg>
+    `,
+    onair: `
+      <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="250" fill="#f3ede1"/>
+        <rect x="28" y="56" width="144" height="108" rx="5" fill="none" stroke="#1a1714" stroke-width="1.5"/>
+        <g stroke="#d4cab2" stroke-width="0.4">
+          <line x1="28" y1="72" x2="172" y2="72"/>
+          <line x1="28" y1="84" x2="172" y2="84"/>
+          <line x1="28" y1="148" x2="172" y2="148"/>
+          <line x1="28" y1="160" x2="172" y2="160"/>
+        </g>
+        <rect x="56" y="92" width="88" height="34" fill="#6a1e1a"/>
+        <text x="100" y="115" text-anchor="middle" fill="#f9f6f0" font-family="IBM Plex Sans, sans-serif" font-size="14" font-weight="700" letter-spacing="3.5">ON AIR</text>
+        <rect x="93" y="164" width="14" height="6" fill="#1a1714"/>
+        <rect x="78" y="170" width="44" height="3" fill="#1a1714"/>
+        <text x="100" y="206" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="9" letter-spacing="2" fill="#a89c80">BROADCAST · MSNBC</text>
+      </svg>
+    `,
+    waveform: `
+      <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="250" fill="#f3ede1"/>
+        <g fill="#6a1e1a">
+          ${[10,16,24,18,30,42,28,50,36,22,14,26,38,48,32,20,12,28,36,44,30,18,22,14,8]
+            .map((h, i) => {
+              const x = 25 + i * 6.25;
+              const y = 130 - h / 2;
+              return `<rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="3" height="${h}" rx="0.6"/>`;
+            }).join('')}
+        </g>
+        <circle cx="100" cy="80" r="14" fill="none" stroke="#1a1714" stroke-width="1.4"/>
+        <rect x="96" y="66" width="8" height="22" rx="4" fill="#1a1714"/>
+        <text x="100" y="220" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="9" letter-spacing="2" fill="#a89c80">PODCAST · IN CONVERSATION</text>
+      </svg>
+    `,
+    psyart_page: `
+      <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="250" fill="#f5f0e6"/>
+        <rect x="0" y="0" width="200" height="20" fill="#2a2520"/>
+        <text x="14" y="14" font-family="Garamond, Georgia, serif" font-size="8.5" font-style="italic" fill="#d4cab2">PsyArt</text>
+        <text x="186" y="14" text-anchor="end" font-family="Garamond, Georgia, serif" font-size="6.5" fill="#8a8070">An Online Journal</text>
+        <text x="14" y="40" font-family="Garamond, Georgia, serif" font-size="12" font-weight="bold" fill="#1a1714">The Unfinished Self</text>
+        <text x="14" y="53" font-family="Garamond, Georgia, serif" font-size="7.5" font-style="italic" fill="#3a342c">Richard's gender deformity in 3 Henry VI and Richard III</text>
+        <line x1="14" y1="60" x2="72" y2="60" stroke="#1a1714" stroke-width="0.3" opacity="0.25"/>
+        <text x="14" y="70" font-family="Garamond, Georgia, serif" font-size="7" fill="#5a534a">Julio C. Avalos, Jr.</text>
+        <g fill="#5a534a" font-family="Garamond, Georgia, serif" font-size="4.2" opacity="0.7">
+          <text x="14" y="88">Shakespeare constructs Richard's deformity not as a</text>
+          <text x="14" y="94.5">medical condition but as a psychic wound—a rupture in</text>
+          <text x="14" y="101">the field of gender that produces, rather than merely</text>
+          <text x="14" y="107.5">reflects, his radical alienation from the social order. The</text>
+          <text x="14" y="114">body that cannot be loved becomes the body that refuses</text>
+          <text x="14" y="120.5">to be made by other people's gaze. This paper argues</text>
+          <text x="14" y="127">that Richard's self-fashioning represents a profound act</text>
+          <text x="14" y="133.5">of resistance against the normative frameworks of desire</text>
+          <text x="108" y="88">and identification that structure the Henriad. Reading</text>
+          <text x="108" y="94.5">Richard's soliloquies through the lens of Lacanian</text>
+          <text x="108" y="101">psychoanalysis and contemporary gender theory, I</text>
+          <text x="108" y="107.5">trace how deformity operates as a signifier of sexual</text>
+          <text x="108" y="114">indeterminacy—neither fully masculine nor feminine,</text>
+          <text x="108" y="120.5">but occupying the space of what Judith Butler calls</text>
+          <text x="108" y="127">"gender trouble." The crooked body becomes the site</text>
+          <text x="108" y="133.5">of a subjectivity that cannot be recuperated by the</text>
+        </g>
+        <g fill="#5a534a" font-family="Garamond, Georgia, serif" font-size="4.2" opacity="0.5">
+          <text x="14" y="148">and desire that governs the world of the play. Far from</text>
+          <text x="14" y="154.5">being a simple villain, Richard emerges as a figure who</text>
+          <text x="14" y="161">exposes the contingency of the very categories—beauty,</text>
+          <text x="14" y="167.5">virtue, legitimacy—that are used to exclude him. His</text>
+          <text x="14" y="174">soliloquies do not merely announce his intentions; they</text>
+          <text x="14" y="180.5">perform a kind of psychic surgery, dismantling the</text>
+          <text x="108" y="148">symbolic order from within. What we witness in the</text>
+          <text x="108" y="154.5">movement from 3 Henry VI to Richard III is not a</text>
+          <text x="108" y="161">progression toward evil but a deepening of a crisis in</text>
+          <text x="108" y="167.5">self-representation—one in which the deformed body</text>
+          <text x="108" y="174">becomes both the instrument and the object of an</text>
+          <text x="108" y="180.5">impossible desire for wholeness and recognition.</text>
+        </g>
+        <line x1="14" y1="194" x2="55" y2="194" stroke="#1a1714" stroke-width="0.3" opacity="0.2"/>
+        <text x="14" y="202" font-family="Garamond, Georgia, serif" font-size="3.5" fill="#8a8070" opacity="0.6">1. See Garber, "Coming of Age in Shakespeare" (1981) and Adelman,</text>
+        <text x="14" y="208" font-family="Garamond, Georgia, serif" font-size="3.5" fill="#8a8070" opacity="0.6">"Suffocating Mothers" (1992) for related readings of the maternal body.</text>
+        <text x="100" y="240" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="7" fill="#a89c80">1</text>
+      </svg>
+    `,
+    imago_page: `
+      <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="250" fill="#f5f0e6"/>
+        <text x="14" y="15" font-family="Garamond, Georgia, serif" font-size="7.5" font-style="italic" fill="#5a534a">American Imago</text>
+        <text x="186" y="15" text-anchor="end" font-family="Garamond, Georgia, serif" font-size="6" fill="#8a8070">62.1 · Spring 2005</text>
+        <line x1="14" y1="20" x2="186" y2="20" stroke="#1a1714" stroke-width="0.4" opacity="0.2"/>
+        <text x="14" y="40" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">"An Agony of Pleasurable</text>
+        <text x="14" y="53" font-family="Garamond, Georgia, serif" font-size="11" fill="#1a1714">Suffering"</text>
+        <text x="14" y="66" font-family="Garamond, Georgia, serif" font-size="7" font-style="italic" fill="#3a342c">Masochism and Maternal Deprivation in Mark Twain</text>
+        <line x1="14" y1="73" x2="65" y2="73" stroke="#1a1714" stroke-width="0.3" opacity="0.2"/>
+        <text x="14" y="83" font-family="Garamond, Georgia, serif" font-size="6.5" fill="#5a534a">JULIO C. AVALOS, JR.</text>
+        <g fill="#5a534a" font-family="Garamond, Georgia, serif" font-size="4.2" opacity="0.7">
+          <text x="28" y="100">The masochistic scenes that pervade Twain's fiction—</text>
+          <text x="14" y="106.5">from Tom Sawyer's theatrical suffering to Huck's</text>
+          <text x="14" y="113">endurance of Pap's violence—are not incidental to</text>
+          <text x="14" y="119.5">his art but constitutive of it. This essay traces the</text>
+          <text x="14" y="126">pervasiveness of masochistic fantasy in Twain's writing</text>
+          <text x="14" y="132.5">back to the deprivations he suffered at the hands of</text>
+          <text x="14" y="139">his mother, Jane Clemens, and to the unconscious fears</text>
+          <text x="14" y="145.5">of passivity and effeminization those deprivations</text>
+          <text x="14" y="152">produced. Drawing on object-relations theory and the</text>
+          <text x="14" y="158.5">work of Jessica Benjamin on intersubjective recognition,</text>
+        </g>
+        <g fill="#5a534a" font-family="Garamond, Georgia, serif" font-size="4.2" opacity="0.5">
+          <text x="14" y="168">I argue that Twain's compulsive return to scenes of</text>
+          <text x="14" y="174.5">punishment and humiliation represents not a simple</text>
+          <text x="14" y="181">repetition of childhood trauma but a complex attempt</text>
+          <text x="14" y="187.5">to master it—to transform, through narrative, the</text>
+          <text x="14" y="194">helplessness of the deprived child into the sovereignty</text>
+          <text x="14" y="200.5">of the authorial voice. The "agony of pleasurable</text>
+          <text x="14" y="207">suffering" that Twain describes in his autobiography</text>
+          <text x="14" y="213.5">becomes a figure for the paradox at the heart of his</text>
+          <text x="14" y="220">creative process itself: the writer who can only produce</text>
+        </g>
+        <text x="100" y="240" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="7" fill="#a89c80">35</text>
+      </svg>
+    `,
+    scales: `
+      <svg viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="250" fill="#f3ede1"/>
+        <g stroke="#1a1714" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <line x1="100" y1="58" x2="100" y2="158"/>
+          <line x1="58" y1="76" x2="142" y2="76"/>
+          <line x1="58" y1="76" x2="58" y2="86"/>
+          <line x1="142" y1="76" x2="142" y2="86"/>
+          <path d="M 46 86 Q 58 104 70 86" fill="#1a1714"/>
+          <path d="M 130 86 Q 142 104 154 86" fill="#1a1714"/>
+          <line x1="80" y1="158" x2="120" y2="158"/>
+          <line x1="86" y1="158" x2="78" y2="172"/>
+          <line x1="114" y1="158" x2="122" y2="172"/>
+        </g>
+        <text x="100" y="200" text-anchor="middle" font-family="Garamond, Georgia, serif" font-size="14" font-style="italic" fill="#3a342c">v.</text>
+        <text x="100" y="225" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="8" letter-spacing="2" fill="#a89c80">IP LITIGATION · OPP. COUNSEL</text>
+      </svg>
+    `,
+  };
+
+  // -------- Timeline data --------
+  const TIMELINE = [
+    {
+      year: '1999–2006',
+      label: 'Education',
+      narrative: 'I went to the University of Florida on an academic scholarship. I studied English with a focus in literary theory and got a minor in Philosophy — ancient philosophy, ontology, and the philosophy of language. I graduated at the top of my class and moved back to New York that fall to study law at Columbia, where I was a Harlan Fiske Stone Scholar. I was especially active in hands-on, clinical work, specializing in juvenile rights. I spent years working with the Juvenile Rights Division of the Legal Aid Society, representing children in the foster care system. As a result of my pro bono work, I was awarded the Janes Marks Murphy Prize for Excellence in Clinical Advocacy at Columbia. During this time, I also completed a couple of long-form academic articles. The first was a peer-reviewed <a href="https://psyartjournal.com/article/show/c_avalos_jr-the_unfinished_self_richards_gender_defo" target="_blank" rel="noopener">piece on Shakespeare’s <em>Richard III</em></a> that appeared in <span class="footnote" tabindex="0" role="note">PsyArt<span class="footnote-pop">PsyArt was founded in the early 1990s by the great MIT and Harvard professor, Norman Holland. Holland was a collaborator and later antagonist of Chomsky at MIT, and one of my foundational undergraduate advisors.</span></span>. The second was a <a href="https://muse.jhu.edu/article/181889" target="_blank" rel="noopener">study of Mark Twain and his work</a> that appeared in <em>American Imago</em>, the Johns Hopkins-published journal founded there by Sigmund Freud in 1939.',
+      items: [],
+    },
+    {
+      year: '2006–2010',
+      label: 'Orrick',
+      narrative: 'My first job out of law school was at Orrick, Herrington & Sutcliffe, doing IP litigation. I started in New York in 2006. It made my career. In late 2007 I moved to the Bay Area, where I was recruited by Neil Chatterjee to represent early Facebook and Mark Zuckerberg in a case brought by his Harvard roommates, who claimed that he’d ripped off their idea for a website. The case was the basis for Aaron Sorkin\u2019s <em>The Social Network</em> — the Rashida Jones character was based on me and the other junior associates. I also worked with Apple and LinkedIn in their early days. The work was at the frontier: IP, privacy, cyber governance.',
+      items: [
+        {
+          kicker: 'Orrick, Herrington & Sutcliffe',
+          title: 'Orrick',
+          sub: 'IP Litigation \u00b7 Managing Associate',
+          logo: '/assets/works/logos/orrick.svg',
+          logoColor: '#5A7837',
+          logoMeta: 'IP Litigation',
+          link: 'https://www.orrick.com',
+          linkLabel: 'orrick.com \u2192',
+          caption: 'I started out at Orrick, Herrington & Sutcliffe practicing intellectual-property litigation. Among other matters, I represented early Facebook and Mark Zuckerberg through the company\'s formative years, including the litigation that became the basis for the 2010 Aaron Sorkin film “The Social Network.” The Rashida Jones character was based on me and the other junior associates on the case. I also represented Apple and LinkedIn during their early days.',
+        },
+      ],
+    },
+    {
+      year: '2006–2012',
+      label: 'Choplogic Radio',
+      narrative: 'During my New York years, from a loft in Bushwick called Office Ops, I started hosting a pirate radio show. Choplogic Radio launched in 2006 and kept running for six years even after I moved out west — 74 episodes in all, mostly late at night, for whoever happened to be listening. I started a yoga practice in 2007 that stuck. I trained and got certified as a registered teacher at Laughing Lotus.',
+      items: [
+        {
+          kicker: 'Pirate Radio \u00b7 2006\u20132012',
+          title: 'Choplogic Radio',
+          sub: 'Brooklyn',
+          link: '/home/radio/',
+          linkLabel: 'Enter the archive \u2192',
+          caption: 'Choplogic Radio (referred to lovingly as \u201cchopradio\u201d) was a pirate radio show that I hosted from 2006 through 2012. It originally broadcast out of Office Ops, a mixed-use loft space in Bushwick that I lived in with other artists during the early days of the neighborhood\'s pioneer migration.',
+          slides: [
+            { image: '/assets/deer.jpg', alt: 'Choplogic Radio' },
+            { placeholder: { kicker: 'Office Ops \u00b7 Bushwick', title: 'Loft Years', meta: '2006 \u2013 2009' } },
+            { placeholder: { kicker: 'Late Era', title: 'The Final Broadcasts', meta: '2010 \u2013 2012' } },
+          ],
+        },
+      ],
+    },
+    {
+      year: '2010–2012',
+      label: 'Yelp',
+      narrative: 'I left firm life in 2010 and went to Yelp to round out the other side — corporate work, governance, the machinery of taking a company public. I joined while it was still private and worked on the S-1 and IPO from the inside. ',
+      items: [
+        {
+          kicker: 'Yelp \u00b7 Corporate Counsel',
+          title: 'Yelp',
+          sub: 'Corporate Counsel',
+          logo: '/assets/works/logos/yelp.svg',
+          logoColor: '#D32323',
+          logoMeta: 'Corporate Counsel',
+          link: 'https://www.yelp.com',
+          linkLabel: 'yelp.com \u2192',
+          caption: 'I worked at Yelp as Corporate Counsel and rounded out my legal skillset by doing a little bit of everything other than the litigation I\'d been known for. I joined when the company was still private and got to work on the S-1 and the subsequent IPO from the inside.',
+        },
+      ],
+    },
+    {
+      year: '2012–2018',
+      label: 'GitHub',
+      narrative: 'I met the GitHub founders in the summer of 2012. The company was still bootstrapped, pre-Series A. I joined full-time in late 2012 as the company’s “Legal Badass.” We didn’t have titles, but I was the General Counsel and built a legal team and practice that reimagined the role of lawyers within a business. We wrote in markdown, shipped code, treated legal complaints as bugs, and generally tried to be good Hubbers. By 2015, I’d started to oversee most of the company’s business operations. When Sequoia led our Series B, I was Chief Business & Strategy Officer (as well as General Counsel), and was also added to the Board of Directors. We had a great run and built the company into a multinational phenomenon with both the world’s strongest developer community and brand, as well as a thriving unicorn business making hundreds of millions of dollars in ARR. We sold the company to Microsoft in 2018 for $7.5bn. It’s been great to see the continued progress since Satya took over. During my time at GitHub, I loved the growth challenges, problems at scale, international expansion, regulatory interplay, investor relations, customer relations, People Ops, Marketing, you name it. Product-wise, I helped lead the effort from B2C to B2B and B2C without alienating our users and also to recontextualize the platform from a social coding tool to the world’s global code repository. How could we benefit from our scale? How could a user introducing a new bug learn from similar mistakes and patches that had been written before them? This led naturally to questions of automation, detection, code generation, and many other ingredients that ultimately led to GitHub CoPilot and the AI revolution that we’re starting to live through. I’m endlessly fascinated by work and workers, community, communication, and code, and the role that AI and tech will continue to play in our lives.',
+      items: [
+        {
+          kicker: 'GitHub \u00b7 December 2012 \u2013 September 2018',
+          title: 'GitHub',
+          sub: 'Chief Business / Strategy / Ops & General Counsel',
+          logo: '/assets/works/logos/github.svg',
+          logoColor: '#24292F',
+          logoMeta: 'COO \u00b7 2012\u20132018',
+          link: 'https://github.com',
+          linkLabel: 'github.com \u2192',
+          caption: 'I met the founders in the summer of 2012, when GitHub was still bootstrapped and pre-Series A. I joined that December as Chief Business, Strategy & Operations Officer and General Counsel, starting contemporaneously with the Series A, and served on the board. Across six years I helped run the company through its hyper-growth — overseeing legal, policy, people, strategic partnerships, marketing, and communications, and walking the platform from a small team through one of the most consequential acquisitions in software history.',
+        },
+        {
+          kicker: 'Wall Street Journal \u00b7 Pro Cybersecurity',
+          title: 'GitHub Legal Chief on Privacy & Power',
+          sub: 'Wall Street Journal (2019)',
+          art: 'hedcut',
+          link: 'https://www.wsj.com/articles/github-legal-chief-warns-companies-about-u-s-reluctance-to-regulate-data-privacy-and-security-1551787503',
+          linkLabel: 'Read on WSJ \u2192',
+          caption: 'A WSJ Pro Cybersecurity profile during my time as GitHub\'s General Counsel. I argued that the \u201cabdication of American leadership\u201d in data privacy and security regulation was forcing companies to look to other countries to figure out where international tech policy was actually headed. The piece is part of a longer Journal arc on the role I played helping shape, in their words, \u201cthe social phase of the digital era.\u201d',
+        },
+        {
+          kicker: 'SaaStr Annual \u00b7 2018',
+          title: 'Successfully Managing the Hyper-Growth Stage',
+          sub: 'SaaStr Annual (2018)',
+          art: 'hypergrowth',
+          link: 'https://www.youtube.com/watch?v=LqgzQkde6Ok',
+          linkLabel: 'Watch on YouTube \u2192',
+          caption: 'A talk at SaaStr Annual 2018 on managing the hyper-growth stage — what it does to a company and to the people inside one when you grow from a few dozen to a few thousand in a couple of years.',
+        },
+        {
+          kicker: 'CNBC \u00b7 Tech Check \u00b7 2018',
+          title: 'GitHub\u2019s Strategy',
+          sub: 'CNBC (2018)',
+          image: '/assets/works/cnbc-hypergrowth.jpg',
+          link: '#',
+          linkLabel: '',
+          caption: 'Live on CNBC Tech Check discussing GitHub\u2019s strategy, the open-source ecosystem, and the future of software development.',
+        },
+        {
+          kicker: 'GitHub Universe \u00b7 2018',
+          title: 'GitHub Universe Keynote',
+          sub: 'Conference keynote',
+          art: 'hypergrowth',
+          link: '#',
+          linkLabel: '',
+          caption: 'Keynote address at GitHub Universe 2018, GitHub\u2019s flagship annual conference.',
+        },
+      ],
+    },
+    {
+      year: '2018–now',
+      label: 'Building',
+      narrative: 'After GitHub, my wife, Sonali, and I founded Shades, a Gen-Z news app. I got to learn early start-up life and we had a great run, operating from 2020 through late 2025. TikTok just became too powerful.<br><br>In parallel, I’ve served on the board of Merico since 2018 — a developer-analytics company out of Beijing measuring code contributions and developer productivity at scale.<br><br>Now I’m Co-CEO of Observable, alongside Mike Bostock — the creator of D3.js and a longtime architect of the New York Times’ graphics desk. Observable is where the most serious data work on the web gets made. My focus these days is the hard problems at the edge of data and AI — state, persistence, provenance — the things notebooks have always understood.',
+      items: [
+        {
+          kicker: 'Shades · 2021–2025',
+          title: 'Shades Media',
+          sub: 'Co-founder',
+          image: '/assets/works/shades-logotype.png',
+          link: 'https://web.archive.org/web/2025/https://www.shadesnews.com/',
+          linkLabel: 'shadesnews.com (archive) →',
+          caption: 'A mobile news app for Gen Z, co-founded with my wife Sonali in 2021. See the news from every angle — free of the Boomer baggage and the echo chambers.',
+        },
+        {
+          kicker: 'Observable · current',
+          title: 'Observable',
+          sub: 'Co-CEO & Board Member',
+          logo: '/assets/works/logos/observable.svg',
+          logoColor: '#F26322',
+          logoMeta: 'Co-CEO · current',
+          link: 'https://observablehq.com',
+          linkLabel: 'observablehq.com →',
+          caption: 'Co-CEO of Observable, the platform for collaborative data analysis and visualization, founded by the creator of D3.js.',
+        },
+      ],
+    },
+  ];
+
+  // -------- Render helpers --------
+  function renderThumb(item) {
+    const first = (item.slides && item.slides[0]) || item;
+    if (first.image) {
+      return `<img src="${first.image}" alt="${item.title}">`;
+    }
+    if (item.art && ART[item.art]) {
+      return `<div class="art-thumb">${ART[item.art]}</div>`;
+    }
+    const ph = first.placeholder || item.placeholder || { title: item.title };
+    return `
+      <div class="placeholder">
+        ${ph.kicker ? `<div class="ph-kicker">${ph.kicker}</div>` : ''}
+        <div class="ph-title">${ph.title || item.title}</div>
+        <div class="ph-rule"></div>
+        ${ph.meta ? `<div class="ph-meta">${ph.meta}</div>` : ''}
+      </div>
+    `;
+  }
+  function renderLogoThumb(item) {
+    const color = item.logoColor || '#2c2620';
+    const style =
+      `-webkit-mask-image:url('${item.logo}');mask-image:url('${item.logo}');` +
+      `background-color:${color};`;
+    return `
+      <div class="logo-mark" style="${style}"></div>
+      ${item.logoMeta ? `<div class="logo-meta">${item.logoMeta}</div>` : ''}
+    `;
+  }
+
+  // -------- Render timeline --------
+  const tlEl = document.getElementById('timeline');
+  tlEl.innerHTML = TIMELINE.map((node, ni) => {
+    const cardsHtml = (node.items || []).map((item, ii) => {
+      const isLogo = !!item.logo;
+      const thumbInner = isLogo ? renderLogoThumb(item) : renderThumb(item);
+      const thumbClass = isLogo ? 'work-thumb logo-thumb' : 'work-thumb';
+      return `
+        <button class="work-card" data-node="${ni}" data-index="${ii}" aria-label="${item.title}">
+          <div class="${thumbClass}">${thumbInner}</div>
+          <div class="work-meta">
+            <span class="wm-title">${item.title}</span>
+            <span class="wm-sub">${item.sub || ''}</span>
+          </div>
+        </button>
+      `;
+    }).join('');
+    return `
+      <div class="tl-node">
+        <div class="tl-pip"></div>
+        <div class="tl-year">${node.year}</div>
+        <h2 class="tl-label">${node.label}</h2>
+        <div class="tl-narrative">${node.narrative}</div>
+        ${cardsHtml ? `<div class="tl-cards">${cardsHtml}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+
+  // Scroll-triggered entrance — each node reveals only when scrolled to
+  const tlNodes = tlEl.querySelectorAll('.tl-node');
+  const tlObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Stagger individual cards within the node
+        const cards = entry.target.querySelectorAll('.work-card');
+        cards.forEach((card, i) => {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(16px)';
+          card.style.transition = `opacity 0.5s ease ${0.45 + i * 0.12}s, transform 0.5s ease ${0.45 + i * 0.12}s`;
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            });
+          });
+        });
+        tlObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+  // Defer observation until the timeline collapse wrapper is expanded —
+  // otherwise nodes inside a zero-height overflow:hidden parent can still
+  // report their bounds and burn the staggered reveal before it's seen.
+  const tlCollapse = document.getElementById('timelineCollapse');
+  function startObserving() {
+    tlNodes.forEach(n => tlObserver.observe(n));
+  }
+  if (tlCollapse && !tlCollapse.classList.contains('expanded')) {
+    const mo = new MutationObserver(() => {
+      if (tlCollapse.classList.contains('expanded')) {
+        mo.disconnect();
+        setTimeout(startObserving, 180);
+      }
+    });
+    mo.observe(tlCollapse, { attributes: true, attributeFilter: ['class'] });
+  } else {
+    setTimeout(startObserving, 300);
+  }
+
+  // The works link and #timeline hash routing are handled by the
+  // timeline-trigger script (it opens the collapse wrapper and scrolls).
+
+  // -------- Modal --------
+  const modal = document.getElementById('modal');
+  const modalClose = document.getElementById('modalClose');
+  const modalImageWrap = document.getElementById('modalImageWrap');
+  const modalPrev = document.getElementById('modalPrev');
+  const modalNext = document.getElementById('modalNext');
+  const modalKicker = document.getElementById('modalKicker');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalCaption = document.getElementById('modalCaption');
+  const modalLink = document.getElementById('modalLink');
+  const modalCounter = document.getElementById('modalCounter');
+
+  let current = null; // { item, slideIdx }
+
+  function openModal(item) {
+    current = { item, slideIdx: 0 };
+    modalKicker.textContent = item.kicker || '';
+    modalTitle.textContent = item.title;
+    modalCaption.textContent = item.caption || '';
+    modalLink.textContent = item.linkLabel || 'Visit →';
+    modalLink.href = item.link || '#';
+    if (item.link && item.link.startsWith('http')) {
+      modalLink.target = '_blank';
+    } else {
+      modalLink.removeAttribute('target');
+    }
+    // Hide link if empty
+    modalLink.style.display = (item.linkLabel && item.link && item.link !== '#') ? '' : 'none';
+    renderSlide();
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function renderSlide() {
+    if (!current) return;
+    const existingNodes = Array.from(
+      modalImageWrap.querySelectorAll('img, .placeholder, .modal-logo, .modal-art')
+    );
+    const hasExisting = existingNodes.length > 0;
+
+    const build = () => {
+      const { item, slideIdx } = current;
+      const slides = item.slides || [item];
+      const slide = slides[slideIdx];
+      // Drop the old (faded-out) nodes
+      existingNodes.forEach(n => n.remove());
+      modalImageWrap.classList.remove('art-mode');
+
+      let node;
+      if (slide.image) {
+        node = document.createElement('img');
+        node.src = slide.image;
+        node.alt = slide.alt || item.title;
+      } else if (item.art && ART[item.art] && slide === item) {
+        node = document.createElement('div');
+        node.className = 'modal-art';
+        node.innerHTML = ART[item.art];
+        modalImageWrap.classList.add('art-mode');
+      } else if (item.logo && slide === item) {
+        node = document.createElement('div');
+        node.className = 'placeholder modal-logo';
+        const color = item.logoColor || '#6a1e1a';
+        node.innerHTML = `
+          <div class="logo-mark" style="-webkit-mask-image:url('${item.logo}');mask-image:url('${item.logo}');background-color:${color};"></div>
+          ${item.kicker ? `<div class="ph-kicker" style="margin-top:22px">${item.kicker}</div>` : ''}
+        `;
+      } else {
+        const ph = slide.placeholder || item.placeholder || { title: item.title };
+        node = document.createElement('div');
+        node.className = 'placeholder';
+        node.innerHTML = `
+          ${ph.kicker ? `<div class="ph-kicker">${ph.kicker}</div>` : ''}
+          <div class="ph-title">${ph.title || item.title}</div>
+          <div class="ph-rule"></div>
+          ${ph.meta ? `<div class="ph-meta">${ph.meta}</div>` : ''}
+        `;
+      }
+
+      // Crossfade-in only when stepping between slides; first paint is instant
+      if (hasExisting) {
+        node.style.opacity = '0';
+        modalImageWrap.insertBefore(node, modalPrev);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => { node.style.opacity = ''; });
+        });
+      } else {
+        modalImageWrap.insertBefore(node, modalPrev);
+      }
+
+      const multi = slides.length > 1;
+      modalPrev.hidden = !multi;
+      modalNext.hidden = !multi;
+      modalCounter.textContent = multi ? `${slideIdx + 1} / ${slides.length}` : '';
+    };
+
+    if (hasExisting) {
+      // Fade old content out, then swap in the new
+      existingNodes.forEach(n => { n.style.opacity = '0'; });
+      setTimeout(build, 220);
+    } else {
+      build();
+    }
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    current = null;
+  }
+  function step(delta) {
+    if (!current) return;
+    const slides = current.item.slides || [current.item];
+    current.slideIdx = (current.slideIdx + delta + slides.length) % slides.length;
+    renderSlide();
+  }
+
+  tlEl.addEventListener('click', (e) => {
+    const card = e.target.closest('.work-card');
+    if (!card) return;
+    const ni = parseInt(card.dataset.node, 10);
+    const ii = parseInt(card.dataset.index, 10);
+    const item = TIMELINE[ni]?.items?.[ii];
+    if (item) openModal(item);
+  });
+
+  // "The medium is the problem" — inline preview modal so the Recent
+  // featured piece doesn't bounce people off the page.  Observable's
+  // CSP blocks iframe embedding (frame-ancestors 'none'), so this is
+  // a curated rich preview with an escape hatch to read on Observable.
+  document.querySelectorAll('a[href*="medium-is-the-problem"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      // Honor cmd/ctrl/shift-click and middle-click — let those open
+      // the real link in a new tab as the user expects.
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      openModal({
+        kicker: 'Observable · Blog · March 2025',
+        title: 'The medium is the problem',
+        caption: 'AI code generation produces more code faster, but widens the comprehension gap — the solution isn’t better generation, it’s restoring the “write, run, inspect” loop at machine speed.',
+        link: 'https://observablehq.com/blog/the-medium-is-the-problem',
+        linkLabel: 'Read on Observable →',
+        placeholder: {
+          kicker: 'Observable · Blog',
+          title: 'The medium is the problem',
+          meta: 'March 2025',
+        },
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.cv-section').forEach(function (s) { obs.observe(s); });
-  })();
+    });
+  });
+
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  modalPrev.addEventListener('click', (e) => { e.stopPropagation(); step(-1); });
+  modalNext.addEventListener('click', (e) => { e.stopPropagation(); step(1); });
+  document.addEventListener('keydown', (e) => {
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft') step(-1);
+    if (e.key === 'ArrowRight') step(1);
+  });
+
+  // -------- Section illustrations (hand-drawn background art) --------
+  const ILLOS = {
+    'Education': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- open book -->
+      <path d="M60 85 Q40 78 18 82 L18 38 Q40 34 60 42"/>
+      <path d="M60 85 Q80 78 102 82 L102 38 Q80 34 60 42"/>
+      <path d="M60 42 L60 85"/>
+      <!-- pages -->
+      <path d="M30 45 L52 50" opacity="0.4"/><path d="M30 52 L50 56" opacity="0.4"/>
+      <path d="M30 59 L48 62" opacity="0.4"/><path d="M70 50 L90 45" opacity="0.4"/>
+      <path d="M72 56 L90 52" opacity="0.4"/><path d="M74 62 L90 59" opacity="0.4"/>
+      <!-- greek column above book -->
+      <rect x="52" y="10" width="16" height="28" rx="1" opacity="0.3"/>
+      <path d="M50 10 L70 10" opacity="0.4"/><path d="M50 38 L70 38" opacity="0.4"/>
+      <path d="M56 14 L56 34" opacity="0.15"/><path d="M60 14 L60 34" opacity="0.15"/>
+      <path d="M64 14 L64 34" opacity="0.15"/>
+    </svg>`,
+    'Orrick': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- film reel / Social Network nod -->
+      <circle cx="60" cy="50" r="32" opacity="0.3"/>
+      <circle cx="60" cy="50" r="12"/>
+      <circle cx="60" cy="50" r="3" fill="currentColor" opacity="0.3"/>
+      <!-- sprocket holes -->
+      <circle cx="60" cy="22" r="3"/><circle cx="60" cy="78" r="3"/>
+      <circle cx="32" cy="50" r="3"/><circle cx="88" cy="50" r="3"/>
+      <circle cx="40" cy="28" r="2.5" opacity="0.6"/><circle cx="80" cy="28" r="2.5" opacity="0.6"/>
+      <circle cx="40" cy="72" r="2.5" opacity="0.6"/><circle cx="80" cy="72" r="2.5" opacity="0.6"/>
+      <!-- gavel below -->
+      <path d="M42 95 L78 95" stroke-width="1.5"/>
+      <path d="M56 95 L56 88 L64 88 L64 95" stroke-width="1.3"/>
+      <path d="M52 88 L68 88" stroke-width="1.5"/>
+    </svg>`,
+    'Choplogic Radio': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- old radio -->
+      <rect x="24" y="40" width="72" height="52" rx="6"/>
+      <circle cx="52" cy="62" r="14"/>
+      <circle cx="52" cy="62" r="8" opacity="0.4"/>
+      <circle cx="52" cy="62" r="2" fill="currentColor" opacity="0.3"/>
+      <!-- dial -->
+      <rect x="76" y="52" width="12" height="12" rx="6"/>
+      <rect x="76" y="72" width="12" height="6" rx="2" opacity="0.4"/>
+      <!-- antenna -->
+      <path d="M44 40 L32 14"/>
+      <path d="M76 40 L88 18"/>
+      <!-- waves -->
+      <path d="M28 20 Q32 16 36 20" opacity="0.3"/>
+      <path d="M24 24 Q32 14 40 24" opacity="0.2"/>
+      <!-- speaker grille -->
+      <path d="M38 80 L66 80" opacity="0.2"/>
+      <path d="M40 84 L64 84" opacity="0.15"/>
+      <path d="M42 88 L62 88" opacity="0.1"/>
+    </svg>`,
+    'Yelp': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- IPO bell / stock ticker -->
+      <path d="M36 30 L84 30" stroke-width="1.5"/>
+      <path d="M60 30 L60 18"/>
+      <path d="M50 18 Q60 10 70 18"/>
+      <!-- bell shape -->
+      <path d="M38 30 Q38 65 30 78 L90 78 Q82 65 82 30"/>
+      <path d="M55 78 Q60 86 65 78" opacity="0.5"/>
+      <!-- ticker tape -->
+      <path d="M20 98 Q35 92 50 98 Q65 104 80 98 Q95 92 110 98" opacity="0.3"/>
+      <path d="M15 105 Q30 99 45 105 Q60 111 75 105 Q90 99 105 105" opacity="0.2"/>
+    </svg>`,
+    'GitHub': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- git branch diagram -->
+      <circle cx="35" cy="20" r="5"/><circle cx="35" cy="55" r="5"/>
+      <circle cx="35" cy="90" r="5"/><circle cx="80" cy="55" r="5"/>
+      <path d="M35 25 L35 50"/>
+      <path d="M35 60 L35 85"/>
+      <path d="M40 55 L75 55"/>
+      <!-- branch -->
+      <path d="M35 35 Q45 35 55 40 Q70 48 75 55" opacity="0.5"/>
+      <!-- merge -->
+      <path d="M75 55 Q70 62 55 68 Q45 72 35 75" opacity="0.5"/>
+      <!-- code brackets -->
+      <path d="M15 45 L8 55 L15 65" opacity="0.25" stroke-width="1.5"/>
+      <path d="M105 45 L112 55 L105 65" opacity="0.25" stroke-width="1.5"/>
+    </svg>`,
+    'Madrid': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- sun -->
+      <circle cx="60" cy="45" r="16"/>
+      <path d="M60 22 L60 16"/><path d="M60 68 L60 74"/>
+      <path d="M37 45 L31 45"/><path d="M83 45 L89 45"/>
+      <path d="M44 29 L40 25"/><path d="M76 61 L80 65"/>
+      <path d="M76 29 L80 25"/><path d="M44 61 L40 65"/>
+      <!-- arches (Madrid architecture) -->
+      <path d="M20 95 Q20 78 35 78 Q50 78 50 95" opacity="0.4"/>
+      <path d="M50 95 Q50 78 65 78 Q80 78 80 95" opacity="0.4"/>
+      <path d="M80 95 Q80 78 95 78 Q110 78 110 95" opacity="0.3"/>
+      <path d="M15 95 L115 95" opacity="0.3"/>
+    </svg>`,
+    'Merico': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- analytics / bar chart -->
+      <path d="M20 95 L100 95" opacity="0.4"/>
+      <path d="M20 95 L20 20" opacity="0.4"/>
+      <rect x="30" y="55" width="10" height="40" rx="1" opacity="0.3"/>
+      <rect x="48" y="38" width="10" height="57" rx="1" opacity="0.4"/>
+      <rect x="66" y="48" width="10" height="47" rx="1" opacity="0.3"/>
+      <rect x="84" y="28" width="10" height="67" rx="1" opacity="0.5"/>
+      <!-- trend line -->
+      <path d="M25 70 Q45 52 60 58 Q78 65 95 25" stroke-width="1.4" opacity="0.4"/>
+      <circle cx="95" cy="25" r="3" opacity="0.4"/>
+    </svg>`,
+    'Shades Media': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- eye -->
+      <path d="M12 60 Q36 28 60 28 Q84 28 108 60" stroke-width="1.4"/>
+      <path d="M12 60 Q36 92 60 92 Q84 92 108 60" stroke-width="1.4"/>
+      <circle cx="60" cy="60" r="16"/>
+      <circle cx="60" cy="60" r="7" fill="currentColor" opacity="0.15"/>
+      <circle cx="60" cy="60" r="3" fill="currentColor" opacity="0.2"/>
+      <!-- light reflection -->
+      <circle cx="54" cy="54" r="2.5" fill="currentColor" opacity="0.12"/>
+      <!-- lashes / rays -->
+      <path d="M60 28 L60 18" opacity="0.25"/>
+      <path d="M40 32 L35 24" opacity="0.2"/>
+      <path d="M80 32 L85 24" opacity="0.2"/>
+    </svg>`,
+    'Observable': `<svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- notebook / data viz -->
+      <circle cx="60" cy="55" r="30" opacity="0.2"/>
+      <circle cx="60" cy="55" r="20" opacity="0.3"/>
+      <circle cx="60" cy="55" r="10" opacity="0.4"/>
+      <circle cx="60" cy="55" r="3" fill="currentColor" opacity="0.2"/>
+      <!-- orbiting dots -->
+      <circle cx="60" cy="25" r="2.5" fill="currentColor" opacity="0.3"/>
+      <circle cx="88" cy="42" r="2" fill="currentColor" opacity="0.25"/>
+      <circle cx="88" cy="68" r="1.5" fill="currentColor" opacity="0.2"/>
+      <circle cx="32" cy="42" r="2" fill="currentColor" opacity="0.25"/>
+      <circle cx="32" cy="68" r="1.5" fill="currentColor" opacity="0.2"/>
+      <!-- axis lines -->
+      <path d="M20 100 L100 100" opacity="0.15"/>
+      <path d="M20 100 L20 90" opacity="0.15"/>
+      <path d="M25 98 L35 92 L50 95 L65 86 L80 88 L95 78" opacity="0.25"/>
+    </svg>`,
+  };
+
+  // Inject illustrations into timeline nodes
+  tlEl.querySelectorAll('.tl-node').forEach((node, i) => {
+    const label = node.querySelector('.tl-label')?.textContent;
+    const svg = ILLOS[label];
+    if (!svg) return;
+    const illo = document.createElement('div');
+    illo.className = 'tl-illo';
+    // Vary the animation timing
+    illo.style.animationDuration = (12 + (i * 2.3)) + 's';
+    illo.style.animationDelay = (i * 0.7) + 's';
+    illo.style.color = '#6a1e1a';
+    illo.innerHTML = svg;
+    node.appendChild(illo);
+  });
+
+  // -------- Deer spirits (stick-and-poke figures) --------
+  const DEER_POSES = [
+    // Pose 1: arms wide, robes flowing — the classic deer.jpg pose
+    `<svg viewBox="0 0 64 88" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="currentColor" stroke-width="1.3">
+        <!-- antlers -->
+        <path d="M26 22 Q24 16 20 10 Q18 7 16 4"/>
+        <path d="M20 10 Q18 12 15 10"/>
+        <path d="M24 16 Q21 15 19 13"/>
+        <path d="M38 22 Q40 16 44 10 Q46 7 48 4"/>
+        <path d="M44 10 Q46 12 49 10"/>
+        <path d="M40 16 Q43 15 45 13"/>
+        <!-- head -->
+        <ellipse cx="32" cy="27" rx="7" ry="6.5"/>
+        <circle cx="29" cy="25.5" r="0.8" fill="currentColor"/>
+        <circle cx="35" cy="25.5" r="0.8" fill="currentColor"/>
+        <path d="M30 29.5 Q32 31 34 29.5"/>
+        <!-- neck -->
+        <path d="M32 33 L32 38"/>
+        <!-- body -->
+        <path d="M32 38 Q31.5 48 32 56"/>
+        <!-- arms wide — flowing sleeves -->
+        <path d="M32 42 Q26 40 18 36 Q14 34 10 35"/>
+        <path d="M18 36 Q16 40 13 42"/>
+        <path d="M18 36 Q17 38 15 39"/>
+        <path d="M32 42 Q38 40 46 36 Q50 34 54 35"/>
+        <path d="M46 36 Q48 40 51 42"/>
+        <path d="M46 36 Q47 38 49 39"/>
+        <!-- robe lines -->
+        <path d="M28 44 Q24 52 20 62"/>
+        <path d="M36 44 Q40 52 44 62"/>
+        <path d="M25 50 Q32 54 39 50" opacity="0.5"/>
+        <!-- legs -->
+        <path d="M32 56 Q28 66 24 76"/>
+        <path d="M32 56 Q36 66 40 76"/>
+        <!-- feet -->
+        <path d="M24 76 Q22 78 20 78"/>
+        <path d="M40 76 Q42 78 44 78"/>
+      </g>
+    </svg>`,
+    // Pose 2: one arm up, dancing
+    `<svg viewBox="0 0 56 84" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="currentColor" stroke-width="1.3">
+        <!-- antlers (smaller) -->
+        <path d="M22 20 Q20 14 18 9 Q17 6 15 4"/>
+        <path d="M20 14 Q18 13 16 12"/>
+        <path d="M34 20 Q36 14 38 9 Q39 6 41 4"/>
+        <path d="M36 14 Q38 13 40 12"/>
+        <!-- head tilted -->
+        <ellipse cx="28" cy="24" rx="6.5" ry="6"/>
+        <circle cx="25.5" cy="22.5" r="0.7" fill="currentColor"/>
+        <circle cx="30.5" cy="22.5" r="0.7" fill="currentColor"/>
+        <path d="M26 26 Q28 27.5 30 26"/>
+        <!-- body -->
+        <path d="M28 30 Q28 40 28 52"/>
+        <!-- arm up! -->
+        <path d="M28 38 Q22 34 16 28 Q13 24 11 20"/>
+        <path d="M28 38 Q34 36 40 38 Q44 40 46 42"/>
+        <!-- robe suggestion -->
+        <path d="M24 42 Q22 50 18 60"/>
+        <path d="M32 42 Q34 50 38 60"/>
+        <!-- legs — one kicked -->
+        <path d="M28 52 Q24 62 22 72"/>
+        <path d="M28 52 Q34 58 40 64"/>
+        <path d="M22 72 Q20 74 19 74"/>
+        <path d="M40 64 Q42 65 43 64"/>
+      </g>
+    </svg>`,
+    // Pose 3: running / striding
+    `<svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="currentColor" stroke-width="1.3">
+        <!-- antlers -->
+        <path d="M24 18 Q22 12 19 7"/>
+        <path d="M22 12 Q20 11 18 10"/>
+        <path d="M36 18 Q38 12 41 7"/>
+        <path d="M38 12 Q40 11 42 10"/>
+        <!-- head -->
+        <ellipse cx="30" cy="22" rx="6" ry="5.5"/>
+        <circle cx="27.5" cy="20.5" r="0.7" fill="currentColor"/>
+        <circle cx="32.5" cy="20.5" r="0.7" fill="currentColor"/>
+        <!-- body leaning forward -->
+        <path d="M30 27 Q32 38 34 48"/>
+        <!-- arms swinging -->
+        <path d="M31 34 Q24 30 18 32"/>
+        <path d="M31 34 Q38 30 44 26"/>
+        <!-- robe flutter -->
+        <path d="M28 40 Q24 48 20 56" opacity="0.6"/>
+        <path d="M36 40 Q38 48 42 54" opacity="0.6"/>
+        <!-- legs striding -->
+        <path d="M34 48 Q28 58 22 68"/>
+        <path d="M34 48 Q40 56 46 62"/>
+        <path d="M22 68 Q20 70 18 70"/>
+        <path d="M46 62 Q48 63 49 62"/>
+      </g>
+    </svg>`,
+  ];
+
+  // Deer spirit particle field — they drift across the whole page
+  const deerField = document.createElement('div');
+  deerField.className = 'deer-field';
+  document.body.appendChild(deerField);
+
+  function spawnDeer() {
+    const spirit = document.createElement('div');
+    spirit.className = 'deer-spirit';
+    const size = 28 + Math.random() * 20; // 28–48px
+    const pose = DEER_POSES[Math.floor(Math.random() * DEER_POSES.length)];
+    const x = 5 + Math.random() * 90; // 5–95vw
+    const fallDur = 30 + Math.random() * 40; // 30–70s — slow, leisurely
+    const spinDur = 12 + Math.random() * 20; // 12–32s full rotation
+    const spinDir = Math.random() > 0.5 ? '360deg' : '-360deg';
+    const color = Math.random() > 0.4 ? '#1a1714' : '#6a1e1a';
+    const opacity = 0.15 + Math.random() * 0.12; // 0.15–0.27
+    const delay = Math.random() * -fallDur; // stagger across the cycle
+
+    spirit.innerHTML = `<div class="deer-spirit-inner" style="--spin-dur:${spinDur}s;--spin-dir:${spinDir}">${pose}</div>`;
+    spirit.style.cssText = `
+      left: ${x}vw;
+      width: ${size}px;
+      color: ${color};
+      --deer-op: ${opacity};
+      animation: deerFall ${fallDur}s linear ${delay}s infinite;
+    `;
+    deerField.appendChild(spirit);
+  }
+
+  // Few and far between — just enough to be delightful
+  const deerCount = window.innerWidth < 580 ? 4 : 7;
+  for (let i = 0; i < deerCount; i++) spawnDeer();
+
+  // -------- Footer art reveal --------
+  const footerArt = document.getElementById('footerArt');
+  if (footerArt) {
+    const footerObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          footerArt.classList.add('revealed');
+          footerObs.unobserve(footerArt);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px 100px 0px' });
+    footerObs.observe(footerArt);
+  }
+
+  // -------- Contact form --------
+  const contactForm = document.getElementById('contactForm');
+  const contactMsg = document.getElementById('contactMsg');
+  const contactSent = document.getElementById('contactSent');
+  // Lightly obfuscated to keep out of plain-text scrapers
+  const _u = ['chopradio', 'gmail.com'].join('@');
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const msg = contactMsg.value.trim();
+    if (!msg) { contactMsg.focus(); return; }
+    const subj = encodeURIComponent('Homepage inquiry — chopradio.com');
+    const body = encodeURIComponent(msg + '\n\n— Sent from chopradio.com');
+    window.location.href = `mailto:${_u}?subject=${subj}&body=${body}`;
+    // Show confirmation
+    contactForm.classList.add('hidden');
+    contactSent.classList.add('shown');
+    haptic('medium');
+    setTimeout(() => {
+      contactForm.classList.remove('hidden');
+      contactSent.classList.remove('shown');
+      contactMsg.value = '';
+    }, 4000);
+  });
+})();
 </script>
 
-<!-- Site-wide radio player (shared script) -->
 <script src="/js/chop-radio-player.js"></script>
 </body>
 </html>
