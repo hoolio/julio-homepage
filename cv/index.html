@@ -57,20 +57,27 @@
     position: absolute;
     top: 80px;
     right: max(2vw, 16px);
-    width: clamp(180px, 20vw, 270px);
-    height: auto;
+    width: clamp(190px, 20vw, 280px);
     z-index: 0;
-    opacity: 0.78;
+    opacity: 0.62;
     pointer-events: none;
     user-select: none;
-    filter: grayscale(1) contrast(2.0) brightness(1.02);
-    -webkit-mask-image: radial-gradient(circle, #000 45%, transparent 50%);
-    mask-image: radial-gradient(circle, #000 45%, transparent 50%);
-    -webkit-mask-size: 2.2px 2.2px;
-    mask-size: 2.2px 2.2px;
-    -webkit-mask-repeat: repeat;
-    mask-repeat: repeat;
     mix-blend-mode: multiply;
+  }
+  .cv-portrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: grayscale(1) contrast(1.32) brightness(1.05) sepia(0.08);
+  }
+  .cv-portrait::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.2' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.6 -0.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 80px 80px;
+    mix-blend-mode: multiply;
+    opacity: 0.55;
   }
   @media (max-width: 880px) {
     .cv-portrait { display: none; }
@@ -362,7 +369,7 @@
 <div id="chop-nav"></div>
 <script src="/js/chop-nav.js"></script>
 
-<img class="cv-portrait" src="./julio-portrait.jpg" alt="" aria-hidden="true">
+<div class="cv-portrait" aria-hidden="true"><img src="./julio-portrait.jpg" alt=""></div>
 
 <main class="cv">
 
