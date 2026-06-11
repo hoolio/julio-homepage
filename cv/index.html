@@ -52,36 +52,63 @@
     z-index: 1;
   }
 
-  /* ---------- WSJ-style stippled portrait (scrolls past) ---------- */
-  .cv-portrait {
-    position: absolute;
-    top: 70px;
-    right: max(2vw, 16px);
-    width: clamp(130px, 13vw, 175px);
-    z-index: 0;
-    opacity: 0.62;
-    pointer-events: none;
+  /* ---------- Medallion portrait (typographic seal beside name) ---------- */
+  .cv-medallion {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 18px;
+    vertical-align: -10px;
+    position: relative;
+    background: rgba(26, 23, 20, 0.04);
+    border: 1px solid rgba(106, 30, 26, 0.22);
+    box-shadow: inset 0 0 0 2px rgba(249, 246, 240, 0.6);
+    flex-shrink: 0;
     user-select: none;
-    mix-blend-mode: multiply;
   }
-  .cv-portrait img {
+  .cv-medallion img {
     display: block;
     width: 100%;
-    height: auto;
-    filter: grayscale(1) contrast(1.32) brightness(1.05) sepia(0.08);
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    filter: grayscale(1) contrast(1.35) brightness(1.05) sepia(0.08);
   }
-  .cv-portrait::after {
+  .cv-medallion::after {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.2' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.6 -0.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 80px 80px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.2' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.5 -0.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 60px 60px;
     mix-blend-mode: multiply;
     opacity: 0.55;
+    pointer-events: none;
   }
-  @media (max-width: 880px) {
-    .cv-portrait { display: none; }
+  @media (max-width: 520px) {
+    .cv-medallion { width: 46px; height: 46px; margin-right: 14px; vertical-align: -8px; }
   }
+
+  /* ---------- Wikipedia link (header contact line) ---------- */
+  .cv-wiki {
+    display: inline-flex; align-items: center; gap: 6px;
+    vertical-align: middle; text-decoration: none; color: #6a1e1a;
+    transition: color .25s ease;
+  }
+  .cv-wiki .cv-wiki-mark {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 15px; height: 15px; border: 1px solid rgba(106,30,26,.4);
+    border-radius: 50%; font-family: Garamond, Georgia, serif;
+    font-size: 11px; line-height: 1; font-weight: 600; color: #6a1e1a;
+    transition: background-color .25s, border-color .25s, transform .25s;
+  }
+  .cv-wiki .cv-wiki-label { border-bottom: 1px solid rgba(106,30,26,.28); transition: border-color .25s; }
+  .cv-wiki:hover { color: #800000; }
+  .cv-wiki:hover .cv-wiki-mark { background: rgba(106,30,26,.06); border-color: rgba(106,30,26,.6); transform: translateY(-1px); }
+  .cv-wiki:hover .cv-wiki-label { border-color: #800000; }
 
   /* ---------- Header ---------- */
   .cv-head { margin-bottom: 34px; }
@@ -427,14 +454,12 @@
 <div id="chop-nav"></div>
 <script src="/js/chop-nav.js"></script>
 
-<div class="cv-portrait" aria-hidden="true"><img src="./julio-portrait.jpg" alt=""></div>
-
 <main class="cv">
 
   <header class="cv-head">
-    <h1 class="cv-name">Julio C. Avalos</h1>
+    <h1 class="cv-name"><span class="cv-medallion" aria-hidden="true"><img src="./julio-portrait.jpg" alt=""></span>Julio C. Avalos</h1>
     <div class="cv-tagline">Operating Executive&nbsp;&nbsp;·&nbsp;&nbsp;CEO / President / COO&nbsp;&nbsp;·&nbsp;&nbsp;Board Director</div>
-    <div class="cv-contact">San Francisco Bay Area<span class="dot">·</span><a href="mailto:j.avalos@gmail.com">j.avalos@gmail.com</a><span class="dot">·</span><a href="https://chopradio.com">chopradio.com</a></div>
+    <div class="cv-contact">San Francisco Bay Area<span class="dot">·</span><a href="mailto:j.avalos@gmail.com">j.avalos@gmail.com</a><span class="dot">·</span><a href="https://chopradio.com">chopradio.com</a><span class="dot">·</span><a class="cv-wiki" href="https://en.wikipedia.org/wiki/Julio_Avalos" target="_blank" rel="noopener"><span class="cv-wiki-mark" aria-hidden="true">W</span><span class="cv-wiki-label">Wikipedia</span></a></div>
     <a class="cv-download" href="./julio-avalos-cv.pdf">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Download PDF
