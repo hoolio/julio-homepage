@@ -180,7 +180,9 @@
     (async () => {
       try {
         const res = await fetch('source.md');
-        const md = await res.text();
+        let md = await res.text();
+        const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        md = md.replace(/\{\{TODAY\}\}/g, today);
         marked.setOptions({ gfm: true, breaks: false });
         document.getElementById('content').innerHTML = marked.parse(md);
         const h1 = document.querySelector('#content h1');
