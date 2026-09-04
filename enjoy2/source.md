@@ -7,7 +7,7 @@ Part I — Theoretical Foundations
 
 ### Introduction
 
-Last month, I was lucky to have attended Sequoia Capital's AI Ascent conference. Talks and presentations were given by many of the most interesting founders and operators working in AI today.
+Earlier in the year, I was lucky to have attended Sequoia Capital's AI Ascent conference. Talks and presentations were given by many of the most interesting founders and operators working in AI today.
 
 As a non-engineer in the tech industry, I've looked for opportunities to leverage my operational, structural, and "non-technical" interests and skills to bring new perspectives to bear on old and new challenges. As I reflected on my conversations at AI Ascent, I was struck by how many of them seemed to hinge on topics and subject matter that did not immediately read as "technical."
 
