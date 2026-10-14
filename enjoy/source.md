@@ -143,6 +143,7 @@ Before formalizing the heuristic, three concepts from my experience as a tech op
 
 These three concepts — externalization, workflow ownership, and budget gravity — together with the structural analysis above, generate the five-question diagnostic to which we now turn.
 
+<!-- FADE -->
 Part II — From Theory to Heuristic: Five Questions
 --------------------------------------------------
 

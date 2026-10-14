@@ -11,7 +11,21 @@ if (marked.setOptions) marked.setOptions({ gfm: true, breaks: false });
 let md = fs.readFileSync(path.join(dir, 'source.md'), 'utf8');
 const buildDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 md = md.replace(/\{\{TODAY\}\}/g, `<span class="today">${buildDate}</span>`);
-const content = (marked.parse || marked)(md).trim();
+const render = (marked.parse || marked);
+const FADE = '<!-- FADE -->';
+let content;
+const fi = md.indexOf(FADE);
+if (fi >= 0) {
+  // Part I stays fully online; everything after fades out Substack-style and is
+  // NOT published — only a short faded teaser of the next part is included.
+  const before = md.slice(0, fi);
+  const after = md.slice(fi + FADE.length).replace(/^\s+/, '');
+  const teaser = after.split(/\n\n+/).slice(0, 3).join('\n\n');
+  content = render(before).trim()
+    + '\n<div class="trail-off">\n' + render(teaser).trim() + '\n</div>';
+} else {
+  content = render(md).trim();
+}
 
 let html = fs.readFileSync(path.join(dir, 'index.html'), 'utf8');
 // strip the CDN marked script and the client-side fetch/render script (idempotent)
