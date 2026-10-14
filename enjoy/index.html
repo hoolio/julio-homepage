@@ -210,6 +210,15 @@
       overflow: visible;
     }
 
+    .prose .fade-tail { position: relative; }
+    .prose .fade-tail::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 9rem;
+      background: linear-gradient(to bottom, rgba(251,247,240,0) 0%, rgba(251,247,240,0.6) 50%, var(--paper) 100%);
+      pointer-events: none;
+    }
     .reader-loading {
       font-family: 'Inter', sans-serif;
       color: var(--ink-faint);
@@ -338,10 +347,11 @@
 <p><em>Workflow ownership.</em> The degree to which a system has become the daily, recurring, depended-upon substrate of work in a domain. Workflow ownership is closer to the operating system than to the application: it is what users return to, what other systems plug into, and what the institution accidentally builds its institutional memory inside. This was the single most reliable predictor of durability that I observed at GitHub.</p>
 <p><em>Budget gravity.</em> Software for legal research attaches to the legal services budget, which is large, durable, and price-inelastic. Software for one-off image generation attaches to a discretionary creative budget that I see as a dead-end. Budget gravity is the unfashionable but reliable predictor of revenue scale, and it is the variable that most often separates the AI companies that grow into durable firms from the ones that grow rapidly and then plateau.</p>
 <p>These three concepts — externalization, workflow ownership, and budget gravity — together with the structural analysis above, generate the five-question diagnostic to which we now turn.</p>
-<div class="trail-off">
+<div class="fade-tail">
 <h2>Part II — From Theory to Heuristic: Five Questions</h2>
 <p>This is all well and good, but very academic. And I&#39;m a business operator, not an academic.</p>
 <p>So here in Part II, I want to take the structural argument of Part I and do something with it. The point of building a theory is to use it as a lens — one that changes what you look for, sharpens what you see, and disciplines the conclusions you&#39;re willing to draw. What I want from the framework that follows is the discipline to ask the right questions of every AI company I look at, in the right order, and to treat the answers, taken together, as the real case for or against.</p>
+<p>The framework is five questions. They come directly from the three structural processes of Part I — specialization, commodification, black-boxing — plus the two anchoring concepts introduced above (workflow ownership and budget gravity). The first asks what expert craft is being industrialized. The second asks what the company holds that the foundation model labs cannot easily replicate. The third asks how the company makes AI-generated outputs trustworthy enough to use in settings where being wrong actually matters. The fourth asks whether the company has become the substrate of work people do every day. The fifth asks which budget pays for all of this, and whether the timing is right.</p>
 </div>
     </article>
   </div>

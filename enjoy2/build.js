@@ -20,9 +20,9 @@ if (fi >= 0) {
   // NOT published — only a short faded teaser of the next part is included.
   const before = md.slice(0, fi);
   const after = md.slice(fi + FADE.length).replace(/^\s+/, '');
-  const teaser = after.split(/\n\n+/).slice(0, 3).join('\n\n');
+  const teaser = after.split(/\n\n+/).slice(0, 4).join('\n\n');
   content = render(before).trim()
-    + '\n<div class="trail-off">\n' + render(teaser).trim() + '\n</div>';
+    + '\n<div class="fade-tail">\n' + render(teaser).trim() + '\n</div>';
 } else {
   content = render(md).trim();
 }
