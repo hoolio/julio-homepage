@@ -1,0 +1,38 @@
+<!--
+  ========================================================================
+  GMAIL EMAIL SNIPPET — the inline autoplaying yoga replay
+  ========================================================================
+
+  This is the ONLY block that goes inside the email body. It is a single
+  remotely-hosted animated GIF (the entire practice, time-lapsed 8x, ~4.8 min,
+  autoplaying, silent) wrapped in a link to the full real-time player.
+
+  WHAT THE RECIPIENT SEES IN GMAIL:
+    - The GIF begins animating automatically on open (no click needed).
+    - It loops forever. There are NO play/pause/scrub controls — that is
+      impossible inside Gmail (no JS, no <video>, CSS animation/:checked hacks
+      are all stripped). See COMPATIBILITY.md.
+    - Tapping/clicking the image opens chopradio.com/yoga/ in a browser, where
+      the full-length MP4 with real controls lives.
+
+  HOSTING NOTE:
+    - Use ABSOLUTE https URLs (Gmail proxies every image through Google and
+      blocks relative/data URIs for inline images).
+    - Keep width/height attributes so the layout holds before the GIF loads.
+
+  Native width of the GIF is 320x180. Displaying at 480x270 upsizes it
+  for legibility; drop to width="320" height="180" for crisper pixels.
+-->
+
+<div style="margin:0 auto;max-width:480px;font-family:Helvetica,Arial,sans-serif;color:#111;">
+  <a href="https://chopradio.com/yoga/"
+     style="text-decoration:none;color:inherit;display:block;">
+    <img src="https://chopradio.com/yoga/practice.gif"
+         width="480" height="270"
+         alt="A 40-minute yoga practice (tap to watch full length)"
+         style="display:block;width:480px;max-width:100%;height:auto;border:0;border-radius:10px;background:#000;" />
+    <p style="margin:10px 2px 0;font-size:13px;line-height:1.4;color:#555;">
+      The whole practice, sped up. <span style="color:#111;font-weight:600;">Tap to watch it full length &rsaquo;</span>
+    </p>
+  </a>
+</div>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Practice — chopradio</title>
+  <meta name="description" content="A 40-minute yoga practice.">
+
+  <!-- Unlisted: keep this page out of search indexes and crawlers. -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+
+  <!-- Open Graph: makes the GIF/poster preview nicely when the page link is shared -->
+  <meta property="og:title" content="Practice — chopradio">
+  <meta property="og:description" content="A 40-minute yoga practice.">
+  <meta property="og:image" content="https://chopradio.com/yoga/poster.jpg">
+  <meta property="og:type" content="video.other">
+
+  <link rel="stylesheet" href="player.css">
+</head>
+<body>
+  <main class="wrap">
+    <figure class="player" id="player">
+      <!--
+        Native HTML5 video. `playsinline` + `preload="metadata"` keeps mobile happy.
+        The poster shows instantly; the ~61 MB MP4 streams progressively (faststart).
+      -->
+      <video
+        id="video"
+        class="player__video"
+        poster="poster.jpg"
+        preload="metadata"
+        playsinline
+        crossorigin="anonymous">
+        <source src="practice.mp4" type="video/mp4">
+        Your browser can’t play this video.
+        <a href="practice.mp4">Download the practice (MP4).</a>
+      </video>
+
+      <!-- Big center play affordance over the poster -->
+      <button class="player__bigplay" id="bigplay" type="button" aria-label="Play">
+        <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+      </button>
+
+      <figcaption class="controls" id="controls">
+        <button class="controls__btn" id="playpause" type="button" aria-label="Play">
+          <svg class="icon-play" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor"/></svg>
+        </button>
+
+        <span class="controls__time" id="elapsed">0:00</span>
+
+        <div class="scrubber" id="scrubber" role="slider"
+             aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+          <div class="scrubber__track">
+            <div class="scrubber__buffered" id="buffered"></div>
+            <div class="scrubber__progress" id="progress"></div>
+            <div class="scrubber__thumb" id="thumb"></div>
+          </div>
+        </div>
+
+        <span class="controls__time controls__time--total" id="total">40:00</span>
+
+        <button class="controls__btn controls__speed" id="speed" type="button" aria-label="Playback speed">1×</button>
+      </figcaption>
+    </figure>
+  </main>
+
+  <script src="player.js"></script>
+</body>
+</html>

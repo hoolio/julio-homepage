@@ -1,0 +1,175 @@
+/* chopradio — minimalist yoga player
+   Understated, sports-replay aesthetic: the image dominates, controls recede. */
+
+:root {
+  --bg: #0b0b0c;
+  --fg: #f4f3ef;
+  --muted: rgba(244, 243, 239, 0.55);
+  --accent: #f4f3ef;
+  --track: rgba(244, 243, 239, 0.18);
+  --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 14px/1.4 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(16px, 5vw, 56px);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.player {
+  margin: 0;
+  width: 100%;
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 24px 64px -24px rgba(0,0,0,0.8);
+}
+
+.player__video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  cursor: pointer;
+}
+
+/* Big center play button over the poster; hides once playing */
+.player__bigplay {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  color: #0b0b0c;
+  background: rgba(244, 243, 239, 0.92);
+  cursor: pointer;
+  transition: opacity .25s ease, transform .2s ease;
+  padding-left: 4px; /* optically center the triangle */
+}
+.player__bigplay:hover { transform: scale(1.04); }
+.player.is-playing .player__bigplay,
+.player.is-started .player__bigplay { opacity: 0; pointer-events: none; }
+
+/* Controls bar — overlaid, fades when idle during playback */
+.controls {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.25) 60%, rgba(0,0,0,0) 100%);
+  transition: opacity .3s ease;
+  user-select: none;
+}
+.player.is-playing.is-idle .controls { opacity: 0; }
+.player.is-playing.is-idle .player__video { cursor: none; }
+
+.controls__btn {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px; height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  border-radius: 6px;
+}
+.controls__btn:hover { background: rgba(255,255,255,0.12); }
+.controls__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Play/pause icons overlap in one grid cell; the player's state class picks one */
+#playpause { grid-template-areas: "icon"; }
+#playpause svg { grid-area: icon; }
+#playpause .icon-pause { display: none; }
+.player.is-playing #playpause .icon-play { display: none; }
+.player.is-playing #playpause .icon-pause { display: block; }
+
+.controls__speed {
+  width: auto;
+  min-width: 36px;
+  padding: 0 8px;
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.controls__time {
+  flex: none;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  letter-spacing: .02em;
+}
+.controls__time--total { text-align: right; }
+
+/* Scrubber */
+.scrubber {
+  flex: 1 1 auto;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+}
+.scrubber:focus-visible { outline: none; }
+.scrubber__track {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--track);
+  transition: height .12s ease;
+}
+.scrubber:hover .scrubber__track,
+.scrubber:focus-visible .scrubber__track { height: 6px; }
+
+.scrubber__buffered,
+.scrubber__progress {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  border-radius: 999px;
+}
+.scrubber__buffered { background: rgba(244,243,239,0.28); width: 0; }
+.scrubber__progress { background: var(--accent); width: 0; }
+
+.scrubber__thumb {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 12px; height: 12px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateY(-50%) scale(0);
+  transition: transform .12s ease;
+  pointer-events: none;
+}
+.scrubber:hover .scrubber__thumb,
+.scrubber:focus-visible .scrubber__thumb,
+.player.is-scrubbing .scrubber__thumb { transform: translateY(-50%) scale(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
